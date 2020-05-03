@@ -1,0 +1,28 @@
+# Amelio
+
+Amelio is a group project for the IUBH in Germany. It is a ticket system that helps to report and
+track errors in study media.
+
+The name Amelio is a short version of _[ameliorate](https://www.dictionary.com/browse/ameliorate)_
+and is another word for **improve**.
+
+## Build
+
+Have the latest `rustup`, `rust` toolchain and `cargo` installed and run:
+
+```sh
+cargo build
+```
+
+## Docker
+
+The project contains a `Dockerfile` so you can build it as an independent image:
+
+```sh
+docker build -t amelio .
+```
+
+## License
+
+This project is licensed under [GPL License](LICENSE) (or
+<https://www.gnu.org/licenses/gpl-3.0.en.html>).
