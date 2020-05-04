@@ -4,11 +4,20 @@
 #![warn(clippy::nursery)]
 #![allow(clippy::module_name_repetitions)]
 
+#[macro_use]
+extern crate diesel;
+#[macro_use]
+extern crate diesel_migrations;
+
 use anyhow::Result;
 use log::info;
 use rocket::{routes, Rocket};
 
+use crate::db::connection::DbConn;
+use crate::db::DbMigrations;
+
 mod config;
+mod db;
 mod routes;
 mod templates;
 
@@ -16,7 +25,10 @@ mod templates;
 fn rocket() -> Result<Rocket> {
     let config = config::load()?;
 
-    Ok(rocket::custom(config).mount("/", routes![routes::index]))
+    Ok(rocket::custom(config)
+        .attach(DbConn::fairing())
+        .attach(DbMigrations::fairing())
+        .mount("/", routes![routes::index]))
 }
 
 fn main() {

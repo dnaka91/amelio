@@ -1,6 +1,7 @@
 # syntax = docker/dockerfile:experimental
 FROM clux/muslrust:nightly-2020-04-17 as builder
 
+COPY migrations/ migrations/
 COPY src/ src/
 COPY templates/ templates/
 COPY Cargo.lock Cargo.toml ./
