@@ -1,5 +1,11 @@
 # Amelio
 
+<!-- markdownlint-disable no-inline-html -->
+<img src="assets/images/logo@4x.png" width="215" height="56">
+<!-- markdownlint-restore -->
+
+![CI](https://github.com/dnaka91/amelio/workflows/CI/badge.svg?branch=master)
+
 Amelio is a group project for the IUBH in Germany. It is a ticket system that helps to report and
 track errors in study media.
 
