@@ -6,3 +6,11 @@ use askama::Template;
 #[derive(Template)]
 #[template(path = "index.html")]
 pub struct Index;
+
+/// Template for the login page.
+#[derive(Template)]
+#[template(path = "login.html")]
+pub struct Login {
+    /// Optional flash message that's shown as an error.
+    pub flash: Option<String>,
+}

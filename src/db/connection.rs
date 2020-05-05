@@ -11,6 +11,7 @@ use rocket::http::Status;
 use rocket::request::{self, FromRequest};
 use rocket::{Outcome, Request, State};
 
+/// Customizer to run specific commands for every newly created connection.
 #[derive(Copy, Clone, Debug)]
 struct ConnectionCustomizer;
 
@@ -33,11 +34,17 @@ where
     }
 }
 
+/// The main database pool that is loaded and managed by the Rocket state.
 struct DbConnPool(Pool<ConnectionManager<SqliteConnection>>);
 
+/// A database connection that can be added as request guard whenever a database connection is
+/// needed.
+///
+/// It must be [`attach`](rocket::Rocket::attach)ed to a Rocket instance or the guard will fail.
 pub struct DbConn(PooledConnection<ConnectionManager<SqliteConnection>>);
 
 impl DbConn {
+    /// Create a fairing for Rocket.
     pub fn fairing() -> impl Fairing {
         AdHoc::on_attach("Database Pool", |rocket| {
             let manager = ConnectionManager::<SqliteConnection>::new("data.db");

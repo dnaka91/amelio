@@ -11,3 +11,13 @@ pub struct NewUser<'a> {
     pub name: &'a str,
     pub role: &'a str,
 }
+
+/// A full user entity equivalent to the `users` table.
+#[derive(Queryable)]
+pub struct User {
+    pub id: i32,
+    pub username: String,
+    pub password: String,
+    pub name: String,
+    pub role: String,
+}

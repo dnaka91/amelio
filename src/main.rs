@@ -2,7 +2,7 @@
 #![forbid(unsafe_code)]
 #![deny(clippy::all, clippy::pedantic)]
 #![warn(clippy::nursery)]
-#![allow(clippy::module_name_repetitions)]
+#![allow(clippy::module_name_repetitions, clippy::needless_pass_by_value)]
 
 #[macro_use]
 extern crate diesel;
@@ -18,7 +18,9 @@ use crate::db::DbMigrations;
 
 mod config;
 mod db;
+mod roles;
 mod routes;
+mod services;
 mod templates;
 
 /// Create a new pre-configured [`Rocket`] instance.
@@ -28,7 +30,16 @@ fn rocket() -> Result<Rocket> {
     Ok(rocket::custom(config)
         .attach(DbConn::fairing())
         .attach(DbMigrations::fairing())
-        .mount("/", routes![routes::index]))
+        .mount(
+            "/",
+            routes![
+                routes::index_user,
+                routes::index,
+                routes::auth::login,
+                routes::auth::post_login,
+                routes::auth::post_logout
+            ],
+        ))
 }
 
 fn main() {

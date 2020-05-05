@@ -11,13 +11,17 @@ use self::connection::DbConn;
 
 pub mod connection;
 pub mod models;
+pub mod repositories;
 pub mod schema;
 
 embed_migrations!("migrations");
 
+/// Database migrations that will be run when [`attach`](rocket::Rocket::attach)ed to a Rocket
+/// instance.
 pub struct DbMigrations;
 
 impl DbMigrations {
+    /// Create a fairing for Rocket.
     pub fn fairing() -> impl Fairing {
         AdHoc::on_attach("Database Migrations", |rocket| {
             if let Some(conn) = DbConn::get_one(&rocket) {
