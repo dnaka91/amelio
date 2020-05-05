@@ -37,7 +37,9 @@ fn rocket() -> Result<Rocket> {
                 routes::index,
                 routes::auth::login,
                 routes::auth::post_login,
-                routes::auth::post_logout
+                routes::auth::post_logout,
+                // Assets should always be last
+                routes::assets::assets,
             ],
         ))
 }

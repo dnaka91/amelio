@@ -7,7 +7,7 @@
       <div class="box">
         <div class="columns">
           <div class="column has-text-centered">
-            <h1 class="title">Amelio</h1>
+            <img {{ "/images/logo.png"|srcset|safe }} width="215" height="56" alt="Amelio">
           </div>
         </div>
 
@@ -20,7 +20,7 @@
         <form action="/login" method="POST">
           <div class="field">
             <p class="control has-icons-left">
-              <input class="input" type="text" placeholder="Nutzername" name="username">
+              <input class="input" type="text" placeholder="Nutzername" name="username" required>
               <span class="icon is-small is-left">
                 <i class="fas fa-envelope"></i>
               </span>
@@ -29,7 +29,7 @@
 
           <div class="field">
             <p class="control has-icons-left">
-              <input class="input" type="password" placeholder="Passwort" name="password">
+              <input class="input" type="password" placeholder="Passwort" name="password" required>
               <span class="icon is-small is-left">
                 <i class="fas fa-lock"></i>
               </span>

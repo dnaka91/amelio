@@ -8,6 +8,7 @@ description = "Amelio - A university project for the IUBH"
 homepage = "https://amelio.dnaka91.rocks"
 repository = "https://github.com/dnaka91/amelio"
 documentation = "https://github.com/dnaka91/amelio"
+build = "build.rs"
 
 [dependencies]
 anyhow = "1.0.28"
@@ -19,8 +20,16 @@ dotenv = "0.15.0"
 envy = "0.4.1"
 libsqlite3-sys = { version = "0.17.3", features = ["bundled"] }
 log = { version = "0.4.8", features = ["release_max_level_info"] }
+phf = "0.8.0"
 rocket = "0.4.4"
+rust-embed = "5.5.1"
 serde = { version = "1.0.106", features = ["derive"] }
+
+[build-dependencies]
+hex = "0.4.2"
+phf_codegen = "0.8.0"
+sha-1 = "0.8.2"
+walkdir = "2.3.1"
 
 [profile.release]
 lto = true

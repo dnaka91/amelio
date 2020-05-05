@@ -8,6 +8,7 @@ use rocket::{get, uri};
 use crate::roles::AuthUser;
 use crate::templates;
 
+pub mod assets;
 pub mod auth;
 
 /// Index page for authenticated users.

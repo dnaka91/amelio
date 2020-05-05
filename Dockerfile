@@ -1,10 +1,11 @@
 # syntax = docker/dockerfile:experimental
 FROM clux/muslrust:nightly-2020-04-17 as builder
 
+COPY assets/ assets/
 COPY migrations/ migrations/
 COPY src/ src/
 COPY templates/ templates/
-COPY Cargo.lock Cargo.toml ./
+COPY build.rs Cargo.lock Cargo.toml ./
 
 RUN --mount=type=cache,target=/root/.cargo/git \
     --mount=type=cache,target=/root/.cargo/registry \
