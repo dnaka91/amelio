@@ -2,6 +2,8 @@
 
 use askama::Template;
 
+use crate::models::{Role, User};
+
 mod filters {
     //! Custom filters for [`askama`] templates.
 
@@ -33,6 +35,24 @@ mod filters {
     }
 }
 
+/// The translate trait allows for any implementing object to translate itself or its value into
+/// different languages.
+trait Translate {
+    /// Translate to German language.
+    fn german(&self) -> &'static str;
+}
+
+impl Translate for Role {
+    fn german(&self) -> &'static str {
+        match self {
+            Self::Admin => "Administrator",
+            Self::Author => "Autor",
+            Self::Tutor => "Tutor",
+            Self::Student => "Student",
+        }
+    }
+}
+
 /// Template for the index page.
 #[derive(Template)]
 #[template(path = "index.html")]
@@ -43,5 +63,20 @@ pub struct Index;
 #[template(path = "login.html")]
 pub struct Login {
     /// Optional flash message that's shown as an error.
+    pub flash: Option<String>,
+}
+
+/// Template for the user list page.
+#[derive(Template)]
+#[template(path = "users/index.html")]
+pub struct Users {
+    pub active: Vec<User>,
+    pub inactive: Vec<User>,
+}
+
+/// Template for the new user page.
+#[derive(Template)]
+#[template(path = "users/new.html")]
+pub struct NewUser {
     pub flash: Option<String>,
 }

@@ -5,8 +5,8 @@ use rocket::request::{self, FromRequest};
 use rocket::Request;
 
 use crate::db::connection::DbConn;
-use crate::db::models::User;
 use crate::db::repositories::{self, UserRepository};
+use crate::models::User;
 
 /// Any user that is authenticated but not checked to have a specific role.
 pub struct AuthUser(User);

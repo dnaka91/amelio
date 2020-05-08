@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+{% include "navbar.html" %}
+{% endblock navbar %}
+
+{% block content %}
+<div class="container">
+
+  <div class="columns">
+    <div class="column is-6">
+      <div class="box">
+        <p class="title">Aktive Nutzer ({{ active.len() }})</p>
+        <table class="table">
+          <tr>
+            <th>Nutername</th>
+            <th width="50%">Name</th>
+            <th width="50%">Rolle</th>
+            <th></th>
+          </tr>
+          {% for user in active %}
+          <tr>
+            <td>{{ user.username }}</td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.role.german() }}</td>
+            <td>
+              <button class="button is-danger is-small" title="Deaktivieren" {%- if user.is_admin() %} disabled{% endif %}>
+                <span class="icon">
+                  <i class="fas fa-minus"></i>
+                </span>
+              </button>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+    </div>
+
+    <div class="column is-6">
+      <div class="box">
+        <p class="title">Inaktive Nutzer ({{ inactive.len() }})</p>
+        <table class="table">
+          <tr>
+            <th>Nutzername</th>
+            <th width="50%">Name</th>
+            <th width="50%">Rolle</th>
+            <th></th>
+          </tr>
+          {% for user in inactive %}
+          <tr>
+            <td>{{ user.username }}</td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.role.german() }}</td>
+            <td>
+              <button class="button is-success is-small" title="Reaktivieren">
+                <span class="icon">
+                  <i class="fas fa-plus"></i>
+                </span>
+              </button>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock content %}

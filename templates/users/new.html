@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+{% include "navbar.html" %}
+{% endblock navbar %}
+
+{% block content %}
+<div class="container">
+
+  <div class="columns">
+    <div class="column is-half is-offset-one-quarter">
+      <div class="box">
+
+        {% match flash %}
+        {% when Some with (msg) %}
+        <div class="notification is-danger">{{ msg }}</div>
+        {%- when None %}
+        {% endmatch %}
+
+        <form action="/users/new" method="POST">
+
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Nutzername</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <input class="input" type="text" name="username" required>
+              </div>
+            </div>
+          </div>
+
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Name</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <input class="input" type="text" name="name" required>
+              </div>
+            </div>
+          </div>
+
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Rolle</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <div class="select is-fullwidth">
+                  <select name="role" required>
+                    <option value="admin">Administrator</option>
+                    <option value="author">Autor</option>
+                    <option value="tutor">Tutor</option>
+                    <option value="student" selected>Student</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="field is-horizontal">
+            <div class="field-label"></div>
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                  <button class="button is-info">
+                    <span class="icon">
+                      <i class="fas fa-user-plus"></i>
+                    </span>
+                    <span>Erstellen</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock content %}

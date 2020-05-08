@@ -21,9 +21,11 @@ envy = "0.4.1"
 libsqlite3-sys = { version = "0.17.3", features = ["bundled"] }
 log = { version = "0.4.8", features = ["release_max_level_info"] }
 phf = "0.8.0"
+rand = "0.7.3"
 rocket = "0.4.4"
 rust-embed = "5.5.1"
 serde = { version = "1.0.106", features = ["derive"] }
+strum = { version = "0.18.0", features = ["derive"] }
 
 [build-dependencies]
 hex = "0.4.2"

@@ -5,5 +5,7 @@ table! {
         password -> Text,
         name -> Text,
         role -> Text,
+        active -> Bool,
+        code -> Text,
     }
 }

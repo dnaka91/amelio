@@ -18,6 +18,7 @@ use crate::db::DbMigrations;
 
 mod config;
 mod db;
+mod models;
 mod roles;
 mod routes;
 mod services;
@@ -40,6 +41,17 @@ fn rocket() -> Result<Rocket> {
                 routes::auth::post_logout,
                 // Assets should always be last
                 routes::assets::assets,
+            ],
+        )
+        .mount(
+            "/users",
+            routes![
+                routes::users::users_admin,
+                routes::users::users,
+                routes::users::new_user_admin,
+                routes::users::new_user,
+                routes::users::post_new_user_admin,
+                routes::users::post_new_user,
             ],
         ))
 }

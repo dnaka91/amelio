@@ -8,6 +8,7 @@ use diesel::SqliteConnection;
 use rocket::fairing::{AdHoc, Fairing};
 
 use self::connection::DbConn;
+use self::models::InitUserEntity;
 
 pub mod connection;
 pub mod models;
@@ -44,12 +45,12 @@ impl DbMigrations {
 fn init(conn: &SqliteConnection) -> Result<()> {
     embedded_migrations::run(conn).context("database migrations failed")?;
     create_admin_user(conn).context("admin user creation failed")?;
+    create_sample_users(conn).context("sample users creation failed")?;
     Ok(())
 }
 
 /// Create the initial admin user.
-fn create_admin_user(conn: &diesel::SqliteConnection) -> Result<()> {
-    use crate::db::models::NewUser;
+fn create_admin_user(conn: &SqliteConnection) -> Result<()> {
     use crate::db::schema::users::dsl::*;
 
     if users.count().get_result::<i64>(conn)? > 0 {
@@ -57,12 +58,71 @@ fn create_admin_user(conn: &diesel::SqliteConnection) -> Result<()> {
     }
 
     diesel::insert_into(users)
-        .values(&NewUser {
+        .values(&InitUserEntity {
             username: "admin",
             password: "admin",
             name: "Administrator",
             role: "admin",
+            active: true,
         })
+        .execute(&*conn)?;
+
+    Ok(())
+}
+
+/// Create several sample users for testing purposes.
+fn create_sample_users(conn: &SqliteConnection) -> Result<()> {
+    use crate::db::schema::users::dsl::*;
+
+    if users.count().get_result::<i64>(conn)? >= 3 {
+        return Ok(());
+    }
+
+    diesel::insert_into(users)
+        .values(vec![
+            &InitUserEntity {
+                username: "student1",
+                password: "student1",
+                name: "Max Mustermann",
+                role: "student",
+                active: true,
+            },
+            &InitUserEntity {
+                username: "student2",
+                password: "student2",
+                name: "Maria Meister",
+                role: "student",
+                active: true,
+            },
+            &InitUserEntity {
+                username: "sleeper1",
+                password: "sleeper1",
+                name: "Bernd Faultier",
+                role: "student",
+                active: false,
+            },
+            &InitUserEntity {
+                username: "sleeper2",
+                password: "sleeper2",
+                name: "Regina Schlafmaus",
+                role: "student",
+                active: false,
+            },
+            &InitUserEntity {
+                username: "autor1",
+                password: "autor1",
+                name: "Siegfried Siegreich",
+                role: "author",
+                active: true,
+            },
+            &InitUserEntity {
+                username: "tutor1",
+                password: "tutor1",
+                name: "Frieda Freundlich",
+                role: "tutor",
+                active: true,
+            },
+        ])
         .execute(&*conn)?;
 
     Ok(())

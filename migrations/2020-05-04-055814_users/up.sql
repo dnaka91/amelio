@@ -4,5 +4,7 @@ CREATE TABLE users (
     password   TEXT    NOT NULL,
     name       TEXT    NOT NULL,
     role       TEXT    NOT NULL,
+    active     BOOLEAN NOT NULL DEFAULT FALSE,
+    code       TEXT    NOT NULL DEFAULT '',
     CHECK (role IN ('admin', 'author', 'tutor', 'student'))
 );
