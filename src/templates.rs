@@ -80,3 +80,13 @@ pub struct Users {
 pub struct NewUser {
     pub flash: Option<String>,
 }
+
+/// Template for the _403 Forbidden_ error.
+#[derive(Template)]
+#[template(path = "errors/403.html")]
+pub struct Error403;
+
+/// Template for the _404 Not Found_ error.
+#[derive(Template)]
+#[template(path = "errors/404.html")]
+pub struct Error404;

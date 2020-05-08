@@ -10,6 +10,7 @@ use crate::templates;
 
 pub mod assets;
 pub mod auth;
+pub mod errors;
 pub mod users;
 
 /// Index page for authenticated users.

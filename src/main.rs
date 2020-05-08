@@ -11,7 +11,7 @@ extern crate diesel_migrations;
 
 use anyhow::Result;
 use log::info;
-use rocket::{routes, Rocket};
+use rocket::{catchers, routes, Rocket};
 
 use crate::db::connection::DbConn;
 use crate::db::DbMigrations;
@@ -47,13 +47,20 @@ fn rocket() -> Result<Rocket> {
             "/users",
             routes![
                 routes::users::users_admin,
+                routes::users::users_auth,
                 routes::users::users,
                 routes::users::new_user_admin,
+                routes::users::new_user_auth,
                 routes::users::new_user,
                 routes::users::post_new_user_admin,
+                routes::users::post_new_user_auth,
                 routes::users::post_new_user,
             ],
-        ))
+        )
+        .register(catchers![
+            routes::errors::forbidden,
+            routes::errors::not_found
+        ]))
 }
 
 fn main() {
