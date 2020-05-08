@@ -12,9 +12,18 @@
         </div>
 
         {% match flash %}
-        {% when Some with (msg) %}
-        <div class="notification is-danger">{{ msg }}</div>
-        {%- when None %}
+          {% when Some with (flash) %}
+            {% let (name, msg) = flash %}
+            {% let color %}
+
+            {% if name == "success" %}
+              {% let color = "is-success" %}
+            {% else %}
+              {% let color = "is-danger" %}
+            {% endif %}
+
+            <div class="notification {{ color }}">{{ msg }}</div>
+          {%- when None %}
         {% endmatch %}
 
         <form action="/login" method="POST">

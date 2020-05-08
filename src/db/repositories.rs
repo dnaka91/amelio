@@ -20,7 +20,7 @@ pub trait UserRepository {
     /// Create a new user.
     fn create(&self, user: NewUser) -> Result<()>;
     /// Activate a previously created user.
-    fn activate(&self, code: &str, password: &str) -> Result<()>;
+    fn activate(&self, code: &str, password: &str) -> Result<usize>;
     /// Enable or disable an existing user.
     fn enable(&self, id: i32, enable: bool) -> Result<()>;
 }
@@ -71,7 +71,7 @@ impl<'a> UserRepository for UserRepositoryImpl<'a> {
         Ok(())
     }
 
-    fn activate(&self, code: &str, password: &str) -> Result<()> {
+    fn activate(&self, code: &str, password: &str) -> Result<usize> {
         use super::schema::users;
 
         diesel::update(users::table.filter(users::code.eq(code)))
@@ -80,9 +80,8 @@ impl<'a> UserRepository for UserRepositoryImpl<'a> {
                 users::active.eq(true),
                 users::code.eq(""),
             ))
-            .execute(self.conn)?;
-
-        Ok(())
+            .execute(self.conn)
+            .map_err(Into::into)
     }
 
     fn enable(&self, id: i32, enable: bool) -> Result<()> {

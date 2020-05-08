@@ -98,7 +98,10 @@ impl<R: UserRepository> UserService for UserServiceImpl<R> {
     }
 
     fn activate(&self, code: &str, password: &str) -> Result<()> {
-        self.user_repo.activate(code, password).map_err(Into::into)
+        let resp = self.user_repo.activate(code, password)?;
+
+        ensure!(resp == 1, "Activation code is invalid");
+        Ok(())
     }
 
     fn enable(&self, id: i32, enable: bool) -> Result<()> {

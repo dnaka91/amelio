@@ -9,7 +9,7 @@ use rocket::{get, post, uri};
 use crate::db::connection::DbConn;
 use crate::db::repositories;
 use crate::models::Role;
-use crate::roles::{AdminUser, AuthUser};
+use crate::roles::{AdminUser, AuthUser, NoUser};
 use crate::services::{self, UserService};
 use crate::templates;
 
@@ -74,9 +74,9 @@ pub fn post_new_user_admin(
     let service = services::user_service(user_repo);
 
     match service.create(data.0.username, data.0.name, data.0.role) {
-        Ok(()) => Ok(Redirect::to(uri!(users))),
+        Ok(()) => Ok(Redirect::to(uri!("/users", users))),
         Err(_) => Err(Flash::error(
-            Redirect::to(uri!(new_user)),
+            Redirect::to(uri!("/users", new_user)),
             "Failed creating user.",
         )),
     }
@@ -91,4 +91,46 @@ pub const fn post_new_user_auth(_user: &AuthUser) -> Status {
 #[post("/new", rank = 3)]
 pub fn post_new_user() -> Redirect {
     Redirect::to(uri!(super::auth::login))
+}
+
+/// User activation page, only accessible to non-authenticated users.
+#[get("/activate/<code>")]
+pub fn activate(
+    code: String,
+    _user: NoUser,
+    flash: Option<FlashMessage<'_, '_>>,
+) -> templates::ActivateUser {
+    templates::ActivateUser {
+        flash: flash.map(|f| f.msg().to_owned()),
+        code,
+    }
+}
+
+#[derive(FromForm)]
+pub struct Activate {
+    code: String,
+    password: String,
+}
+
+/// User activation POST endpoint, only accessible to non-authenticated users.
+#[post("/activate", data = "<data>")]
+pub fn post_activate(
+    data: Form<Activate>,
+    _user: NoUser,
+    conn: DbConn,
+) -> Result<Flash<Redirect>, Flash<Redirect>> {
+    let user_repo = repositories::user_repo(&conn);
+    let service = services::user_service(user_repo);
+
+    match service.activate(&data.code, &data.password) {
+        Ok(()) => Ok(Flash::success(
+            Redirect::to(uri!(super::auth::login)),
+            "Account successfully activated.",
+        )),
+        Err(_) => Err(Flash::error(
+            #[allow(non_snake_case)]
+            Redirect::to(uri!("/users", activate: data.0.code)),
+            "Invalid activation code or other error.",
+        )),
+    }
 }

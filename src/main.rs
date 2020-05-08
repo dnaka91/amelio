@@ -55,6 +55,8 @@ fn rocket() -> Result<Rocket> {
                 routes::users::post_new_user_admin,
                 routes::users::post_new_user_auth,
                 routes::users::post_new_user,
+                routes::users::activate,
+                routes::users::post_activate,
             ],
         )
         .register(catchers![

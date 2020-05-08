@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+{% endblock navbar %}
+
+{% block content %}
+<div class="container">
+
+  <div class="columns">
+    <div class="column is-half is-offset-one-quarter">
+      <div class="box">
+        <div class="columns">
+          <div class="column has-text-centered">
+            <h1 class="title">Accountaktivierung</h1>
+          </div>
+        </div>
+
+        {% match flash %}
+        {% when Some with (msg) %}
+        <div class="notification is-danger">{{ msg }}</div>
+        {%- when None %}
+        {% endmatch %}
+
+        <form action="/users/activate" method="POST">
+          <input type="hidden" name="code" value="{{ code }}">
+
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input class="input" type="password" name="password" placeholder="Wähle dein Passwort" required>
+            </div>
+            <div class="control">
+              <button class="button is-info">
+                <span class="icon">
+                  <i class="fas fa-rocket"></i>
+                </span>
+                <span>Aktivieren</span>
+              </button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock content %}

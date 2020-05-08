@@ -14,7 +14,7 @@ use crate::templates;
 #[get("/login")]
 pub fn login(flash: Option<FlashMessage<'_, '_>>) -> templates::Login {
     templates::Login {
-        flash: flash.map(|f| f.msg().to_owned()),
+        flash: flash.map(|f| (f.name().to_owned(), f.msg().to_owned())),
     }
 }
 

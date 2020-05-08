@@ -1,5 +1,6 @@
 //! All routes for the server.
 
+#![allow(clippy::missing_const_for_fn)]
 #![cfg_attr(doc, allow(unused_braces))]
 
 use rocket::response::Redirect;

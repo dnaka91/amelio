@@ -63,7 +63,7 @@ pub struct Index;
 #[template(path = "login.html")]
 pub struct Login {
     /// Optional flash message that's shown as an error.
-    pub flash: Option<String>,
+    pub flash: Option<(String, String)>,
 }
 
 /// Template for the user list page.
@@ -79,6 +79,14 @@ pub struct Users {
 #[template(path = "users/new.html")]
 pub struct NewUser {
     pub flash: Option<String>,
+}
+
+/// Template for the user activation page.
+#[derive(Template)]
+#[template(path = "users/activate.html")]
+pub struct ActivateUser {
+    pub flash: Option<String>,
+    pub code: String,
 }
 
 /// Template for the _403 Forbidden_ error.

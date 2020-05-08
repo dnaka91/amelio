@@ -9,7 +9,7 @@ use crate::db::repositories::{self, UserRepository};
 use crate::models::{Id, Role, User};
 
 /// Any user that is authenticated but not checked to have a specific role.
-pub struct AuthUser(User);
+pub struct AuthUser(pub User);
 
 impl<'a, 'r> FromRequest<'a, 'r> for &'a AuthUser {
     type Error = ();
@@ -42,7 +42,22 @@ impl<'a, 'r> FromRequest<'a, 'r> for AdminUser<'a> {
         let user = request.guard::<&AuthUser>()?;
 
         if user.0.role == Role::Admin {
-            Outcome::Success(AdminUser(&user.0))
+            Outcome::Success(Self(&user.0))
+        } else {
+            Outcome::Forward(())
+        }
+    }
+}
+
+/// The opposite of an [`AuthUser`], a user that is **not** authenticated.
+pub struct NoUser;
+
+impl<'a, 'r> FromRequest<'a, 'r> for NoUser {
+    type Error = ();
+
+    fn from_request(request: &'a Request<'r>) -> request::Outcome<Self, Self::Error> {
+        if request.guard::<&AuthUser>().is_forward() {
+            Outcome::Success(Self)
         } else {
             Outcome::Forward(())
         }
