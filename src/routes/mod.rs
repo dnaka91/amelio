@@ -32,12 +32,10 @@ macro_rules! enum_from_form_value {
             type Error = &'v rocket::http::RawStr;
 
             fn from_form_value(form_value: &'v rocket::http::RawStr) -> Result<Self, Self::Error> {
-                match form_value.parse::<String>() {
-                    Ok(v) => match v.parse() {
-                        Ok(v) => Ok(v),
-                        Err(_) => Err(form_value),
-                    },
-                    Err(_) => Err(form_value),
+                if let Ok(v) = form_value.parse::<String>() {
+                    v.parse().map_err(|_| form_value)
+                } else {
+                    Err(form_value)
                 }
             }
         }
