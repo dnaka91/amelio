@@ -18,6 +18,7 @@ use crate::db::DbMigrations;
 
 mod config;
 mod db;
+mod email;
 mod models;
 mod roles;
 mod routes;
@@ -26,11 +27,12 @@ mod templates;
 
 /// Create a new pre-configured [`Rocket`] instance.
 fn rocket() -> Result<Rocket> {
-    let config = config::load()?;
+    let (config, smtp_config) = config::load()?;
 
     Ok(rocket::custom(config)
         .attach(DbConn::fairing())
         .attach(DbMigrations::fairing())
+        .manage(smtp_config)
         .mount(
             "/",
             routes![

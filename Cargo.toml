@@ -18,14 +18,23 @@ diesel = { version = "1.4.4", features = ["r2d2", "sqlite"] }
 diesel_migrations = "1.4.0"
 dotenv = "0.15.0"
 envy = "0.4.1"
+lettre_email = "0.9.4"
 libsqlite3-sys = { version = "0.17.3", features = ["bundled"] }
 log = { version = "0.4.8", features = ["release_max_level_info"] }
+native-tls = { version = "0.2.4", features = ["vendored"] }
 phf = "0.8.0"
 rand = "0.7.3"
 rocket = "0.4.4"
 rust-embed = "5.5.1"
 serde = { version = "1.0.106", features = ["derive"] }
+serde_json = "1.0.52"
 strum = { version = "0.18.0", features = ["derive"] }
+toml = "0.5.6"
+
+[dependencies.lettre]
+version = "0.9.3"
+default-features = false
+features = ["smtp-transport"]
 
 [build-dependencies]
 hex = "0.4.2"

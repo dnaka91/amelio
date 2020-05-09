@@ -1,12 +1,15 @@
 //! Configuration functions for use with the [`rocket::Rocket`] instance.
 
+use std::env;
+use std::fs;
+
 use anyhow::Result;
-use rocket::config::{Config, Environment};
+use rocket::config::{Config as RocketConfig, Environment};
 use serde::Deserialize;
 
-/// Configuration values that are read from environment variables.
+/// Configuration values that are read from a configuration file.
 #[derive(Deserialize)]
-pub struct EnvConfig {
+pub struct Config {
     /// The TCP port to listen on. Defaults to `8080` if not set.
     port: Option<u16>,
     /// Amount of workers to run for the server. Defaults to `4` if not set.
@@ -18,11 +21,26 @@ pub struct EnvConfig {
     /// Secret key used for private cookies.
     #[cfg(not(debug_assertions))]
     secret_key: String,
+    /// Settings for an email SMTP client.
+    pub smtp: SmtpConfig,
 }
 
-/// Load a Rocket [`Config`] based on custom environment variables.
-pub fn load() -> Result<Config> {
-    let env_config = envy::from_env::<EnvConfig>()?;
+/// Configuration values to configure a SMTP client for sending emails.
+#[derive(Deserialize)]
+pub struct SmtpConfig {
+    /// Domain name of the server.
+    pub domain: String,
+    /// Port to connect to.
+    pub port: u16,
+    /// Username for authentication (usually the email address).
+    pub username: String,
+    /// Password for authentication.
+    pub password: String,
+}
+
+/// Load a Rocket [`RocketConfig`] based on custom configuration file.
+pub fn load() -> Result<(RocketConfig, SmtpConfig)> {
+    let env_config = load_file()?;
 
     let environment = if cfg!(debug_assertions) {
         Environment::Development
@@ -30,7 +48,7 @@ pub fn load() -> Result<Config> {
         Environment::Production
     };
 
-    let config = Config::build(environment)
+    let config = RocketConfig::build(environment)
         .port(env_config.port.unwrap_or(8080))
         .workers(env_config.workers.unwrap_or(4));
 
@@ -44,5 +62,14 @@ pub fn load() -> Result<Config> {
     #[cfg(not(debug_assertions))]
     let config = config.secret_key(env_config.secret_key);
 
-    Ok(config.finalize()?)
+    Ok((config.finalize()?, env_config.smtp))
+}
+
+/// Load the configuration from a fixed file path. The location can be overridden with the
+/// `CONFIG_FILE` environment variable.
+fn load_file() -> Result<Config> {
+    let path = env::var("CONFIG_FILE").unwrap_or_else(|_| String::from("/app/amelio.toml"));
+    let file = fs::read(path)?;
+
+    toml::de::from_slice::<Config>(&file).map_err(Into::into)
 }
