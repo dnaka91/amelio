@@ -27,12 +27,12 @@ mod templates;
 
 /// Create a new pre-configured [`Rocket`] instance.
 fn rocket() -> Result<Rocket> {
-    let (config, smtp_config) = config::load()?;
+    let (rocket_config, config) = config::load()?;
 
-    Ok(rocket::custom(config)
+    Ok(rocket::custom(rocket_config)
         .attach(DbConn::fairing())
         .attach(DbMigrations::fairing())
-        .manage(smtp_config)
+        .manage(config)
         .mount(
             "/",
             routes![

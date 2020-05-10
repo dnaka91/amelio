@@ -81,9 +81,11 @@ pub trait MailRenderer {
 }
 
 /// Main implementation of [`MailRenderer`].
-struct MailRendererImpl;
+struct MailRendererImpl<'a> {
+    host: &'a str,
+}
 
-impl MailRenderer for MailRendererImpl {
+impl<'a> MailRenderer for MailRendererImpl<'a> {
     fn invitation(&self, name: &str, code: &str) -> (&str, String) {
         (
             "Amelio Registrierung",
@@ -93,17 +95,17 @@ impl MailRenderer for MailRendererImpl {
                 Willkommen bei Amelio!\n\
                 \n\
                 Bitte clicke auf den folgenden Link um Deinen Account zu aktivieren:\n\
-                https://amelio.dnaka91.rocks/users/activate/{}\n\
+                {}/users/activate/{}\n\
                 \n\
                 Viele Gr\u{00fc}\u{00df}e,\n\
                 Dein Amelio-Team",
-                name, code,
+                name, self.host, code,
             ),
         )
     }
 }
 
 /// Create a new mail renderer.
-pub fn new_mail_renderer() -> impl MailRenderer {
-    MailRendererImpl
+pub fn new_mail_renderer<'a>(host: &'a str) -> impl MailRenderer + 'a {
+    MailRendererImpl { host }
 }

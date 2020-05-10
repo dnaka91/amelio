@@ -7,7 +7,7 @@ use rocket::request::{FlashMessage, Form, FromForm};
 use rocket::response::{Flash, Redirect};
 use rocket::{get, post, uri, State};
 
-use crate::config::SmtpConfig;
+use crate::config::Config;
 use crate::db::connection::DbConn;
 use crate::db::repositories;
 use crate::email;
@@ -21,11 +21,11 @@ use crate::templates;
 pub fn users_admin(
     _user: AdminUser,
     conn: DbConn,
-    config: State<SmtpConfig>,
+    config: State<Config>,
 ) -> Result<templates::Users> {
     let user_repo = repositories::user_repo(&conn);
-    let mail_sender = email::new_smtp_sender(&config);
-    let mail_renderer = email::new_mail_renderer();
+    let mail_sender = email::new_smtp_sender(&config.smtp);
+    let mail_renderer = email::new_mail_renderer(&config.host);
     let service = services::user_service(user_repo, mail_sender, mail_renderer);
     let (active, inactive) = service.list()?;
 
@@ -78,12 +78,12 @@ pub fn post_new_user_admin(
     _user: AdminUser,
     data: Form<NewUser>,
     conn: DbConn,
-    config: State<SmtpConfig>,
+    config: State<Config>,
 ) -> Result<Redirect, Flash<Redirect>> {
     let user_repo = repositories::user_repo(&conn);
-    let mail_sender = email::new_smtp_sender(&config);
-    let mail_renderer = email::new_mail_renderer();
-    let service = services::user_service(user_repo, mail_sender,mail_renderer);
+    let mail_sender = email::new_smtp_sender(&config.smtp);
+    let mail_renderer = email::new_mail_renderer(&config.host);
+    let service = services::user_service(user_repo, mail_sender, mail_renderer);
 
     match service.create(data.0.username, data.0.name, data.0.role) {
         Ok(()) => Ok(Redirect::to(uri!("/users", users))),
@@ -133,12 +133,12 @@ pub fn post_activate(
     data: Form<Activate>,
     _user: NoUser,
     conn: DbConn,
-    config: State<SmtpConfig>,
+    config: State<Config>,
 ) -> Result<Flash<Redirect>, Flash<Redirect>> {
     let user_repo = repositories::user_repo(&conn);
-    let mail_sender = email::new_smtp_sender(&config);
-    let mail_renderer = email::new_mail_renderer();
-    let service = services::user_service(user_repo, mail_sender,mail_renderer);
+    let mail_sender = email::new_smtp_sender(&config.smtp);
+    let mail_renderer = email::new_mail_renderer(&config.host);
+    let service = services::user_service(user_repo, mail_sender, mail_renderer);
 
     match service.activate(&data.code, &data.password) {
         Ok(()) => Ok(Flash::success(

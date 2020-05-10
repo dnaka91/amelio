@@ -21,6 +21,8 @@ pub struct Config {
     /// Secret key used for private cookies.
     #[cfg(not(debug_assertions))]
     secret_key: String,
+    /// Public facing URL from where the service is accessible.
+    pub host: String,
     /// Settings for an email SMTP client.
     pub smtp: SmtpConfig,
 }
@@ -39,8 +41,8 @@ pub struct SmtpConfig {
 }
 
 /// Load a Rocket [`RocketConfig`] based on custom configuration file.
-pub fn load() -> Result<(RocketConfig, SmtpConfig)> {
-    let env_config = load_file()?;
+pub fn load() -> Result<(RocketConfig, Config)> {
+    let file_config = load_file()?;
 
     let environment = if cfg!(debug_assertions) {
         Environment::Development
@@ -49,20 +51,20 @@ pub fn load() -> Result<(RocketConfig, SmtpConfig)> {
     };
 
     let config = RocketConfig::build(environment)
-        .port(env_config.port.unwrap_or(8080))
-        .workers(env_config.workers.unwrap_or(4));
+        .port(file_config.port.unwrap_or(8080))
+        .workers(file_config.workers.unwrap_or(4));
 
     #[cfg(debug_assertions)]
-    let config = if let Some(secret_key) = env_config.secret_key {
+    let config = if let Some(ref secret_key) = file_config.secret_key {
         config.secret_key(secret_key)
     } else {
         config
     };
 
     #[cfg(not(debug_assertions))]
-    let config = config.secret_key(env_config.secret_key);
+    let config = config.secret_key(&file_config.secret_key);
 
-    Ok((config.finalize()?, env_config.smtp))
+    Ok((config.finalize()?, file_config))
 }
 
 /// Load the configuration from a fixed file path. The location can be overridden with the
