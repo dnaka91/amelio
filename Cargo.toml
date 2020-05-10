@@ -13,6 +13,7 @@ build = "build.rs"
 [dependencies]
 anyhow = "1.0.28"
 askama = { version = "0.9.0", features = ["with-rocket"] }
+bcrypt = "0.8.0"
 ctrlc = { version = "3.1.4", features = ["termination"] }
 diesel = { version = "1.4.4", features = ["r2d2", "sqlite"] }
 diesel_migrations = "1.4.0"
@@ -26,8 +27,8 @@ phf = "0.8.0"
 rand = "0.7.3"
 rocket = "0.4.4"
 rust-embed = "5.5.1"
-serde = { version = "1.0.106", features = ["derive"] }
-serde_json = "1.0.52"
+serde = { version = "1.0.110", features = ["derive"] }
+serde_json = "1.0.53"
 strum = { version = "0.18.0", features = ["derive"] }
 toml = "0.5.6"
 

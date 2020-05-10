@@ -10,6 +10,8 @@ use rocket::fairing::{AdHoc, Fairing};
 use self::connection::DbConn;
 use self::models::InitUserEntity;
 
+use crate::hashing::{self, Hasher};
+
 pub mod connection;
 pub mod models;
 pub mod repositories;
@@ -57,10 +59,12 @@ fn create_admin_user(conn: &SqliteConnection) -> Result<()> {
         return Ok(());
     }
 
+    let hasher = hashing::new_hasher();
+
     diesel::insert_into(users)
         .values(&InitUserEntity {
             username: "admin",
-            password: "admin",
+            password: &hasher.hash("admin")?,
             name: "Administrator",
             role: "admin",
             active: true,
@@ -78,46 +82,48 @@ fn create_sample_users(conn: &SqliteConnection) -> Result<()> {
         return Ok(());
     }
 
+    let hasher = hashing::new_hasher();
+
     diesel::insert_into(users)
         .values(vec![
             &InitUserEntity {
                 username: "student1",
-                password: "student1",
+                password: &hasher.hash("student1")?,
                 name: "Max Mustermann",
                 role: "student",
                 active: true,
             },
             &InitUserEntity {
                 username: "student2",
-                password: "student2",
+                password: &hasher.hash("student2")?,
                 name: "Maria Meister",
                 role: "student",
                 active: true,
             },
             &InitUserEntity {
                 username: "sleeper1",
-                password: "sleeper1",
+                password: &hasher.hash("sleeper1")?,
                 name: "Bernd Faultier",
                 role: "student",
                 active: false,
             },
             &InitUserEntity {
                 username: "sleeper2",
-                password: "sleeper2",
+                password: &hasher.hash("sleeper2")?,
                 name: "Regina Schlafmaus",
                 role: "student",
                 active: false,
             },
             &InitUserEntity {
                 username: "autor1",
-                password: "autor1",
+                password: &hasher.hash("autor1")?,
                 name: "Siegfried Siegreich",
                 role: "author",
                 active: true,
             },
             &InitUserEntity {
                 username: "tutor1",
-                password: "tutor1",
+                password: &hasher.hash("tutor1")?,
                 name: "Frieda Freundlich",
                 role: "tutor",
                 active: true,

@@ -21,6 +21,7 @@ mod db;
 mod email;
 mod models;
 mod roles;
+mod hashing;
 mod routes;
 mod services;
 mod templates;

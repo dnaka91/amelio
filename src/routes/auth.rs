@@ -7,6 +7,7 @@ use rocket::{get, post, uri};
 
 use crate::db::connection::DbConn;
 use crate::db::repositories;
+use crate::hashing;
 use crate::services::{self, Credentials, LoginService};
 use crate::templates::{self, MessageCode};
 
@@ -41,8 +42,7 @@ pub fn post_login(
     login: Form<Login>,
     conn: DbConn,
 ) -> Result<Redirect, Flash<Redirect>> {
-    let user_repo = repositories::user_repo(&conn);
-    let service = services::login_service(user_repo);
+    let service = services::login_service(repositories::user_repo(&conn), hashing::new_hasher());
 
     match service.login(&login.as_credentials()) {
         Ok(id) => {

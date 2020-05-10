@@ -11,6 +11,7 @@ use crate::config::Config;
 use crate::db::connection::DbConn;
 use crate::db::repositories;
 use crate::email;
+use crate::hashing;
 use crate::models::Role;
 use crate::roles::{AdminUser, AuthUser, NoUser};
 use crate::services::{self, UserService};
@@ -23,10 +24,12 @@ pub fn users_admin(
     conn: DbConn,
     config: State<Config>,
 ) -> Result<templates::Users> {
-    let user_repo = repositories::user_repo(&conn);
-    let mail_sender = email::new_smtp_sender(&config.smtp);
-    let mail_renderer = email::new_mail_renderer(&config.host);
-    let service = services::user_service(user_repo, mail_sender, mail_renderer);
+    let service = services::user_service(
+        repositories::user_repo(&conn),
+        email::new_smtp_sender(&config.smtp),
+        email::new_mail_renderer(&config.host),
+        hashing::new_hasher(),
+    );
     let (active, inactive) = service.list()?;
 
     Ok(templates::Users { active, inactive })
@@ -80,10 +83,12 @@ pub fn post_new_user_admin(
     conn: DbConn,
     config: State<Config>,
 ) -> Result<Redirect, Flash<Redirect>> {
-    let user_repo = repositories::user_repo(&conn);
-    let mail_sender = email::new_smtp_sender(&config.smtp);
-    let mail_renderer = email::new_mail_renderer(&config.host);
-    let service = services::user_service(user_repo, mail_sender, mail_renderer);
+    let service = services::user_service(
+        repositories::user_repo(&conn),
+        email::new_smtp_sender(&config.smtp),
+        email::new_mail_renderer(&config.host),
+        hashing::new_hasher(),
+    );
 
     match service.create(data.0.username, data.0.name, data.0.role) {
         Ok(()) => Ok(Redirect::to(uri!("/users", users))),
@@ -135,10 +140,12 @@ pub fn post_activate(
     conn: DbConn,
     config: State<Config>,
 ) -> Result<Flash<Redirect>, Flash<Redirect>> {
-    let user_repo = repositories::user_repo(&conn);
-    let mail_sender = email::new_smtp_sender(&config.smtp);
-    let mail_renderer = email::new_mail_renderer(&config.host);
-    let service = services::user_service(user_repo, mail_sender, mail_renderer);
+    let service = services::user_service(
+        repositories::user_repo(&conn),
+        email::new_smtp_sender(&config.smtp),
+        email::new_mail_renderer(&config.host),
+        hashing::new_hasher(),
+    );
 
     match service.activate(&data.code, &data.password) {
         Ok(()) => Ok(Flash::success(

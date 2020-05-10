@@ -8,6 +8,7 @@ use rand::Rng;
 
 use crate::db::repositories::UserRepository;
 use crate::email::{Mail, MailRenderer, MailSender};
+use crate::hashing::Hasher;
 use crate::models::{Id, NewUser, Role, User};
 
 /// The login service manages the user login. Logout is directly handled in the
@@ -25,17 +26,18 @@ pub struct Credentials<'a> {
 }
 
 /// Main implementation of [`LoginService`].
-struct LoginServiceImpl<R: UserRepository> {
+struct LoginServiceImpl<R: UserRepository, H: Hasher> {
     user_repo: R,
+    hasher: H,
 }
 
-impl<R: UserRepository> LoginService for LoginServiceImpl<R> {
+impl<R: UserRepository, H: Hasher> LoginService for LoginServiceImpl<R, H> {
     fn login(&self, cred: &Credentials) -> Result<Id> {
         self.user_repo
             .find_by_username(cred.username)
             .and_then(|user| {
                 ensure!(
-                    user.password == cred.password,
+                    self.hasher.verify(cred.password, &user.password)?,
                     "Invalid username or password"
                 );
                 Ok(user.id)
@@ -44,8 +46,8 @@ impl<R: UserRepository> LoginService for LoginServiceImpl<R> {
 }
 
 /// Create a new login service.
-pub fn login_service(user_repo: impl UserRepository) -> impl LoginService {
-    LoginServiceImpl { user_repo }
+pub fn login_service(user_repo: impl UserRepository, hasher: impl Hasher) -> impl LoginService {
+    LoginServiceImpl { user_repo, hasher }
 }
 
 /// The user service manages users of the system, mainly creation and activation and deactivation.
@@ -61,17 +63,19 @@ pub trait UserService {
 }
 
 /// Main implementation of [`UserRepository`].
-struct UserServiceImpl<R: UserRepository, MS: MailSender, MR: MailRenderer> {
+struct UserServiceImpl<R: UserRepository, MS: MailSender, MR: MailRenderer, H: Hasher> {
     user_repo: R,
     mail_sender: MS,
     mail_renderer: MR,
+    hasher: H,
 }
 
-impl<R, MS, MR> UserServiceImpl<R, MS, MR>
+impl<R, MS, MR, H> UserServiceImpl<R, MS, MR, H>
 where
     R: UserRepository,
     MS: MailSender,
     MR: MailRenderer,
+    H: Hasher,
 {
     /// Generate a new code for activating new user accounts.
     fn generate_code() -> String {
@@ -84,11 +88,12 @@ where
     }
 }
 
-impl<R, MS, MR> UserService for UserServiceImpl<R, MS, MR>
+impl<R, MS, MR, H> UserService for UserServiceImpl<R, MS, MR, H>
 where
     R: UserRepository,
     MS: MailSender,
     MR: MailRenderer,
+    H: Hasher,
 {
     fn list(&self) -> Result<(Vec<User>, Vec<User>)> {
         self.user_repo.list().map(|users| {
@@ -121,7 +126,8 @@ where
     }
 
     fn activate(&self, code: &str, password: &str) -> Result<()> {
-        let resp = self.user_repo.activate(code, password)?;
+        let hash = self.hasher.hash(password)?;
+        let resp = self.user_repo.activate(code, &hash)?;
 
         ensure!(resp == 1, "Activation code is invalid");
         Ok(())
@@ -137,10 +143,12 @@ pub fn user_service(
     user_repo: impl UserRepository,
     mail_sender: impl MailSender,
     mail_renderer: impl MailRenderer,
+    hasher: impl Hasher,
 ) -> impl UserService {
     UserServiceImpl {
         user_repo,
         mail_sender,
         mail_renderer,
+        hasher,
     }
 }
