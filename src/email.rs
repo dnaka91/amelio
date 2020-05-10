@@ -73,3 +73,37 @@ impl<'a> MailSender for SmtpSender<'a> {
 pub fn new_smtp_sender<'a>(config: &'a SmtpConfig) -> impl MailSender + 'a {
     SmtpSender { config }
 }
+
+/// A mail renderer creates the subject and body for emails of different purposes.
+pub trait MailRenderer {
+    /// Create the invitation email for account activation.
+    fn invitation(&self, name: &str, code: &str) -> (&str, String);
+}
+
+/// Main implementation of [`MailRenderer`].
+struct MailRendererImpl;
+
+impl MailRenderer for MailRendererImpl {
+    fn invitation(&self, name: &str, code: &str) -> (&str, String) {
+        (
+            "Amelio Registrierung",
+            format!(
+                "Hallo {},\n\
+                \n\
+                Willkommen bei Amelio!\n\
+                \n\
+                Bitte clicke auf den folgenden Link um Deinen Account zu aktivieren:\n\
+                https://amelio.dnaka91.rocks/users/activate/{}\n\
+                \n\
+                Viele Gr\u{00fc}\u{00df}e,\n\
+                Dein Amelio-Team",
+                name, code,
+            ),
+        )
+    }
+}
+
+/// Create a new mail renderer.
+pub fn new_mail_renderer() -> impl MailRenderer {
+    MailRendererImpl
+}

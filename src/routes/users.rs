@@ -25,7 +25,8 @@ pub fn users_admin(
 ) -> Result<templates::Users> {
     let user_repo = repositories::user_repo(&conn);
     let mail_sender = email::new_smtp_sender(&config);
-    let service = services::user_service(user_repo, mail_sender);
+    let mail_renderer = email::new_mail_renderer();
+    let service = services::user_service(user_repo, mail_sender, mail_renderer);
     let (active, inactive) = service.list()?;
 
     Ok(templates::Users { active, inactive })
@@ -81,7 +82,8 @@ pub fn post_new_user_admin(
 ) -> Result<Redirect, Flash<Redirect>> {
     let user_repo = repositories::user_repo(&conn);
     let mail_sender = email::new_smtp_sender(&config);
-    let service = services::user_service(user_repo, mail_sender);
+    let mail_renderer = email::new_mail_renderer();
+    let service = services::user_service(user_repo, mail_sender,mail_renderer);
 
     match service.create(data.0.username, data.0.name, data.0.role) {
         Ok(()) => Ok(Redirect::to(uri!("/users", users))),
@@ -135,7 +137,8 @@ pub fn post_activate(
 ) -> Result<Flash<Redirect>, Flash<Redirect>> {
     let user_repo = repositories::user_repo(&conn);
     let mail_sender = email::new_smtp_sender(&config);
-    let service = services::user_service(user_repo, mail_sender);
+    let mail_renderer = email::new_mail_renderer();
+    let service = services::user_service(user_repo, mail_sender,mail_renderer);
 
     match service.activate(&data.code, &data.password) {
         Ok(()) => Ok(Flash::success(

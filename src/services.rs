@@ -7,7 +7,7 @@ use rand::distributions::Alphanumeric;
 use rand::Rng;
 
 use crate::db::repositories::UserRepository;
-use crate::email::{Mail, MailSender};
+use crate::email::{Mail, MailRenderer, MailSender};
 use crate::models::{Id, NewUser, Role, User};
 
 /// The login service manages the user login. Logout is directly handled in the
@@ -61,12 +61,18 @@ pub trait UserService {
 }
 
 /// Main implementation of [`UserRepository`].
-struct UserServiceImpl<R: UserRepository, M: MailSender> {
+struct UserServiceImpl<R: UserRepository, MS: MailSender, MR: MailRenderer> {
     user_repo: R,
-    mail_sender: M,
+    mail_sender: MS,
+    mail_renderer: MR,
 }
 
-impl<R: UserRepository, M: MailSender> UserServiceImpl<R, M> {
+impl<R, MS, MR> UserServiceImpl<R, MS, MR>
+where
+    R: UserRepository,
+    MS: MailSender,
+    MR: MailRenderer,
+{
     /// Generate a new code for activating new user accounts.
     fn generate_code() -> String {
         let mut rng = rand::thread_rng();
@@ -78,7 +84,12 @@ impl<R: UserRepository, M: MailSender> UserServiceImpl<R, M> {
     }
 }
 
-impl<R: UserRepository, M: MailSender> UserService for UserServiceImpl<R, M> {
+impl<R, MS, MR> UserService for UserServiceImpl<R, MS, MR>
+where
+    R: UserRepository,
+    MS: MailSender,
+    MR: MailRenderer,
+{
     fn list(&self) -> Result<(Vec<User>, Vec<User>)> {
         self.user_repo.list().map(|users| {
             users
@@ -97,22 +108,13 @@ impl<R: UserRepository, M: MailSender> UserService for UserServiceImpl<R, M> {
             code: code.clone(),
         })?;
 
+        let (subject, message) = self.mail_renderer.invitation(&name, &code);
+
         self.mail_sender.send(Mail {
             from: ("amelio@dnaka91.rocks", "Amelio"),
             to: (&format!("{}@iubh-fernstudium.de", username), &name),
-            subject: "Amelio Registration",
-            message: &format!(
-                "Hello {},\n\
-                \n\
-                Welcome to Amelio!\n\
-                \n\
-                Please click the link below to activate your account:\n\
-                https://amelio.dnaka91.rocks/users/activate/{}\n\
-                \n\
-                Best regards,\n\
-                The Amelio Team",
-                name, code,
-            ),
+            subject,
+            message: &message,
         })?;
 
         Ok(())
@@ -134,9 +136,11 @@ impl<R: UserRepository, M: MailSender> UserService for UserServiceImpl<R, M> {
 pub fn user_service(
     user_repo: impl UserRepository,
     mail_sender: impl MailSender,
+    mail_renderer: impl MailRenderer,
 ) -> impl UserService {
     UserServiceImpl {
         user_repo,
         mail_sender,
+        mail_renderer,
     }
 }
