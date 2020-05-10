@@ -1,6 +1,7 @@
 //! All templates that are used to render the web pages of this service.
 
 use askama::Template;
+use strum::{AsRefStr, EnumString};
 
 use crate::models::{Role, User};
 
@@ -53,6 +54,45 @@ impl Translate for Role {
     }
 }
 
+/// Different message codes that can be send as flash messages and translated to different
+/// languages.
+#[derive(Copy, Clone, EnumString, AsRefStr)]
+#[strum(serialize_all = "kebab-case")]
+pub enum MessageCode {
+    // Error codes
+    InvalidCredentials,
+    FailedUserCreation,
+    InvalidCodeOrError,
+    // Success codes
+    UserActivated,
+    // Unknown
+    Unknown,
+}
+
+impl From<&str> for MessageCode {
+    #[inline]
+    fn from(value: &str) -> Self {
+        if let Ok(v) = value.parse() {
+            v
+        } else {
+            Self::Unknown
+        }
+    }
+}
+
+impl Translate for MessageCode {
+    fn german(&self) -> &'static str {
+        match self {
+            Self::InvalidCredentials => "Ung\u{00fc}ltiger Nutzername oder Passwort",
+            Self::FailedUserCreation => "Benutzererstellung fehlgeschlagen",
+            Self::InvalidCodeOrError => " Ung\u{00fc}ltiger Aktivierungscode oder anderer Fehler",
+            Self::UserActivated => "Account erfolgreich aktiviert",
+            Self::Unknown => "Unbekannter Fehler",
+        }
+    }
+}
+
+
 /// Template for the index page.
 #[derive(Template)]
 #[template(path = "index.html")]
@@ -63,7 +103,7 @@ pub struct Index;
 #[template(path = "login.html")]
 pub struct Login {
     /// Optional flash message that's shown as an error.
-    pub flash: Option<(String, String)>,
+    pub flash: Option<(String, MessageCode)>,
 }
 
 /// Template for the user list page.
@@ -78,14 +118,14 @@ pub struct Users {
 #[derive(Template)]
 #[template(path = "users/new.html")]
 pub struct NewUser {
-    pub flash: Option<String>,
+    pub flash: Option<MessageCode>,
 }
 
 /// Template for the user activation page.
 #[derive(Template)]
 #[template(path = "users/activate.html")]
 pub struct ActivateUser {
-    pub flash: Option<String>,
+    pub flash: Option<MessageCode>,
     pub code: String,
 }
 

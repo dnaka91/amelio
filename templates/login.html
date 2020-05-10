@@ -22,7 +22,7 @@
               {% let color = "is-danger" %}
             {% endif %}
 
-            <div class="notification {{ color }}">{{ msg }}</div>
+            <div class="notification {{ color }}">{{ msg.german() }}.</div>
           {%- when None %}
         {% endmatch %}
 

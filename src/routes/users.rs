@@ -14,7 +14,7 @@ use crate::email;
 use crate::models::Role;
 use crate::roles::{AdminUser, AuthUser, NoUser};
 use crate::services::{self, UserService};
-use crate::templates;
+use crate::templates::{self, MessageCode};
 
 /// User management page for administrators.
 #[get("/")]
@@ -48,7 +48,7 @@ pub fn users() -> Redirect {
 #[get("/new")]
 pub fn new_user_admin(_user: AdminUser, flash: Option<FlashMessage<'_, '_>>) -> templates::NewUser {
     templates::NewUser {
-        flash: flash.map(|f| f.msg().to_owned()),
+        flash: flash.map(|f| f.msg().into()),
     }
 }
 
@@ -91,7 +91,7 @@ pub fn post_new_user_admin(
             error!("error during user creation: {:?}", e);
             Err(Flash::error(
                 Redirect::to(uri!("/users", new_user)),
-                "Failed creating user.",
+                MessageCode::FailedUserCreation,
             ))
         }
     }
@@ -116,7 +116,7 @@ pub fn activate(
     flash: Option<FlashMessage<'_, '_>>,
 ) -> templates::ActivateUser {
     templates::ActivateUser {
-        flash: flash.map(|f| f.msg().to_owned()),
+        flash: flash.map(|f| f.msg().into()),
         code,
     }
 }
@@ -143,14 +143,14 @@ pub fn post_activate(
     match service.activate(&data.code, &data.password) {
         Ok(()) => Ok(Flash::success(
             Redirect::to(uri!(super::auth::login)),
-            "Account successfully activated.",
+            MessageCode::UserActivated,
         )),
         Err(e) => {
             error!("error during account activation: {:?}", e);
             Err(Flash::error(
                 #[allow(non_snake_case)]
                 Redirect::to(uri!("/users", activate: data.0.code)),
-                "Invalid activation code or other error.",
+                MessageCode::InvalidCodeOrError,
             ))
         }
     }

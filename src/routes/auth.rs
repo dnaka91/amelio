@@ -8,13 +8,13 @@ use rocket::{get, post, uri};
 use crate::db::connection::DbConn;
 use crate::db::repositories;
 use crate::services::{self, Credentials, LoginService};
-use crate::templates;
+use crate::templates::{self, MessageCode};
 
 /// Login page for any user.
 #[get("/login")]
 pub fn login(flash: Option<FlashMessage<'_, '_>>) -> templates::Login {
     templates::Login {
-        flash: flash.map(|f| (f.name().to_owned(), f.msg().to_owned())),
+        flash: flash.map(|f| (f.name().to_owned(), f.msg().into())),
     }
 }
 
@@ -51,7 +51,7 @@ pub fn post_login(
         }
         Err(_) => Err(Flash::error(
             Redirect::to(uri!(login)),
-            "Invalid username or password.",
+            MessageCode::InvalidCredentials,
         )),
     }
 }

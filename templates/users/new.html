@@ -13,7 +13,7 @@
 
         {% match flash %}
         {% when Some with (msg) %}
-        <div class="notification is-danger">{{ msg }}</div>
+        <div class="notification is-danger">{{ msg.german() }}</div>
         {%- when None %}
         {% endmatch %}
 
