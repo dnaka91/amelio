@@ -92,7 +92,6 @@ impl Translate for MessageCode {
     }
 }
 
-
 /// Template for the index page.
 #[derive(Template)]
 #[template(path = "index.html")]
