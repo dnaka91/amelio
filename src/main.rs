@@ -35,15 +35,20 @@ fn rocket() -> Result<Rocket> {
         .attach(DbConn::fairing())
         .attach(DbMigrations::fairing())
         .attach(fairings::Csp)
+        .attach(fairings::Auth)
         .manage(config)
         .mount(
             "/",
             routes![
+                routes::fairing::forbidden,
+                routes::fairing::to_login,
                 routes::index_user,
                 routes::index,
                 routes::auth::login,
                 routes::auth::post_login,
                 routes::auth::post_logout,
+                routes::users::activate,
+                routes::users::post_activate,
                 // Assets should always be last
                 routes::assets::assets,
             ],
@@ -51,36 +56,18 @@ fn rocket() -> Result<Rocket> {
         .mount(
             "/users",
             routes![
-                routes::users::users_admin,
-                routes::users::users_auth,
                 routes::users::users,
-                routes::users::new_user_admin,
-                routes::users::new_user_auth,
                 routes::users::new_user,
-                routes::users::post_new_user_admin,
-                routes::users::post_new_user_auth,
                 routes::users::post_new_user,
-                routes::users::activate,
-                routes::users::post_activate,
-                routes::users::enable_user_admin,
-                routes::users::enable_user_auth,
                 routes::users::enable_user,
             ],
         )
         .mount(
             "/courses",
             routes![
-                routes::courses::courses_admin,
-                routes::courses::courses_auth,
                 routes::courses::courses,
-                routes::courses::new_course_admin,
-                routes::courses::new_course_auth,
                 routes::courses::new_course,
-                routes::courses::post_new_course_admin,
-                routes::courses::post_new_course_auth,
                 routes::courses::post_new_course,
-                routes::courses::enable_course_admin,
-                routes::courses::enable_course_auth,
                 routes::courses::enable_course,
             ],
         )

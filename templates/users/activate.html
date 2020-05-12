@@ -21,7 +21,7 @@
         {%- when None %}
         {% endmatch %}
 
-        <form action="/users/activate" method="POST">
+        <form action="/activate" method="POST">
           <input type="hidden" name="code" value="{{ code }}">
 
           <div class="field has-addons">

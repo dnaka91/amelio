@@ -95,7 +95,7 @@ impl<'a> MailRenderer for MailRendererImpl<'a> {
                 Willkommen bei Amelio!\n\
                 \n\
                 Bitte clicke auf den folgenden Link um Deinen Account zu aktivieren:\n\
-                {}/users/activate/{}\n\
+                {}/activate/{}\n\
                 \n\
                 Viele Gr\u{00fc}\u{00df}e,\n\
                 Dein Amelio-Team",

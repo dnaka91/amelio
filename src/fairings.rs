@@ -1,7 +1,12 @@
 //! Custom fairings (middlewares) that are not specific to any other component.
 
+#![cfg_attr(doc, allow(unused_braces))]
+
 use rocket::fairing::{Fairing, Info, Kind};
-use rocket::{Request, Response};
+use rocket::http::Method;
+use rocket::{uri, Data, Request, Response};
+
+use crate::routes;
 
 const CSP_HEADER_NAME: &str = "Content-Security-Policy";
 
@@ -35,5 +40,59 @@ impl Fairing for Csp {
             frame-ancestors 'none'\
         ",
         );
+    }
+}
+
+use crate::roles::{AdminUser, AuthUser};
+
+const ADMIN_AUTH_PATHS: &[&str] = &["users", "courses"];
+
+/// A fairing that handles authentication and authorization for common routes to save boilerplate
+/// code. Without this, several routes must provide an extra route for different authorization
+/// levels and unauthenticated users.
+///
+/// # Warning
+///
+/// For the fairing to function properly, all routes in [`crate::routes::fairing`] must be mounted
+/// at `/` in the Rocket instance.
+pub struct Auth;
+
+impl Auth {
+    /// Check the request against routes that are only accessible by administrators.
+    ///
+    /// If the user is logged in but not an admin, he will get a forbidden status response. If the
+    /// user is not logged in, he will instead be forwarded to the login page.
+    fn check_admin_only_routes(request: &mut Request) {
+        let is_auth = request
+            .uri()
+            .segments()
+            .next()
+            .map(|seg| ADMIN_AUTH_PATHS.contains(&seg))
+            .unwrap_or_default();
+
+        if !is_auth || request.guard::<AdminUser>().is_success() {
+            return;
+        }
+
+        request.set_method(Method::Get);
+
+        request.set_uri(if request.guard::<&AuthUser>().is_success() {
+            uri!(routes::fairing::forbidden)
+        } else {
+            uri!(routes::fairing::to_login)
+        })
+    }
+}
+
+impl Fairing for Auth {
+    fn info(&self) -> Info {
+        Info {
+            name: "Authentication",
+            kind: Kind::Request,
+        }
+    }
+
+    fn on_request(&self, request: &mut Request, _: &Data) {
+        Self::check_admin_only_routes(request);
     }
 }

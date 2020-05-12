@@ -2,20 +2,19 @@
 
 use anyhow::Result;
 use log::error;
-use rocket::http::Status;
 use rocket::request::{FlashMessage, Form, FromForm};
 use rocket::response::{Flash, Redirect};
 use rocket::{get, post, uri};
 
 use crate::db::connection::DbConn;
 use crate::db::repositories;
-use crate::roles::{AdminUser, AuthUser};
+use crate::roles::AdminUser;
 use crate::services::{self, CourseService};
 use crate::templates::{self, MessageCode};
 
 /// Course management page for administrators.
 #[get("/")]
-pub fn courses_admin(
+pub fn courses(
     user: AdminUser,
     conn: DbConn,
     flash: Option<FlashMessage<'_, '_>>,
@@ -33,21 +32,9 @@ pub fn courses_admin(
     })
 }
 
-/// Course management is not allowed for non-admin users.
-#[get("/", rank = 2)]
-pub const fn courses_auth(_user: &AuthUser) -> Status {
-    Status::Forbidden
-}
-
-/// Course management for everyone else, redirecting to the login page.
-#[get("/", rank = 3)]
-pub fn courses() -> Redirect {
-    Redirect::to(uri!(super::auth::login))
-}
-
 /// Course creation form for administrators.
 #[get("/new")]
-pub fn new_course_admin(
+pub fn new_course(
     user: AdminUser,
     flash: Option<FlashMessage<'_, '_>>,
     conn: DbConn,
@@ -66,18 +53,6 @@ pub fn new_course_admin(
     })
 }
 
-/// Course creation is not allowed for non-admin users.
-#[get("/new", rank = 2)]
-pub const fn new_course_auth(_user: &AuthUser) -> Status {
-    Status::Forbidden
-}
-
-/// Course creation for everyone else, redirecting to the login page.
-#[get("/new", rank = 3)]
-pub fn new_course() -> Redirect {
-    Redirect::to(uri!(super::auth::login))
-}
-
 /// Form data from the course creation form.
 #[derive(FromForm)]
 pub struct NewCourse {
@@ -89,7 +64,7 @@ pub struct NewCourse {
 
 /// New user POST endpoint to handle course creation, only for administrators.
 #[post("/new", data = "<data>")]
-pub fn post_new_course_admin(
+pub fn post_new_course(
     _user: AdminUser,
     data: Form<NewCourse>,
     conn: DbConn,
@@ -114,25 +89,9 @@ pub fn post_new_course_admin(
     }
 }
 
-/// Course creation endpoints are not accessible for non-admin users.
-#[post("/new", rank = 2)]
-pub const fn post_new_course_auth(_user: &AuthUser) -> Status {
-    Status::Forbidden
-}
-/// Course creation endpoint for everyone else, redirecting to the login page.
-#[post("/new", rank = 3)]
-pub fn post_new_course() -> Redirect {
-    Redirect::to(uri!(super::auth::login))
-}
-
 /// Enable or disable courses as administrator.
 #[get("/<id>/enable?<value>")]
-pub fn enable_course_admin(
-    _user: AdminUser,
-    id: i32,
-    value: bool,
-    conn: DbConn,
-) -> Result<Redirect> {
+pub fn enable_course(_user: AdminUser, id: i32, value: bool, conn: DbConn) -> Result<Redirect> {
     let service = services::course_service(
         repositories::user_repo(&conn),
         repositories::course_repo(&conn),
@@ -140,16 +99,4 @@ pub fn enable_course_admin(
     service.enable(id, value)?;
 
     Ok(Redirect::to(uri!("/courses", courses)))
-}
-
-/// Course en-/disablement is not accessible for non-admin users.
-#[get("/<_id>/enable?<_value>", rank = 2)]
-pub const fn enable_course_auth(_user: &AuthUser, _id: i32, _value: bool) -> Status {
-    Status::Forbidden
-}
-
-/// Course en-/disablement for everyone else, redirecting to the login page.
-#[get("/<_id>/enable?<_value>", rank = 3)]
-pub fn enable_course(_id: i32, _value: bool) -> Redirect {
-    Redirect::to(uri!(super::auth::login))
 }
