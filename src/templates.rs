@@ -63,8 +63,10 @@ pub enum MessageCode {
     InvalidCredentials,
     FailedUserCreation,
     InvalidCodeOrError,
+    FailedCourseCreation,
     // Success codes
     UserActivated,
+    CourseCreated,
     // Unknown
     Unknown,
 }
@@ -86,7 +88,9 @@ impl Translate for MessageCode {
             Self::InvalidCredentials => "Ung\u{00fc}ltiger Nutzername oder Passwort",
             Self::FailedUserCreation => "Benutzererstellung fehlgeschlagen",
             Self::InvalidCodeOrError => " Ung\u{00fc}ltiger Aktivierungscode oder anderer Fehler",
+            Self::FailedCourseCreation => "Kurserstellung fehlgeschlagen",
             Self::UserActivated => "Account erfolgreich aktiviert",
+            Self::CourseCreated => "Kurs erfolgreich erstellt",
             Self::Unknown => "Unbekannter Fehler",
         }
     }
@@ -132,7 +136,17 @@ pub struct ActivateUser {
 #[derive(Template)]
 #[template(path = "courses/index.html")]
 pub struct Courses {
+    pub flash: Option<(String, MessageCode)>,
     pub courses: Vec<CourseWithNames>,
+}
+
+/// Template for the new course page.
+#[derive(Template)]
+#[template(path = "courses/new.html")]
+pub struct NewCourse {
+    pub flash: Option<MessageCode>,
+    pub authors: Vec<(i32, String)>,
+    pub tutors: Vec<(i32, String)>,
 }
 
 /// Template for the _403 Forbidden_ error.

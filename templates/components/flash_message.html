@@ -1,0 +1,14 @@
+{% match flash %}
+  {% when Some with (flash) %}
+    {% let (name, msg) = flash %}
+    {% let color %}
+
+    {% if name == "success" %}
+      {% let color = "is-success" %}
+    {% else %}
+      {% let color = "is-danger" %}
+    {% endif %}
+
+    <div class="notification {{ color }}">{{ msg.german() }}.</div>
+  {%- when None %}
+{% endmatch %}

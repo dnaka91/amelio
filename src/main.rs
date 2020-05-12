@@ -67,7 +67,13 @@ fn rocket() -> Result<Rocket> {
             routes![
                 routes::courses::courses_admin,
                 routes::courses::courses_auth,
-                routes::courses::courses
+                routes::courses::courses,
+                routes::courses::new_course_admin,
+                routes::courses::new_course_auth,
+                routes::courses::new_course,
+                routes::courses::post_new_course_admin,
+                routes::courses::post_new_course_auth,
+                routes::courses::post_new_course,
             ],
         )
         .register(catchers![

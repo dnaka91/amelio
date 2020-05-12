@@ -9,7 +9,7 @@ use fnv::{FnvHashMap, FnvHashSet};
 
 use super::models::{CourseEntity, NewCourseEntity, NewUserEntity, UserEntity};
 
-use crate::models::{Course, CourseWithNames, NewCourse, NewUser, User};
+use crate::models::{Course, CourseWithNames, NewCourse, NewUser, Role, User};
 
 /// User related functionality.
 pub trait UserRepository {
@@ -19,6 +19,8 @@ pub trait UserRepository {
     fn find_by_username(&self, username: &str) -> Result<User>;
     /// List all users.
     fn list(&self) -> Result<Vec<User>>;
+    /// List all users' ID and name filtered by role.
+    fn list_names_by_role(&self, role: Role) -> Result<Vec<(i32, String)>>;
     /// Create a new user.
     fn create(&self, user: NewUser) -> Result<()>;
     /// Activate a previously created user.
@@ -61,6 +63,16 @@ impl<'a> UserRepository for UserRepositoryImpl<'a> {
             .load::<UserEntity>(self.conn)
             .map_err(Into::into)
             .and_then(|users| users.into_iter().map(TryInto::try_into).collect())
+    }
+
+    fn list_names_by_role(&self, role: Role) -> Result<Vec<(i32, String)>> {
+        use super::schema::users;
+
+        users::table
+            .select((users::id, users::name))
+            .filter(users::role.eq(role.as_ref()))
+            .load::<(i32, String)>(self.conn)
+            .map_err(Into::into)
     }
 
     fn create(&self, user: NewUser) -> Result<()> {

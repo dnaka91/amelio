@@ -1,12 +1,12 @@
 //! The base models of the system, that [`services`](crate::services) work on.
 
-use strum::{Display, EnumString};
+use strum::{AsRefStr, Display, EnumString};
 
 /// The identifier type for all models.
 pub type Id = i32;
 
 /// Different roles that a user can have.
-#[derive(Copy, Clone, Ord, PartialOrd, Eq, PartialEq, Display, EnumString)]
+#[derive(Copy, Clone, Ord, PartialOrd, Eq, PartialEq, Display, EnumString, AsRefStr)]
 #[strum(serialize_all = "kebab-case")]
 pub enum Role {
     Admin,

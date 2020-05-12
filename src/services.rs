@@ -9,7 +9,7 @@ use rand::Rng;
 use crate::db::repositories::{CourseRepository, UserRepository};
 use crate::email::{Mail, MailRenderer, MailSender};
 use crate::hashing::Hasher;
-use crate::models::{CourseWithNames, Id, NewUser, Role, User};
+use crate::models::{CourseWithNames, Id, NewCourse, NewUser, Role, User};
 
 /// The login service manages the user login. Logout is directly handled in the
 /// [`post_logout`](crate::routes::auth::post_logout) route because that logic is part of the
@@ -151,24 +151,56 @@ pub fn user_service(
     }
 }
 
+/// A list of authors and tutors with only their ID and name.
+///
+/// The first tuple element contains the authors and the second one the tutors.
+type VecAuthorsTutors = (Vec<(i32, String)>, Vec<(i32, String)>);
+
 /// The course service manages courses of the system, like listing existing ones, enable or disable
 /// them or adding new ones.
 pub trait CourseService {
     /// List all courses together with their author and tutor names.
     fn list(&self) -> Result<Vec<CourseWithNames>>;
+    /// List all authors and tutors with ID and name.
+    fn list_authors_tutors(&self) -> Result<VecAuthorsTutors>;
+    /// Create a new course in the system.
+    fn create(&self, code: String, title: String, author_id: Id, tutor_id: Id) -> Result<()>;
 }
 
 /// Main implementation of [`CourseService`].
-struct CourseServiceImpl<R: CourseRepository> {
-    course_repo: R,
+struct CourseServiceImpl<UR: UserRepository, CR: CourseRepository> {
+    user_repo: UR,
+    course_repo: CR,
 }
 
-impl<R: CourseRepository> CourseService for CourseServiceImpl<R> {
+impl<UR: UserRepository, CR: CourseRepository> CourseService for CourseServiceImpl<UR, CR> {
     fn list(&self) -> Result<Vec<CourseWithNames>> {
         self.course_repo.list_with_names()
     }
+
+    fn list_authors_tutors(&self) -> Result<VecAuthorsTutors> {
+        Ok((
+            self.user_repo.list_names_by_role(Role::Author)?,
+            self.user_repo.list_names_by_role(Role::Tutor)?,
+        ))
+    }
+
+    fn create(&self, code: String, title: String, author_id: Id, tutor_id: Id) -> Result<()> {
+        self.course_repo.create(NewCourse {
+            code,
+            title,
+            author_id,
+            tutor_id,
+        })
+    }
 }
 
-pub fn course_service(course_repo: impl CourseRepository) -> impl CourseService {
-    CourseServiceImpl { course_repo }
+pub fn course_service(
+    user_repo: impl UserRepository,
+    course_repo: impl CourseRepository,
+) -> impl CourseService {
+    CourseServiceImpl {
+        user_repo,
+        course_repo,
+    }
 }
