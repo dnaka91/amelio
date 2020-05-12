@@ -1,3 +1,5 @@
+//! Course management related routes.
+
 use anyhow::Result;
 use log::error;
 use rocket::http::Status;
@@ -120,5 +122,34 @@ pub const fn post_new_course_auth(_user: &AuthUser) -> Status {
 /// Course creation endpoint for everyone else, redirecting to the login page.
 #[post("/new", rank = 3)]
 pub fn post_new_course() -> Redirect {
+    Redirect::to(uri!(super::auth::login))
+}
+
+/// Enable or disable courses as administrator.
+#[get("/<id>/enable?<value>")]
+pub fn enable_course_admin(
+    _user: AdminUser,
+    id: i32,
+    value: bool,
+    conn: DbConn,
+) -> Result<Redirect> {
+    let service = services::course_service(
+        repositories::user_repo(&conn),
+        repositories::course_repo(&conn),
+    );
+    service.enable(id, value)?;
+
+    Ok(Redirect::to(uri!("/courses", courses)))
+}
+
+/// Course en-/disablement is not accessible for non-admin users.
+#[get("/<_id>/enable?<_value>", rank = 2)]
+pub const fn enable_course_auth(_user: &AuthUser, _id: i32, _value: bool) -> Status {
+    Status::Forbidden
+}
+
+/// Course en-/disablement for everyone else, redirecting to the login page.
+#[get("/<_id>/enable?<_value>", rank = 3)]
+pub fn enable_course(_id: i32, _value: bool) -> Redirect {
     Redirect::to(uri!(super::auth::login))
 }

@@ -131,6 +131,7 @@ pub fn activate(
     }
 }
 
+/// Form data from the user activation form.
 #[derive(FromForm)]
 pub struct Activate {
     code: String,
@@ -166,4 +167,36 @@ pub fn post_activate(
             ))
         }
     }
+}
+
+/// Enable or disable users as administrator.
+#[get("/<id>/enable?<value>")]
+pub fn enable_user_admin(
+    _user: AdminUser,
+    id: i32,
+    value: bool,
+    conn: DbConn,
+    config: State<Config>,
+) -> Result<Redirect> {
+    let service = services::user_service(
+        repositories::user_repo(&conn),
+        email::new_smtp_sender(&config.smtp),
+        email::new_mail_renderer(&config.host),
+        hashing::new_hasher(),
+    );
+    service.enable(id, value)?;
+
+    Ok(Redirect::to(uri!("/users", users)))
+}
+
+/// User en-/disablement is not accessible for non-admin users.
+#[get("/<_id>/enable?<_value>", rank = 2)]
+pub const fn enable_user_auth(_user: &AuthUser, _id: i32, _value: bool) -> Status {
+    Status::Forbidden
+}
+
+/// User en-/disablement for everyone else, redirecting to the login page.
+#[get("/<_id>/enable?<_value>", rank = 3)]
+pub fn enable_user(_id: i32, _value: bool) -> Redirect {
+    Redirect::to(uri!(super::auth::login))
 }

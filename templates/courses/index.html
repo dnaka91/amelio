@@ -33,17 +33,23 @@
             <td>{{ c.tutor_name }}</td>
             <td>
               {% if c.course.active %}
-              <button class="button is-danger is-small" title="Deaktivieren">
-                <span class="icon">
-                  <i class="fas fa-minus"></i>
-                </span>
-              </button>
+              <form action="/courses/{{ c.course.id }}/enable">
+                <input type="hidden" name="value" value="false">
+                <button class="button is-danger is-small" title="Deaktivieren">
+                  <span class="icon">
+                    <i class="fas fa-minus"></i>
+                  </span>
+                </button>
+              </form>
               {% else %}
-              <button class="button is-success is-small" title="Reaktivieren">
-                <span class="icon">
-                  <i class="fas fa-plus"></i>
-                </span>
-              </button>
+              <form action="/courses/{{ c.course.id }}/enable">
+                <input type="hidden" name="value" value="true">
+                <button class="button is-success is-small" title="Reaktivieren">
+                  <span class="icon">
+                    <i class="fas fa-plus"></i>
+                  </span>
+                </button>
+              </form>
               {% endif %}
             </td>
           </tr>

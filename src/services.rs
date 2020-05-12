@@ -165,6 +165,8 @@ pub trait CourseService {
     fn list_authors_tutors(&self) -> Result<VecAuthorsTutors>;
     /// Create a new course in the system.
     fn create(&self, code: String, title: String, author_id: Id, tutor_id: Id) -> Result<()>;
+    /// Enable or disable a course.
+    fn enable(&self, id: i32, enable: bool) -> Result<()>;
 }
 
 /// Main implementation of [`CourseService`].
@@ -192,6 +194,10 @@ impl<UR: UserRepository, CR: CourseRepository> CourseService for CourseServiceIm
             author_id,
             tutor_id,
         })
+    }
+
+    fn enable(&self, id: i32, enable: bool) -> Result<()> {
+        self.course_repo.enable(id, enable).map_err(Into::into)
     }
 }
 

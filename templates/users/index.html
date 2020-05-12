@@ -11,12 +11,12 @@
     <div class="column is-6">
       <div class="box">
         <p class="title">Aktive Nutzer ({{ active.len() }})</p>
-        <table class="table">
+        <table class="table is-hoverable is-fullwidth">
           <tr>
             <th>Nutername</th>
-            <th width="50%">Name</th>
-            <th width="50%">Rolle</th>
-            <th></th>
+            <th>Name</th>
+            <th>Rolle</th>
+            <th width="54"></th>
           </tr>
           {% for user in active %}
           <tr>
@@ -24,11 +24,22 @@
             <td>{{ user.name }}</td>
             <td>{{ user.role.german() }}</td>
             <td>
-              <button class="button is-danger is-small" title="Deaktivieren" {%- if user.is_admin() %} disabled{% endif %}>
+              {% if user.is_admin() %}
+              <button class="button is-danger is-small" title="Deaktivieren" disabled>
                 <span class="icon">
                   <i class="fas fa-minus"></i>
                 </span>
               </button>
+              {% else %}
+              <form action="/users/{{ user.id }}/enable">
+                <input type="hidden" name="value" value="false">
+                <button class="button is-danger is-small" title="Deaktivieren">
+                  <span class="icon">
+                    <i class="fas fa-minus"></i>
+                  </span>
+                </button>
+              </form>
+              {% endif %}
             </td>
           </tr>
           {% endfor %}
@@ -39,12 +50,12 @@
     <div class="column is-6">
       <div class="box">
         <p class="title">Inaktive Nutzer ({{ inactive.len() }})</p>
-        <table class="table">
+        <table class="table is-hoverable is-fullwidth">
           <tr>
             <th>Nutzername</th>
-            <th width="50%">Name</th>
-            <th width="50%">Rolle</th>
-            <th></th>
+            <th>Name</th>
+            <th>Rolle</th>
+            <th width="54"></th>
           </tr>
           {% for user in inactive %}
           <tr>
@@ -52,11 +63,14 @@
             <td>{{ user.name }}</td>
             <td>{{ user.role.german() }}</td>
             <td>
-              <button class="button is-success is-small" title="Reaktivieren">
-                <span class="icon">
-                  <i class="fas fa-plus"></i>
-                </span>
-              </button>
+              <form action="/users/{{ user.id }}/enable">
+                <input type="hidden" name="value" value="true">
+                <button class="button is-success is-small" title="Reaktivieren">
+                  <span class="icon">
+                    <i class="fas fa-plus"></i>
+                  </span>
+                </button>
+              </form>
             </td>
           </tr>
           {% endfor %}

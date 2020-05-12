@@ -60,6 +60,9 @@ fn rocket() -> Result<Rocket> {
                 routes::users::post_new_user,
                 routes::users::activate,
                 routes::users::post_activate,
+                routes::users::enable_user_admin,
+                routes::users::enable_user_auth,
+                routes::users::enable_user,
             ],
         )
         .mount(
@@ -74,6 +77,9 @@ fn rocket() -> Result<Rocket> {
                 routes::courses::post_new_course_admin,
                 routes::courses::post_new_course_auth,
                 routes::courses::post_new_course,
+                routes::courses::enable_course_admin,
+                routes::courses::enable_course_auth,
+                routes::courses::enable_course,
             ],
         )
         .register(catchers![
