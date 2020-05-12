@@ -19,6 +19,7 @@ diesel = { version = "1.4.4", features = ["r2d2", "sqlite"] }
 diesel_migrations = "1.4.0"
 dotenv = "0.15.0"
 envy = "0.4.1"
+fnv = "1.0.6"
 lettre_email = "0.9.4"
 libsqlite3-sys = { version = "0.17.3", features = ["bundled"] }
 log = { version = "0.4.8", features = ["release_max_level_info"] }

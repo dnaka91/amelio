@@ -62,6 +62,14 @@ fn rocket() -> Result<Rocket> {
                 routes::users::post_activate,
             ],
         )
+        .mount(
+            "/courses",
+            routes![
+                routes::courses::courses_admin,
+                routes::courses::courses_auth,
+                routes::courses::courses
+            ],
+        )
         .register(catchers![
             routes::errors::forbidden,
             routes::errors::not_found

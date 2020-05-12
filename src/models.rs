@@ -40,3 +40,28 @@ pub struct NewUser {
     pub role: Role,
     pub code: String,
 }
+
+/// A full course with all available details.
+pub struct Course {
+    pub id: Id,
+    pub code: String,
+    pub title: String,
+    pub author_id: Id,
+    pub tutor_id: Id,
+    pub active: bool,
+}
+
+/// A new course to be added to the system.
+pub struct NewCourse {
+    pub code: String,
+    pub title: String,
+    pub author_id: Id,
+    pub tutor_id: Id,
+}
+
+/// A course with its author and tutor names included.
+pub struct CourseWithNames {
+    pub course: Course,
+    pub author_name: String,
+    pub tutor_name: String,
+}

@@ -67,3 +67,61 @@ impl TryFrom<UserEntity> for User {
         })
     }
 }
+
+/// A special new course that is used during first initialization of the database.
+#[derive(Insertable)]
+#[table_name = "courses"]
+pub struct InitCourseEntity<'a> {
+    pub code: &'a str,
+    pub title: &'a str,
+    pub author_id: i32,
+    pub tutor_id: i32,
+    pub active: bool,
+}
+
+/// A new course to be added to the database.
+#[derive(Insertable)]
+#[table_name = "courses"]
+pub struct NewCourseEntity {
+    pub code: String,
+    pub title: String,
+    pub author_id: i32,
+    pub tutor_id: i32,
+}
+
+impl From<NewCourse> for NewCourseEntity {
+    fn from(value: NewCourse) -> Self {
+        Self {
+            code: value.code,
+            title: value.title,
+            author_id: value.author_id,
+            tutor_id: value.tutor_id,
+        }
+    }
+}
+
+/// A full course entity equivalent to the `courses` table.
+#[derive(Queryable)]
+pub struct CourseEntity {
+    pub id: i32,
+    pub code: String,
+    pub title: String,
+    pub author_id: i32,
+    pub tutor_id: i32,
+    pub active: bool,
+}
+
+impl TryFrom<CourseEntity> for Course {
+    type Error = anyhow::Error;
+
+    fn try_from(value: CourseEntity) -> Result<Self, Self::Error> {
+        Ok(Self {
+            id: value.id,
+            code: value.code,
+            title: value.title,
+            author_id: value.author_id,
+            tutor_id: value.tutor_id,
+            active: value.active,
+        })
+    }
+}

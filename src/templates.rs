@@ -3,7 +3,7 @@
 use askama::Template;
 use strum::{AsRefStr, EnumString};
 
-use crate::models::{Role, User};
+use crate::models::{CourseWithNames, Role, User};
 
 mod filters {
     //! Custom filters for [`askama`] templates.
@@ -126,6 +126,13 @@ pub struct NewUser {
 pub struct ActivateUser {
     pub flash: Option<MessageCode>,
     pub code: String,
+}
+
+/// Template for the user list page.
+#[derive(Template)]
+#[template(path = "courses/index.html")]
+pub struct Courses {
+    pub courses: Vec<CourseWithNames>,
 }
 
 /// Template for the _403 Forbidden_ error.

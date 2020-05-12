@@ -6,10 +6,10 @@ use anyhow::{ensure, Result};
 use rand::distributions::Alphanumeric;
 use rand::Rng;
 
-use crate::db::repositories::UserRepository;
+use crate::db::repositories::{CourseRepository, UserRepository};
 use crate::email::{Mail, MailRenderer, MailSender};
 use crate::hashing::Hasher;
-use crate::models::{Id, NewUser, Role, User};
+use crate::models::{CourseWithNames, Id, NewUser, Role, User};
 
 /// The login service manages the user login. Logout is directly handled in the
 /// [`post_logout`](crate::routes::auth::post_logout) route because that logic is part of the
@@ -127,10 +127,8 @@ where
 
     fn activate(&self, code: &str, password: &str) -> Result<()> {
         let hash = self.hasher.hash(password)?;
-        let resp = self.user_repo.activate(code, &hash)?;
 
-        ensure!(resp == 1, "Activation code is invalid");
-        Ok(())
+        self.user_repo.activate(code, &hash)
     }
 
     fn enable(&self, id: i32, enable: bool) -> Result<()> {
@@ -151,4 +149,26 @@ pub fn user_service(
         mail_renderer,
         hasher,
     }
+}
+
+/// The course service manages courses of the system, like listing existing ones, enable or disable
+/// them or adding new ones.
+pub trait CourseService {
+    /// List all courses together with their author and tutor names.
+    fn list(&self) -> Result<Vec<CourseWithNames>>;
+}
+
+/// Main implementation of [`CourseService`].
+struct CourseServiceImpl<R: CourseRepository> {
+    course_repo: R,
+}
+
+impl<R: CourseRepository> CourseService for CourseServiceImpl<R> {
+    fn list(&self) -> Result<Vec<CourseWithNames>> {
+        self.course_repo.list_with_names()
+    }
+}
+
+pub fn course_service(course_repo: impl CourseRepository) -> impl CourseService {
+    CourseServiceImpl { course_repo }
 }

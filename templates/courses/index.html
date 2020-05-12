@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+{% include "navbar.html" %}
+{% endblock navbar %}
+
+{% block content %}
+<div class="container">
+
+  <div class="columns">
+    <div class="column">
+      <div class="box">
+
+        <p class="title">Kursverwaltung</p>
+
+        <table class="table is-hoverable is-fullwidth">
+          <tr>
+            <th>Code</th>
+            <th>Titel</th>
+            <th>Autor</th>
+            <th>Tutor</th>
+            <th width="54"></th>
+          </tr>
+          {% for c in courses %}
+          <tr>
+            <td>{{ c.course.code }}</td>
+            <td>
+              <a href="#">{{ c.course.title }}</a>
+            </td>
+            <td>{{ c.author_name }}</td>
+            <td>{{ c.tutor_name }}</td>
+            <td>
+              {% if c.course.active %}
+              <button class="button is-danger is-small" title="Deaktivieren">
+                <span class="icon">
+                  <i class="fas fa-minus"></i>
+                </span>
+              </button>
+              {% else %}
+              <button class="button is-success is-small" title="Reaktivieren">
+                <span class="icon">
+                  <i class="fas fa-plus"></i>
+                </span>
+              </button>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

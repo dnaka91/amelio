@@ -8,7 +8,7 @@ use diesel::SqliteConnection;
 use rocket::fairing::{AdHoc, Fairing};
 
 use self::connection::DbConn;
-use self::models::InitUserEntity;
+use self::models::{InitCourseEntity, InitUserEntity};
 
 use crate::hashing::{self, Hasher};
 
@@ -48,6 +48,7 @@ fn init(conn: &SqliteConnection) -> Result<()> {
     embedded_migrations::run(conn).context("database migrations failed")?;
     create_admin_user(conn).context("admin user creation failed")?;
     create_sample_users(conn).context("sample users creation failed")?;
+    create_sample_courses(conn).context("sample courses creation failed")?;
     Ok(())
 }
 
@@ -78,7 +79,7 @@ fn create_admin_user(conn: &SqliteConnection) -> Result<()> {
 fn create_sample_users(conn: &SqliteConnection) -> Result<()> {
     use crate::db::schema::users::dsl::*;
 
-    if users.count().get_result::<i64>(conn)? >= 3 {
+    if users.count().get_result::<i64>(conn)? >= 7 {
         return Ok(());
     }
 
@@ -127,6 +128,43 @@ fn create_sample_users(conn: &SqliteConnection) -> Result<()> {
                 name: "Frieda Freundlich",
                 role: "tutor",
                 active: true,
+            },
+        ])
+        .execute(&*conn)?;
+
+    Ok(())
+}
+
+/// Create several sample courses for testing purposes.
+fn create_sample_courses(conn: &SqliteConnection) -> Result<()> {
+    use crate::db::schema::courses::dsl::*;
+
+    if courses.count().get_result::<i64>(conn)? >= 3 {
+        return Ok(());
+    }
+
+    diesel::insert_into(courses)
+        .values(vec![
+            &InitCourseEntity {
+                code: "TEST01",
+                title: "Testkurs 1",
+                author_id: 1,
+                tutor_id: 1,
+                active: true,
+            },
+            &InitCourseEntity {
+                code: "TEST02",
+                title: "Testkurs 2",
+                author_id: 6,
+                tutor_id: 7,
+                active: true,
+            },
+            &InitCourseEntity {
+                code: "TEST03",
+                title: "Testkurs 3",
+                author_id: 6,
+                tutor_id: 7,
+                active: false,
             },
         ])
         .execute(&*conn)?;
