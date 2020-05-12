@@ -20,7 +20,7 @@ use crate::templates::{self, MessageCode};
 /// User management page for administrators.
 #[get("/")]
 pub fn users_admin(
-    _user: AdminUser,
+    user: AdminUser,
     conn: DbConn,
     config: State<Config>,
 ) -> Result<templates::Users> {
@@ -32,7 +32,11 @@ pub fn users_admin(
     );
     let (active, inactive) = service.list()?;
 
-    Ok(templates::Users { active, inactive })
+    Ok(templates::Users {
+        role: user.0.role,
+        active,
+        inactive,
+    })
 }
 
 /// User management is not allowed for non-admin users.
@@ -49,8 +53,9 @@ pub fn users() -> Redirect {
 
 /// User creation form for administrators.
 #[get("/new")]
-pub fn new_user_admin(_user: AdminUser, flash: Option<FlashMessage<'_, '_>>) -> templates::NewUser {
+pub fn new_user_admin(user: AdminUser, flash: Option<FlashMessage<'_, '_>>) -> templates::NewUser {
     templates::NewUser {
+        role: user.0.role,
         flash: flash.map(|f| f.msg().into()),
     }
 }

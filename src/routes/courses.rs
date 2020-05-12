@@ -14,7 +14,7 @@ use crate::templates::{self, MessageCode};
 /// Course management page for administrators.
 #[get("/")]
 pub fn courses_admin(
-    _user: AdminUser,
+    user: AdminUser,
     conn: DbConn,
     flash: Option<FlashMessage<'_, '_>>,
 ) -> Result<templates::Courses> {
@@ -25,6 +25,7 @@ pub fn courses_admin(
     let courses = service.list()?;
 
     Ok(templates::Courses {
+        role: user.0.role,
         flash: flash.map(|f| (f.name().to_owned(), f.msg().into())),
         courses,
     })
@@ -45,7 +46,7 @@ pub fn courses() -> Redirect {
 /// Course creation form for administrators.
 #[get("/new")]
 pub fn new_course_admin(
-    _user: AdminUser,
+    user: AdminUser,
     flash: Option<FlashMessage<'_, '_>>,
     conn: DbConn,
 ) -> Result<templates::NewCourse> {
@@ -56,6 +57,7 @@ pub fn new_course_admin(
     let (authors, tutors) = service.list_authors_tutors()?;
 
     Ok(templates::NewCourse {
+        role: user.0.role,
         flash: flash.map(|f| f.msg().into()),
         authors,
         tutors,

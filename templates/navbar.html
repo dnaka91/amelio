@@ -13,18 +13,43 @@
 
   <div id="navMenu" class="navbar-menu">
     <div class="navbar-start">
+      {% if role <= Role::Admin %}
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          <span class="icon">
+            <i class="fas fa-cogs"></i>
+          </span>
+          <span>Administration</span>
+        </a>
+
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="/users">
+            <span class="icon">
+              <i class="fas fa-users"></i>
+            </span>
+            <span>Nutzer</span>
+          </a>
+          <a class="navbar-item" href="/courses">
+            <span class="icon">
+              <i class="fas fa-chalkboard"></i>
+            </span>
+            <span>Kurse</span>
+          </a>
+        </div>
+      </div>
+      {% endif %}
     </div>
     <div class="navbar-end">
       <div class="navbar-item">
         <form action="/logout" method="POST">
           <button class="button is-danger" type="submit">
-          <span class="icon">
-            <i class="fas fa-sign-out-alt"></i>
-          </span>
-          <span>Logout</span>
+            <span class="icon">
+              <i class="fas fa-sign-out-alt"></i>
+            </span>
+            <span>Logout</span>
           </button>
         </form>
       </div>
     </div>
-  </div>
+    </a>
 </nav>

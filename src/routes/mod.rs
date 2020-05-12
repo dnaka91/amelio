@@ -17,8 +17,8 @@ pub mod users;
 
 /// Index page for authenticated users.
 #[get("/")]
-pub const fn index_user(_user: &AuthUser) -> templates::Index {
-    templates::Index
+pub const fn index_user(user: &AuthUser) -> templates::Index {
+    templates::Index { role: user.0.role }
 }
 
 /// Index page for non-authenticated users, redirecting to the login page.

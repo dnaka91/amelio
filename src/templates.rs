@@ -99,7 +99,9 @@ impl Translate for MessageCode {
 /// Template for the index page.
 #[derive(Template)]
 #[template(path = "index.html")]
-pub struct Index;
+pub struct Index {
+    pub role: Role,
+}
 
 /// Template for the login page.
 #[derive(Template)]
@@ -113,6 +115,7 @@ pub struct Login {
 #[derive(Template)]
 #[template(path = "users/index.html")]
 pub struct Users {
+    pub role: Role,
     pub active: Vec<User>,
     pub inactive: Vec<User>,
 }
@@ -121,6 +124,7 @@ pub struct Users {
 #[derive(Template)]
 #[template(path = "users/new.html")]
 pub struct NewUser {
+    pub role: Role,
     pub flash: Option<MessageCode>,
 }
 
@@ -136,6 +140,7 @@ pub struct ActivateUser {
 #[derive(Template)]
 #[template(path = "courses/index.html")]
 pub struct Courses {
+    pub role: Role,
     pub flash: Option<(String, MessageCode)>,
     pub courses: Vec<CourseWithNames>,
 }
@@ -144,6 +149,7 @@ pub struct Courses {
 #[derive(Template)]
 #[template(path = "courses/new.html")]
 pub struct NewCourse {
+    pub role: Role,
     pub flash: Option<MessageCode>,
     pub authors: Vec<(i32, String)>,
     pub tutors: Vec<(i32, String)>,
