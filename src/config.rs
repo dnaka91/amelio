@@ -1,8 +1,5 @@
 //! Configuration functions for use with the [`rocket::Rocket`] instance.
 
-use std::env;
-use std::fs;
-
 use anyhow::Result;
 use rocket::config::{Config as RocketConfig, Environment};
 use serde::Deserialize;
@@ -69,9 +66,28 @@ pub fn load() -> Result<(RocketConfig, Config)> {
 
 /// Load the configuration from a fixed file path. The location can be overridden with the
 /// `CONFIG_FILE` environment variable.
+#[cfg(not(test))]
 fn load_file() -> Result<Config> {
+    use std::{env, fs};
+
     let path = env::var("CONFIG_FILE").unwrap_or_else(|_| String::from("/app/amelio.toml"));
     let file = fs::read(path)?;
 
     toml::de::from_slice::<Config>(&file).map_err(Into::into)
+}
+
+#[cfg(test)]
+fn load_file() -> Result<Config> {
+    Ok(Config {
+        port: None,
+        workers: None,
+        secret_key: None,
+        host: "http://localhost:8080".to_owned(),
+        smtp: SmtpConfig {
+            domain: String::new(),
+            port: 0,
+            username: String::new(),
+            password: String::new(),
+        },
+    })
 }

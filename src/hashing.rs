@@ -19,7 +19,8 @@ struct HasherImpl;
 
 impl Hasher for HasherImpl {
     fn hash(&self, password: &str) -> Result<String> {
-        bcrypt::hash(password, bcrypt::DEFAULT_COST).map_err(Into::into)
+        let cost = if cfg!(test) { 4 } else { bcrypt::DEFAULT_COST };
+        bcrypt::hash(password, cost).map_err(Into::into)
     }
 
     fn verify(&self, password: &str, hash: &str) -> Result<bool> {

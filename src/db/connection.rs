@@ -47,7 +47,8 @@ impl DbConn {
     /// Create a fairing for Rocket.
     pub fn fairing() -> impl Fairing {
         AdHoc::on_attach("Database Pool", |rocket| {
-            let manager = ConnectionManager::<SqliteConnection>::new("data.db");
+            let url = if cfg!(test) { ":memory:" } else { "data.db" };
+            let manager = ConnectionManager::<SqliteConnection>::new(url);
 
             // First create a single connection to make sure all eventually locking PRAGMAs are run,
             // so we don't get any errors when spinning up the pool.

@@ -96,3 +96,64 @@ impl Fairing for Auth {
         Self::check_admin_only_routes(request);
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use pretty_assertions::assert_eq;
+    use rocket::http::{ContentType, Status};
+    use rocket::local::Client;
+    use rocket::uri;
+
+    use crate::routes;
+
+    fn prepare_logged_in_client(username: &str, password: &str) -> Client {
+        let client = Client::new(crate::rocket().unwrap()).unwrap();
+
+        {
+            let res = client
+                .post(uri!(routes::auth::login).to_string())
+                .body(format!("username={}&password={}", username, password))
+                .header(ContentType::Form)
+                .dispatch();
+
+            assert_eq!(Status::SeeOther, res.status());
+            assert_eq!(Some("/"), res.headers().get_one("Location"));
+        }
+
+        client
+    }
+
+    #[test]
+    fn admin_is_allowed() {
+        let client = prepare_logged_in_client("admin", "admin");
+
+        let res = client
+            .get(uri!("/users", routes::users::users).to_string())
+            .dispatch();
+
+        assert_eq!(Status::Ok, res.status());
+    }
+
+    #[test]
+    fn student_is_forbidden() {
+        let client = prepare_logged_in_client("student1", "student1");
+
+        let res = client
+            .get(uri!("/users", routes::users::users).to_string())
+            .dispatch();
+
+        assert_eq!(Status::Forbidden, res.status());
+    }
+
+    #[test]
+    fn anonymous_is_forwarded() {
+        let client = Client::new(crate::rocket().unwrap()).unwrap();
+
+        let res = client
+            .get(uri!("/users", routes::users::users).to_string())
+            .dispatch();
+
+        assert_eq!(Status::SeeOther, res.status());
+        assert_eq!(Some("/login"), res.headers().get_one("Location"));
+    }
+}
