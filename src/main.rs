@@ -19,6 +19,7 @@ use crate::db::DbMigrations;
 mod config;
 mod db;
 mod email;
+mod fairings;
 mod hashing;
 mod models;
 mod roles;
@@ -33,6 +34,7 @@ fn rocket() -> Result<Rocket> {
     Ok(rocket::custom(rocket_config)
         .attach(DbConn::fairing())
         .attach(DbMigrations::fairing())
+        .attach(fairings::Csp)
         .manage(config)
         .mount(
             "/",
