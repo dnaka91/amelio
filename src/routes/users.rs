@@ -6,6 +6,7 @@ use rocket::request::{FlashMessage, Form, FromForm};
 use rocket::response::{Flash, Redirect};
 use rocket::{get, post, uri, State};
 
+use super::{NonEmptyString, PositiveId, ServerError};
 use crate::config::Config;
 use crate::db::connection::DbConn;
 use crate::db::repositories;
@@ -18,7 +19,12 @@ use crate::templates::{self, MessageCode};
 
 /// User management page for administrators.
 #[get("/")]
-pub fn users(user: AdminUser, conn: DbConn, config: State<Config>) -> Result<templates::Users> {
+pub fn users(
+    user: AdminUser,
+    conn: DbConn,
+    config: State<Config>,
+    flash: Option<FlashMessage<'_, '_>>,
+) -> Result<templates::Users, ServerError> {
     let service = services::user_service(
         repositories::user_repo(&conn),
         email::new_smtp_sender(&config.smtp),
@@ -29,6 +35,7 @@ pub fn users(user: AdminUser, conn: DbConn, config: State<Config>) -> Result<tem
 
     Ok(templates::Users {
         role: user.0.role,
+        flash: flash.map(|f| (f.name().to_owned(), f.msg().into())),
         active,
         inactive,
     })
@@ -46,8 +53,8 @@ pub fn new_user(user: AdminUser, flash: Option<FlashMessage<'_, '_>>) -> templat
 /// Form data from the user creation form.
 #[derive(FromForm)]
 pub struct NewUser {
-    username: String,
-    name: String,
+    username: NonEmptyString,
+    name: NonEmptyString,
     role: Role,
 }
 
@@ -58,7 +65,7 @@ pub fn post_new_user(
     data: Form<NewUser>,
     conn: DbConn,
     config: State<Config>,
-) -> Result<Redirect, Flash<Redirect>> {
+) -> Flash<Redirect> {
     let service = services::user_service(
         repositories::user_repo(&conn),
         email::new_smtp_sender(&config.smtp),
@@ -66,14 +73,17 @@ pub fn post_new_user(
         hashing::new_hasher(),
     );
 
-    match service.create(data.0.username, data.0.name, data.0.role) {
-        Ok(()) => Ok(Redirect::to(uri!("/users", users))),
+    match service.create(data.0.username.0, data.0.name.0, data.0.role) {
+        Ok(()) => Flash::success(
+            Redirect::to(uri!("/users", users)),
+            MessageCode::UserCreated,
+        ),
         Err(e) => {
             error!("error during user creation: {:?}", e);
-            Err(Flash::error(
+            Flash::error(
                 Redirect::to(uri!("/users", new_user)),
                 MessageCode::FailedUserCreation,
-            ))
+            )
         }
     }
 }
@@ -94,8 +104,8 @@ pub fn activate(
 /// Form data from the user activation form.
 #[derive(FromForm)]
 pub struct Activate {
-    code: String,
-    password: String,
+    code: NonEmptyString,
+    password: NonEmptyString,
 }
 
 /// User activation POST endpoint, only accessible to non-authenticated users.
@@ -105,7 +115,7 @@ pub fn post_activate(
     _user: NoUser,
     conn: DbConn,
     config: State<Config>,
-) -> Result<Flash<Redirect>, Flash<Redirect>> {
+) -> Flash<Redirect> {
     let service = services::user_service(
         repositories::user_repo(&conn),
         email::new_smtp_sender(&config.smtp),
@@ -113,18 +123,18 @@ pub fn post_activate(
         hashing::new_hasher(),
     );
 
-    match service.activate(&data.code, &data.password) {
-        Ok(()) => Ok(Flash::success(
+    match service.activate(&data.code.0, &data.password.0) {
+        Ok(()) => Flash::success(
             Redirect::to(uri!(super::auth::login)),
             MessageCode::UserActivated,
-        )),
+        ),
         Err(e) => {
             error!("error during account activation: {:?}", e);
-            Err(Flash::error(
+            Flash::error(
                 #[allow(non_snake_case)]
-                Redirect::to(uri!("/users", activate: data.0.code)),
+                Redirect::to(uri!("/users", activate: data.0.code.0)),
                 MessageCode::InvalidCodeOrError,
-            ))
+            )
         }
     }
 }
@@ -133,18 +143,70 @@ pub fn post_activate(
 #[get("/<id>/enable?<value>")]
 pub fn enable_user(
     _user: AdminUser,
-    id: i32,
+    id: PositiveId,
     value: bool,
     conn: DbConn,
     config: State<Config>,
-) -> Result<Redirect> {
+) -> Result<Redirect, ServerError> {
     let service = services::user_service(
         repositories::user_repo(&conn),
         email::new_smtp_sender(&config.smtp),
         email::new_mail_renderer(&config.host),
         hashing::new_hasher(),
     );
-    service.enable(id, value)?;
+    service.enable(id.0, value)?;
 
     Ok(Redirect::to(uri!("/users", users)))
+}
+
+#[cfg(test)]
+mod tests {
+    use pretty_assertions::assert_eq;
+    use rocket::http::Status;
+    use rocket::local::Client;
+    use rocket::uri;
+
+    use crate::tests::{check_form, prepare_logged_in_client};
+
+    #[test]
+    fn invalid_new_user() {
+        let client = prepare_logged_in_client("admin", "admin");
+        let uri = uri!("/users", super::post_new_user).to_string();
+
+        assert_eq!(
+            Status::UnprocessableEntity,
+            check_form(&client, &uri, "username=&name=a&role=student").status()
+        );
+        assert_eq!(
+            Status::UnprocessableEntity,
+            check_form(&client, &uri, "username=a&name=&role=student").status()
+        );
+        assert_eq!(
+            Status::UnprocessableEntity,
+            check_form(&client, &uri, "username=a&name=a&role=").status()
+        );
+    }
+
+    #[test]
+    fn invalid_activate() {
+        let client = Client::new(crate::rocket().unwrap()).unwrap();
+        let uri = uri!(super::post_activate).to_string();
+
+        assert_eq!(
+            Status::UnprocessableEntity,
+            check_form(&client, &uri, "code=&password=a").status()
+        );
+        assert_eq!(
+            Status::UnprocessableEntity,
+            check_form(&client, &uri, "code=a&password=").status()
+        );
+    }
+
+    #[test]
+    fn invalid_enable_user_id() {
+        let client = prepare_logged_in_client("admin", "admin");
+        let uri = "/users/0/enable?value=true";
+
+        assert_eq!(Status::NotFound, client.get(uri).dispatch().status());
+    }
 }

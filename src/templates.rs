@@ -65,6 +65,7 @@ pub enum MessageCode {
     InvalidCodeOrError,
     FailedCourseCreation,
     // Success codes
+    UserCreated,
     UserActivated,
     CourseCreated,
     // Unknown
@@ -89,6 +90,7 @@ impl Translate for MessageCode {
             Self::FailedUserCreation => "Benutzererstellung fehlgeschlagen",
             Self::InvalidCodeOrError => " Ung\u{00fc}ltiger Aktivierungscode oder anderer Fehler",
             Self::FailedCourseCreation => "Kurserstellung fehlgeschlagen",
+            Self::UserCreated => "Account erfolgreich erstellt",
             Self::UserActivated => "Account erfolgreich aktiviert",
             Self::CourseCreated => "Kurs erfolgreich erstellt",
             Self::Unknown => "Unbekannter Fehler",
@@ -116,6 +118,7 @@ pub struct Login {
 #[template(path = "users/index.html")]
 pub struct Users {
     pub role: Role,
+    pub flash: Option<(String, MessageCode)>,
     pub active: Vec<User>,
     pub inactive: Vec<User>,
 }

@@ -6,6 +6,7 @@ use rocket::request::{FlashMessage, Form, FromForm};
 use rocket::response::{Flash, Redirect};
 use rocket::{get, post, uri};
 
+use super::{NonEmptyString, PositiveId, ServerError};
 use crate::db::connection::DbConn;
 use crate::db::repositories;
 use crate::roles::AdminUser;
@@ -18,7 +19,7 @@ pub fn courses(
     user: AdminUser,
     conn: DbConn,
     flash: Option<FlashMessage<'_, '_>>,
-) -> Result<templates::Courses> {
+) -> Result<templates::Courses, ServerError> {
     let service = services::course_service(
         repositories::user_repo(&conn),
         repositories::course_repo(&conn),
@@ -38,7 +39,7 @@ pub fn new_course(
     user: AdminUser,
     flash: Option<FlashMessage<'_, '_>>,
     conn: DbConn,
-) -> Result<templates::NewCourse> {
+) -> Result<templates::NewCourse, ServerError> {
     let service = services::course_service(
         repositories::user_repo(&conn),
         repositories::course_repo(&conn),
@@ -56,47 +57,101 @@ pub fn new_course(
 /// Form data from the course creation form.
 #[derive(FromForm)]
 pub struct NewCourse {
-    code: String,
-    title: String,
-    author: i32,
-    tutor: i32,
+    code: NonEmptyString,
+    title: NonEmptyString,
+    author: PositiveId,
+    tutor: PositiveId,
 }
 
 /// New user POST endpoint to handle course creation, only for administrators.
 #[post("/new", data = "<data>")]
-pub fn post_new_course(
-    _user: AdminUser,
-    data: Form<NewCourse>,
-    conn: DbConn,
-) -> Result<Flash<Redirect>, Flash<Redirect>> {
+pub fn post_new_course(_user: AdminUser, data: Form<NewCourse>, conn: DbConn) -> Flash<Redirect> {
     let service = services::course_service(
         repositories::user_repo(&conn),
         repositories::course_repo(&conn),
     );
 
-    match service.create(data.0.code, data.0.title, data.0.author, data.0.tutor) {
-        Ok(()) => Ok(Flash::success(
+    match service.create(
+        data.0.code.0,
+        data.0.title.0,
+        data.0.author.0,
+        data.0.tutor.0,
+    ) {
+        Ok(()) => Flash::success(
             Redirect::to(uri!("/courses", courses)),
             MessageCode::CourseCreated,
-        )),
+        ),
         Err(e) => {
             error!("error during course creation: {:?}", e);
-            Err(Flash::error(
+            Flash::error(
                 Redirect::to(uri!("/courses", new_course)),
                 MessageCode::FailedCourseCreation,
-            ))
+            )
         }
     }
 }
 
 /// Enable or disable courses as administrator.
 #[get("/<id>/enable?<value>")]
-pub fn enable_course(_user: AdminUser, id: i32, value: bool, conn: DbConn) -> Result<Redirect> {
+pub fn enable_course(
+    _user: AdminUser,
+    id: PositiveId,
+    value: bool,
+    conn: DbConn,
+) -> Result<Redirect, ServerError> {
     let service = services::course_service(
         repositories::user_repo(&conn),
         repositories::course_repo(&conn),
     );
-    service.enable(id, value)?;
+    service.enable(id.0, value)?;
 
     Ok(Redirect::to(uri!("/courses", courses)))
+}
+
+#[cfg(test)]
+mod tests {
+    use pretty_assertions::assert_eq;
+    use rocket::http::Status;
+    use rocket::uri;
+
+    use crate::tests::{check_form, prepare_logged_in_client};
+
+    #[test]
+    fn invalid_new_course() {
+        let client = prepare_logged_in_client("admin", "admin");
+        let uri = uri!("/courses", super::post_new_course).to_string();
+
+        assert_eq!(
+            Status::UnprocessableEntity,
+            check_form(&client, &uri, "code=&title=a&author=1&tutor=1").status()
+        );
+        assert_eq!(
+            Status::UnprocessableEntity,
+            check_form(&client, &uri, "code=a&title=&author=1&tutor=1").status()
+        );
+        assert_eq!(
+            Status::UnprocessableEntity,
+            check_form(&client, &uri, "code=a&title=a&author=0&tutor=1").status()
+        );
+        assert_eq!(
+            Status::UnprocessableEntity,
+            check_form(&client, &uri, "code=a&title=a&author=1&tutor=0").status()
+        );
+        assert_eq!(
+            Status::UnprocessableEntity,
+            check_form(&client, &uri, "code=a&title=a&author=&tutor=1").status()
+        );
+        assert_eq!(
+            Status::UnprocessableEntity,
+            check_form(&client, &uri, "code=a&title=a&author=1&tutor=").status()
+        );
+    }
+
+    #[test]
+    fn invalid_enable_course_id() {
+        let client = prepare_logged_in_client("admin", "admin");
+        let uri = "/courses/0/enable?value=true";
+
+        assert_eq!(Status::NotFound, client.get(uri).dispatch().status());
+    }
 }

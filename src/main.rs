@@ -88,3 +88,38 @@ fn main() {
 
     rocket().unwrap().launch();
 }
+
+#[cfg(test)]
+mod tests {
+    use pretty_assertions::assert_eq;
+    use rocket::http::{ContentType, Status};
+    use rocket::local::{Client, LocalResponse};
+    use rocket::uri;
+
+    use crate::routes;
+
+    pub fn prepare_logged_in_client(username: &str, password: &str) -> Client {
+        let client = Client::new(crate::rocket().unwrap()).unwrap();
+
+        {
+            let res = client
+                .post(uri!(routes::auth::login).to_string())
+                .body(format!("username={}&password={}", username, password))
+                .header(ContentType::Form)
+                .dispatch();
+
+            assert_eq!(Status::SeeOther, res.status());
+            assert_eq!(Some("/"), res.headers().get_one("Location"));
+        }
+
+        client
+    }
+
+    pub fn check_form<'a>(client: &'a Client, uri: &'a str, body: &'a str) -> LocalResponse<'a> {
+        client
+            .post(uri)
+            .body(body)
+            .header(ContentType::Form)
+            .dispatch()
+    }
+}
