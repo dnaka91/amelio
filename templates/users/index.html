@@ -7,6 +7,17 @@
 {% block content %}
 <div class="container">
 
+  <div class="columns">
+    <div class="column has-text-right">
+      <a class="button is-info" href="/users/new">
+        <span class="icon">
+          <i class="fas fa-plus"></i>
+        </span>
+        <span>Neuer Nutzer</span>
+      </a>
+    </div>
+  </div>
+
   {% include "components/flash_message.html" %}
 
   <div class="columns">

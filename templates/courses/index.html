@@ -11,7 +11,19 @@
     <div class="column">
       <div class="box">
 
-        <p class="title">Kursverwaltung</p>
+        <div class="columns">
+          <div class="column is-8">
+            <p class="title">Kursverwaltung</p>
+          </div>
+          <div class="column has-text-right">
+            <a class="button is-info" href="/courses/new">
+              <span class="icon">
+                <i class="fas fa-plus"></i>
+              </span>
+              <span>Neuer Kurs</span>
+            </a>
+          </div>
+        </div>
 
         {% include "components/flash_message.html" %}
 

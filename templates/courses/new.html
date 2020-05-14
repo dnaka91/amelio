@@ -11,6 +11,8 @@
     <div class="column is-half is-offset-one-quarter">
       <div class="box">
 
+        <p class="title">Kurserstellung</p>
+
         {% match flash %}
         {% when Some with (msg) %}
         <div class="notification is-danger">{{ msg.german() }}</div>
