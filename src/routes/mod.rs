@@ -4,8 +4,10 @@
 #![cfg_attr(doc, allow(unused_braces))]
 
 use std::convert::{TryFrom, TryInto};
+use std::str::FromStr;
 
 use log::error;
+use num_traits::PrimInt;
 use rocket::http::{RawStr, Status};
 use rocket::request::{FromFormValue, FromParam};
 use rocket::response::{self, Redirect, Responder};
@@ -20,6 +22,7 @@ pub mod auth;
 pub mod courses;
 pub mod errors;
 pub mod fairing;
+pub mod tickets;
 pub mod users;
 
 /// Index page for authenticated users.
@@ -52,24 +55,6 @@ impl<'r> Responder<'r> for ServerError {
     }
 }
 
-macro_rules! enum_from_form_value {
-    ($t:ty) => {
-        impl<'v> FromFormValue<'v> for $t {
-            type Error = &'v RawStr;
-
-            fn from_form_value(form_value: &'v RawStr) -> Result<Self, Self::Error> {
-                if let Ok(v) = form_value.parse::<String>() {
-                    v.parse().map_err(|_| form_value)
-                } else {
-                    Err(form_value)
-                }
-            }
-        }
-    };
-}
-
-enum_from_form_value!(crate::models::Role);
-
 macro_rules! from_request {
     ($t:ty) => {
         impl<'v> FromFormValue<'v> for $t {
@@ -90,6 +75,30 @@ macro_rules! from_request {
     };
 }
 
+macro_rules! enum_from_request {
+    ($t:ty) => {
+        impl<'a> TryFrom<&'a RawStr> for $t {
+            type Error = &'a RawStr;
+
+            fn try_from(value: &'a RawStr) -> Result<Self, Self::Error> {
+                if let Ok(v) = value.url_decode() {
+                    v.parse().map_err(|_| value)
+                } else {
+                    Err(value)
+                }
+            }
+        }
+
+        from_request!($t);
+    };
+}
+
+enum_from_request!(crate::models::Role);
+enum_from_request!(crate::models::TicketType);
+enum_from_request!(crate::models::Category);
+enum_from_request!(crate::models::Priority);
+enum_from_request!(crate::models::Status);
+
 /// A string that is guaranteed to not be empty when parsed from a request param or form value.
 pub struct NonEmptyString(String);
 
@@ -97,7 +106,7 @@ impl<'a> TryFrom<&'a RawStr> for NonEmptyString {
     type Error = &'a RawStr;
 
     fn try_from(value: &'a RawStr) -> Result<Self, Self::Error> {
-        let parsed = value.parse::<String>().map_err(|_| value)?;
+        let parsed = value.url_decode().map_err(|_| value)?;
 
         if parsed.is_empty() {
             Err(value)
@@ -109,22 +118,42 @@ impl<'a> TryFrom<&'a RawStr> for NonEmptyString {
 
 from_request!(NonEmptyString);
 
-/// An ID that is guaranteed to equal or greater than `1` when parsed from a request param or form
-/// value.
-pub struct PositiveId(Id);
+/// An ID that is guaranteed to be equal or greater than `1` when parsed from a request param or
+/// form value.
+pub type PositiveId = PositiveNum<Id>;
 
-impl<'a> TryFrom<&'a RawStr> for PositiveId {
+/// An integer that is guaranteed to equal or greater than `1` when parsed from a request param or form
+/// value.
+pub struct PositiveNum<N: PrimInt>(N);
+
+impl<'a, N: PrimInt + FromStr> TryFrom<&'a RawStr> for PositiveNum<N> {
     type Error = &'a RawStr;
 
     fn try_from(value: &'a RawStr) -> Result<Self, Self::Error> {
-        let parsed = value.parse::<Id>().map_err(|_| value)?;
+        let parsed = value
+            .url_decode()
+            .map_err(|_| value)
+            .and_then(|v| v.parse().map_err(|_| value))?;
 
-        if parsed <= 0 {
+        if parsed <= N::zero() {
             Err(value)
         } else {
             Ok(Self(parsed))
         }
     }
 }
+impl<'v, N: PrimInt + FromStr> FromFormValue<'v> for PositiveNum<N> {
+    type Error = &'v RawStr;
 
-from_request!(PositiveId);
+    fn from_form_value(form_value: &'v RawStr) -> Result<Self, Self::Error> {
+        form_value.try_into()
+    }
+}
+
+impl<'a, N: PrimInt + FromStr> FromParam<'a> for PositiveNum<N> {
+    type Error = &'a RawStr;
+
+    fn from_param(param: &'a RawStr) -> Result<Self, Self::Error> {
+        param.try_into()
+    }
+}

@@ -3,7 +3,7 @@ name = "amelio"
 version = "0.2.0"
 authors = ["Dominik Nakamura <dnaka91@gmail.com>"]
 edition = "2018"
-license = "GPL"
+license = "GPL-3.0"
 description = "Amelio - A university project for the IUBH"
 homepage = "https://amelio.dnaka91.rocks"
 repository = "https://github.com/dnaka91/amelio"
@@ -11,19 +11,21 @@ documentation = "https://github.com/dnaka91/amelio"
 build = "build.rs"
 
 [dependencies]
-anyhow = "1.0.28"
+anyhow = "1.0.31"
 askama = { version = "0.9.0", features = ["with-rocket"] }
 bcrypt = "0.8.0"
+chrono = "0.4.11"
 ctrlc = { version = "3.1.4", features = ["termination"] }
 diesel = { version = "1.4.4", features = ["r2d2", "sqlite"] }
 diesel_migrations = "1.4.0"
 dotenv = "0.15.0"
 envy = "0.4.1"
-fnv = "1.0.6"
+fnv = "1.0.7"
 lettre_email = "0.9.4"
 libsqlite3-sys = { version = "0.17.3", features = ["bundled"] }
 log = { version = "0.4.8", features = ["release_max_level_info"] }
 native-tls = { version = "0.2.4", features = ["vendored"] }
+num-traits = "0.2.11"
 phf = "0.8.0"
 rand = "0.7.3"
 rocket = "0.4.4"

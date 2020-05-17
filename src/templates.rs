@@ -3,7 +3,10 @@
 use askama::Template;
 use strum::{AsRefStr, EnumString};
 
-use crate::models::{CourseWithNames, Role, User};
+use crate::models::{
+    Category, CourseWithNames, Id, Medium, Priority, Role, Status, TicketType, TicketWithNames,
+    User,
+};
 
 mod filters {
     //! Custom filters for [`askama`] templates.
@@ -54,6 +57,100 @@ impl Translate for Role {
     }
 }
 
+impl Translate for TicketType {
+    fn german(&self) -> &'static str {
+        match self {
+            Self::CourseBook => "Skript",
+            Self::ReadingList => "Literaturliste",
+            Self::InteractiveBook => "Interactive Book",
+            Self::PracticeExam => "Musterklausur",
+            Self::PracticeExamSolution => "Musterl\u{00f6}sung",
+            Self::Vodcast => "Vodcast",
+            Self::Podcast => "Podcast",
+            Self::Presentation => "Pr\u{00e4}sentation",
+            Self::LiveTutorialRecording => "Live Tutorium Aufzeichnung",
+            Self::OnlineTest => "Online Test",
+        }
+    }
+}
+
+impl Translate for Category {
+    fn german(&self) -> &'static str {
+        match self {
+            Self::Editorial => "Redaktioneller Fehler",
+            Self::Content => "Inhaltlicher Fehler",
+            Self::Improvement => "Verbesserungsvorschlag",
+            Self::Addition => "Erg\u{00e4}nzungsvorschlag",
+        }
+    }
+}
+
+impl Translate for Priority {
+    fn german(&self) -> &'static str {
+        match self {
+            Self::Critical => "Kritisch",
+            Self::High => "Hoch",
+            Self::Medium => "Mittel",
+            Self::Low => "Niedrig",
+        }
+    }
+}
+
+impl Translate for Status {
+    fn german(&self) -> &'static str {
+        match self {
+            Self::Open => "Offen",
+            Self::InProgress => "In Bearbeitung",
+            Self::Accepted => "Aktzeptiert",
+            Self::Refused => "Abgelehnt",
+            Self::Completed => "Abgeschlossen",
+        }
+    }
+}
+
+/// The color trait allows to tie a specific color to the object that implements it.
+///
+/// This is mostly useful for enums that should be shown in different colors within the template.
+/// The color values are CSS classes and bound to the used framework.
+trait Color {
+    /// The color to be used within a tag element.
+    fn tag(&self) -> &'static str;
+}
+
+impl Color for Status {
+    fn tag(&self) -> &'static str {
+        match self {
+            Self::Open => "is-primary",
+            Self::InProgress => "is-info",
+            Self::Accepted => "is-success",
+            Self::Refused => "is-danger",
+            Self::Completed => "is-light",
+        }
+    }
+}
+
+/// The icon trait allows to show an icon representation of the implementing object within a
+/// template.
+///
+/// This is, similar to the [`Color`] trait, mostly useful for enums that should be shown with
+/// different icons. The values are CSS classes and bound tot the used icon font.
+trait Icon {
+    /// The icon to be shown.
+    fn icon(&self) -> &'static str;
+}
+
+impl Icon for Status {
+    fn icon(&self) -> &'static str {
+        match self {
+            Self::Open => "fa-envelope",
+            Self::InProgress => "fa-cogs",
+            Self::Accepted => "fa-check",
+            Self::Refused => "fa-times",
+            Self::Completed => "fa-archive",
+        }
+    }
+}
+
 /// Different message codes that can be send as flash messages and translated to different
 /// languages.
 #[derive(Copy, Clone, EnumString, AsRefStr)]
@@ -64,10 +161,12 @@ pub enum MessageCode {
     FailedUserCreation,
     InvalidCodeOrError,
     FailedCourseCreation,
+    FailedTicketCreation,
     // Success codes
     UserCreated,
     UserActivated,
     CourseCreated,
+    TicketCreated,
     // Unknown
     Unknown,
 }
@@ -90,9 +189,11 @@ impl Translate for MessageCode {
             Self::FailedUserCreation => "Benutzererstellung fehlgeschlagen",
             Self::InvalidCodeOrError => " Ung\u{00fc}ltiger Aktivierungscode oder anderer Fehler",
             Self::FailedCourseCreation => "Kurserstellung fehlgeschlagen",
+            Self::FailedTicketCreation => "Ticketerstellung fehlgeschlagen",
             Self::UserCreated => "Account erfolgreich erstellt",
             Self::UserActivated => "Account erfolgreich aktiviert",
             Self::CourseCreated => "Kurs erfolgreich erstellt",
+            Self::TicketCreated => "Ticket erfolgreich erstellt",
             Self::Unknown => "Unbekannter Fehler",
         }
     }
@@ -154,8 +255,26 @@ pub struct Courses {
 pub struct NewCourse {
     pub role: Role,
     pub flash: Option<MessageCode>,
-    pub authors: Vec<(i32, String)>,
-    pub tutors: Vec<(i32, String)>,
+    pub authors: Vec<(Id, String)>,
+    pub tutors: Vec<(Id, String)>,
+}
+
+/// Template for the ticket list page.
+#[derive(Template)]
+#[template(path = "tickets/index.html")]
+pub struct Tickets {
+    pub role: Role,
+    pub flash: Option<(String, MessageCode)>,
+    pub tickets: Vec<TicketWithNames>,
+}
+
+/// Template for the new ticket page.
+#[derive(Template)]
+#[template(path = "tickets/new/index.html")]
+pub struct NewTicket {
+    pub role: Role,
+    pub ty: TicketType,
+    pub courses: Vec<(Id, String)>,
 }
 
 /// Template for the _403 Forbidden_ error.

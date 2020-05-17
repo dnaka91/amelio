@@ -6,6 +6,7 @@ use rocket::fairing::{Fairing, Info, Kind};
 use rocket::http::Method;
 use rocket::{uri, Data, Request, Response};
 
+use crate::roles::{AdminUser, AuthUser, StudentUser};
 use crate::routes;
 
 const CSP_HEADER_NAME: &str = "Content-Security-Policy";
@@ -43,9 +44,39 @@ impl Fairing for Csp {
     }
 }
 
-use crate::roles::{AdminUser, AuthUser};
-
 const ADMIN_AUTH_PATHS: &[&str] = &["users", "courses"];
+const STUDENT_AUTH_PATHS: &[&str] = &["tickets"];
+
+macro_rules! check_rules {
+    ($name:ident, $t:ty, $path:ident) => {
+        /// Check the request against routes that are only accessible by [`$t`].
+        ///
+        /// If the user is logged in but not an [`$t`], he will get a forbidden status response. If
+        /// the user is not logged in, he will instead be forwarded to the login page.
+        fn $name(request: &mut Request) -> bool {
+            let is_auth = request
+                .uri()
+                .segments()
+                .next()
+                .map(|seg| $path.contains(&seg))
+                .unwrap_or_default();
+
+            if !is_auth || request.guard::<$t>().is_success() {
+                return false;
+            }
+
+            request.set_method(Method::Get);
+
+            request.set_uri(if request.guard::<&AuthUser>().is_success() {
+                uri!(routes::fairing::forbidden)
+            } else {
+                uri!(routes::fairing::to_login)
+            });
+
+            true
+        }
+    };
+}
 
 /// A fairing that handles authentication and authorization for common routes to save boilerplate
 /// code. Without this, several routes must provide an extra route for different authorization
@@ -58,30 +89,8 @@ const ADMIN_AUTH_PATHS: &[&str] = &["users", "courses"];
 pub struct Auth;
 
 impl Auth {
-    /// Check the request against routes that are only accessible by administrators.
-    ///
-    /// If the user is logged in but not an admin, he will get a forbidden status response. If the
-    /// user is not logged in, he will instead be forwarded to the login page.
-    fn check_admin_only_routes(request: &mut Request) {
-        let is_auth = request
-            .uri()
-            .segments()
-            .next()
-            .map(|seg| ADMIN_AUTH_PATHS.contains(&seg))
-            .unwrap_or_default();
-
-        if !is_auth || request.guard::<AdminUser>().is_success() {
-            return;
-        }
-
-        request.set_method(Method::Get);
-
-        request.set_uri(if request.guard::<&AuthUser>().is_success() {
-            uri!(routes::fairing::forbidden)
-        } else {
-            uri!(routes::fairing::to_login)
-        })
-    }
+    check_rules!(check_admin_routes, AdminUser, ADMIN_AUTH_PATHS);
+    check_rules!(check_student_routes, StudentUser, STUDENT_AUTH_PATHS);
 }
 
 impl Fairing for Auth {
@@ -93,7 +102,7 @@ impl Fairing for Auth {
     }
 
     fn on_request(&self, request: &mut Request, _: &Data) {
-        Self::check_admin_only_routes(request);
+        let _ = Self::check_admin_routes(request) || Self::check_student_routes(request);
     }
 }
 

@@ -6,10 +6,13 @@ use anyhow::{ensure, Result};
 use rand::distributions::Alphanumeric;
 use rand::Rng;
 
-use crate::db::repositories::{CourseRepository, UserRepository};
+use crate::db::repositories::{CourseRepository, TicketRepository, UserRepository};
 use crate::email::{Mail, MailRenderer, MailSender};
 use crate::hashing::Hasher;
-use crate::models::{CourseWithNames, Id, NewCourse, NewUser, Role, User};
+use crate::models::{
+    Category, CourseWithNames, Id, NewCourse, NewMedium, NewTicket, NewUser, Priority, Role,
+    TicketWithNames, User,
+};
 
 /// The login service manages the user login. Logout is directly handled in the
 /// [`post_logout`](crate::routes::auth::post_logout) route because that logic is part of the
@@ -201,12 +204,68 @@ impl<UR: UserRepository, CR: CourseRepository> CourseService for CourseServiceIm
     }
 }
 
+/// Create a new course service.
 pub fn course_service(
     user_repo: impl UserRepository,
     course_repo: impl CourseRepository,
 ) -> impl CourseService {
     CourseServiceImpl {
         user_repo,
+        course_repo,
+    }
+}
+
+/// The ticket service manages tickets of the system, like listing existing or adding new ones.
+pub trait TicketService {
+    /// List all tickets.
+    fn list(&self) -> Result<Vec<TicketWithNames>>;
+    /// List all courses with ID and name.
+    fn list_course_names(&self) -> Result<Vec<(Id, String)>>;
+    /// Create a new ticket in the system.
+    fn create(&self, ticket: NewTicket, medium: NewMedium) -> Result<()>;
+}
+
+/// Main implementation of [`TicketService`].
+struct TicketServiceImpl<TR: TicketRepository, CR: CourseRepository> {
+    ticket_repo: TR,
+    course_repo: CR,
+}
+
+impl<TR: TicketRepository, CR: CourseRepository> TicketServiceImpl<TR, CR> {
+    /// Decide the priority of a ticket based on its category.
+    fn map_priority(category: Category) -> Priority {
+        match category {
+            Category::Editorial => Priority::Medium,
+            Category::Content => Priority::High,
+            Category::Improvement | Category::Addition => Priority::Low,
+        }
+    }
+}
+
+impl<TR: TicketRepository, CR: CourseRepository> TicketService for TicketServiceImpl<TR, CR> {
+    fn list(&self) -> Result<Vec<TicketWithNames>> {
+        self.ticket_repo.list_with_names()
+    }
+
+    fn list_course_names(&self) -> Result<Vec<(Id, String)>> {
+        self.course_repo.list_names()
+    }
+
+    fn create(&self, ticket: NewTicket, medium: NewMedium) -> Result<()> {
+        let category = ticket.category;
+
+        self.ticket_repo
+            .create(ticket, Self::map_priority(category), medium)
+    }
+}
+
+/// Create a new ticket service.
+pub fn ticket_service(
+    ticket_repo: impl TicketRepository,
+    course_repo: impl CourseRepository,
+) -> impl TicketService {
+    TicketServiceImpl {
+        ticket_repo,
         course_repo,
     }
 }

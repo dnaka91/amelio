@@ -10,6 +10,51 @@ table! {
 }
 
 table! {
+    medium_interactives (ticket_id) {
+        ticket_id -> Integer,
+        url -> Text,
+    }
+}
+
+table! {
+    medium_questionaires (ticket_id) {
+        ticket_id -> Integer,
+        question -> Integer,
+        answer -> Text,
+    }
+}
+
+table! {
+    medium_recordings (ticket_id) {
+        ticket_id -> Integer,
+        time -> Text,
+    }
+}
+
+table! {
+    medium_texts (ticket_id) {
+        ticket_id -> Integer,
+        page -> Integer,
+        line -> Integer,
+    }
+}
+
+table! {
+    tickets (id) {
+        id -> Integer,
+        #[sql_name = "type"]
+        type_ -> Text,
+        title -> Text,
+        description -> Text,
+        category -> Text,
+        priority -> Text,
+        status -> Text,
+        course_id -> Integer,
+        creator_id -> Integer,
+    }
+}
+
+table! {
     users (id) {
         id -> Integer,
         username -> Text,
@@ -21,4 +66,19 @@ table! {
     }
 }
 
-allow_tables_to_appear_in_same_query!(courses, users,);
+joinable!(medium_interactives -> tickets (ticket_id));
+joinable!(medium_questionaires -> tickets (ticket_id));
+joinable!(medium_recordings -> tickets (ticket_id));
+joinable!(medium_texts -> tickets (ticket_id));
+joinable!(tickets -> courses (course_id));
+joinable!(tickets -> users (creator_id));
+
+allow_tables_to_appear_in_same_query!(
+    courses,
+    medium_interactives,
+    medium_questionaires,
+    medium_recordings,
+    medium_texts,
+    tickets,
+    users,
+);

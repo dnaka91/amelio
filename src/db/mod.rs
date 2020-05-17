@@ -8,9 +8,9 @@ use diesel::SqliteConnection;
 use rocket::fairing::{AdHoc, Fairing};
 
 use self::connection::DbConn;
-use self::models::{InitCourseEntity, InitUserEntity};
-
+use self::models::{InitCourseEntity, InitTicketEntity, InitUserEntity};
 use crate::hashing::{self, Hasher};
+use crate::models::{Category, Priority, Status, TicketType};
 
 pub mod connection;
 pub mod models;
@@ -49,6 +49,7 @@ fn init(conn: &SqliteConnection) -> Result<()> {
     create_admin_user(conn).context("admin user creation failed")?;
     create_sample_users(conn).context("sample users creation failed")?;
     create_sample_courses(conn).context("sample courses creation failed")?;
+    create_sample_tickets(conn).context("sample tickets creation failed")?;
     Ok(())
 }
 
@@ -165,6 +166,72 @@ fn create_sample_courses(conn: &SqliteConnection) -> Result<()> {
                 author_id: 6,
                 tutor_id: 7,
                 active: false,
+            },
+        ])
+        .execute(&*conn)?;
+
+    Ok(())
+}
+
+/// Create several sample tickets for testing purposes.
+fn create_sample_tickets(conn: &SqliteConnection) -> Result<()> {
+    use crate::db::schema::tickets::dsl::*;
+
+    if tickets.count().get_result::<i64>(conn)? >= 5 {
+        return Ok(());
+    }
+
+    diesel::insert_into(tickets)
+        .values(vec![
+            &InitTicketEntity {
+                type_: TicketType::CourseBook.as_ref(),
+                title: "Der Text ist von oben nach unten geschrieben",
+                description: "Blah blah blah",
+                category: Category::Editorial.as_ref(),
+                priority: Priority::Medium.as_ref(),
+                status: Status::Open.as_ref(),
+                course_id: 1,
+                creator_id: 1,
+            },
+            &InitTicketEntity {
+                type_: TicketType::CourseBook.as_ref(),
+                title: "Seiten fehlen nach Kapitel 3",
+                description: "Blah blah blah",
+                category: Category::Content.as_ref(),
+                priority: Priority::Critical.as_ref(),
+                status: Status::InProgress.as_ref(),
+                course_id: 1,
+                creator_id: 1,
+            },
+            &InitTicketEntity {
+                type_: TicketType::CourseBook.as_ref(),
+                title: "Die Schriftfarbe ist zu grell",
+                description: "Blah blah blah",
+                category: Category::Improvement.as_ref(),
+                priority: Priority::Low.as_ref(),
+                status: Status::Accepted.as_ref(),
+                course_id: 1,
+                creator_id: 1,
+            },
+            &InitTicketEntity {
+                type_: TicketType::CourseBook.as_ref(),
+                title: "Neues Titelblatt, denn das alte ist langweilig",
+                description: "Blah blah blah",
+                category: Category::Addition.as_ref(),
+                priority: Priority::High.as_ref(),
+                status: Status::Refused.as_ref(),
+                course_id: 1,
+                creator_id: 1,
+            },
+            &InitTicketEntity {
+                type_: TicketType::Vodcast.as_ref(),
+                title: "Der Ton fehlt im gesamten Video",
+                description: "Blah blah blah",
+                category: Category::Content.as_ref(),
+                priority: Priority::High.as_ref(),
+                status: Status::Completed.as_ref(),
+                course_id: 1,
+                creator_id: 1,
             },
         ])
         .execute(&*conn)?;

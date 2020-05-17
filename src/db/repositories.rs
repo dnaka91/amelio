@@ -7,9 +7,15 @@ use anyhow::{ensure, Context, Result};
 use diesel::prelude::*;
 use fnv::{FnvHashMap, FnvHashSet};
 
-use super::models::{CourseEntity, NewCourseEntity, NewUserEntity, UserEntity};
+use super::models::{
+    CourseEntity, MediumInteractiveEntity, MediumQuestionaireEntity, MediumRecordingEntity,
+    MediumTextEntity, NewCourseEntity, NewTicketEntity, NewUserEntity, TicketEntity, UserEntity,
+};
 
-use crate::models::{Course, CourseWithNames, NewCourse, NewUser, Role, User};
+use crate::models::{
+    Course, CourseWithNames, NewCourse, NewMedium, NewTicket, NewUser, Priority, Role, Ticket,
+    TicketWithNames, User,
+};
 
 /// User related functionality.
 pub trait UserRepository {
@@ -122,6 +128,7 @@ pub fn user_repo<'a>(conn: &'a SqliteConnection) -> impl UserRepository + 'a {
 pub trait CourseRepository {
     /// List all courses together with their author and tutor names.
     fn list_with_names(&self) -> Result<Vec<CourseWithNames>>;
+    fn list_names(&self) -> Result<Vec<(i32, String)>>;
     /// Create a new course.
     fn create(&self, course: NewCourse) -> Result<()>;
     /// Enable or disable an existing course.
@@ -161,9 +168,8 @@ impl<'a> CourseRepository for CourseRepositoryImpl<'a> {
         let users = users::table
             .select((users::id, users::name))
             .filter(users::id.eq_any(&user_ids))
-            .load::<(i32, String)>(self.conn)?;
-
-        let users = FnvHashMap::from_iter(users);
+            .load::<(i32, String)>(self.conn)
+            .map(FnvHashMap::from_iter)?;
 
         courses
             .into_iter()
@@ -183,6 +189,16 @@ impl<'a> CourseRepository for CourseRepositoryImpl<'a> {
                 })
             })
             .collect()
+    }
+
+    fn list_names(&self) -> Result<Vec<(i32, String)>> {
+        use super::schema::courses;
+
+        courses::table
+            .select((courses::id, courses::code))
+            .order_by(courses::code)
+            .load::<(i32, String)>(self.conn)
+            .map_err(Into::into)
     }
 
     fn create(&self, course: NewCourse) -> Result<()> {
@@ -208,6 +224,134 @@ impl<'a> CourseRepository for CourseRepositoryImpl<'a> {
     }
 }
 
+/// Create a new course repository.
 pub fn course_repo<'a>(conn: &'a SqliteConnection) -> impl CourseRepository + 'a {
     CourseRepositoryImpl { conn }
+}
+
+/// Ticket related functionality.
+pub trait TicketRepository {
+    /// List all tickets together with their course and creator names.
+    fn list_with_names(&self) -> Result<Vec<TicketWithNames>>;
+    /// Create a new ticket.
+    fn create(&self, ticket: NewTicket, priority: Priority, medium: NewMedium) -> Result<()>;
+}
+
+/// Main implementation of [`TicketRepository`].
+struct TicketRepositoryImpl<'a> {
+    conn: &'a SqliteConnection,
+}
+
+impl<'a> TicketRepositoryImpl<'a> {
+    /// List all tickets.
+    fn list(&self) -> Result<Vec<Ticket>> {
+        use super::schema::tickets;
+
+        tickets::table
+            .load::<TicketEntity>(self.conn)
+            .map_err(Into::into)
+            .and_then(|users| users.into_iter().map(TryInto::try_into).collect())
+    }
+}
+
+impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
+    fn list_with_names(&self) -> Result<Vec<TicketWithNames>> {
+        use super::schema::{courses, users};
+
+        let tickets = self.list()?;
+        let mut user_ids = FnvHashSet::default();
+        let mut course_ids = FnvHashSet::default();
+
+        for ticket in &tickets {
+            user_ids.insert(ticket.creator_id);
+            course_ids.insert(ticket.course_id);
+        }
+
+        let courses = courses::table
+            .select((courses::id, courses::code))
+            .filter(courses::id.eq_any(&course_ids))
+            .load::<(i32, String)>(self.conn)
+            .map(FnvHashMap::from_iter)?;
+
+        let users = users::table
+            .select((users::id, users::name))
+            .filter(users::id.eq_any(&user_ids))
+            .load::<(i32, String)>(self.conn)
+            .map(FnvHashMap::from_iter)?;
+
+        tickets
+            .into_iter()
+            .map(|ticket| {
+                let course_name = courses
+                    .get(&ticket.course_id)
+                    .cloned()
+                    .context("Entry missing for tickets's course ID")?;
+                let creator_name = users
+                    .get(&ticket.creator_id)
+                    .cloned()
+                    .context("Entry missing for tickets's creator ID")?;
+                Ok(TicketWithNames {
+                    ticket,
+                    creator_name,
+                    course_name,
+                })
+            })
+            .collect()
+    }
+
+    fn create(&self, ticket: NewTicket, priority: Priority, medium: NewMedium) -> Result<()> {
+        use super::schema::{
+            medium_interactives, medium_questionaires, medium_recordings, medium_texts, tickets,
+        };
+
+        self.conn.transaction(|| {
+            let res = diesel::insert_into(tickets::table)
+                .values(NewTicketEntity::from((ticket, priority)))
+                .execute(self.conn)?;
+
+            ensure!(res == 1, "Failed inserting ticket");
+
+            let ticket_id = tickets::table
+                .select(tickets::id)
+                .order_by(tickets::id.desc())
+                .limit(1)
+                .get_result::<i32>(self.conn)?;
+
+            let res_medium = match medium {
+                NewMedium::Text { page, line } => diesel::insert_into(medium_texts::table)
+                    .values(MediumTextEntity {
+                        ticket_id,
+                        page: page.into(),
+                        line: line.into(),
+                    })
+                    .execute(self.conn),
+                NewMedium::Recording { time } => diesel::insert_into(medium_recordings::table)
+                    .values(MediumRecordingEntity {
+                        ticket_id,
+                        time: time.format("%H:%M:%S").to_string(),
+                    })
+                    .execute(self.conn),
+                NewMedium::Interactive { url } => diesel::insert_into(medium_interactives::table)
+                    .values(MediumInteractiveEntity { ticket_id, url })
+                    .execute(self.conn),
+                NewMedium::Questionaire { question, answer } => {
+                    diesel::insert_into(medium_questionaires::table)
+                        .values(MediumQuestionaireEntity {
+                            ticket_id,
+                            question: question.into(),
+                            answer,
+                        })
+                        .execute(self.conn)
+                }
+            }?;
+
+            ensure!(res_medium == 1, "Failed inserting medium");
+            Ok(())
+        })
+    }
+}
+
+/// Create a new ticket repository.
+pub fn ticket_repo<'a>(conn: &'a SqliteConnection) -> impl TicketRepository + 'a {
+    TicketRepositoryImpl { conn }
 }

@@ -1,0 +1,105 @@
+{% extends "../../base.html" %}
+
+{% block navbar %}
+{% include "navbar.html" %}
+{% endblock navbar %}
+
+{% block content %}
+<div class="container">
+  <div class="columns">
+    <div class="column is-half is-offset-one-quarter">
+      <div class="box">
+        <form action="/tickets/new" method="POST">
+          <input type="hidden" name="ty" value="{{ ty }}">
+
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Kurs</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <div class="select is-fullwidth">
+                  <select name="course" required>
+                    <option></option>
+                    {% for (id, name) in courses %}
+                      <option value="{{ id }}">{{ name }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Kategorie</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <div class="select is-fullwidth">
+                  <select name="category" required>
+                    <option></option>
+                    <option value="editorial">Redaktioneller Fehler</option>
+                    <option value="content">Inhaltlicher Fehler</option>
+                    <option value="improvement">Verbesserungsvorschlag</option>
+                    <option value="addition">Ergänzungsvorschlag</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {% match ty.medium() %}
+            {% when Medium::Text %}
+              {% include "text.html" %}
+            {% when Medium::Recording %}
+              {% include "recording.html" %}
+            {% when Medium::Interactive %}
+              {% include "interactive.html" %}
+            {% when Medium::Questionaire %}
+              {% include "questionaire.html" %}
+          {% endmatch %}
+
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Titel</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <input class="input" type="text" name="title" required>
+              </div>
+            </div>
+          </div>
+
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Beschreibung</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <textarea class="textarea" rows="5" name="description" required></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="field is-horizontal">
+            <div class="field-label"></div>
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                  <button class="button is-info">
+                    <span class="icon">
+                      <i class="fas fa-plus"></i>
+                    </span>
+                    <span>Erstellen</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

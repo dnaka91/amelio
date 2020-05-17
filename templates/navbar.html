@@ -13,6 +13,88 @@
 
   <div id="navMenu" class="navbar-menu">
     <div class="navbar-start">
+      <a class="navbar-item" href="/tickets">
+        <span class="icon">
+          <i class="fas fa-envelope"></i>
+        </span>
+        <span>Tickets</span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          <span class="icon">
+            <i class="fas fa-pen-fancy"></i>
+          </span>
+          <span>Neues Ticket</span>
+        </a>
+
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="/tickets/new/course-book">
+            <span class="icon">
+              <i class="fas fa-book"></i>
+            </span>
+            <span>Skript</span>
+          </a>
+          <a class="navbar-item" href="/tickets/new/reading-list">
+            <span class="icon">
+              <i class="fas fa-glasses"></i>
+            </span>
+            <span>Literaturliste</span>
+          </a>
+          <a class="navbar-item" href="/tickets/new/interactive-book">
+            <span class="icon">
+              <i class="fas fa-mouse-pointer"></i>
+            </span>
+            <span>Interactive Book</span>
+          </a>
+          <hr class="navbar-divider">
+          <a class="navbar-item" href="/tickets/new/practice-exam">
+            <span class="icon">
+              <i class="fas fa-clipboard-list"></i>
+            </span>
+            <span>Musterklausur</span>
+          </a>
+          <a class="navbar-item" href="/tickets/new/practice-exam-solution">
+            <span class="icon">
+              <i class="fas fa-clipboard-check"></i>
+            </span>
+            <span>Musterlösung</span>
+          </a>
+          <hr class="navbar-divider">
+          <a class="navbar-item" href="/tickets/new/vodcast">
+            <span class="icon">
+              <i class="fas fa-video"></i>
+            </span>
+            <span>Vodcast</span>
+          </a>
+          <a class="navbar-item" href="/tickets/new/podcast">
+            <span class="icon">
+              <i class="fas fa-microphone"></i>
+            </span>
+            <span>Podcast</span>
+          </a>
+          <a class="navbar-item" href="/tickets/new/presentation">
+            <span class="icon">
+              <i class="fas fa-map"></i>
+            </span>
+            <span>Präsentation</span>
+          </a>
+          <hr class="navbar-divider">
+          <a class="navbar-item" href="/tickets/new/live-tutorial-recording">
+            <span class="icon">
+              <i class="fas fa-chalkboard-teacher"></i>
+            </span>
+            <span>Live Tutorium Aufzeichnung</span>
+          </a>
+          <a class="navbar-item" href="/tickets/new/online-test">
+            <span class="icon">
+              <i class="fas fa-graduation-cap"></i>
+            </span>
+            <span>Online Test</span>
+          </a>
+        </div>
+      </div>
+
       {% if role <= Role::Admin %}
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">
@@ -40,6 +122,12 @@
       {% endif %}
     </div>
     <div class="navbar-end">
+      <a class="navbar-item" href="https://github.com/dnaka91/amelio" target="_blank">
+        <span class="icon">
+          <i class="fab fa-github"></i>
+        </span>
+        <span>GitHub</span>
+      </a>
       <div class="navbar-item">
         <form action="/logout" method="POST">
           <button class="button is-danger" type="submit">

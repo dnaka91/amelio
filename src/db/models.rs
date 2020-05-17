@@ -1,6 +1,8 @@
 //! Models that map from database rows to `struct`s and back.
 
-use std::convert::TryFrom;
+use std::convert::{TryFrom, TryInto};
+
+use chrono::NaiveTime;
 
 use super::schema::*;
 
@@ -122,6 +124,163 @@ impl TryFrom<CourseEntity> for Course {
             author_id: value.author_id,
             tutor_id: value.tutor_id,
             active: value.active,
+        })
+    }
+}
+
+/// A special new ticket that is used during first initialization of the database.
+#[derive(Insertable)]
+#[table_name = "tickets"]
+pub struct InitTicketEntity<'a> {
+    pub type_: &'a str,
+    pub title: &'a str,
+    pub description: &'a str,
+    pub category: &'a str,
+    pub priority: &'a str,
+    pub status: &'a str,
+    pub course_id: i32,
+    pub creator_id: i32,
+}
+
+/// A new ticket to be added to the database.
+#[derive(Insertable)]
+#[table_name = "tickets"]
+pub struct NewTicketEntity {
+    pub type_: String,
+    pub title: String,
+    pub description: String,
+    pub category: String,
+    pub priority: String,
+    pub course_id: i32,
+    pub creator_id: i32,
+}
+
+impl From<(NewTicket, Priority)> for NewTicketEntity {
+    fn from(value: (NewTicket, Priority)) -> Self {
+        Self {
+            type_: value.0.type_.to_string(),
+            title: value.0.title,
+            description: value.0.description,
+            category: value.0.category.to_string(),
+            priority: value.1.to_string(),
+            course_id: value.0.course_id,
+            creator_id: value.0.creator_id,
+        }
+    }
+}
+
+/// A full ticket entity equivalent to the `tickets` table.
+#[derive(Queryable)]
+pub struct TicketEntity {
+    pub id: i32,
+    pub type_: String,
+    pub title: String,
+    pub description: String,
+    pub category: String,
+    pub priority: String,
+    pub status: String,
+    pub course_id: i32,
+    pub creator_id: i32,
+}
+
+impl TryFrom<TicketEntity> for Ticket {
+    type Error = anyhow::Error;
+
+    fn try_from(value: TicketEntity) -> Result<Self, Self::Error> {
+        Ok(Self {
+            id: value.id,
+            type_: value.type_.parse()?,
+            title: value.title,
+            description: value.description,
+            category: value.category.parse()?,
+            priority: value.priority.parse()?,
+            status: value.status.parse()?,
+            course_id: value.course_id,
+            creator_id: value.creator_id,
+        })
+    }
+}
+
+/// A full text medium entity equivalent to the`medium_texts` table, also representing a new entry
+/// that can be added to the system.
+#[derive(Queryable, Insertable)]
+#[table_name = "medium_texts"]
+pub struct MediumTextEntity {
+    pub ticket_id: i32,
+    pub page: i32,
+    pub line: i32,
+}
+
+impl TryFrom<MediumTextEntity> for MediumText {
+    type Error = anyhow::Error;
+
+    fn try_from(value: MediumTextEntity) -> Result<Self, Self::Error> {
+        Ok(Self {
+            ticket_id: value.ticket_id,
+            page: value.page.try_into()?,
+            line: value.line.try_into()?,
+        })
+    }
+}
+
+/// A full recording medium entity equivalent to the`medium_recordings` table, also representing a
+/// new entry that can be added to the system.
+#[derive(Queryable, Insertable)]
+#[table_name = "medium_recordings"]
+pub struct MediumRecordingEntity {
+    pub ticket_id: i32,
+    pub time: String,
+}
+
+impl TryFrom<MediumRecordingEntity> for MediumRecording {
+    type Error = anyhow::Error;
+
+    fn try_from(value: MediumRecordingEntity) -> Result<Self, Self::Error> {
+        Ok(Self {
+            ticket_id: value.ticket_id,
+            time: NaiveTime::parse_from_str(&value.time, "%H:%M:%S")?,
+        })
+    }
+}
+
+/// A full interactive medium entity equivalent to the`medium_interactives` table, also representing
+/// a new entry that can be added to the system.
+#[derive(Queryable, Insertable)]
+#[table_name = "medium_interactives"]
+pub struct MediumInteractiveEntity {
+    pub ticket_id: i32,
+    pub url: String,
+}
+
+impl TryFrom<MediumInteractiveEntity> for MediumInteractive {
+    type Error = anyhow::Error;
+
+    fn try_from(value: MediumInteractiveEntity) -> Result<Self, Self::Error> {
+        Ok(Self {
+            ticket_id: value.ticket_id,
+            url: value.url,
+        })
+    }
+}
+
+/// A full questionaire medium entity equivalent to the`medium_questionaires` table, also
+/// representing a new entry that can be added to the system.
+#[derive(Queryable, Insertable)]
+#[table_name = "medium_questionaires"]
+pub struct MediumQuestionaireEntity {
+    pub ticket_id: i32,
+    pub question: i32,
+    pub answer: String,
+}
+
+impl TryFrom<MediumQuestionaireEntity> for MediumQuestionaire {
+    type Error = anyhow::Error;
+
+    fn try_from(value: MediumQuestionaireEntity) -> Result<Self, Self::Error> {
+        Ok(Self {
+            ticket_id: value.ticket_id,
+            question: value.question.try_into()?,
+            answer: value.answer,
         })
     }
 }
