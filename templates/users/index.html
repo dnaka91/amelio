@@ -8,93 +8,101 @@
 <div class="container">
 
   <div class="columns">
-    <div class="column has-text-right">
-      <a class="button is-info" href="/users/new">
-        <span class="icon">
-          <i class="fas fa-plus"></i>
-        </span>
-        <span>Neuer Nutzer</span>
-      </a>
-    </div>
-  </div>
-
-  {% include "components/flash_message.html" %}
-
-  <div class="columns">
-    <div class="column is-6">
+    <div class="column">
       <div class="box">
-        <p class="title">Aktive Nutzer ({{ active.len() }})</p>
-        <div class="table-container">
-          <table class="table is-hoverable is-fullwidth">
-            <tr>
-              <th>Nutername</th>
-              <th>Name</th>
-              <th>Rolle</th>
-              <th width="54"></th>
-            </tr>
-            {% for user in active %}
-            <tr>
-              <td>{{ user.username }}</td>
-              <td>{{ user.name }}</td>
-              <td>{{ user.role.german() }}</td>
-              <td>
-                {% if user.is_admin() %}
-                <button class="button is-danger is-small" title="Deaktivieren" disabled>
-                  <span class="icon">
-                    <i class="fas fa-minus"></i>
-                  </span>
-                </button>
-                {% else %}
-                <form action="/users/{{ user.id }}/enable">
-                  <input type="hidden" name="value" value="false">
-                  <button class="button is-danger is-small" title="Deaktivieren">
-                    <span class="icon">
-                      <i class="fas fa-minus"></i>
-                    </span>
-                  </button>
-                </form>
-                {% endif %}
-              </td>
-            </tr>
-            {% endfor %}
-          </table>
+
+        <div class="columns">
+          <div class="column is-8">
+            <p class="title">Nutzerverwaltung</p>
+          </div>
+          <div class="column has-text-right">
+            <a class="button is-info" href="/users/new">
+              <span class="icon">
+                <i class="fas fa-plus"></i>
+              </span>
+              <span>Neuer Nutzer</span>
+            </a>
+          </div>
+        </div>
+
+        {% include "components/flash_message.html" %}
+
+        <div class="columns">
+          <div class="column is-6">
+            <p class="subtitle">Aktive Nutzer ({{ active.len() }})</p>
+            <div class="table-container">
+              <table class="table is-hoverable is-fullwidth">
+                <tr>
+                  <th>Nutername</th>
+                  <th>Name</th>
+                  <th>Rolle</th>
+                  <th width="54"></th>
+                </tr>
+                {% for user in active %}
+                <tr>
+                  <td>{{ user.username }}</td>
+                  <td>{{ user.name }}</td>
+                  <td>{{ user.role.german() }}</td>
+                  <td>
+                    {% if user.is_admin() %}
+                    <button class="button is-danger is-small" title="Deaktivieren" disabled>
+                      <span class="icon">
+                        <i class="fas fa-minus"></i>
+                      </span>
+                    </button>
+                    {% else %}
+                    <form action="/users/{{ user.id }}/enable">
+                      <input type="hidden" name="value" value="false">
+                      <button class="button is-danger is-small" title="Deaktivieren">
+                        <span class="icon">
+                          <i class="fas fa-minus"></i>
+                        </span>
+                      </button>
+                    </form>
+                    {% endif %}
+                  </td>
+                </tr>
+                {% endfor %}
+              </table>
+            </div>
+          </div>
+
+          <div class="column is-6">
+            <p class="subtitle">Inaktive Nutzer ({{ inactive.len() }})</p>
+            <div class="table-container">
+              <table class="table is-hoverable is-fullwidth">
+                <tr>
+                  <th>Nutzername</th>
+                  <th>Name</th>
+                  <th>Rolle</th>
+                  <th width="54"></th>
+                </tr>
+                {% for user in inactive %}
+                <tr>
+                  <td>{{ user.username }}</td>
+                  <td>{{ user.name }}</td>
+                  <td>{{ user.role.german() }}</td>
+                  <td>
+                    <form action="/users/{{ user.id }}/enable">
+                      <input type="hidden" name="value" value="true">
+                      <button class="button is-success is-small" title="Reaktivieren">
+                        <span class="icon">
+                          <i class="fas fa-plus"></i>
+                        </span>
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+                {% endfor %}
+              </table>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="column is-6">
-      <div class="box">
-        <p class="title">Inaktive Nutzer ({{ inactive.len() }})</p>
-        <div class="table-container">
-          <table class="table is-hoverable is-fullwidth">
-            <tr>
-              <th>Nutzername</th>
-              <th>Name</th>
-              <th>Rolle</th>
-              <th width="54"></th>
-            </tr>
-            {% for user in inactive %}
-            <tr>
-              <td>{{ user.username }}</td>
-              <td>{{ user.name }}</td>
-              <td>{{ user.role.german() }}</td>
-              <td>
-                <form action="/users/{{ user.id }}/enable">
-                  <input type="hidden" name="value" value="true">
-                  <button class="button is-success is-small" title="Reaktivieren">
-                    <span class="icon">
-                      <i class="fas fa-plus"></i>
-                    </span>
-                  </button>
-                </form>
-              </td>
-            </tr>
-            {% endfor %}
-          </table>
-        </div>
-      </div>
     </div>
   </div>
+</div>
 
 </div>
 {% endblock content %}
