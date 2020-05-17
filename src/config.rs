@@ -9,8 +9,6 @@ use serde::Deserialize;
 pub struct Config {
     /// The TCP port to listen on. Defaults to `8080` if not set.
     port: Option<u16>,
-    /// Amount of workers to run for the server. Defaults to `4` if not set.
-    workers: Option<u16>,
     /// Secret key used for private cookies (optional in debug mode). If missing, a random key is
     /// generated on each start up.
     #[cfg(debug_assertions)]
@@ -47,9 +45,7 @@ pub fn load() -> Result<(RocketConfig, Config)> {
         Environment::Production
     };
 
-    let config = RocketConfig::build(environment)
-        .port(file_config.port.unwrap_or(8080))
-        .workers(file_config.workers.unwrap_or(4));
+    let config = RocketConfig::build(environment).port(file_config.port.unwrap_or(8080));
 
     #[cfg(debug_assertions)]
     let config = if let Some(ref secret_key) = file_config.secret_key {
@@ -80,7 +76,6 @@ fn load_file() -> Result<Config> {
 fn load_file() -> Result<Config> {
     Ok(Config {
         port: None,
-        workers: None,
         secret_key: None,
         host: "http://localhost:8080".to_owned(),
         smtp: SmtpConfig {
