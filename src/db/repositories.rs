@@ -13,8 +13,8 @@ use super::models::{
 };
 
 use crate::models::{
-    Course, CourseWithNames, NewCourse, NewMedium, NewTicket, NewUser, Priority, Role, Ticket,
-    TicketWithNames, User,
+    Course, CourseWithNames, EditCourse, NewCourse, NewMedium, NewTicket, NewUser, Priority, Role,
+    Ticket, TicketWithNames, User,
 };
 
 /// User related functionality.
@@ -128,11 +128,16 @@ pub fn user_repo<'a>(conn: &'a SqliteConnection) -> impl UserRepository + 'a {
 pub trait CourseRepository {
     /// List all courses together with their author and tutor names.
     fn list_with_names(&self) -> Result<Vec<CourseWithNames>>;
+    /// List the names (with IDs) of all users that can be assigned to courses.
     fn list_names(&self) -> Result<Vec<(i32, String)>>;
+    /// Get a single course by ID.
+    fn get(&self, id: i32) -> Result<Course>;
     /// Create a new course.
     fn create(&self, course: NewCourse) -> Result<()>;
     /// Enable or disable an existing course.
     fn enable(&self, id: i32, enable: bool) -> Result<()>;
+    /// Update an existing course.
+    fn update(&self, course: EditCourse) -> Result<()>;
 }
 
 /// Main implementation of [`CourseRepository`].
@@ -201,6 +206,16 @@ impl<'a> CourseRepository for CourseRepositoryImpl<'a> {
             .map_err(Into::into)
     }
 
+    fn get(&self, id: i32) -> Result<Course> {
+        use super::schema::courses;
+
+        courses::table
+            .find(id)
+            .get_result::<CourseEntity>(self.conn)
+            .map_err(Into::into)
+            .and_then(TryInto::try_into)
+    }
+
     fn create(&self, course: NewCourse) -> Result<()> {
         use super::schema::courses;
 
@@ -220,6 +235,21 @@ impl<'a> CourseRepository for CourseRepositoryImpl<'a> {
             .execute(self.conn)?;
 
         ensure!(res == 1, "Course with ID {} not found", id);
+        Ok(())
+    }
+
+    fn update(&self, course: EditCourse) -> Result<()> {
+        use super::schema::courses;
+
+        let res = diesel::update(courses::table.filter(courses::id.eq(course.id)))
+            .set((
+                courses::title.eq(course.title),
+                courses::author_id.eq(course.author_id),
+                courses::tutor_id.eq(course.tutor_id),
+            ))
+            .execute(self.conn)?;
+
+        ensure!(res == 1, "Course with ID {} not found", course.id);
         Ok(())
     }
 }

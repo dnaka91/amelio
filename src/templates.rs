@@ -1,11 +1,13 @@
 //! All templates that are used to render the web pages of this service.
 
+use std::borrow::Borrow;
+
 use askama::Template;
 use strum::{AsRefStr, EnumString};
 
 use crate::models::{
-    Category, CourseWithNames, Id, Medium, Priority, Role, Status, TicketType, TicketWithNames,
-    User,
+    Category, Course, CourseWithNames, Id, Medium, Priority, Role, Status, TicketType,
+    TicketWithNames, User,
 };
 
 mod filters {
@@ -161,11 +163,13 @@ pub enum MessageCode {
     FailedUserCreation,
     InvalidCodeOrError,
     FailedCourseCreation,
+    FailedCourseUpdate,
     FailedTicketCreation,
     // Success codes
     UserCreated,
     UserActivated,
     CourseCreated,
+    CourseUpdated,
     TicketCreated,
     // Unknown
     Unknown,
@@ -189,10 +193,12 @@ impl Translate for MessageCode {
             Self::FailedUserCreation => "Benutzererstellung fehlgeschlagen",
             Self::InvalidCodeOrError => " Ung\u{00fc}ltiger Aktivierungscode oder anderer Fehler",
             Self::FailedCourseCreation => "Kurserstellung fehlgeschlagen",
+            Self::FailedCourseUpdate => "Kursbearbeitung fehlgeschlagen",
             Self::FailedTicketCreation => "Ticketerstellung fehlgeschlagen",
             Self::UserCreated => "Account erfolgreich erstellt",
             Self::UserActivated => "Account erfolgreich aktiviert",
             Self::CourseCreated => "Kurs erfolgreich erstellt",
+            Self::CourseUpdated => "Kurs erfolgreich bearbeitet",
             Self::TicketCreated => "Ticket erfolgreich erstellt",
             Self::Unknown => "Unbekannter Fehler",
         }
@@ -257,6 +263,17 @@ pub struct NewCourse {
     pub flash: Option<MessageCode>,
     pub authors: Vec<(Id, String)>,
     pub tutors: Vec<(Id, String)>,
+}
+
+/// Template for the edit course page.
+#[derive(Template)]
+#[template(path = "courses/edit.html")]
+pub struct EditCourse {
+    pub role: Role,
+    pub flash: Option<MessageCode>,
+    pub authors: Vec<(Id, String)>,
+    pub tutors: Vec<(Id, String)>,
+    pub course: Course,
 }
 
 /// Template for the ticket list page.

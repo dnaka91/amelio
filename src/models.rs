@@ -60,6 +60,14 @@ pub struct NewCourse {
     pub tutor_id: Id,
 }
 
+/// An existing course to be updated.
+pub struct EditCourse {
+    pub id: Id,
+    pub title: String,
+    pub author_id: Id,
+    pub tutor_id: Id,
+}
+
 /// A course with its author and tutor names included.
 pub struct CourseWithNames {
     pub course: Course,

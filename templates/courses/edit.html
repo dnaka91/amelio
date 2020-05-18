@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+{% include "navbar.html" %}
+{% endblock navbar %}
+
+{% block content %}
+<div class="container">
+
+  <div class="columns">
+    <div class="column is-half is-offset-one-quarter">
+      <div class="box">
+
+        <p class="title">Kursbearbeitung</p>
+
+        {% match flash %}
+        {% when Some with (msg) %}
+        <div class="notification is-danger">{{ msg.german() }}</div>
+        {%- when None %}
+        {% endmatch %}
+
+        <form action="/courses/{{ course.id }}/edit" method="POST">
+
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Kürzel</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <input class="input" type="text" value="{{ course.code }}" disabled>
+              </div>
+            </div>
+          </div>
+
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Titel</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <input class="input" type="text" name="title" value="{{ course.title }}" required>
+              </div>
+            </div>
+          </div>
+
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Autor</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <div class="select is-fullwidth">
+                  <select name="author" required>
+                    <option value=""></option>
+                    {% for (id, name) in authors %}
+                    <option value="{{ id }}" {%- if id == course.author_id.borrow() %} selected{% endif %}>{{ name }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Tutor</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <div class="select is-fullwidth">
+                  <select name="tutor" required>
+                    <option value=""></option>
+                    {% for (id, name) in tutors %}
+                    <option value="{{ id }}" {%- if id == course.tutor_id.borrow() %} selected{% endif %}>{{ name }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="field is-horizontal">
+            <div class="field-label"></div>
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                  <button class="button is-info">
+                    <span class="icon">
+                      <i class="fas fa-check"></i>
+                    </span>
+                    <span>Speichern</span>
+                  </button>
+                  <a class="button is-light" href="/courses">
+                    <span class="icon">
+                      <i class="fas fa-times"></i>
+                    </span>
+                    <span>Abbrechen</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock content %}

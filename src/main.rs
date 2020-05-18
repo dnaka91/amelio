@@ -69,6 +69,8 @@ fn rocket() -> Result<Rocket> {
                 routes::courses::new_course,
                 routes::courses::post_new_course,
                 routes::courses::enable_course,
+                routes::courses::edit_course,
+                routes::courses::post_edit_course,
             ],
         )
         .mount(

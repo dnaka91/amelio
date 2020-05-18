@@ -63,7 +63,7 @@ pub struct NewCourse {
     tutor: PositiveId,
 }
 
-/// New user POST endpoint to handle course creation, only for administrators.
+/// New course POST endpoint to handle course creation, only for administrators.
 #[post("/new", data = "<data>")]
 pub fn post_new_course(_user: AdminUser, data: Form<NewCourse>, conn: DbConn) -> Flash<Redirect> {
     let service = services::course_service(
@@ -106,6 +106,66 @@ pub fn enable_course(
     service.enable(id.0, value)?;
 
     Ok(Redirect::to(uri!("/courses", courses)))
+}
+
+/// Course editing form for administrators.
+#[get("/<id>/edit")]
+pub fn edit_course(
+    user: AdminUser,
+    id: PositiveId,
+    conn: DbConn,
+    flash: Option<FlashMessage<'_, '_>>,
+) -> Result<templates::EditCourse, ServerError> {
+    let service = services::course_service(
+        repositories::user_repo(&conn),
+        repositories::course_repo(&conn),
+    );
+    let course = service.get(id.0)?;
+    let (authors, tutors) = service.list_authors_tutors()?;
+
+    Ok(templates::EditCourse {
+        role: user.0.role,
+        flash: flash.map(|f| f.msg().into()),
+        authors,
+        tutors,
+        course,
+    })
+}
+
+/// Form data from the course editing form.
+#[derive(FromForm)]
+pub struct EditCourse {
+    title: NonEmptyString,
+    author: PositiveId,
+    tutor: PositiveId,
+}
+
+/// Edit course POST endpoint to handle course editing, only for administrators.
+#[post("/<id>/edit", data = "<data>")]
+pub fn post_edit_course(
+    _user: AdminUser,
+    id: PositiveId,
+    data: Form<EditCourse>,
+    conn: DbConn,
+) -> Flash<Redirect> {
+    let service = services::course_service(
+        repositories::user_repo(&conn),
+        repositories::course_repo(&conn),
+    );
+
+    match service.update(id.0, data.0.title.0, data.0.author.0, data.0.tutor.0) {
+        Ok(()) => Flash::success(
+            Redirect::to(uri!("/courses", courses)),
+            MessageCode::CourseUpdated,
+        ),
+        Err(e) => {
+            error!("error during course update: {:?}", e);
+            Flash::error(
+                Redirect::to(format!("/courses/{}/edit", id.0)),
+                MessageCode::FailedCourseUpdate,
+            )
+        }
+    }
 }
 
 #[cfg(test)]

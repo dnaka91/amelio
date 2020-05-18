@@ -10,8 +10,8 @@ use crate::db::repositories::{CourseRepository, TicketRepository, UserRepository
 use crate::email::{Mail, MailRenderer, MailSender};
 use crate::hashing::Hasher;
 use crate::models::{
-    Category, CourseWithNames, Id, NewCourse, NewMedium, NewTicket, NewUser, Priority, Role,
-    TicketWithNames, User,
+    Category, Course, CourseWithNames, EditCourse, Id, NewCourse, NewMedium, NewTicket, NewUser,
+    Priority, Role, TicketWithNames, User,
 };
 
 /// The login service manages the user login. Logout is directly handled in the
@@ -166,10 +166,14 @@ pub trait CourseService {
     fn list(&self) -> Result<Vec<CourseWithNames>>;
     /// List all authors and tutors with ID and name.
     fn list_authors_tutors(&self) -> Result<VecAuthorsTutors>;
+    /// Get a single course by its ID.
+    fn get(&self, id: Id) -> Result<Course>;
     /// Create a new course in the system.
     fn create(&self, code: String, title: String, author_id: Id, tutor_id: Id) -> Result<()>;
     /// Enable or disable a course.
-    fn enable(&self, id: i32, enable: bool) -> Result<()>;
+    fn enable(&self, id: Id, enable: bool) -> Result<()>;
+    /// Update the information of a course.
+    fn update(&self, id: Id, title: String, author_id: Id, tutor_id: Id) -> Result<()>;
 }
 
 /// Main implementation of [`CourseService`].
@@ -190,6 +194,10 @@ impl<UR: UserRepository, CR: CourseRepository> CourseService for CourseServiceIm
         ))
     }
 
+    fn get(&self, id: Id) -> Result<Course> {
+        self.course_repo.get(id)
+    }
+
     fn create(&self, code: String, title: String, author_id: Id, tutor_id: Id) -> Result<()> {
         self.course_repo.create(NewCourse {
             code,
@@ -201,6 +209,15 @@ impl<UR: UserRepository, CR: CourseRepository> CourseService for CourseServiceIm
 
     fn enable(&self, id: i32, enable: bool) -> Result<()> {
         self.course_repo.enable(id, enable).map_err(Into::into)
+    }
+
+    fn update(&self, id: Id, title: String, author_id: Id, tutor_id: Id) -> Result<()> {
+        self.course_repo.update(EditCourse {
+            id,
+            title,
+            author_id,
+            tutor_id,
+        })
     }
 }
 
