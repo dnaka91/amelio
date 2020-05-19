@@ -131,7 +131,6 @@ pub fn post_activate(
         Err(e) => {
             error!("error during account activation: {:?}", e);
             Flash::error(
-                #[allow(non_snake_case)]
                 Redirect::to(uri!("/users", activate: data.0.code.0)),
                 MessageCode::InvalidCodeOrError,
             )
@@ -166,10 +165,11 @@ mod tests {
     use rocket::local::Client;
     use rocket::uri;
 
+    use crate::routes::PositiveNum;
     use crate::tests::{check_form, prepare_logged_in_client};
 
     #[test]
-    fn invalid_new_user() {
+    fn invalid_post_new_user() {
         let client = prepare_logged_in_client("admin", "admin");
         let uri = uri!("/users", super::post_new_user).to_string();
 
@@ -188,7 +188,7 @@ mod tests {
     }
 
     #[test]
-    fn invalid_activate() {
+    fn invalid_post_activate() {
         let client = Client::new(crate::rocket().unwrap()).unwrap();
         let uri = uri!(super::post_activate).to_string();
 
@@ -205,7 +205,7 @@ mod tests {
     #[test]
     fn invalid_enable_user_id() {
         let client = prepare_logged_in_client("admin", "admin");
-        let uri = "/users/0/enable?value=true";
+        let uri = uri!("/users", super::enable_user: PositiveNum(0), true).to_string();
 
         assert_eq!(Status::NotFound, client.get(uri).dispatch().status());
     }

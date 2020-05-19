@@ -109,21 +109,23 @@ impl Fairing for Auth {
 #[cfg(test)]
 mod tests {
     use pretty_assertions::assert_eq;
-    use rocket::http::{ContentType, Status};
+    use rocket::http::Status;
     use rocket::local::Client;
     use rocket::uri;
 
     use crate::routes;
+    use crate::tests::check_form;
 
     fn prepare_logged_in_client(username: &str, password: &str) -> Client {
         let client = Client::new(crate::rocket().unwrap()).unwrap();
 
         {
-            let res = client
-                .post(uri!(routes::auth::login).to_string())
-                .body(format!("username={}&password={}", username, password))
-                .header(ContentType::Form)
-                .dispatch();
+            let uri = uri!(routes::auth::login).to_string();
+            let res = check_form(
+                &client,
+                &uri,
+                format!("username={}&password={}", username, password),
+            );
 
             assert_eq!(Status::SeeOther, res.status());
             assert_eq!(Some("/"), res.headers().get_one("Location"));

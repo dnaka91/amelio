@@ -125,10 +125,14 @@ mod tests {
         client
     }
 
-    pub fn check_form<'a>(client: &'a Client, uri: &'a str, body: &'a str) -> LocalResponse<'a> {
+    pub fn check_form<'a, B: AsRef<str>>(
+        client: &'a Client,
+        uri: &'a str,
+        body: B,
+    ) -> LocalResponse<'a> {
         client
             .post(uri)
-            .body(body)
+            .body(body.as_ref())
             .header(ContentType::Form)
             .dispatch()
     }

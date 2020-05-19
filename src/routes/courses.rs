@@ -174,10 +174,11 @@ mod tests {
     use rocket::http::Status;
     use rocket::uri;
 
+    use crate::routes::PositiveNum;
     use crate::tests::{check_form, prepare_logged_in_client};
 
     #[test]
-    fn invalid_new_course() {
+    fn invalid_post_new_course() {
         let client = prepare_logged_in_client("admin", "admin");
         let uri = uri!("/courses", super::post_new_course).to_string();
 
@@ -210,7 +211,34 @@ mod tests {
     #[test]
     fn invalid_enable_course_id() {
         let client = prepare_logged_in_client("admin", "admin");
-        let uri = "/courses/0/enable?value=true";
+        let uri = uri!("/courses", super::enable_course: PositiveNum(0), true).to_string();
+
+        assert_eq!(Status::NotFound, client.get(uri).dispatch().status());
+    }
+
+    #[test]
+    fn invalid_post_edit_course() {
+        let client = prepare_logged_in_client("admin", "admin");
+        let uri = uri!("/courses", super::post_edit_course: PositiveNum(1)).to_string();
+
+        assert_eq!(
+            Status::UnprocessableEntity,
+            check_form(&client, &uri, "title=&author=1&tutor=1").status()
+        );
+        assert_eq!(
+            Status::UnprocessableEntity,
+            check_form(&client, &uri, "title=a&author=0&tutor=1").status()
+        );
+        assert_eq!(
+            Status::UnprocessableEntity,
+            check_form(&client, &uri, "title=a&author=1&tutor=0").status()
+        );
+    }
+
+    #[test]
+    fn invalid_edit_course_id() {
+        let client = prepare_logged_in_client("admin", "admin");
+        let uri = uri!("/courses", super::edit_course: PositiveNum(0)).to_string();
 
         assert_eq!(Status::NotFound, client.get(uri).dispatch().status());
     }

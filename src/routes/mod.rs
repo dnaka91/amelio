@@ -124,6 +124,7 @@ pub type PositiveId = PositiveNum<Id>;
 
 /// An integer that is guaranteed to equal or greater than `1` when parsed from a request param or form
 /// value.
+#[derive(rocket::UriDisplayPath)]
 pub struct PositiveNum<N: PrimInt>(N);
 
 impl<'a, N: PrimInt + FromStr> TryFrom<&'a RawStr> for PositiveNum<N> {
@@ -157,3 +158,50 @@ impl<'a, N: PrimInt + FromStr> FromParam<'a> for PositiveNum<N> {
         param.try_into()
     }
 }
+
+/// An integer that represents an hour in the range of `0-23`.
+pub struct Hour(u8);
+
+impl<'a> TryFrom<&'a RawStr> for Hour {
+    type Error = &'a RawStr;
+
+    fn try_from(value: &'a RawStr) -> Result<Self, Self::Error> {
+        let parsed = value
+            .url_decode()
+            .map_err(|_| value)
+            .and_then(|v| v.parse().map_err(|_| value))?;
+
+        if parsed >= 24 {
+            Err(value)
+        } else {
+            Ok(Self(parsed))
+        }
+    }
+}
+
+from_request!(Hour);
+
+/// An integer that represents a minute in the range of `0-59`.
+pub struct Minute(u8);
+
+impl<'a> TryFrom<&'a RawStr> for Minute {
+    type Error = &'a RawStr;
+
+    fn try_from(value: &'a RawStr) -> Result<Self, Self::Error> {
+        let parsed = value
+            .url_decode()
+            .map_err(|_| value)
+            .and_then(|v| v.parse().map_err(|_| value))?;
+
+        if parsed >= 60 {
+            Err(value)
+        } else {
+            Ok(Self(parsed))
+        }
+    }
+}
+
+from_request!(Minute);
+
+/// An integer that represents a second in the range of `0-59`.
+type Second = Minute;

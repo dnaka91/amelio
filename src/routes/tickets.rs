@@ -7,7 +7,7 @@ use rocket::request::{FlashMessage, Form, FormItems, FormParseError, FromForm};
 use rocket::response::{Flash, Redirect};
 use rocket::{get, post, uri};
 
-use super::{NonEmptyString, PositiveId, PositiveNum, ServerError};
+use super::{Hour, Minute, NonEmptyString, PositiveId, PositiveNum, Second, ServerError};
 use crate::db::connection::DbConn;
 use crate::db::repositories;
 use crate::models::{Category, Id, TicketType};
@@ -69,9 +69,9 @@ struct NewTicketData {
     url: Option<NonEmptyString>,
     question: Option<PositiveNum<u16>>,
     answer: Option<NonEmptyString>,
-    hour: Option<u8>,   // TODO
-    minute: Option<u8>, // TODO
-    second: Option<u8>, // TODO
+    hour: Option<Hour>,
+    minute: Option<Minute>,
+    second: Option<Second>,
 }
 
 /// Form data for the ticket creation form.
@@ -117,9 +117,9 @@ impl<'f> FromForm<'f> for NewTicket {
             },
             TicketType::Vodcast | TicketType::Podcast | TicketType::LiveTutorialRecording => {
                 Medium::Recording {
-                    hour: data.hour.ok_or_else(|| missing("hour"))?,
-                    minute: data.minute.ok_or_else(|| missing("minute"))?,
-                    second: data.second.ok_or_else(|| missing("second"))?,
+                    hour: data.hour.ok_or_else(|| missing("hour"))?.0,
+                    minute: data.minute.ok_or_else(|| missing("minute"))?.0,
+                    second: data.second.ok_or_else(|| missing("second"))?.0,
                 }
             }
         };
@@ -177,6 +177,47 @@ pub fn post_new_ticket(user: StudentUser, data: Form<NewTicket>, conn: DbConn) -
                 Redirect::to(format!("/tickets/new/{}", data.0.ty)),
                 MessageCode::FailedTicketCreation,
             )
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use pretty_assertions::assert_eq;
+    use rocket::http::Status;
+    use rocket::uri;
+
+    use crate::tests::{check_form, prepare_logged_in_client};
+
+    #[test]
+    fn invalid_post_new_ticket() {
+        let client = prepare_logged_in_client("admin", "admin");
+        let uri = uri!("/tickets", super::post_new_ticket).to_string();
+
+        let data_list = &[
+            "ty=&category=content&title=a&description=a&course=1&page=1&line=1",
+            "ty=course-book&category=&title=a&description=a&course=1&page=1&line=1",
+            "ty=course-book&category=content&title=&description=a&course=1&page=1&line=1",
+            "ty=course-book&category=content&title=a&description=&course=1&page=1&line=1",
+            "ty=course-book&category=content&title=a&description=a&course=0&page=1&line=1",
+            "ty=course-book&category=content&title=a&description=a&course=1&page=0&line=1",
+            "ty=course-book&category=content&title=a&description=a&course=1&page=1&line=0",
+            "ty=course-book&category=content&title=a&description=a&course=1&page=1&line=0",
+            "ty=vodcast&category=content&title=a&description=a&course=1&hour=24&minute=0&second=0",
+            "ty=vodcast&category=content&title=a&description=a&course=1&hour=0&minute=60&second=0",
+            "ty=vodcast&category=content&title=a&description=a&course=1&hour=0&minute=0&second=60",
+            "ty=interactive-book&category=content&title=a&description=a&course=1&url=",
+            "ty=practice-exam&category=content&title=a&description=a&course=1&question=0&answer=a",
+            "ty=practice-exam&category=content&title=a&description=a&course=1&question=1&answer=",
+        ];
+
+        for data in data_list {
+            assert_eq!(
+                Status::UnprocessableEntity,
+                check_form(&client, &uri, data).status(),
+                "data = {}",
+                data
+            );
         }
     }
 }
