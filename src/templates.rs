@@ -307,6 +307,15 @@ pub struct NewTicket {
     pub courses: Vec<(Id, String)>,
 }
 
+/// Template for the ticket detail page.
+#[derive(Template)]
+#[template(path = "tickets/edit/index.html")]
+pub struct TicketDetail {
+    pub role: Role,
+    pub flash: Option<MessageCode>,
+    pub ticket: TicketWithNames,
+}
+
 /// Template for the _403 Forbidden_ error.
 #[derive(Template)]
 #[template(path = "errors/403.html")]

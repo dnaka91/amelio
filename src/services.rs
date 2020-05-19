@@ -250,6 +250,8 @@ pub trait TicketService {
     fn list(&self) -> Result<Vec<TicketWithNames>>;
     /// List all courses with ID and name.
     fn list_course_names(&self) -> Result<Vec<(Id, String)>>;
+    /// Get a single ticket by its ID.
+    fn get(&self, id: Id) -> Result<TicketWithNames>;
     /// Create a new ticket in the system.
     fn create(&self, ticket: NewTicket, medium: NewMedium) -> Result<()>;
 }
@@ -278,6 +280,10 @@ impl<TR: TicketRepository, CR: CourseRepository> TicketService for TicketService
 
     fn list_course_names(&self) -> Result<Vec<(Id, String)>> {
         self.course_repo.list_names()
+    }
+
+    fn get(&self, id: Id) -> Result<TicketWithNames> {
+        self.ticket_repo.get_with_names(id)
     }
 
     fn create(&self, ticket: NewTicket, medium: NewMedium) -> Result<()> {

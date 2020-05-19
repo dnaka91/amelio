@@ -279,6 +279,8 @@ pub fn course_repo<'a>(conn: &'a SqliteConnection) -> impl CourseRepository + 'a
 pub trait TicketRepository {
     /// List all tickets together with their course and creator names.
     fn list_with_names(&self) -> Result<Vec<TicketWithNames>>;
+    /// Get a single ticket with course and creator names.
+    fn get_with_names(&self, id: i32) -> Result<TicketWithNames>;
     /// Create a new ticket.
     fn create(&self, ticket: NewTicket, priority: Priority, medium: NewMedium) -> Result<()>;
 }
@@ -297,6 +299,17 @@ impl<'a> TicketRepositoryImpl<'a> {
             .load::<TicketEntity>(self.conn)
             .map_err(Into::into)
             .and_then(|users| users.into_iter().map(TryInto::try_into).collect())
+    }
+
+    /// Get a single ticket by ID.
+    fn get(&self, id: i32) -> Result<Ticket> {
+        use super::schema::tickets;
+
+        tickets::table
+            .find(id)
+            .get_result::<TicketEntity>(self.conn)
+            .map_err(Into::into)
+            .and_then(TryInto::try_into)
     }
 }
 
@@ -343,6 +356,28 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
                 })
             })
             .collect()
+    }
+
+    fn get_with_names(&self, id: i32) -> Result<TicketWithNames> {
+        use super::schema::{courses, users};
+
+        let ticket = self.get(id)?;
+
+        let course_name = courses::table
+            .find(ticket.course_id)
+            .select(courses::code)
+            .get_result(self.conn)?;
+
+        let creator_name = users::table
+            .find(ticket.creator_id)
+            .select(users::name)
+            .get_result(self.conn)?;
+
+        Ok(TicketWithNames {
+            ticket,
+            creator_name,
+            course_name,
+        })
     }
 
     fn create(&self, ticket: NewTicket, priority: Priority, medium: NewMedium) -> Result<()> {

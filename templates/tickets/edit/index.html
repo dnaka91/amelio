@@ -1,0 +1,84 @@
+{% extends "../../base.html" %}
+
+{% block navbar %}
+{% include "navbar.html" %}
+{% endblock navbar %}
+
+{% block content %}
+<div class="container">
+  <div class="columns">
+    <div class="column">
+      <div class="box">
+
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Medium</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="select is-fullwidth">
+                <select disabled>
+                  <option selected>{{ ticket.ticket.type_.german() }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Kurs</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="select is-fullwidth">
+                <select disabled>
+                  <option selected>{{ ticket.course_name }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Kategorie</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="select is-fullwidth">
+                <select disabled>
+                  <option selected>{{ ticket.ticket.category.german() }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Titel</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <input class="input" type="text" value="{{ ticket.ticket.title }}" disabled>
+            </div>
+          </div>
+        </div>
+
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Beschreibung</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <textarea class="textarea" rows="5" disabled>{{ ticket.ticket.description }}</textarea>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

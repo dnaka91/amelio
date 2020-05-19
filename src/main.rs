@@ -80,7 +80,8 @@ fn rocket() -> Result<Rocket> {
             routes![
                 routes::tickets::tickets,
                 routes::tickets::new_ticket,
-                routes::tickets::post_new_ticket
+                routes::tickets::post_new_ticket,
+                routes::tickets::edit_ticket_student,
             ],
         )
         .register(catchers![

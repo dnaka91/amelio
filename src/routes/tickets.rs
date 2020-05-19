@@ -181,6 +181,28 @@ pub fn post_new_ticket(user: StudentUser, data: Form<NewTicket>, conn: DbConn) -
     }
 }
 
+/// Show the details of a ticket from student perspective.
+#[get("/<id>")]
+pub fn edit_ticket_student(
+    user: StudentUser,
+    id: PositiveId,
+    conn: DbConn,
+    flash: Option<FlashMessage<'_, '_>>,
+) -> Result<templates::TicketDetail, ServerError> {
+    let service = services::ticket_service(
+        repositories::ticket_repo(&conn),
+        repositories::course_repo(&conn),
+    );
+
+    let ticket = service.get(id.0)?;
+
+    Ok(templates::TicketDetail {
+        role: user.0.role,
+        flash: flash.map(|f| f.msg().into()),
+        ticket,
+    })
+}
+
 #[cfg(test)]
 mod tests {
     use pretty_assertions::assert_eq;
