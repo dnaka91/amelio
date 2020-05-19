@@ -41,7 +41,9 @@
                 {% for user in active %}
                 <tr>
                   <td>{{ user.username }}</td>
-                  <td>{{ user.name }}</td>
+                  <td>
+                    <a href="/users/{{ user.id }}/edit">{{ user.name }}</a>
+                  </td>
                   <td>{{ user.role.german() }}</td>
                   <td>
                     {% if user.is_admin() %}
@@ -80,7 +82,9 @@
                 {% for user in inactive %}
                 <tr>
                   <td>{{ user.username }}</td>
-                  <td>{{ user.name }}</td>
+                  <td>
+                    <a href="/users/{{ user.id }}/edit">{{ user.name }}</a>
+                  </td>
                   <td>{{ user.role.german() }}</td>
                   <td>
                     <form action="/users/{{ user.id }}/enable">

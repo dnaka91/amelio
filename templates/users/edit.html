@@ -11,7 +11,7 @@
     <div class="column is-half is-offset-one-quarter">
       <div class="box">
 
-        <p class="title">Kursbearbeitung</p>
+        <p class="title">Nutzerbearbeitung</p>
 
         {% match flash %}
         {% when Some with (msg) %}
@@ -19,60 +19,42 @@
         {%- when None %}
         {% endmatch %}
 
-        <form action="/courses/{{ course.id }}/edit" method="POST">
+        <form action="/users/{{ user.id }}/edit" method="POST">
 
           <div class="field is-horizontal">
             <div class="field-label is-normal">
-              <label class="label">Kürzel</label>
+              <label class="label">Nutzername</label>
             </div>
             <div class="field-body">
               <div class="field">
-                <input class="input" type="text" value="{{ course.code }}" disabled>
+                <input class="input" type="text" name="username" value="{{ user.username }}" disabled>
               </div>
             </div>
           </div>
 
           <div class="field is-horizontal">
             <div class="field-label is-normal">
-              <label class="label">Titel</label>
+              <label class="label">Name</label>
             </div>
             <div class="field-body">
               <div class="field">
-                <input class="input" type="text" name="title" value="{{ course.title }}" required>
+                <input class="input" type="text" name="name" value="{{ user.name }}" required>
               </div>
             </div>
           </div>
 
           <div class="field is-horizontal">
             <div class="field-label is-normal">
-              <label class="label">Autor</label>
+              <label class="label">Rolle</label>
             </div>
             <div class="field-body">
               <div class="field">
                 <div class="select is-fullwidth">
-                  <select name="author" required>
-                    <option value=""></option>
-                    {% for (id, name) in authors %}
-                    <option value="{{ id }}" {%- if id == course.author_id.borrow() %} selected{% endif %}>{{ name }}</option>
-                    {% endfor %}
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="field is-horizontal">
-            <div class="field-label is-normal">
-              <label class="label">Tutor</label>
-            </div>
-            <div class="field-body">
-              <div class="field">
-                <div class="select is-fullwidth">
-                  <select name="tutor" required>
-                    <option value=""></option>
-                    {% for (id, name) in tutors %}
-                    <option value="{{ id }}" {%- if id == course.tutor_id.borrow() %} selected{% endif %}>{{ name }}</option>
-                    {% endfor %}
+                  <select name="role" required>
+                    <option value="admin" {%- if user.role == Role::Admin %} selected{% endif %}>Administrator</option>
+                    <option value="author" {%- if user.role == Role::Author %} selected{% endif %}>Autor</option>
+                    <option value="tutor" {%- if user.role == Role::Tutor %} selected{% endif %}>Tutor</option>
+                    <option value="student" {%- if user.role == Role::Student %} selected{% endif %}>Student</option>
                   </select>
                 </div>
               </div>
@@ -92,7 +74,7 @@
                   </button>
                 </div>
                 <div class="control">
-                  <a class="button is-light" href="/courses">
+                  <a class="button is-light" href="/users">
                     <span class="icon">
                       <i class="fas fa-times"></i>
                     </span>

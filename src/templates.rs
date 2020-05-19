@@ -161,12 +161,14 @@ pub enum MessageCode {
     // Error codes
     InvalidCredentials,
     FailedUserCreation,
+    FailedUserUpdate,
     InvalidCodeOrError,
     FailedCourseCreation,
     FailedCourseUpdate,
     FailedTicketCreation,
     // Success codes
     UserCreated,
+    UserUpdated,
     UserActivated,
     CourseCreated,
     CourseUpdated,
@@ -191,11 +193,13 @@ impl Translate for MessageCode {
         match self {
             Self::InvalidCredentials => "Ung\u{00fc}ltiger Nutzername oder Passwort",
             Self::FailedUserCreation => "Benutzererstellung fehlgeschlagen",
+            Self::FailedUserUpdate => "Benutzerbearbeitung fehlgeschlagen",
             Self::InvalidCodeOrError => " Ung\u{00fc}ltiger Aktivierungscode oder anderer Fehler",
             Self::FailedCourseCreation => "Kurserstellung fehlgeschlagen",
             Self::FailedCourseUpdate => "Kursbearbeitung fehlgeschlagen",
             Self::FailedTicketCreation => "Ticketerstellung fehlgeschlagen",
             Self::UserCreated => "Account erfolgreich erstellt",
+            Self::UserUpdated => "Account erfolgreich bearbeitet",
             Self::UserActivated => "Account erfolgreich aktiviert",
             Self::CourseCreated => "Kurs erfolgreich erstellt",
             Self::CourseUpdated => "Kurs erfolgreich bearbeitet",
@@ -244,6 +248,15 @@ pub struct NewUser {
 pub struct ActivateUser {
     pub flash: Option<MessageCode>,
     pub code: String,
+}
+
+/// Template for the edit user page.
+#[derive(Template)]
+#[template(path = "users/edit.html")]
+pub struct EditUser {
+    pub role: Role,
+    pub flash: Option<MessageCode>,
+    pub user: User,
 }
 
 /// Template for the user list page.

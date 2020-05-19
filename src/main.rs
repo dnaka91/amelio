@@ -60,6 +60,8 @@ fn rocket() -> Result<Rocket> {
                 routes::users::new_user,
                 routes::users::post_new_user,
                 routes::users::enable_user,
+                routes::users::edit_user,
+                routes::users::post_edit_user,
             ],
         )
         .mount(

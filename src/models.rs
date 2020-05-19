@@ -42,6 +42,13 @@ pub struct NewUser {
     pub code: String,
 }
 
+/// An existing user to be updated.
+pub struct EditUser {
+    pub id: Id,
+    pub name: String,
+    pub role: Role,
+}
+
 /// A full course with all available details.
 pub struct Course {
     pub id: Id,

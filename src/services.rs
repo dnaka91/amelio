@@ -10,8 +10,8 @@ use crate::db::repositories::{CourseRepository, TicketRepository, UserRepository
 use crate::email::{Mail, MailRenderer, MailSender};
 use crate::hashing::Hasher;
 use crate::models::{
-    Category, Course, CourseWithNames, EditCourse, Id, NewCourse, NewMedium, NewTicket, NewUser,
-    Priority, Role, TicketWithNames, User,
+    Category, Course, CourseWithNames, EditCourse, EditUser, Id, NewCourse, NewMedium, NewTicket,
+    NewUser, Priority, Role, TicketWithNames, User,
 };
 
 /// The login service manages the user login. Logout is directly handled in the
@@ -59,10 +59,14 @@ pub trait UserService {
     fn list(&self) -> Result<(Vec<User>, Vec<User>)>;
     /// Create a new user in the system.
     fn create(&self, username: String, name: String, role: Role) -> Result<()>;
+    /// Get a single user by its ID.
+    fn get(&self, id: Id) -> Result<User>;
     /// Activate a previously created user.
     fn activate(&self, code: &str, password: &str) -> Result<()>;
     /// Enable or disable a user.
-    fn enable(&self, id: i32, enable: bool) -> Result<()>;
+    fn enable(&self, id: Id, enable: bool) -> Result<()>;
+    /// Update the details of a user.
+    fn update(&self, id: Id, name: String, role: Role) -> Result<()>;
 }
 
 /// Main implementation of [`UserRepository`].
@@ -107,6 +111,10 @@ where
         })
     }
 
+    fn get(&self, id: Id) -> Result<User> {
+        self.user_repo.find(id)
+    }
+
     fn create(&self, username: String, name: String, role: Role) -> Result<()> {
         let code = Self::generate_code();
         self.user_repo.create(NewUser {
@@ -136,6 +144,10 @@ where
 
     fn enable(&self, id: i32, enable: bool) -> Result<()> {
         self.user_repo.enable(id, enable).map_err(Into::into)
+    }
+
+    fn update(&self, id: Id, name: String, role: Role) -> Result<()> {
+        self.user_repo.update(EditUser { id, name, role })
     }
 }
 

@@ -161,7 +161,7 @@ pub fn post_edit_course(
         Err(e) => {
             error!("error during course update: {:?}", e);
             Flash::error(
-                Redirect::to(format!("/courses/{}/edit", id.0)),
+                Redirect::to(uri!("/courses", edit_course: id)),
                 MessageCode::FailedCourseUpdate,
             )
         }

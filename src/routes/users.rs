@@ -158,6 +158,68 @@ pub fn enable_user(
     Ok(Redirect::to(uri!("/users", users)))
 }
 
+/// User editing form for administrators.
+#[get("/<id>/edit")]
+pub fn edit_user(
+    user: AdminUser,
+    id: PositiveId,
+    conn: DbConn,
+    config: State<Config>,
+    flash: Option<FlashMessage<'_, '_>>,
+) -> Result<templates::EditUser, ServerError> {
+    let service = services::user_service(
+        repositories::user_repo(&conn),
+        email::new_smtp_sender(&config.smtp),
+        email::new_mail_renderer(&config.host),
+        hashing::new_hasher(),
+    );
+    let user_data = service.get(id.0)?;
+
+    Ok(templates::EditUser {
+        role: user.0.role,
+        flash: flash.map(|f| f.msg().into()),
+        user: user_data,
+    })
+}
+
+/// Form data from the user editing form.
+#[derive(FromForm)]
+pub struct EditUser {
+    name: NonEmptyString,
+    role: Role,
+}
+
+/// Edit user POST endpoint to handle user editing, only for administrators.
+#[post("/<id>/edit", data = "<data>")]
+pub fn post_edit_user(
+    _user: AdminUser,
+    id: PositiveId,
+    data: Form<EditUser>,
+    conn: DbConn,
+    config: State<Config>,
+) -> Flash<Redirect> {
+    let service = services::user_service(
+        repositories::user_repo(&conn),
+        email::new_smtp_sender(&config.smtp),
+        email::new_mail_renderer(&config.host),
+        hashing::new_hasher(),
+    );
+
+    match service.update(id.0, data.0.name.0, data.0.role) {
+        Ok(()) => Flash::success(
+            Redirect::to(uri!("/users", users)),
+            MessageCode::UserUpdated,
+        ),
+        Err(e) => {
+            error!("error during user update: {:?}", e);
+            Flash::error(
+                Redirect::to(uri!("/users", edit_user: id)),
+                MessageCode::FailedUserUpdate,
+            )
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use pretty_assertions::assert_eq;
@@ -206,6 +268,29 @@ mod tests {
     fn invalid_enable_user_id() {
         let client = prepare_logged_in_client("admin", "admin");
         let uri = uri!("/users", super::enable_user: PositiveNum(0), true).to_string();
+
+        assert_eq!(Status::NotFound, client.get(uri).dispatch().status());
+    }
+
+    #[test]
+    fn invalid_post_edit_user() {
+        let client = prepare_logged_in_client("admin", "admin");
+        let uri = uri!("/users", super::post_edit_user: PositiveNum(1)).to_string();
+
+        assert_eq!(
+            Status::UnprocessableEntity,
+            check_form(&client, &uri, "name=&role=admin").status()
+        );
+        assert_eq!(
+            Status::UnprocessableEntity,
+            check_form(&client, &uri, "name=a&role=test").status()
+        );
+    }
+
+    #[test]
+    fn invalid_edit_user_id() {
+        let client = prepare_logged_in_client("admin", "admin");
+        let uri = uri!("/users", super::edit_user: PositiveNum(0)).to_string();
 
         assert_eq!(Status::NotFound, client.get(uri).dispatch().status());
     }

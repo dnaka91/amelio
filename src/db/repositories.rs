@@ -13,8 +13,8 @@ use super::models::{
 };
 
 use crate::models::{
-    Course, CourseWithNames, EditCourse, NewCourse, NewMedium, NewTicket, NewUser, Priority, Role,
-    Ticket, TicketWithNames, User,
+    Course, CourseWithNames, EditCourse, EditUser, NewCourse, NewMedium, NewTicket, NewUser,
+    Priority, Role, Ticket, TicketWithNames, User,
 };
 
 /// User related functionality.
@@ -33,6 +33,8 @@ pub trait UserRepository {
     fn activate(&self, code: &str, password: &str) -> Result<()>;
     /// Enable or disable an existing user.
     fn enable(&self, id: i32, enable: bool) -> Result<()>;
+    /// Update an existing user.
+    fn update(&self, user: EditUser) -> Result<()>;
 }
 
 /// Main implementation of [`UserRepository`].
@@ -115,6 +117,20 @@ impl<'a> UserRepository for UserRepositoryImpl<'a> {
             .execute(self.conn)?;
 
         ensure!(res == 1, "User with ID {} not found", id);
+        Ok(())
+    }
+
+    fn update(&self, user: EditUser) -> Result<()> {
+        use super::schema::users;
+
+        let res = diesel::update(users::table.filter(users::id.eq(user.id)))
+            .set((
+                users::name.eq(user.name),
+                users::role.eq(user.role.as_ref()),
+            ))
+            .execute(self.conn)?;
+
+        ensure!(res == 1, "User with ID {} not found", user.id);
         Ok(())
     }
 }
