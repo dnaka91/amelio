@@ -3,11 +3,12 @@
 use std::borrow::Borrow;
 
 use askama::Template;
+use chrono::Timelike;
 use strum::{AsRefStr, EnumString};
 
 use crate::models::{
-    Category, Course, CourseWithNames, Id, Medium, Priority, Role, Status, TicketType,
-    TicketWithNames, User,
+    Category, Course, CourseWithNames, Id, Medium, MediumType, Priority, Role, Status, TicketType,
+    TicketWithMedium, TicketWithNames, User,
 };
 
 mod filters {
@@ -313,7 +314,7 @@ pub struct NewTicket {
 pub struct TicketDetail {
     pub role: Role,
     pub flash: Option<MessageCode>,
-    pub ticket: TicketWithNames,
+    pub ticket: TicketWithMedium,
 }
 
 /// Template for the _403 Forbidden_ error.

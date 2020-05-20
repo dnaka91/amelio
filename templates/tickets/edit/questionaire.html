@@ -3,9 +3,9 @@
     <label class="label">Frage</label>
   </div>
   <div class="field-body">
-    <div class="field">
+    <div class="field is-narrow">
       <div class="control">
-        <input class="input" type="number" name="question" required>
+        <input class="input" type="number" value="{{ question }}" disabled>
       </div>
     </div>
   </div>
@@ -18,7 +18,7 @@
   <div class="field-body">
     <div class="field">
       <div class="control">
-        <textarea class="textarea" type="text" name="answer" rows="2" required></textarea>
+        <textarea class="textarea" type="text" rows="2">{{ answer }}</textarea>
       </div>
     </div>
   </div>

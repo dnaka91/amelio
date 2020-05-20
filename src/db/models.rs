@@ -211,11 +211,11 @@ pub struct MediumTextEntity {
     pub line: i32,
 }
 
-impl TryFrom<MediumTextEntity> for MediumText {
+impl TryFrom<MediumTextEntity> for Medium {
     type Error = anyhow::Error;
 
     fn try_from(value: MediumTextEntity) -> Result<Self, Self::Error> {
-        Ok(Self {
+        Ok(Self::Text {
             ticket_id: value.ticket_id,
             page: value.page.try_into()?,
             line: value.line.try_into()?,
@@ -232,11 +232,11 @@ pub struct MediumRecordingEntity {
     pub time: String,
 }
 
-impl TryFrom<MediumRecordingEntity> for MediumRecording {
+impl TryFrom<MediumRecordingEntity> for Medium {
     type Error = anyhow::Error;
 
     fn try_from(value: MediumRecordingEntity) -> Result<Self, Self::Error> {
-        Ok(Self {
+        Ok(Self::Recording {
             ticket_id: value.ticket_id,
             time: NaiveTime::parse_from_str(&value.time, "%H:%M:%S")?,
         })
@@ -252,11 +252,11 @@ pub struct MediumInteractiveEntity {
     pub url: String,
 }
 
-impl TryFrom<MediumInteractiveEntity> for MediumInteractive {
+impl TryFrom<MediumInteractiveEntity> for Medium {
     type Error = anyhow::Error;
 
     fn try_from(value: MediumInteractiveEntity) -> Result<Self, Self::Error> {
-        Ok(Self {
+        Ok(Self::Interactive {
             ticket_id: value.ticket_id,
             url: value.url,
         })
@@ -273,11 +273,11 @@ pub struct MediumQuestionaireEntity {
     pub answer: String,
 }
 
-impl TryFrom<MediumQuestionaireEntity> for MediumQuestionaire {
+impl TryFrom<MediumQuestionaireEntity> for Medium {
     type Error = anyhow::Error;
 
     fn try_from(value: MediumQuestionaireEntity) -> Result<Self, Self::Error> {
-        Ok(Self {
+        Ok(Self::Questionaire {
             ticket_id: value.ticket_id,
             question: value.question.try_into()?,
             answer: value.answer,

@@ -5,17 +5,17 @@
   <div class="field-body">
     <div class="field is-narrow">
       <div class="control">
-        <input class="input" type="number" name="hour" min="0" max="23" required>
+        <input class="input" type="number" value="{{ time.hour() }}" disabled>
       </div>
     </div>
     <div class="field is-narrow">
       <div class="control">
-        <input class="input" type="number" name="minute" min="0" max="59" required>
+        <input class="input" type="number" value="{{ time.minute() }}" disabled>
       </div>
     </div>
     <div class="field is-narrow">
       <div class="control">
-        <input class="input" type="number" name="second" min="0" max="59" required>
+        <input class="input" type="number" value="{{ time.second() }}" disabled>
       </div>
     </div>
   </div>

@@ -99,20 +99,20 @@ pub enum TicketType {
 }
 
 impl TicketType {
-    pub fn medium(self) -> Medium {
+    pub fn medium(self) -> MediumType {
         match self {
-            Self::CourseBook | Self::ReadingList | Self::Presentation => Medium::Text,
-            Self::Vodcast | Self::Podcast | Self::LiveTutorialRecording => Medium::Recording,
-            Self::InteractiveBook => Medium::Interactive,
+            Self::CourseBook | Self::ReadingList | Self::Presentation => MediumType::Text,
+            Self::Vodcast | Self::Podcast | Self::LiveTutorialRecording => MediumType::Recording,
+            Self::InteractiveBook => MediumType::Interactive,
             Self::PracticeExam | Self::PracticeExamSolution | Self::OnlineTest => {
-                Medium::Questionaire
+                MediumType::Questionaire
             }
         }
     }
 }
 
 /// The kind of medium that is attached to a [`Ticket`] based on the [`TicketType`].
-pub enum Medium {
+pub enum MediumType {
     Text,
     Recording,
     Interactive,
@@ -178,48 +178,47 @@ pub struct TicketWithNames {
     pub creator_name: String,
 }
 
-/// A medium which describes locations in text based content.
-///
-/// This is the content for:
-/// - [`TicketType::CourseBook`]
-/// - [`TicketType::ReadingList`]
-/// - [`TicketType::Presentation`]
-pub struct MediumText {
-    pub ticket_id: Id,
-    pub page: u32,
-    pub line: u32,
+/// A ticket with the same information as [`TicketWithNames`] plus the related medium.
+pub struct TicketWithMedium {
+    pub ticket: Ticket,
+    pub course_name: String,
+    pub creator_name: String,
+    pub medium: Medium,
 }
 
-/// A medium which describes locations in recorded content like videos.
-///
-/// This is the content for:
-/// - [`TicketType::Vodcast`]
-/// - [`TicketType::Podcast`]
-/// - [`TicketType::LiveTutorialRecording`]
-pub struct MediumRecording {
-    pub ticket_id: Id,
-    pub time: NaiveTime,
-}
-
-/// A medium which describes locations in interactive content like websites.
-///
-/// This is the content for:
-/// - [`TicketType::InteractiveBook`]
-pub struct MediumInteractive {
-    pub ticket_id: Id,
-    pub url: String,
-}
-
-/// A medium which describes locations in question-answer structured content like tests.
-///
-/// This is the content for:
-/// - [`TicketType::PracticeExam`]
-/// - [`TicketType::PracticeExamSolution`]
-/// - [`TicketType::OnlineTest`]
-pub struct MediumQuestionaire {
-    pub ticket_id: Id,
-    pub question: u32,
-    pub answer: String,
+/// A medium contains additional information to locate content for a [`Ticket`]. The specific type
+/// depends on the [`TicketType`].
+pub enum Medium {
+    /// A medium which describes locations in text based content.
+    ///
+    /// This is the content for:
+    /// - [`TicketType::CourseBook`]
+    /// - [`TicketType::ReadingList`]
+    /// - [`TicketType::Presentation`]
+    Text { ticket_id: Id, page: u16, line: u16 },
+    /// A medium which describes locations in recorded content like videos.
+    ///
+    /// This is the content for:
+    /// - [`TicketType::Vodcast`]
+    /// - [`TicketType::Podcast`]
+    /// - [`TicketType::LiveTutorialRecording`]
+    Recording { ticket_id: Id, time: NaiveTime },
+    /// A medium which describes locations in interactive content like websites.
+    ///
+    /// This is the content for:
+    /// - [`TicketType::InteractiveBook`]
+    Interactive { ticket_id: Id, url: String },
+    /// A medium which describes locations in question-answer structured content like tests.
+    ///
+    /// This is the content for:
+    /// - [`TicketType::PracticeExam`]
+    /// - [`TicketType::PracticeExamSolution`]
+    /// - [`TicketType::OnlineTest`]
+    Questionaire {
+        ticket_id: Id,
+        question: u16,
+        answer: String,
+    },
 }
 
 /// A new ticket to be added to the system.

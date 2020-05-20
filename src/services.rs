@@ -11,7 +11,7 @@ use crate::email::{Mail, MailRenderer, MailSender};
 use crate::hashing::Hasher;
 use crate::models::{
     Category, Course, CourseWithNames, EditCourse, EditUser, Id, NewCourse, NewMedium, NewTicket,
-    NewUser, Priority, Role, TicketWithNames, User,
+    NewUser, Priority, Role, TicketWithMedium, TicketWithNames, User,
 };
 
 /// The login service manages the user login. Logout is directly handled in the
@@ -252,6 +252,8 @@ pub trait TicketService {
     fn list_course_names(&self) -> Result<Vec<(Id, String)>>;
     /// Get a single ticket by its ID.
     fn get(&self, id: Id) -> Result<TicketWithNames>;
+    /// Get a single ticket together with the medium.
+    fn get_with_medium(&self, id: Id) -> Result<TicketWithMedium>;
     /// Create a new ticket in the system.
     fn create(&self, ticket: NewTicket, medium: NewMedium) -> Result<()>;
 }
@@ -284,6 +286,10 @@ impl<TR: TicketRepository, CR: CourseRepository> TicketService for TicketService
 
     fn get(&self, id: Id) -> Result<TicketWithNames> {
         self.ticket_repo.get_with_names(id)
+    }
+
+    fn get_with_medium(&self, id: Id) -> Result<TicketWithMedium> {
+        self.ticket_repo.get_with_medium(id)
     }
 
     fn create(&self, ticket: NewTicket, medium: NewMedium) -> Result<()> {

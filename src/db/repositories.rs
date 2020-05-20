@@ -13,8 +13,8 @@ use super::models::{
 };
 
 use crate::models::{
-    Course, CourseWithNames, EditCourse, EditUser, NewCourse, NewMedium, NewTicket, NewUser,
-    Priority, Role, Ticket, TicketWithNames, User,
+    Course, CourseWithNames, EditCourse, EditUser, MediumType, NewCourse, NewMedium, NewTicket,
+    NewUser, Priority, Role, Ticket, TicketWithMedium, TicketWithNames, User,
 };
 
 /// User related functionality.
@@ -281,6 +281,8 @@ pub trait TicketRepository {
     fn list_with_names(&self) -> Result<Vec<TicketWithNames>>;
     /// Get a single ticket with course and creator names.
     fn get_with_names(&self, id: i32) -> Result<TicketWithNames>;
+    /// Get a single ticket with names and attached medium.
+    fn get_with_medium(&self, id: i32) -> Result<TicketWithMedium>;
     /// Create a new ticket.
     fn create(&self, ticket: NewTicket, priority: Priority, medium: NewMedium) -> Result<()>;
 }
@@ -377,6 +379,44 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
             ticket,
             creator_name,
             course_name,
+        })
+    }
+
+    fn get_with_medium(&self, id: i32) -> Result<TicketWithMedium> {
+        use super::schema::{
+            medium_interactives, medium_questionaires, medium_recordings, medium_texts,
+        };
+
+        let ticket = self.get_with_names(id)?;
+
+        let medium = match ticket.ticket.type_.medium() {
+            MediumType::Text => medium_texts::table
+                .find(id)
+                .get_result::<MediumTextEntity>(self.conn)
+                .map_err(Into::into)
+                .and_then(TryInto::try_into),
+            MediumType::Recording => medium_recordings::table
+                .find(id)
+                .get_result::<MediumRecordingEntity>(self.conn)
+                .map_err(Into::into)
+                .and_then(TryInto::try_into),
+            MediumType::Interactive => medium_interactives::table
+                .find(id)
+                .get_result::<MediumInteractiveEntity>(self.conn)
+                .map_err(Into::into)
+                .and_then(TryInto::try_into),
+            MediumType::Questionaire => medium_questionaires::table
+                .find(id)
+                .get_result::<MediumQuestionaireEntity>(self.conn)
+                .map_err(Into::into)
+                .and_then(TryInto::try_into),
+        }?;
+
+        Ok(TicketWithMedium {
+            ticket: ticket.ticket,
+            course_name: ticket.course_name,
+            creator_name: ticket.creator_name,
+            medium,
         })
     }
 

@@ -3,12 +3,16 @@
 #![allow(clippy::wildcard_imports)]
 
 use anyhow::{Context, Result};
+use chrono::NaiveTime;
 use diesel::prelude::*;
 use diesel::SqliteConnection;
 use rocket::fairing::{AdHoc, Fairing};
 
 use self::connection::DbConn;
-use self::models::{InitCourseEntity, InitTicketEntity, InitUserEntity};
+use self::models::{
+    InitCourseEntity, InitTicketEntity, InitUserEntity, MediumInteractiveEntity,
+    MediumQuestionaireEntity, MediumRecordingEntity, MediumTextEntity,
+};
 use crate::hashing::{self, Hasher};
 use crate::models::{Category, Priority, Status, TicketType};
 
@@ -175,13 +179,15 @@ fn create_sample_courses(conn: &SqliteConnection) -> Result<()> {
 
 /// Create several sample tickets for testing purposes.
 fn create_sample_tickets(conn: &SqliteConnection) -> Result<()> {
-    use crate::db::schema::tickets::dsl::*;
+    use crate::db::schema::{
+        medium_interactives, medium_questionaires, medium_recordings, medium_texts, tickets,
+    };
 
-    if tickets.count().get_result::<i64>(conn)? >= 5 {
+    if tickets::table.count().get_result::<i64>(conn)? >= 5 {
         return Ok(());
     }
 
-    diesel::insert_into(tickets)
+    diesel::insert_into(tickets::table)
         .values(vec![
             &InitTicketEntity {
                 type_: TicketType::CourseBook.as_ref(),
@@ -194,8 +200,8 @@ fn create_sample_tickets(conn: &SqliteConnection) -> Result<()> {
                 creator_id: 1,
             },
             &InitTicketEntity {
-                type_: TicketType::CourseBook.as_ref(),
-                title: "Seiten fehlen nach Kapitel 3",
+                type_: TicketType::Vodcast.as_ref(),
+                title: "Das Video stoppt nach 5 Sekunden",
                 description: "Blah blah blah",
                 category: Category::Content.as_ref(),
                 priority: Priority::Critical.as_ref(),
@@ -204,7 +210,7 @@ fn create_sample_tickets(conn: &SqliteConnection) -> Result<()> {
                 creator_id: 1,
             },
             &InitTicketEntity {
-                type_: TicketType::CourseBook.as_ref(),
+                type_: TicketType::InteractiveBook.as_ref(),
                 title: "Die Schriftfarbe ist zu grell",
                 description: "Blah blah blah",
                 category: Category::Improvement.as_ref(),
@@ -214,10 +220,10 @@ fn create_sample_tickets(conn: &SqliteConnection) -> Result<()> {
                 creator_id: 1,
             },
             &InitTicketEntity {
-                type_: TicketType::CourseBook.as_ref(),
-                title: "Neues Titelblatt, denn das alte ist langweilig",
+                type_: TicketType::PracticeExam.as_ref(),
+                title: "Mathematische Formel hat ein falsches Ergebnis",
                 description: "Blah blah blah",
-                category: Category::Addition.as_ref(),
+                category: Category::Content.as_ref(),
                 priority: Priority::High.as_ref(),
                 status: Status::Refused.as_ref(),
                 course_id: 1,
@@ -234,6 +240,44 @@ fn create_sample_tickets(conn: &SqliteConnection) -> Result<()> {
                 creator_id: 1,
             },
         ])
+        .execute(&*conn)?;
+
+    diesel::insert_into(medium_texts::table)
+        .values(MediumTextEntity {
+            ticket_id: 1,
+            page: 40,
+            line: 3,
+        })
+        .execute(&*conn)?;
+
+    diesel::insert_into(medium_recordings::table)
+        .values(vec![
+            MediumRecordingEntity {
+                ticket_id: 2,
+                time: NaiveTime::from_hms(0, 5, 0).format("%H:%M:%S").to_string(),
+            },
+            MediumRecordingEntity {
+                ticket_id: 5,
+                time: NaiveTime::from_hms(2, 12, 55)
+                    .format("%H:%M:%S")
+                    .to_string(),
+            },
+        ])
+        .execute(&*conn)?;
+
+    diesel::insert_into(medium_interactives::table)
+        .values(MediumInteractiveEntity {
+            ticket_id: 3,
+            url: "https://example.com".to_owned(),
+        })
+        .execute(&*conn)?;
+
+    diesel::insert_into(medium_questionaires::table)
+        .values(MediumQuestionaireEntity {
+            ticket_id: 4,
+            question: 5,
+            answer: "1 + 2 = 4".to_owned(),
+        })
         .execute(&*conn)?;
 
     Ok(())

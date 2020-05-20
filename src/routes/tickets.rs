@@ -194,7 +194,7 @@ pub fn edit_ticket_student(
         repositories::course_repo(&conn),
     );
 
-    let ticket = service.get(id.0)?;
+    let ticket = service.get_with_medium(id.0)?;
 
     Ok(templates::TicketDetail {
         role: user.0.role,
