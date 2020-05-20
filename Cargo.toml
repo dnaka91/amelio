@@ -15,6 +15,7 @@ anyhow = "1.0.31"
 askama = { version = "0.9.0", features = ["with-rocket"] }
 bcrypt = "0.8.0"
 chrono = "0.4.11"
+chrono-tz = "0.5.1"
 ctrlc = { version = "3.1.4", features = ["termination"] }
 diesel = { version = "1.4.4", features = ["r2d2", "sqlite"] }
 diesel_migrations = "1.4.0"

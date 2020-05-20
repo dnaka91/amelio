@@ -8,13 +8,15 @@ use diesel::prelude::*;
 use fnv::{FnvHashMap, FnvHashSet};
 
 use super::models::{
-    CourseEntity, MediumInteractiveEntity, MediumQuestionaireEntity, MediumRecordingEntity,
-    MediumTextEntity, NewCourseEntity, NewTicketEntity, NewUserEntity, TicketEntity, UserEntity,
+    CommentEntity, CourseEntity, MediumInteractiveEntity, MediumQuestionaireEntity,
+    MediumRecordingEntity, MediumTextEntity, NewCommentEntity, NewCourseEntity, NewTicketEntity,
+    NewUserEntity, TicketEntity, UserEntity,
 };
 
 use crate::models::{
-    Course, CourseWithNames, EditCourse, EditUser, MediumType, NewCourse, NewMedium, NewTicket,
-    NewUser, Priority, Role, Ticket, TicketWithMedium, TicketWithNames, User,
+    Comment, CommentWithNames, Course, CourseWithNames, EditCourse, EditUser, MediumType,
+    NewComment, NewCourse, NewMedium, NewTicket, NewUser, Priority, Role, Ticket, TicketWithNames,
+    TicketWithRels, User,
 };
 
 /// User related functionality.
@@ -281,10 +283,12 @@ pub trait TicketRepository {
     fn list_with_names(&self) -> Result<Vec<TicketWithNames>>;
     /// Get a single ticket with course and creator names.
     fn get_with_names(&self, id: i32) -> Result<TicketWithNames>;
-    /// Get a single ticket with names and attached medium.
-    fn get_with_medium(&self, id: i32) -> Result<TicketWithMedium>;
+    /// Get a single ticket with all related data.
+    fn get_with_rels(&self, id: i32) -> Result<TicketWithRels>;
     /// Create a new ticket.
     fn create(&self, ticket: NewTicket, priority: Priority, medium: NewMedium) -> Result<()>;
+    /// Add a new comment to an existing ticket.
+    fn add_comment(&self, comment: NewComment) -> Result<()>;
 }
 
 /// Main implementation of [`TicketRepository`].
@@ -382,9 +386,10 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
         })
     }
 
-    fn get_with_medium(&self, id: i32) -> Result<TicketWithMedium> {
+    fn get_with_rels(&self, id: i32) -> Result<TicketWithRels> {
         use super::schema::{
-            medium_interactives, medium_questionaires, medium_recordings, medium_texts,
+            comments, medium_interactives, medium_questionaires, medium_recordings, medium_texts,
+            users,
         };
 
         let ticket = self.get_with_names(id)?;
@@ -412,11 +417,49 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
                 .and_then(TryInto::try_into),
         }?;
 
-        Ok(TicketWithMedium {
+        let comments = comments::table
+            .filter(comments::ticket_id.eq(id))
+            .load::<CommentEntity>(self.conn)
+            .map_err(Into::into)
+            .and_then(|comments| {
+                comments
+                    .into_iter()
+                    .map(TryInto::try_into)
+                    .collect::<Result<Vec<Comment>>>()
+            })?;
+
+        let creator_ids = comments
+            .iter()
+            .map(|c| c.creator_id)
+            .collect::<FnvHashSet<_>>();
+
+        let users = users::table
+            .select((users::id, users::name))
+            .filter(users::id.eq_any(creator_ids))
+            .load::<(i32, String)>(self.conn)
+            .map(FnvHashMap::from_iter)?;
+
+        let comments = comments
+            .into_iter()
+            .map(|comment| {
+                let creator_name = users
+                    .get(&comment.creator_id)
+                    .cloned()
+                    .context("Entry missing for comment's user ID")?;
+
+                Ok(CommentWithNames {
+                    comment,
+                    creator_name,
+                })
+            })
+            .collect::<Result<Vec<_>>>()?;
+
+        Ok(TicketWithRels {
             ticket: ticket.ticket,
             course_name: ticket.course_name,
             creator_name: ticket.creator_name,
             medium,
+            comments,
         })
     }
 
@@ -469,6 +512,17 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
             ensure!(res_medium == 1, "Failed inserting medium");
             Ok(())
         })
+    }
+
+    fn add_comment(&self, comment: NewComment) -> Result<()> {
+        use super::schema::comments;
+
+        let res = diesel::insert_into(comments::table)
+            .values(NewCommentEntity::from(comment))
+            .execute(self.conn)?;
+
+        ensure!(res == 1, "Failed inserting comment");
+        Ok(())
     }
 }
 

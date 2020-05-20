@@ -8,11 +8,14 @@ use strum::{AsRefStr, EnumString};
 
 use crate::models::{
     Category, Course, CourseWithNames, Id, Medium, MediumType, Priority, Role, Status, TicketType,
-    TicketWithMedium, TicketWithNames, User,
+    TicketWithNames, TicketWithRels, User,
 };
 
 mod filters {
     //! Custom filters for [`askama`] templates.
+
+    use chrono::prelude::*;
+    use chrono_tz::Europe::Berlin;
 
     /// Convert an image URL into a source set with different DPI scaling and output the `src` and
     /// `srcset` attributes for an `<img>` element.
@@ -39,6 +42,15 @@ mod filters {
         } else {
             base.to_owned()
         })
+    }
+
+    /// Convert a UTC timestamp into German time zone and then print it in a custom format fitting
+    /// for comments.
+    pub fn timestamp(ts: &DateTime<Utc>) -> askama::Result<String> {
+        Ok(ts
+            .with_timezone(&Berlin)
+            .format("um %H:%M am %d.%m.%Y")
+            .to_string())
     }
 }
 
@@ -167,6 +179,7 @@ pub enum MessageCode {
     FailedCourseCreation,
     FailedCourseUpdate,
     FailedTicketCreation,
+    FailedCommentCreation,
     // Success codes
     UserCreated,
     UserUpdated,
@@ -174,6 +187,7 @@ pub enum MessageCode {
     CourseCreated,
     CourseUpdated,
     TicketCreated,
+    CommentCreated,
     // Unknown
     Unknown,
 }
@@ -199,12 +213,14 @@ impl Translate for MessageCode {
             Self::FailedCourseCreation => "Kurserstellung fehlgeschlagen",
             Self::FailedCourseUpdate => "Kursbearbeitung fehlgeschlagen",
             Self::FailedTicketCreation => "Ticketerstellung fehlgeschlagen",
+            Self::FailedCommentCreation => "Kommentarerstellung fehlgeschlagen",
             Self::UserCreated => "Account erfolgreich erstellt",
             Self::UserUpdated => "Account erfolgreich bearbeitet",
             Self::UserActivated => "Account erfolgreich aktiviert",
             Self::CourseCreated => "Kurs erfolgreich erstellt",
             Self::CourseUpdated => "Kurs erfolgreich bearbeitet",
             Self::TicketCreated => "Ticket erfolgreich erstellt",
+            Self::CommentCreated => "Kommentar erfolgreich erstellt",
             Self::Unknown => "Unbekannter Fehler",
         }
     }
@@ -313,8 +329,8 @@ pub struct NewTicket {
 #[template(path = "tickets/edit/index.html")]
 pub struct TicketDetail {
     pub role: Role,
-    pub flash: Option<MessageCode>,
-    pub ticket: TicketWithMedium,
+    pub flash: Option<(String, MessageCode)>,
+    pub ticket: TicketWithRels,
 }
 
 /// Template for the _403 Forbidden_ error.

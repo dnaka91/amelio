@@ -3,6 +3,7 @@
 use std::iter;
 
 use anyhow::{ensure, Result};
+use chrono::Utc;
 use rand::distributions::Alphanumeric;
 use rand::Rng;
 
@@ -10,8 +11,8 @@ use crate::db::repositories::{CourseRepository, TicketRepository, UserRepository
 use crate::email::{Mail, MailRenderer, MailSender};
 use crate::hashing::Hasher;
 use crate::models::{
-    Category, Course, CourseWithNames, EditCourse, EditUser, Id, NewCourse, NewMedium, NewTicket,
-    NewUser, Priority, Role, TicketWithMedium, TicketWithNames, User,
+    Category, Course, CourseWithNames, EditCourse, EditUser, Id, NewComment, NewCourse, NewMedium,
+    NewTicket, NewUser, Priority, Role, TicketWithNames, TicketWithRels, User,
 };
 
 /// The login service manages the user login. Logout is directly handled in the
@@ -252,10 +253,12 @@ pub trait TicketService {
     fn list_course_names(&self) -> Result<Vec<(Id, String)>>;
     /// Get a single ticket by its ID.
     fn get(&self, id: Id) -> Result<TicketWithNames>;
-    /// Get a single ticket together with the medium.
-    fn get_with_medium(&self, id: Id) -> Result<TicketWithMedium>;
+    /// Get a single ticket together with all relations.
+    fn get_with_rels(&self, id: Id) -> Result<TicketWithRels>;
     /// Create a new ticket in the system.
     fn create(&self, ticket: NewTicket, medium: NewMedium) -> Result<()>;
+    /// Add a new comment to a ticket.
+    fn add_comment(&self, id: Id, creator_id: Id, message: String) -> Result<()>;
 }
 
 /// Main implementation of [`TicketService`].
@@ -288,8 +291,8 @@ impl<TR: TicketRepository, CR: CourseRepository> TicketService for TicketService
         self.ticket_repo.get_with_names(id)
     }
 
-    fn get_with_medium(&self, id: Id) -> Result<TicketWithMedium> {
-        self.ticket_repo.get_with_medium(id)
+    fn get_with_rels(&self, id: Id) -> Result<TicketWithRels> {
+        self.ticket_repo.get_with_rels(id)
     }
 
     fn create(&self, ticket: NewTicket, medium: NewMedium) -> Result<()> {
@@ -297,6 +300,15 @@ impl<TR: TicketRepository, CR: CourseRepository> TicketService for TicketService
 
         self.ticket_repo
             .create(ticket, Self::map_priority(category), medium)
+    }
+
+    fn add_comment(&self, id: Id, creator_id: Id, message: String) -> Result<()> {
+        self.ticket_repo.add_comment(NewComment {
+            ticket_id: id,
+            creator_id,
+            timestamp: Utc::now(),
+            message,
+        })
     }
 }
 

@@ -2,7 +2,7 @@
 
 use std::convert::{TryFrom, TryInto};
 
-use chrono::NaiveTime;
+use chrono::{DateTime, NaiveTime};
 
 use super::schema::*;
 
@@ -282,5 +282,50 @@ impl TryFrom<MediumQuestionaireEntity> for Medium {
             question: value.question.try_into()?,
             answer: value.answer,
         })
+    }
+}
+
+/// A full comment entity equivalent to the `comments` table.
+#[derive(Queryable)]
+pub struct CommentEntity {
+    pub id: i32,
+    pub ticket_id: i32,
+    pub creator_id: i32,
+    pub timestamp: String,
+    pub message: String,
+}
+
+impl TryFrom<CommentEntity> for Comment {
+    type Error = anyhow::Error;
+
+    fn try_from(value: CommentEntity) -> Result<Self, Self::Error> {
+        Ok(Self {
+            id: value.id,
+            ticket_id: value.ticket_id,
+            creator_id: value.creator_id,
+            timestamp: DateTime::parse_from_rfc3339(&value.timestamp)?.into(),
+            message: value.message,
+        })
+    }
+}
+
+/// A new comment to be added to the database.
+#[derive(Insertable)]
+#[table_name = "comments"]
+pub struct NewCommentEntity {
+    pub ticket_id: i32,
+    pub creator_id: i32,
+    pub timestamp: String,
+    pub message: String,
+}
+
+impl From<NewComment> for NewCommentEntity {
+    fn from(value: NewComment) -> Self {
+        Self {
+            ticket_id: value.ticket_id,
+            creator_id: value.creator_id,
+            timestamp: value.timestamp.to_rfc3339(),
+            message: value.message,
+        }
     }
 }

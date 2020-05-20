@@ -194,13 +194,47 @@ pub fn edit_ticket_student(
         repositories::course_repo(&conn),
     );
 
-    let ticket = service.get_with_medium(id.0)?;
+    let ticket = service.get_with_rels(id.0)?;
 
     Ok(templates::TicketDetail {
         role: user.0.role,
-        flash: flash.map(|f| f.msg().into()),
+        flash: flash.map(|f| (f.name().to_owned(), f.msg().into())),
         ticket,
     })
+}
+
+/// Form data for the comment form.
+#[derive(FromForm)]
+pub struct NewComment {
+    comment: NonEmptyString,
+}
+
+/// Endpoint to create new ticket comments.
+#[post("/<id>/comment", data = "<data>")]
+pub fn post_add_comment(
+    user: StudentUser,
+    id: PositiveId,
+    data: Form<NewComment>,
+    conn: DbConn,
+) -> Flash<Redirect> {
+    let service = services::ticket_service(
+        repositories::ticket_repo(&conn),
+        repositories::course_repo(&conn),
+    );
+
+    match service.add_comment(id.0, user.0.id, data.0.comment.0) {
+        Ok(()) => Flash::success(
+            Redirect::to(uri!("/tickets", edit_ticket_student: id)),
+            MessageCode::CommentCreated,
+        ),
+        Err(e) => {
+            error!("error during comment creation: {:?}", e);
+            Flash::error(
+                Redirect::to(uri!("/tickets", edit_ticket_student: id)),
+                MessageCode::FailedCommentCreation,
+            )
+        }
+    }
 }
 
 #[cfg(test)]

@@ -10,6 +10,8 @@
     <div class="column is-8-widescreen is-offset-2-widescreen">
       <div class="box">
 
+        {% include "../../components/flash_message.html" %}
+
         <div class="field is-horizontal">
           <div class="field-label is-normal">
             <label class="label">Medium</label>
@@ -62,14 +64,14 @@
         </div>
 
         {% match ticket.medium %}
-        {% when Medium::Text with { ticket_id, page, line } %}
-        {% include "text.html" %}
-        {% when Medium::Recording with { ticket_id, time } %}
-        {% include "recording.html" %}
-        {% when Medium::Interactive with { ticket_id, url } %}
-        {% include "interactive.html" %}
-        {% when Medium::Questionaire with { ticket_id, question, answer } %}
-        {% include "questionaire.html" %}
+          {% when Medium::Text with { ticket_id, page, line } %}
+            {% include "text.html" %}
+          {% when Medium::Recording with { ticket_id, time } %}
+            {% include "recording.html" %}
+          {% when Medium::Interactive with { ticket_id, url } %}
+            {% include "interactive.html" %}
+          {% when Medium::Questionaire with { ticket_id, question, answer } %}
+            {% include "questionaire.html" %}
         {% endmatch %}
 
         <div class="field is-horizontal">
@@ -106,17 +108,17 @@
     <div class="column is-8-widescreen is-offset-2-widescreen">
       <div class="box">
 
-        {# Comments will be listed here
+        {% for c in ticket.comments %}
         <div class="content">
           <p>
-            <strong>Max Mustermann</strong> <small> um 15:00 am 12.05.2020</small>
+            <strong>{{ c.creator_name }}</strong> <small>{{ c.comment.timestamp|timestamp }}</small>
             <br>
-            Text text text...
+            {{ c.comment.message }}
           </p>
         </div>
-        #}
+        {% endfor %}
 
-        <form>
+        <form action="/tickets/{{ ticket.ticket.id }}/comment" method="POST">
           <div class="field">
             <label class="label">Kommentar</label>
             <div class="control">

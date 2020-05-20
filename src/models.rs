@@ -1,6 +1,6 @@
 //! The base models of the system, that [`services`](crate::services) work on.
 
-use chrono::NaiveTime;
+use chrono::{DateTime, NaiveTime, Utc};
 use strum::{AsRefStr, Display, EnumString};
 
 /// The identifier type for all models.
@@ -179,11 +179,12 @@ pub struct TicketWithNames {
 }
 
 /// A ticket with the same information as [`TicketWithNames`] plus the related medium.
-pub struct TicketWithMedium {
+pub struct TicketWithRels {
     pub ticket: Ticket,
     pub course_name: String,
     pub creator_name: String,
     pub medium: Medium,
+    pub comments: Vec<CommentWithNames>,
 }
 
 /// A medium contains additional information to locate content for a [`Ticket`]. The specific type
@@ -237,4 +238,27 @@ pub enum NewMedium {
     Recording { time: NaiveTime },
     Interactive { url: String },
     Questionaire { question: u16, answer: String },
+}
+
+/// A full comment with all available details.
+pub struct Comment {
+    pub id: Id,
+    pub ticket_id: Id,
+    pub creator_id: Id,
+    pub timestamp: DateTime<Utc>,
+    pub message: String,
+}
+
+/// A comment with its creator name included.
+pub struct CommentWithNames {
+    pub comment: Comment,
+    pub creator_name: String,
+}
+
+/// A new comment to be added to the system.
+pub struct NewComment {
+    pub ticket_id: Id,
+    pub creator_id: Id,
+    pub timestamp: DateTime<Utc>,
+    pub message: String,
 }

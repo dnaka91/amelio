@@ -1,4 +1,14 @@
 table! {
+    comments (id) {
+        id -> Integer,
+        ticket_id -> Integer,
+        creator_id -> Integer,
+        timestamp -> Text,
+        message -> Text,
+    }
+}
+
+table! {
     courses (id) {
         id -> Integer,
         code -> Text,
@@ -66,6 +76,8 @@ table! {
     }
 }
 
+joinable!(comments -> tickets (ticket_id));
+joinable!(comments -> users (creator_id));
 joinable!(medium_interactives -> tickets (ticket_id));
 joinable!(medium_questionaires -> tickets (ticket_id));
 joinable!(medium_recordings -> tickets (ticket_id));
@@ -74,6 +86,7 @@ joinable!(tickets -> courses (course_id));
 joinable!(tickets -> users (creator_id));
 
 allow_tables_to_appear_in_same_query!(
+    comments,
     courses,
     medium_interactives,
     medium_questionaires,
