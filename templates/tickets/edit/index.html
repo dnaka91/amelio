@@ -94,7 +94,7 @@
           <div class="field-body">
             <div class="field">
               <div class="control">
-                <textarea class="textarea" rows="5" disabled>{{ ticket.ticket.description }}</textarea>
+                <textarea class="textarea" rows="5" disabled>{{ ticket.ticket.description|escape|linebreaksbr|safe }}</textarea>
               </div>
             </div>
           </div>
@@ -113,7 +113,7 @@
           <p>
             <strong>{{ c.creator_name }}</strong> <small>{{ c.comment.timestamp|timestamp }}</small>
             <br>
-            {{ c.comment.message }}
+            {{ c.comment.message|escape|linebreaksbr|safe }}
           </p>
         </div>
         {% endfor %}
