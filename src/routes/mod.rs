@@ -12,6 +12,7 @@ use rocket::http::{RawStr, Status};
 use rocket::request::{FromFormValue, FromParam};
 use rocket::response::{self, Redirect, Responder};
 use rocket::{get, uri, Request};
+use url::Url;
 
 use crate::models::Id;
 use crate::roles::AuthUser;
@@ -205,3 +206,21 @@ from_request!(Minute);
 
 /// An integer that represents a second in the range of `0-59`.
 type Second = Minute;
+
+/// An [`Url`] that's guaranteed to be valid.
+pub struct ValidUrl(Url);
+
+impl<'a> TryFrom<&'a RawStr> for ValidUrl {
+    type Error = &'a RawStr;
+
+    fn try_from(value: &'a RawStr) -> Result<Self, Self::Error> {
+        let parsed = value
+            .url_decode()
+            .map_err(|_| value)
+            .and_then(|v| v.parse().map_err(|_| value))?;
+
+        Ok(Self(parsed))
+    }
+}
+
+from_request!(ValidUrl);

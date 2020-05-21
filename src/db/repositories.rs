@@ -496,7 +496,10 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
                     })
                     .execute(self.conn),
                 NewMedium::Interactive { url } => diesel::insert_into(medium_interactives::table)
-                    .values(MediumInteractiveEntity { ticket_id, url })
+                    .values(MediumInteractiveEntity {
+                        ticket_id,
+                        url: url.into_string(),
+                    })
                     .execute(self.conn),
                 NewMedium::Questionaire { question, answer } => {
                     diesel::insert_into(medium_questionaires::table)

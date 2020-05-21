@@ -1,0 +1,23 @@
+[
+    {
+        "code": "TEST01",
+        "title": "Testkurs 1",
+        "author_id": 1,
+        "tutor_id": 1,
+        "active": true
+    },
+    {
+        "code": "TEST02",
+        "title": "Testkurs 2",
+        "author_id": 6,
+        "tutor_id": 7,
+        "active": true
+    },
+    {
+        "code": "TEST03",
+        "title": "Testkurs 3",
+        "author_id": 6,
+        "tutor_id": 7,
+        "active": false
+    }
+]

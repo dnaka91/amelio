@@ -1,0 +1,44 @@
+[
+    {
+        "username": "student1",
+        "password": "student1",
+        "name": "Max Mustermann",
+        "role": "student",
+        "active": true
+    },
+    {
+        "username": "student2",
+        "password": "student2",
+        "name": "Maria Meister",
+        "role": "student",
+        "active": true
+    },
+    {
+        "username": "sleeper1",
+        "password": "sleeper1",
+        "name": "Bernd Faultier",
+        "role": "student",
+        "active": false
+    },
+    {
+        "username": "sleeper2",
+        "password": "sleeper2",
+        "name": "Regina Schlafmaus",
+        "role": "student",
+        "active": false
+    },
+    {
+        "username": "autor1",
+        "password": "autor1",
+        "name": "Siegfried Siegreich",
+        "role": "author",
+        "active": true
+    },
+    {
+        "username": "tutor1",
+        "password": "tutor1",
+        "name": "Frieda Freundlich",
+        "role": "tutor",
+        "active": false
+    }
+]

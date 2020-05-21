@@ -6,8 +6,9 @@ use rocket::http::RawStr;
 use rocket::request::{FlashMessage, Form, FormItems, FormParseError, FromForm};
 use rocket::response::{Flash, Redirect};
 use rocket::{get, post, uri};
+use url::Url;
 
-use super::{Hour, Minute, NonEmptyString, PositiveId, PositiveNum, Second, ServerError};
+use super::{Hour, Minute, NonEmptyString, PositiveId, PositiveNum, Second, ServerError, ValidUrl};
 use crate::db::connection::DbConn;
 use crate::db::repositories;
 use crate::models::{Category, Id, TicketType};
@@ -66,7 +67,7 @@ struct NewTicketData {
     course: PositiveId,
     page: Option<PositiveNum<u16>>,
     line: Option<PositiveNum<u16>>,
-    url: Option<NonEmptyString>,
+    url: Option<ValidUrl>,
     question: Option<PositiveNum<u16>>,
     answer: Option<NonEmptyString>,
     hour: Option<Hour>,
@@ -87,7 +88,7 @@ pub struct NewTicket {
 /// Different kinds of media from the ticket creation form.
 pub enum Medium {
     Text { page: u16, line: u16 },
-    Interactive { url: String },
+    Interactive { url: Url },
     Questionaire { question: u16, answer: String },
     Recording { hour: u8, minute: u8, second: u8 },
 }

@@ -3,19 +3,20 @@
 use std::convert::{TryFrom, TryInto};
 
 use chrono::{DateTime, NaiveTime};
+use serde::Deserialize;
 
 use super::schema::*;
 
 use crate::models::*;
 
 /// A special new user that is used during first initialization of the database.
-#[derive(Insertable)]
+#[derive(Insertable, Deserialize)]
 #[table_name = "users"]
-pub struct InitUserEntity<'a> {
-    pub username: &'a str,
-    pub password: &'a str,
-    pub name: &'a str,
-    pub role: &'a str,
+pub struct InitUserEntity {
+    pub username: String,
+    pub password: String,
+    pub name: String,
+    pub role: String,
     pub active: bool,
 }
 
@@ -71,11 +72,11 @@ impl TryFrom<UserEntity> for User {
 }
 
 /// A special new course that is used during first initialization of the database.
-#[derive(Insertable)]
+#[derive(Insertable, Deserialize)]
 #[table_name = "courses"]
-pub struct InitCourseEntity<'a> {
-    pub code: &'a str,
-    pub title: &'a str,
+pub struct InitCourseEntity {
+    pub code: String,
+    pub title: String,
     pub author_id: i32,
     pub tutor_id: i32,
     pub active: bool,
@@ -129,15 +130,16 @@ impl TryFrom<CourseEntity> for Course {
 }
 
 /// A special new ticket that is used during first initialization of the database.
-#[derive(Insertable)]
+#[derive(Insertable, Deserialize)]
 #[table_name = "tickets"]
-pub struct InitTicketEntity<'a> {
-    pub type_: &'a str,
-    pub title: &'a str,
-    pub description: &'a str,
-    pub category: &'a str,
-    pub priority: &'a str,
-    pub status: &'a str,
+pub struct InitTicketEntity {
+    #[serde(rename = "type")]
+    pub type_: String,
+    pub title: String,
+    pub description: String,
+    pub category: String,
+    pub priority: String,
+    pub status: String,
     pub course_id: i32,
     pub creator_id: i32,
 }
@@ -203,7 +205,7 @@ impl TryFrom<TicketEntity> for Ticket {
 
 /// A full text medium entity equivalent to the`medium_texts` table, also representing a new entry
 /// that can be added to the system.
-#[derive(Queryable, Insertable)]
+#[derive(Queryable, Insertable, Deserialize)]
 #[table_name = "medium_texts"]
 pub struct MediumTextEntity {
     pub ticket_id: i32,
@@ -225,7 +227,7 @@ impl TryFrom<MediumTextEntity> for Medium {
 
 /// A full recording medium entity equivalent to the`medium_recordings` table, also representing a
 /// new entry that can be added to the system.
-#[derive(Queryable, Insertable)]
+#[derive(Queryable, Insertable, Deserialize)]
 #[table_name = "medium_recordings"]
 pub struct MediumRecordingEntity {
     pub ticket_id: i32,
@@ -245,7 +247,7 @@ impl TryFrom<MediumRecordingEntity> for Medium {
 
 /// A full interactive medium entity equivalent to the`medium_interactives` table, also representing
 /// a new entry that can be added to the system.
-#[derive(Queryable, Insertable)]
+#[derive(Queryable, Insertable, Deserialize)]
 #[table_name = "medium_interactives"]
 pub struct MediumInteractiveEntity {
     pub ticket_id: i32,
@@ -258,14 +260,14 @@ impl TryFrom<MediumInteractiveEntity> for Medium {
     fn try_from(value: MediumInteractiveEntity) -> Result<Self, Self::Error> {
         Ok(Self::Interactive {
             ticket_id: value.ticket_id,
-            url: value.url,
+            url: value.url.parse()?,
         })
     }
 }
 
 /// A full questionaire medium entity equivalent to the`medium_questionaires` table, also
 /// representing a new entry that can be added to the system.
-#[derive(Queryable, Insertable)]
+#[derive(Queryable, Insertable, Deserialize)]
 #[table_name = "medium_questionaires"]
 pub struct MediumQuestionaireEntity {
     pub ticket_id: i32,
@@ -310,7 +312,7 @@ impl TryFrom<CommentEntity> for Comment {
 }
 
 /// A new comment to be added to the database.
-#[derive(Insertable)]
+#[derive(Insertable, Deserialize)]
 #[table_name = "comments"]
 pub struct NewCommentEntity {
     pub ticket_id: i32,

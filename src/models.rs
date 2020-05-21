@@ -2,6 +2,7 @@
 
 use chrono::{DateTime, NaiveTime, Utc};
 use strum::{AsRefStr, Display, EnumString};
+use url::Url;
 
 /// The identifier type for all models.
 pub type Id = i32;
@@ -208,7 +209,7 @@ pub enum Medium {
     ///
     /// This is the content for:
     /// - [`TicketType::InteractiveBook`]
-    Interactive { ticket_id: Id, url: String },
+    Interactive { ticket_id: Id, url: Url },
     /// A medium which describes locations in question-answer structured content like tests.
     ///
     /// This is the content for:
@@ -236,7 +237,7 @@ pub struct NewTicket {
 pub enum NewMedium {
     Text { page: u16, line: u16 },
     Recording { time: NaiveTime },
-    Interactive { url: String },
+    Interactive { url: Url },
     Questionaire { question: u16, answer: String },
 }
 

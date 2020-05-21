@@ -50,6 +50,13 @@ table! {
 }
 
 table! {
+    samples (id) {
+        id -> Text,
+        created -> Bool,
+    }
+}
+
+table! {
     tickets (id) {
         id -> Integer,
         #[sql_name = "type"]
@@ -92,6 +99,7 @@ allow_tables_to_appear_in_same_query!(
     medium_questionaires,
     medium_recordings,
     medium_texts,
+    samples,
     tickets,
     users,
 );

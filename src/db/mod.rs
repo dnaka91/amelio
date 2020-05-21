@@ -2,11 +2,16 @@
 
 #![allow(clippy::wildcard_imports)]
 
+use std::convert::TryFrom;
+
 use anyhow::{Context, Result};
 use chrono::NaiveTime;
 use diesel::prelude::*;
+use diesel::result::Error as DieselError;
 use diesel::SqliteConnection;
 use rocket::fairing::{AdHoc, Fairing};
+use serde::Deserialize;
+use url::Url;
 
 use self::connection::DbConn;
 use self::models::{
@@ -14,7 +19,7 @@ use self::models::{
     MediumQuestionaireEntity, MediumRecordingEntity, MediumTextEntity,
 };
 use crate::hashing::{self, Hasher};
-use crate::models::{Category, Priority, Status, TicketType};
+use crate::models::{Category, Priority, Role, Status, TicketType};
 
 pub mod connection;
 pub mod models;
@@ -46,6 +51,14 @@ impl DbMigrations {
     }
 }
 
+#[derive(strum::EnumString, strum::AsRefStr)]
+#[strum(serialize_all = "kebab-case")]
+enum Samples {
+    Users,
+    Courses,
+    Tickets,
+}
+
 /// Initialize the database by running any outstanding migrations, creating the initial user if none
 /// exist.
 fn init(conn: &SqliteConnection) -> Result<()> {
@@ -57,11 +70,42 @@ fn init(conn: &SqliteConnection) -> Result<()> {
     Ok(())
 }
 
+fn created(conn: &SqliteConnection, sample: Samples) -> Result<bool> {
+    use crate::db::schema::samples::dsl::*;
+
+    let res = samples
+        .find(sample.as_ref())
+        .select(created)
+        .get_result::<bool>(conn);
+
+    if res == Err(DieselError::NotFound) {
+        return Ok(false);
+    }
+
+    res.map_err(Into::into)
+}
+
+fn set_created(conn: &SqliteConnection, sample: Samples) -> Result<()> {
+    use crate::db::schema::samples::dsl::*;
+
+    let res = diesel::update(samples.find(sample.as_ref()))
+        .set(created.eq(true))
+        .execute(conn)?;
+
+    if res == 0 {
+        diesel::insert_into(samples)
+            .values((id.eq(sample.as_ref()), created.eq(true)))
+            .execute(conn)?;
+    }
+
+    Ok(())
+}
+
 /// Create the initial admin user.
 fn create_admin_user(conn: &SqliteConnection) -> Result<()> {
     use crate::db::schema::users::dsl::*;
 
-    if users.count().get_result::<i64>(conn)? > 0 {
+    if users.count().get_result::<i64>(conn)? >= 1 {
         return Ok(());
     }
 
@@ -69,10 +113,10 @@ fn create_admin_user(conn: &SqliteConnection) -> Result<()> {
 
     diesel::insert_into(users)
         .values(&InitUserEntity {
-            username: "admin",
-            password: &hasher.hash("admin")?,
-            name: "Administrator",
-            role: "admin",
+            username: "admin".to_owned(),
+            password: hasher.hash("admin")?,
+            name: "Administrator".to_owned(),
+            role: "admin".to_owned(),
             active: true,
         })
         .execute(&*conn)?;
@@ -80,102 +124,60 @@ fn create_admin_user(conn: &SqliteConnection) -> Result<()> {
     Ok(())
 }
 
+const USERS_JSON: &[u8] = include_bytes!("import/users.json");
+
 /// Create several sample users for testing purposes.
 fn create_sample_users(conn: &SqliteConnection) -> Result<()> {
     use crate::db::schema::users::dsl::*;
 
-    if users.count().get_result::<i64>(conn)? >= 7 {
+    if created(conn, Samples::Users)? {
         return Ok(());
     }
 
+    let mut values = serde_json::from_slice::<Vec<InitUserEntity>>(USERS_JSON)?;
     let hasher = hashing::new_hasher();
 
-    diesel::insert_into(users)
-        .values(vec![
-            &InitUserEntity {
-                username: "student1",
-                password: &hasher.hash("student1")?,
-                name: "Max Mustermann",
-                role: "student",
-                active: true,
-            },
-            &InitUserEntity {
-                username: "student2",
-                password: &hasher.hash("student2")?,
-                name: "Maria Meister",
-                role: "student",
-                active: true,
-            },
-            &InitUserEntity {
-                username: "sleeper1",
-                password: &hasher.hash("sleeper1")?,
-                name: "Bernd Faultier",
-                role: "student",
-                active: false,
-            },
-            &InitUserEntity {
-                username: "sleeper2",
-                password: &hasher.hash("sleeper2")?,
-                name: "Regina Schlafmaus",
-                role: "student",
-                active: false,
-            },
-            &InitUserEntity {
-                username: "autor1",
-                password: &hasher.hash("autor1")?,
-                name: "Siegfried Siegreich",
-                role: "author",
-                active: true,
-            },
-            &InitUserEntity {
-                username: "tutor1",
-                password: &hasher.hash("tutor1")?,
-                name: "Frieda Freundlich",
-                role: "tutor",
-                active: true,
-            },
-        ])
-        .execute(&*conn)?;
+    for user in &mut values {
+        user.role.parse::<Role>()?;
+        user.password = hasher.hash(&user.password)?;
+    }
 
+    diesel::insert_into(users).values(values).execute(&*conn)?;
+
+    set_created(conn, Samples::Users)?;
     Ok(())
 }
+
+const COURSES_JSON: &[u8] = include_bytes!("import/courses.json");
 
 /// Create several sample courses for testing purposes.
 fn create_sample_courses(conn: &SqliteConnection) -> Result<()> {
     use crate::db::schema::courses::dsl::*;
 
-    if courses.count().get_result::<i64>(conn)? >= 3 {
+    if created(conn, Samples::Courses)? {
         return Ok(());
     }
 
+    let values = serde_json::from_slice::<Vec<InitCourseEntity>>(COURSES_JSON)?;
+
     diesel::insert_into(courses)
-        .values(vec![
-            &InitCourseEntity {
-                code: "TEST01",
-                title: "Testkurs 1",
-                author_id: 1,
-                tutor_id: 1,
-                active: true,
-            },
-            &InitCourseEntity {
-                code: "TEST02",
-                title: "Testkurs 2",
-                author_id: 6,
-                tutor_id: 7,
-                active: true,
-            },
-            &InitCourseEntity {
-                code: "TEST03",
-                title: "Testkurs 3",
-                author_id: 6,
-                tutor_id: 7,
-                active: false,
-            },
-        ])
+        .values(values)
         .execute(&*conn)?;
 
+    set_created(conn, Samples::Courses)?;
     Ok(())
 }
+
+#[derive(Deserialize)]
+struct TicketData {
+    tickets: Vec<InitTicketEntity>,
+    texts: Vec<MediumTextEntity>,
+    recordings: Vec<MediumRecordingEntity>,
+    interactives: Vec<MediumInteractiveEntity>,
+    questionaires: Vec<MediumQuestionaireEntity>,
+}
+
+const TICKETS_JSON: &[u8] = include_bytes!("import/tickets.json");
 
 /// Create several sample tickets for testing purposes.
 fn create_sample_tickets(conn: &SqliteConnection) -> Result<()> {
@@ -183,102 +185,56 @@ fn create_sample_tickets(conn: &SqliteConnection) -> Result<()> {
         medium_interactives, medium_questionaires, medium_recordings, medium_texts, tickets,
     };
 
-    if tickets::table.count().get_result::<i64>(conn)? >= 5 {
+    if created(conn, Samples::Tickets)? {
         return Ok(());
     }
 
+    let values = serde_json::from_slice::<TicketData>(TICKETS_JSON)?;
+
+    for t in &values.tickets {
+        t.type_.parse::<TicketType>()?;
+        t.category.parse::<Category>()?;
+        t.priority.parse::<Priority>()?;
+        t.status.parse::<Status>()?;
+    }
+
+    for t in &values.texts {
+        u16::try_from(t.page)?;
+        u16::try_from(t.line)?;
+    }
+
+    for r in &values.recordings {
+        NaiveTime::parse_from_str(&r.time, "%H:%M:%S")?;
+    }
+
+    for i in &values.interactives {
+        Url::parse(&i.url)?;
+    }
+
+    for q in &values.questionaires {
+        u16::try_from(q.question)?;
+    }
+
     diesel::insert_into(tickets::table)
-        .values(vec![
-            &InitTicketEntity {
-                type_: TicketType::CourseBook.as_ref(),
-                title: "Der Text ist von oben nach unten geschrieben",
-                description: "Blah blah blah",
-                category: Category::Editorial.as_ref(),
-                priority: Priority::Medium.as_ref(),
-                status: Status::Open.as_ref(),
-                course_id: 1,
-                creator_id: 1,
-            },
-            &InitTicketEntity {
-                type_: TicketType::Vodcast.as_ref(),
-                title: "Das Video stoppt nach 5 Sekunden",
-                description: "Blah blah blah",
-                category: Category::Content.as_ref(),
-                priority: Priority::Critical.as_ref(),
-                status: Status::InProgress.as_ref(),
-                course_id: 1,
-                creator_id: 1,
-            },
-            &InitTicketEntity {
-                type_: TicketType::InteractiveBook.as_ref(),
-                title: "Die Schriftfarbe ist zu grell",
-                description: "Blah blah blah",
-                category: Category::Improvement.as_ref(),
-                priority: Priority::Low.as_ref(),
-                status: Status::Accepted.as_ref(),
-                course_id: 1,
-                creator_id: 1,
-            },
-            &InitTicketEntity {
-                type_: TicketType::PracticeExam.as_ref(),
-                title: "Mathematische Formel hat ein falsches Ergebnis",
-                description: "Blah blah blah",
-                category: Category::Content.as_ref(),
-                priority: Priority::High.as_ref(),
-                status: Status::Refused.as_ref(),
-                course_id: 1,
-                creator_id: 1,
-            },
-            &InitTicketEntity {
-                type_: TicketType::Vodcast.as_ref(),
-                title: "Der Ton fehlt im gesamten Video",
-                description: "Blah blah blah",
-                category: Category::Content.as_ref(),
-                priority: Priority::High.as_ref(),
-                status: Status::Completed.as_ref(),
-                course_id: 1,
-                creator_id: 1,
-            },
-        ])
+        .values(values.tickets)
         .execute(&*conn)?;
 
     diesel::insert_into(medium_texts::table)
-        .values(MediumTextEntity {
-            ticket_id: 1,
-            page: 40,
-            line: 3,
-        })
+        .values(values.texts)
         .execute(&*conn)?;
 
     diesel::insert_into(medium_recordings::table)
-        .values(vec![
-            MediumRecordingEntity {
-                ticket_id: 2,
-                time: NaiveTime::from_hms(0, 5, 0).format("%H:%M:%S").to_string(),
-            },
-            MediumRecordingEntity {
-                ticket_id: 5,
-                time: NaiveTime::from_hms(2, 12, 55)
-                    .format("%H:%M:%S")
-                    .to_string(),
-            },
-        ])
+        .values(values.recordings)
         .execute(&*conn)?;
 
     diesel::insert_into(medium_interactives::table)
-        .values(MediumInteractiveEntity {
-            ticket_id: 3,
-            url: "https://example.com".to_owned(),
-        })
+        .values(values.interactives)
         .execute(&*conn)?;
 
     diesel::insert_into(medium_questionaires::table)
-        .values(MediumQuestionaireEntity {
-            ticket_id: 4,
-            question: 5,
-            answer: "1 + 2 = 4".to_owned(),
-        })
+        .values(values.questionaires)
         .execute(&*conn)?;
 
+    set_created(conn, Samples::Tickets)?;
     Ok(())
 }
