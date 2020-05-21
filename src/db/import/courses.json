@@ -1,23 +1,30 @@
 [
     {
-        "code": "TEST01",
-        "title": "Testkurs 1",
-        "author_id": 1,
-        "tutor_id": 1,
-        "active": true
-    },
-    {
-        "code": "TEST02",
-        "title": "Testkurs 2",
-        "author_id": 6,
+        "code": "IMT1",
+        "title": "Mathematik Grundlagen",
+        "author_id": 3,
         "tutor_id": 7,
         "active": true
     },
     {
-        "code": "TEST03",
-        "title": "Testkurs 3",
-        "author_id": 6,
-        "tutor_id": 7,
-        "active": false
+        "code": "BWIR01",
+        "title": "Wissenschaftliches Arbeiten",
+        "author_id": 4,
+        "tutor_id": 6,
+        "active": true
+    },
+    {
+        "code": "IGIS01",
+        "title": "Grundlagen der industriellen Softwaretechnik",
+        "author_id": 5,
+        "tutor_id": 8,
+        "active": true
+    },
+    {
+        "code": "BWL01",
+        "title": "Betriebswirtschaftslehre",
+        "author_id": 3,
+        "tutor_id": 6,
+        "active": true
     }
 ]

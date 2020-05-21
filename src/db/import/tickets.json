@@ -2,83 +2,99 @@
     "tickets": [
         {
             "type": "course-book",
-            "title": "Der Text ist von oben nach unten geschrieben",
-            "description": "Blah blah blah",
-            "category": "editorial",
-            "priority": "medium",
-            "status": "open",
-            "course_id": 1,
-            "creator_id": 1
-        },
-        {
-            "type": "vodcast",
-            "title": "Das Video stoppt nach 5 Sekunden",
-            "description": "Blah blah blah",
-            "category": "content",
-            "priority": "critical",
-            "status": "in-progress",
-            "course_id": 1,
-            "creator_id": 1
-        },
-        {
-            "type": "interactive-book",
-            "title": "Die Schriftfarbe ist zu grell",
-            "description": "Blah blah blah",
-            "category": "improvement",
-            "priority": "low",
-            "status": "accepted",
-            "course_id": 1,
-            "creator_id": 1
-        },
-        {
-            "type": "practice-exam",
-            "title": "Mathematische Formel hat ein falsches Ergebnis",
-            "description": "Blah blah blah",
+            "title": "Total falsches Bücherverzeichnis",
+            "description": "Bücherverzeichnis stimmt nicht und verweist nur auf Fantasy-Literatur!",
             "category": "content",
             "priority": "high",
             "status": "refused",
             "course_id": 1,
-            "creator_id": 1
+            "creator_id": 14
+        },
+        {
+            "type": "interactive-book",
+            "title": "Seite 10 wird nicht geladen",
+            "description": "Seite 10 wird nur weiß angezeigt",
+            "category": "content",
+            "priority": "low",
+            "status": "in-progress",
+            "course_id": 2,
+            "creator_id": 15
+        },
+        {
+            "type": "practice-exam",
+            "title": "Fragen waren viel zu schwer",
+            "description": "die Fragen, die gestellt worden sind, wurden nicht vorab mitgeteilt",
+            "category": "improvement",
+            "priority": "low",
+            "status": "refused",
+            "course_id": 3,
+            "creator_id": 16
+        },
+        {
+            "type": "practice-exam-solution",
+            "title": "Die Antworten sind nicht korrekt",
+            "description": "alle Antworten sind falsch - ich hätte die korrekten :)",
+            "category": "editorial",
+            "priority": "medium",
+            "status": "completed",
+            "course_id": 4,
+            "creator_id": 17
         },
         {
             "type": "vodcast",
-            "title": "Der Ton fehlt im gesamten Video",
-            "description": "Blah blah blah",
-            "category": "content",
-            "priority": "high",
-            "status": "completed",
+            "title": "i can't understand",
+            "description": "i can't understand german - please in english",
+            "category": "improvement",
+            "priority": "low",
+            "status": "accepted",
             "course_id": 1,
-            "creator_id": 1
+            "creator_id": 18
+        },
+        {
+            "type": "course-book",
+            "title": "ich komme damit einfach nicht zurecht",
+            "description": "es gäbe hier viel zu schreiben, aber ich habe jetzt keine Zeit",
+            "category": "editorial",
+            "priority": "critical",
+            "status": "open",
+            "course_id": 2,
+            "creator_id": 14
         }
     ],
     "texts": [
         {
             "ticket_id": 1,
-            "page": 40,
-            "line": 3
+            "page": 23,
+            "line": 4
+        },
+        {
+            "ticket_id": 6,
+            "page": 12,
+            "line": 2
         }
     ],
     "recordings": [
         {
-            "ticket_id": 2,
-            "time": "00:05:00"
-        },
-        {
             "ticket_id": 5,
-            "time": "02:12:55"
+            "time": "07:42:15"
         }
     ],
     "interactives": [
         {
-            "ticket_id": 3,
-            "url": "https://example.com"
+            "ticket_id": 2,
+            "url": "https://abc.com"
         }
     ],
     "questionaires": [
         {
+            "ticket_id": 3,
+            "question": 43,
+            "answer": "alles zu schwer..."
+        },
+        {
             "ticket_id": 4,
-            "question": 5,
-            "answer": "1 + 2 = 4"
+            "question": 2,
+            "answer": "die Antwort zur Frage Nummer 13 müsste 8 lauten"
         }
     ]
 }

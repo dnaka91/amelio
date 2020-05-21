@@ -1,44 +1,121 @@
 [
     {
-        "username": "student1",
-        "password": "student1",
+        "username": "Max",
+        "password": "Mustermann",
         "name": "Max Mustermann",
         "role": "student",
         "active": true
     },
     {
-        "username": "student2",
-        "password": "student2",
+        "username": "Johanna",
+        "password": "Schwarz",
+        "name": "Johanna Schwarz",
+        "role": "author",
+        "active": true
+    },
+    {
+        "username": "Murat",
+        "password": "Zibelnik",
+        "name": "Murat Zibelnik",
+        "role": "author",
+        "active": true
+    },
+    {
+        "username": "Laszlo",
+        "password": "Wagner",
+        "name": "Laszlo Wagner",
+        "role": "author",
+        "active": true
+    },
+    {
+        "username": "Clemens",
+        "password": "Labs",
+        "name": "Clemens Labs",
+        "role": "tutor",
+        "active": true
+    },
+    {
+        "username": "Tobias",
+        "password": "Hochfellner",
+        "name": "Tobias Hochfellner",
+        "role": "tutor",
+        "active": true
+    },
+    {
+        "username": "Christina",
+        "password": "Nowy",
+        "name": "Christina Nowy",
+        "role": "tutor",
+        "active": true
+    },
+    {
+        "username": "Maria",
+        "password": "Meister",
         "name": "Maria Meister",
         "role": "student",
         "active": true
     },
     {
-        "username": "sleeper1",
-        "password": "sleeper1",
+        "username": "Bernd",
+        "password": "Failtier",
         "name": "Bernd Faultier",
         "role": "student",
         "active": false
     },
     {
-        "username": "sleeper2",
-        "password": "sleeper2",
+        "username": "Regina",
+        "password": "Schlafmaus",
         "name": "Regina Schlafmaus",
         "role": "student",
         "active": false
     },
     {
-        "username": "autor1",
-        "password": "autor1",
+        "username": "Siegfried",
+        "password": "Siegreich",
         "name": "Siegfried Siegreich",
         "role": "author",
         "active": true
     },
     {
-        "username": "tutor1",
-        "password": "tutor1",
+        "username": "Frieda",
+        "password": "Freundlich",
         "name": "Frieda Freundlich",
         "role": "tutor",
         "active": false
+    },
+    {
+        "username": "Hans",
+        "password": "Wurs",
+        "name": "Hans Wurst",
+        "role": "student",
+        "active": true
+    },
+    {
+        "username": "Peter",
+        "password": "Maier",
+        "name": "Peter Maier",
+        "role": "student",
+        "active": true
+    },
+    {
+        "username": "Karl",
+        "password": "Schmidt",
+        "name": "arl Schmidt",
+        "role": "student",
+        "active": true
+    },
+    {
+        "username": "Paulina",
+        "password": "Weber",
+        "name": "Paulina Weber",
+        "role": "admin",
+        "active": true
+    },
+    {
+        "username": "Martha",
+        "password": "Mueller",
+        "name": "Martha Mueller",
+        "role": "admin",
+        "active": true
     }
 ]
