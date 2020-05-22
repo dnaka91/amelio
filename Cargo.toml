@@ -47,9 +47,9 @@ pretty_assertions = "0.6.1"
 
 [build-dependencies]
 hex = "0.4.2"
+ignore = "0.4.15"
 phf_codegen = "0.8.0"
 sha-1 = "0.8.2"
-walkdir = "2.3.1"
 
 [profile.release]
 lto = true

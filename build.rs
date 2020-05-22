@@ -4,8 +4,8 @@ use std::fs::{self, File};
 use std::io::{BufWriter, Write};
 use std::path::Path;
 
+use ignore::{DirEntry, Walk};
 use sha1::{Digest, Sha1};
-use walkdir::{DirEntry, WalkDir};
 
 fn main() {
     let path = Path::new(&env::var("OUT_DIR").unwrap()).join("codegen.rs");
@@ -15,11 +15,12 @@ fn main() {
 
     // Iterate over all non-hidden files, generate their SHA-1 hash and combine them with their
     // relative file path.
-    for entry in WalkDir::new("assets")
-        .into_iter()
-        .filter_entry(is_visible_file)
-    {
+    for entry in Walk::new("assets") {
         let entry = entry.unwrap();
+
+        if !is_file(&entry) {
+            continue;
+        }
 
         let data = fs::read(entry.path()).unwrap();
         let hash = Sha1::digest(&data);
@@ -52,6 +53,6 @@ fn main() {
     .unwrap();
 }
 
-fn is_visible_file(entry: &DirEntry) -> bool {
-    entry.file_type().is_file() && !entry.file_name().to_str().unwrap().starts_with('.')
+fn is_file(entry: &DirEntry) -> bool {
+    entry.file_type().map(|ft| ft.is_file()).unwrap_or_default()
 }
