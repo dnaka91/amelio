@@ -3,12 +3,15 @@
 #![allow(clippy::wildcard_imports)]
 
 use std::convert::TryFrom;
+use std::iter;
 
 use anyhow::{Context, Result};
 use chrono::NaiveTime;
 use diesel::prelude::*;
 use diesel::result::Error as DieselError;
 use diesel::SqliteConnection;
+use rand::distributions::Alphanumeric;
+use rand::Rng;
 use rocket::fairing::{AdHoc, Fairing};
 use serde::Deserialize;
 use url::Url;
@@ -103,18 +106,31 @@ fn set_created(conn: &SqliteConnection, sample: Samples) -> Result<()> {
 
 /// Create the initial admin user.
 fn create_admin_user(conn: &SqliteConnection) -> Result<()> {
-    use crate::db::schema::users::dsl::*;
+    use crate::db::schema::users;
 
-    if users.count().get_result::<i64>(conn)? >= 1 {
+    if users::table.count().get_result::<i64>(conn)? >= 1 {
         return Ok(());
     }
 
     let hasher = hashing::new_hasher();
+    let mut rng = rand::thread_rng();
 
-    diesel::insert_into(users)
+    let password = if cfg!(test) {
+        "admin".to_owned()
+    } else {
+        let password = iter::repeat(())
+            .map(|_| rng.sample(Alphanumeric))
+            .take(16)
+            .collect::<String>();
+
+        log::warn!("Initial admin password is: {}", password);
+        password
+    };
+
+    diesel::insert_into(users::table)
         .values(&InitUserEntity {
             username: "admin".to_owned(),
-            password: hasher.hash("admin")?,
+            password: hasher.hash(&password)?,
             name: "Administrator".to_owned(),
             role: "admin".to_owned(),
             active: true,
