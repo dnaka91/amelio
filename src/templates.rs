@@ -179,6 +179,7 @@ pub enum MessageCode {
     FailedCourseCreation,
     FailedCourseUpdate,
     FailedTicketCreation,
+    FailedTicketUpdate,
     FailedCommentCreation,
     // Success codes
     UserCreated,
@@ -187,6 +188,7 @@ pub enum MessageCode {
     CourseCreated,
     CourseUpdated,
     TicketCreated,
+    TicketUpdated,
     CommentCreated,
     // Unknown
     Unknown,
@@ -213,6 +215,7 @@ impl Translate for MessageCode {
             Self::FailedCourseCreation => "Kurserstellung fehlgeschlagen",
             Self::FailedCourseUpdate => "Kursbearbeitung fehlgeschlagen",
             Self::FailedTicketCreation => "Ticketerstellung fehlgeschlagen",
+            Self::FailedTicketUpdate => "Ticketbearbeitung fehlgeschlagen",
             Self::FailedCommentCreation => "Kommentarerstellung fehlgeschlagen",
             Self::UserCreated => "Account erfolgreich erstellt",
             Self::UserUpdated => "Account erfolgreich bearbeitet",
@@ -220,6 +223,7 @@ impl Translate for MessageCode {
             Self::CourseCreated => "Kurs erfolgreich erstellt",
             Self::CourseUpdated => "Kurs erfolgreich bearbeitet",
             Self::TicketCreated => "Ticket erfolgreich erstellt",
+            Self::TicketUpdated => "Ticket erfolgreich bearbeitet",
             Self::CommentCreated => "Kommentar erfolgreich erstellt",
             Self::Unknown => "Unbekannter Fehler",
         }

@@ -104,6 +104,130 @@
     </div>
   </div>
 
+  {% if role <= Role::Tutor %}
+  <div class="columns">
+    <div class="column is-8-widescreen is-offset-2-widescreen">
+      <div class="box">
+
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Bearbeiter</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input class="input" type="text" value="{{ ticket.editor_name }}" disabled>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {% if ticket.ticket.is_editable() %}
+        <form action="/tickets/{{ ticket.ticket.id }}/edit" method="POST">
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Priorität</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                  <div class="select is-fullwidth">
+                    <select name="priority" required>
+                      <option value="critical" {%- if ticket.ticket.priority == Priority::Critical %} selected{% endif %}>Kritisch</option>
+                      <option value="high" {%- if ticket.ticket.priority == Priority::High %} selected{% endif %}>Hoch</option>
+                      <option value="medium" {%- if ticket.ticket.priority == Priority::Medium %} selected{% endif %}>Mittel</option>
+                      <option value="low" {%- if ticket.ticket.priority == Priority::Low %} selected{% endif %}>Niedrig</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="field is-horizontal">
+            <div class="field-label"></div>
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                  <button class="button is-info">
+                    <span class="icon">
+                      <i class="fas fa-check"></i>
+                    </span>
+                    <span>Speichern</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+
+  {% if ticket.ticket.is_editable() %}
+  <div class="columns">
+    <div class="column is-8-widescreen is-offset-2-widescreen">
+      <div class="box">
+
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Optionen</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <div class="buttons">
+
+                  {% if ticket.ticket.can_accept() %}
+                  <a class="button is-success" href="/tickets/{{ ticket.ticket.id }}/status/accepted">
+                    <span class="icon">
+                      <i class="fas fa-check"></i>
+                    </span>
+                    <span>Annehmen</span>
+                  </a>
+                  {% endif %}
+
+                  {% if ticket.ticket.can_refuse() %}
+                  <a class="button is-danger" href="/tickets/{{ ticket.ticket.id }}/status/refused">
+                    <span class="icon">
+                      <i class="fas fa-times"></i>
+                    </span>
+                    <span>Ablehnen</span>
+                  </a>
+                  {% endif %}
+
+                  {% if ticket.ticket.can_complete() %}
+                  <a class="button is-light" href="/tickets/{{ ticket.ticket.id }}/status/completed">
+                    <span class="icon">
+                      <i class="fas fa-archive"></i>
+                    </span>
+                    <span>Abschließen</span>
+                  </a>
+                  {% endif %}
+
+                  {% if ticket.ticket.can_forward() %}
+                  <a class="button is-warning" href="/tickets/{{ ticket.ticket.id }}/forward">
+                    <span class="icon">
+                      <i class="fas fa-handshake"></i>
+                    </span>
+                    <span>An Autor übergeben</span>
+                  </a>
+                  {% endif %}
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  {% endif %}
+
   <div class="columns">
     <div class="column is-8-widescreen is-offset-2-widescreen">
       <div class="box">
@@ -122,7 +246,7 @@
           <div class="field">
             <label class="label">Kommentar</label>
             <div class="control">
-              <textarea class="textarea" name="comment"></textarea>
+              <textarea class="textarea" name="comment" required></textarea>
             </div>
           </div>
           <div class="control">

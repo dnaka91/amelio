@@ -7,6 +7,7 @@
             "category": "content",
             "priority": "high",
             "status": "refused",
+            "forwarded": false,
             "course_id": 1,
             "creator_id": 14
         },
@@ -17,6 +18,7 @@
             "category": "content",
             "priority": "low",
             "status": "in-progress",
+            "forwarded": false,
             "course_id": 2,
             "creator_id": 15
         },
@@ -27,6 +29,7 @@
             "category": "improvement",
             "priority": "low",
             "status": "refused",
+            "forwarded": false,
             "course_id": 3,
             "creator_id": 16
         },
@@ -37,6 +40,7 @@
             "category": "editorial",
             "priority": "medium",
             "status": "completed",
+            "forwarded": false,
             "course_id": 4,
             "creator_id": 17
         },
@@ -47,6 +51,7 @@
             "category": "improvement",
             "priority": "low",
             "status": "accepted",
+            "forwarded": false,
             "course_id": 1,
             "creator_id": 18
         },
@@ -57,6 +62,7 @@
             "category": "editorial",
             "priority": "critical",
             "status": "open",
+            "forwarded": false,
             "course_id": 2,
             "creator_id": 14
         }

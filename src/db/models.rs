@@ -140,6 +140,7 @@ pub struct InitTicketEntity {
     pub category: String,
     pub priority: String,
     pub status: String,
+    pub forwarded: bool,
     pub course_id: i32,
     pub creator_id: i32,
 }
@@ -181,6 +182,7 @@ pub struct TicketEntity {
     pub category: String,
     pub priority: String,
     pub status: String,
+    pub forwarded: bool,
     pub course_id: i32,
     pub creator_id: i32,
 }
@@ -197,6 +199,7 @@ impl TryFrom<TicketEntity> for Ticket {
             category: value.category.parse()?,
             priority: value.priority.parse()?,
             status: value.status.parse()?,
+            forwarded: value.forwarded,
             course_id: value.course_id,
             creator_id: value.creator_id,
         })

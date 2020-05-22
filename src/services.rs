@@ -11,8 +11,8 @@ use crate::db::repositories::{CourseRepository, TicketRepository, UserRepository
 use crate::email::{Mail, MailRenderer, MailSender};
 use crate::hashing::Hasher;
 use crate::models::{
-    Category, Course, CourseWithNames, EditCourse, EditUser, Id, NewComment, NewCourse, NewMedium,
-    NewTicket, NewUser, Priority, Role, TicketWithNames, TicketWithRels, User,
+    Category, Course, CourseWithNames, EditCourse, EditTicket, EditUser, Id, NewComment, NewCourse,
+    NewMedium, NewTicket, NewUser, Priority, Role, Status, TicketWithNames, TicketWithRels, User,
 };
 
 /// The login service manages the user login. Logout is directly handled in the
@@ -70,7 +70,7 @@ pub trait UserService {
     fn update(&self, id: Id, name: String, role: Role) -> Result<()>;
 }
 
-/// Main implementation of [`UserRepository`].
+/// Main implementation of [`UserService`].
 struct UserServiceImpl<R: UserRepository, MS: MailSender, MR: MailRenderer, H: Hasher> {
     user_repo: R,
     mail_sender: MS,
@@ -259,6 +259,12 @@ pub trait TicketService {
     fn create(&self, ticket: NewTicket, medium: NewMedium) -> Result<()>;
     /// Add a new comment to a ticket.
     fn add_comment(&self, id: Id, creator_id: Id, message: String) -> Result<()>;
+    /// Update the details of a ticket.
+    fn update(&self, id: Id, priority: Priority) -> Result<()>;
+    /// Forward a ticket to its course's author.
+    fn forward(&self, id: Id) -> Result<()>;
+    /// Change the current status of the ticket.
+    fn change_status(&self, id: Id, status: Status) -> Result<()>;
 }
 
 /// Main implementation of [`TicketService`].
@@ -309,6 +315,24 @@ impl<TR: TicketRepository, CR: CourseRepository> TicketService for TicketService
             timestamp: Utc::now(),
             message,
         })
+    }
+
+    fn update(&self, id: Id, priority: Priority) -> Result<()> {
+        self.ticket_repo.update(EditTicket { id, priority })
+    }
+
+    fn forward(&self, id: Id) -> Result<()> {
+        self.ticket_repo.forward(id)
+    }
+
+    fn change_status(&self, id: Id, status: Status) -> Result<()> {
+        let current_status = self.ticket_repo.get_status(id)?;
+        ensure!(
+            current_status.can_change(status),
+            "Status cannot be changed"
+        );
+
+        self.ticket_repo.set_status(id, status)
     }
 }
 

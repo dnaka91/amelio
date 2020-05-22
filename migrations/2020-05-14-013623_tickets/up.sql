@@ -7,6 +7,7 @@ CREATE TABLE tickets
     category    TEXT    NOT NULL,
     priority    TEXT    NOT NULL,
     status      TEXT    NOT NULL DEFAULT 'open',
+    forwarded   BOOLEAN NOT NULL DEFAULT FALSE,
     course_id   INTEGER NOT NULL REFERENCES courses(id),
     creator_id  INTEGER NOT NULL REFERENCES users(id),
     CHECK (type IN (

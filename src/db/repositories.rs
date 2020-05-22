@@ -14,9 +14,9 @@ use super::models::{
 };
 
 use crate::models::{
-    Comment, CommentWithNames, Course, CourseWithNames, EditCourse, EditUser, MediumType,
-    NewComment, NewCourse, NewMedium, NewTicket, NewUser, Priority, Role, Ticket, TicketWithNames,
-    TicketWithRels, User,
+    Comment, CommentWithNames, Course, CourseWithNames, EditCourse, EditTicket, EditUser,
+    MediumType, NewComment, NewCourse, NewMedium, NewTicket, NewUser, Priority, Role, Status,
+    Ticket, TicketWithNames, TicketWithRels, User,
 };
 
 /// User related functionality.
@@ -289,6 +289,14 @@ pub trait TicketRepository {
     fn create(&self, ticket: NewTicket, priority: Priority, medium: NewMedium) -> Result<()>;
     /// Add a new comment to an existing ticket.
     fn add_comment(&self, comment: NewComment) -> Result<()>;
+    /// Update an existing ticket.
+    fn update(&self, ticket: EditTicket) -> Result<()>;
+    /// Forward a ticket to its course's author.
+    fn forward(&self, id: i32) -> Result<()>;
+    /// Get the current status of a ticket.
+    fn get_status(&self, id: i32) -> Result<Status>;
+    /// Set the new status of a ticket.
+    fn set_status(&self, id: i32, status: Status) -> Result<()>;
 }
 
 /// Main implementation of [`TicketRepository`].
@@ -333,10 +341,22 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
         }
 
         let courses = courses::table
-            .select((courses::id, courses::code))
+            .select((
+                courses::id,
+                courses::code,
+                courses::author_id,
+                courses::tutor_id,
+            ))
             .filter(courses::id.eq_any(&course_ids))
-            .load::<(i32, String)>(self.conn)
-            .map(FnvHashMap::from_iter)?;
+            .load::<(i32, String, i32, i32)>(self.conn)
+            .map(|data| {
+                FnvHashMap::from_iter(data.into_iter().map(|row| (row.0, (row.1, row.2, row.3))))
+            })?;
+
+        for (_, author_id, tutor_id) in courses.values() {
+            user_ids.insert(*author_id);
+            user_ids.insert(*tutor_id);
+        }
 
         let users = users::table
             .select((users::id, users::name))
@@ -347,7 +367,7 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
         tickets
             .into_iter()
             .map(|ticket| {
-                let course_name = courses
+                let (course_name, course_author, course_tutor) = courses
                     .get(&ticket.course_id)
                     .cloned()
                     .context("Entry missing for tickets's course ID")?;
@@ -355,10 +375,19 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
                     .get(&ticket.creator_id)
                     .cloned()
                     .context("Entry missing for tickets's creator ID")?;
+                let editor_name = users
+                    .get(&if ticket.forwarded {
+                        course_author
+                    } else {
+                        course_tutor
+                    })
+                    .cloned()
+                    .context("Entry missing for ticket's editor ID")?;
                 Ok(TicketWithNames {
                     ticket,
-                    creator_name,
                     course_name,
+                    creator_name,
+                    editor_name,
                 })
             })
             .collect()
@@ -369,20 +398,30 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
 
         let ticket = self.get(id)?;
 
-        let course_name = courses::table
+        let (course_name, author_id, tutor_id) = courses::table
             .find(ticket.course_id)
-            .select(courses::code)
-            .get_result(self.conn)?;
+            .select((courses::code, courses::author_id, courses::tutor_id))
+            .get_result::<(String, i32, i32)>(self.conn)?;
 
         let creator_name = users::table
             .find(ticket.creator_id)
             .select(users::name)
             .get_result(self.conn)?;
 
+        let editor_name = users::table
+            .find(if ticket.forwarded {
+                author_id
+            } else {
+                tutor_id
+            })
+            .select(users::name)
+            .get_result(self.conn)?;
+
         Ok(TicketWithNames {
             ticket,
-            creator_name,
             course_name,
+            creator_name,
+            editor_name,
         })
     }
 
@@ -458,6 +497,7 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
             ticket: ticket.ticket,
             course_name: ticket.course_name,
             creator_name: ticket.creator_name,
+            editor_name: ticket.editor_name,
             medium,
             comments,
         })
@@ -525,6 +565,50 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
             .execute(self.conn)?;
 
         ensure!(res == 1, "Failed inserting comment");
+        Ok(())
+    }
+
+    fn update(&self, ticket: EditTicket) -> Result<()> {
+        use super::schema::tickets;
+
+        let res = diesel::update(tickets::table.find(ticket.id))
+            .set(tickets::priority.eq(ticket.priority.as_ref()))
+            .execute(self.conn)?;
+
+        ensure!(res == 1, "Ticket with ID {} not found", ticket.id);
+        Ok(())
+    }
+
+    fn forward(&self, id: i32) -> Result<()> {
+        use super::schema::tickets;
+
+        let res = diesel::update(tickets::table.find(id))
+            .set(tickets::forwarded.eq(true))
+            .execute(self.conn)?;
+
+        ensure!(res == 1, "Ticket with ID {} not found", id);
+        Ok(())
+    }
+
+    fn get_status(&self, id: i32) -> Result<Status> {
+        use super::schema::tickets;
+
+        tickets::table
+            .find(id)
+            .select(tickets::status)
+            .get_result::<String>(self.conn)
+            .map_err(Into::into)
+            .and_then(|v| v.parse().map_err(Into::into))
+    }
+
+    fn set_status(&self, id: i32, status: Status) -> Result<()> {
+        use super::schema::tickets;
+
+        let res = diesel::update(tickets::table.find(id))
+            .set(tickets::status.eq(status.as_ref()))
+            .execute(self.conn)?;
+
+        ensure!(res == 1, "Ticket with ID {} not found", id);
         Ok(())
     }
 }

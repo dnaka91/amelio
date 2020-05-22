@@ -159,6 +159,18 @@ pub enum Status {
     Completed,
 }
 
+impl Status {
+    /// Determine whether the current status can be changed into the `other` status.
+    pub fn can_change(self, other: Self) -> bool {
+        match self {
+            Self::Open => other == Self::InProgress,
+            Self::InProgress => other == Self::Accepted || other == Self::Refused,
+            Self::Accepted => other == Self::Completed,
+            Self::Refused | Self::Completed => false,
+        }
+    }
+}
+
 /// A full ticket with all available details.
 pub struct Ticket {
     pub id: Id,
@@ -168,8 +180,38 @@ pub struct Ticket {
     pub category: Category,
     pub priority: Priority,
     pub status: Status,
+    pub forwarded: bool,
     pub course_id: Id,
     pub creator_id: Id,
+}
+
+impl Ticket {
+    /// Check whether the ticket is editable, based on its status.
+    pub fn is_editable(&self) -> bool {
+        self.status == Status::Open
+            || self.status == Status::InProgress
+            || self.status == Status::Accepted
+    }
+
+    /// Whether a ticket can be changed into [`Status::Accepted`].
+    pub fn can_accept(&self) -> bool {
+        self.is_editable() && self.status == Status::Open || self.status == Status::InProgress
+    }
+
+    /// Whether a ticket can be changed into [`Status::Refused`].
+    pub fn can_refuse(&self) -> bool {
+        self.is_editable() && self.status == Status::Open || self.status == Status::InProgress
+    }
+
+    /// Whether a ticket can be changed into [`Status::Completed`].
+    pub fn can_complete(&self) -> bool {
+        self.is_editable() && self.status == Status::Accepted
+    }
+
+    /// Whether a ticket can be forwarded to the course's author.
+    pub fn can_forward(&self) -> bool {
+        self.is_editable() && !self.forwarded
+    }
 }
 
 /// A ticket with its course and creator names included.
@@ -177,6 +219,7 @@ pub struct TicketWithNames {
     pub ticket: Ticket,
     pub course_name: String,
     pub creator_name: String,
+    pub editor_name: String,
 }
 
 /// A ticket with the same information as [`TicketWithNames`] plus the related medium.
@@ -184,6 +227,7 @@ pub struct TicketWithRels {
     pub ticket: Ticket,
     pub course_name: String,
     pub creator_name: String,
+    pub editor_name: String,
     pub medium: Medium,
     pub comments: Vec<CommentWithNames>,
 }
@@ -231,6 +275,12 @@ pub struct NewTicket {
     pub category: Category,
     pub course_id: Id,
     pub creator_id: Id,
+}
+
+/// An existing ticket to be updated.
+pub struct EditTicket {
+    pub id: Id,
+    pub priority: Priority,
 }
 
 /// A new medium that belongs to a [`Ticket`] that is to be added to the system.

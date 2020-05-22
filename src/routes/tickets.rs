@@ -11,8 +11,8 @@ use url::Url;
 use super::{Hour, Minute, NonEmptyString, PositiveId, PositiveNum, Second, ServerError, ValidUrl};
 use crate::db::connection::DbConn;
 use crate::db::repositories;
-use crate::models::{Category, Id, TicketType};
-use crate::roles::StudentUser;
+use crate::models::{Category, Id, Priority, Status, TicketType};
+use crate::roles::{StudentUser, TutorUser};
 use crate::services::{self, TicketService};
 use crate::templates::{self, MessageCode};
 
@@ -184,7 +184,7 @@ pub fn post_new_ticket(user: StudentUser, data: Form<NewTicket>, conn: DbConn) -
 
 /// Show the details of a ticket from student perspective.
 #[get("/<id>")]
-pub fn edit_ticket_student(
+pub fn edit_ticket(
     user: StudentUser,
     id: PositiveId,
     conn: DbConn,
@@ -225,14 +225,99 @@ pub fn post_add_comment(
 
     match service.add_comment(id.0, user.0.id, data.0.comment.0) {
         Ok(()) => Flash::success(
-            Redirect::to(uri!("/tickets", edit_ticket_student: id)),
+            Redirect::to(uri!("/tickets", edit_ticket: id)),
             MessageCode::CommentCreated,
         ),
         Err(e) => {
             error!("error during comment creation: {:?}", e);
             Flash::error(
-                Redirect::to(uri!("/tickets", edit_ticket_student: id)),
+                Redirect::to(uri!("/tickets", edit_ticket: id)),
                 MessageCode::FailedCommentCreation,
+            )
+        }
+    }
+}
+
+/// Form data for the ticket edit form.
+#[derive(FromForm)]
+pub struct EditTicket {
+    priority: Priority,
+}
+
+/// Endpoint to update ticket details.
+#[post("/<id>/edit", data = "<data>")]
+pub fn post_edit_ticket(
+    _user: TutorUser,
+    id: PositiveId,
+    data: Form<EditTicket>,
+    conn: DbConn,
+) -> Flash<Redirect> {
+    let service = services::ticket_service(
+        repositories::ticket_repo(&conn),
+        repositories::course_repo(&conn),
+    );
+
+    match service.update(id.0, data.priority) {
+        Ok(()) => Flash::success(
+            Redirect::to(uri!("/tickets", edit_ticket: id)),
+            MessageCode::TicketUpdated,
+        ),
+        Err(e) => {
+            error!("error during ticket update: {:?}", e);
+            Flash::error(
+                Redirect::to(uri!("/tickets", edit_ticket: id)),
+                MessageCode::FailedTicketUpdate,
+            )
+        }
+    }
+}
+
+/// Endpoint to forward a ticket to its course's author.
+#[get("/<id>/forward", rank = 2)]
+pub fn forward_ticket(_user: TutorUser, id: PositiveId, conn: DbConn) -> Flash<Redirect> {
+    let service = services::ticket_service(
+        repositories::ticket_repo(&conn),
+        repositories::course_repo(&conn),
+    );
+
+    match service.forward(id.0) {
+        Ok(()) => Flash::success(
+            Redirect::to(uri!("/tickets", edit_ticket: id)),
+            MessageCode::TicketUpdated,
+        ),
+        Err(e) => {
+            error!("error during ticket forwarding: {:?}", e);
+            Flash::error(
+                Redirect::to(uri!("/tickets", edit_ticket: id)),
+                MessageCode::FailedTicketUpdate,
+            )
+        }
+    }
+}
+
+/// Endpoint to change a ticket's status.
+#[get("/<id>/status/<status>")]
+pub fn change_ticket_status(
+    _user: TutorUser,
+    id: PositiveId,
+    status: Status,
+    conn: DbConn,
+) -> Flash<Redirect> {
+    let service = services::ticket_service(
+        repositories::ticket_repo(&conn),
+        repositories::course_repo(&conn),
+    );
+
+    match service.change_status(id.0, status) {
+        Ok(()) => Flash::success(
+            Redirect::to(uri!("/tickets", edit_ticket: id)),
+            MessageCode::TicketUpdated,
+        ),
+        Err(e) => {
+            error!("error during ticket status change: {:?}", e);
+            Flash::error(
+                Redirect::to(uri!("/tickets", edit_ticket: id)),
+                MessageCode::FailedTicketUpdate,
             )
         }
     }

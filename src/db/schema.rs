@@ -66,6 +66,7 @@ table! {
         category -> Text,
         priority -> Text,
         status -> Text,
+        forwarded -> Bool,
         course_id -> Integer,
         creator_id -> Integer,
     }
