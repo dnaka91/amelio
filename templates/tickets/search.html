@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+{% include "navbar.html" %}
+{% endblock navbar %}
+
+{% block content %}
+<div class="container">
+
+  <div class="columns">
+    <div class="column is-4">
+      <div class="box">
+
+        <div class="columns">
+          <div class="column">
+            <p class="title">Ticketsuche</p>
+          </div>
+        </div>
+
+        <div class="columns">
+          <div class="column">
+            <form action="/tickets/search">
+
+              <div class="columns">
+                <div class="column">
+                  <div class="field has-addons">
+                    <div class="control is-expanded has-icons-left">
+                      <input class="input" type="text" name="title" value="{{ search.title|opt_str }}" placeholder="Titel">
+                      <span class="icon is-left">
+                        <i class="fas fa-heading"></i>
+                      </span>
+                    </div>
+                    <div class="control">
+                      <button class="button is-info">
+                        <span class="icon">
+                          <i class="fas fa-search"></i>
+                        </span>
+                        <span>Suchen</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label">Kurs</label>
+                <div class="control is-expanded has-icons-left">
+                  <span class="select is-fullwidth">
+                    <select name="course">
+                      <option></option>
+                      {% for (id, name) in courses %}
+                      <option value="{{ id }}" {{- search.course_id|opt_select(id) }}>{{ name }}</option>
+                      {% endfor %}
+                    </select>
+                  </span>
+                  <span class="icon is-left">
+                    <i class="fas fa-chalkboard"></i>
+                  </span>
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label">Kategorie</label>
+                <div class="control is-expanded has-icons-left">
+                  <span class="select is-fullwidth">
+                    <select name="category">
+                      <option></option>
+                      <option value="editorial" {{- search.category|opt_select(Category::Editorial) }}>Redaktioneller Fehler</option>
+                      <option value="content" {{- search.category|opt_select(Category::Content) }}>Inhaltlicher Fehler</option>
+                      <option value="improvement" {{- search.category|opt_select(Category::Improvement) }}>Verbesserungsvorschlag</option>
+                      <option value="addition" {{- search.category|opt_select(Category::Addition) }}>Ergänzungsvorschlag</option>
+                    </select>
+                  </span>
+                  <span class="icon is-left">
+                    <i class="fas fa-tags"></i>
+                  </span>
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label">Priorität</label>
+                <div class="control is-expanded has-icons-left">
+                  <span class="select is-fullwidth">
+                    <select name="priority">
+                      <option></option>
+                      <option value="critical" {{- search.priority|opt_select(Priority::Critical) }}>Kritisch</option>
+                      <option value="high" {{- search.priority|opt_select(Priority::High) }}>Hoch</option>
+                      <option value="medium" {{- search.priority|opt_select(Priority::Medium) }}>Mittel</option>
+                      <option value="low" {{- search.priority|opt_select(Priority::Low) }}>Niedrig</option>
+                    </select>
+                  </span>
+                  <span class="icon is-left">
+                    <i class="fas fa-sort-amount-up-alt"></i>
+                  </span>
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label">Status</label>
+                <div class="control is-expanded has-icons-left">
+                  <span class="select is-fullwidth">
+                    <select name="status">
+                      <option></option>
+                      <option value="open" {{- search.status|opt_select(Status::Open) }}>Offen</option>
+                      <option value="in-progress" {{- search.status|opt_select(Status::InProgress) }}>In Bearbeitung</option>
+                      <option value="accepted" {{- search.status|opt_select(Status::Accepted) }}>Akzeptiert</option>
+                      <option value="refused" {{- search.status|opt_select(Status::Refused) }}>Abgelehnt</option>
+                      <option value="completed" {{- search.status|opt_select(Status::Completed) }}>Abgeschlossen</option>
+                    </select>
+                  </span>
+                  <span class="icon is-left">
+                    <i class="fas fa-cogs"></i>
+                  </span>
+                </div>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="column">
+      <div class="box">
+        <div class="table-container">
+          <table class="table is-hoverable is-fullwidth">
+            <tr>
+              <th>ID</th>
+              <th>Kurs</th>
+              <th>Status</th>
+              <th>Titel</th>
+            </tr>
+            {% for t in tickets %}
+            <tr>
+              <td>{{ t.ticket.id }}</td>
+              <td>{{ t.course_name }}</td>
+              <td>
+                <div class="tag {{ t.ticket.status.tag() }}">
+                  <span class="icon">
+                    <i class="fas {{ t.ticket.status.icon() }}"></i>
+                  </span>
+                  <span>{{ t.ticket.status.german() }}</span>
+                </div>
+              </td>
+              <td>
+                <a href="/tickets/{{ t.ticket.id }}">{{ t.ticket.title }}</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock content %}

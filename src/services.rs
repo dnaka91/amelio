@@ -12,7 +12,8 @@ use crate::email::{Mail, MailRenderer, MailSender};
 use crate::hashing::Hasher;
 use crate::models::{
     Category, Course, CourseWithNames, EditCourse, EditTicket, EditUser, Id, NewComment, NewCourse,
-    NewMedium, NewTicket, NewUser, Priority, Role, Status, TicketWithNames, TicketWithRels, User,
+    NewMedium, NewTicket, NewUser, Priority, Role, Status, TicketSearch, TicketWithNames,
+    TicketWithRels, User,
 };
 
 /// The login service manages the user login. Logout is directly handled in the
@@ -265,6 +266,8 @@ pub trait TicketService {
     fn forward(&self, id: Id) -> Result<()>;
     /// Change the current status of the ticket.
     fn change_status(&self, id: Id, status: Status) -> Result<()>;
+    /// Search for tickets with different criteria.
+    fn search(&self, role: Role, search: &mut TicketSearch) -> Result<Vec<TicketWithNames>>;
 }
 
 /// Main implementation of [`TicketService`].
@@ -333,6 +336,14 @@ impl<TR: TicketRepository, CR: CourseRepository> TicketService for TicketService
         );
 
         self.ticket_repo.set_status(id, status)
+    }
+
+    fn search(&self, role: Role, mut search: &mut TicketSearch) -> Result<Vec<TicketWithNames>> {
+        if role >= Role::Student {
+            search.priority = None;
+        }
+
+        self.ticket_repo.search(search)
     }
 }
 

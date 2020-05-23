@@ -56,10 +56,10 @@
                 <div class="control">
                   <div class="select is-fullwidth">
                     <select name="role" required>
-                      <option value="admin" {%- if user.role == Role::Admin %} selected{% endif %}>Administrator</option>
-                      <option value="author" {%- if user.role == Role::Author %} selected{% endif %}>Autor</option>
-                      <option value="tutor" {%- if user.role == Role::Tutor %} selected{% endif %}>Tutor</option>
-                      <option value="student" {%- if user.role == Role::Student %} selected{% endif %}>Student</option>
+                      <option value="admin" {{- user.role|select(Role::Admin) }}>Administrator</option>
+                      <option value="author" {{- user.role|select(Role::Author) }}>Autor</option>
+                      <option value="tutor" {{- user.role|select(Role::Tutor) }}>Tutor</option>
+                      <option value="student" {{- user.role|select(Role::Student) }}>Student</option>
                     </select>
                   </div>
                 </div>

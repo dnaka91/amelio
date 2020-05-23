@@ -11,7 +11,7 @@ use url::Url;
 use super::{Hour, Minute, NonEmptyString, PositiveId, PositiveNum, Second, ServerError, ValidUrl};
 use crate::db::connection::DbConn;
 use crate::db::repositories;
-use crate::models::{Category, Id, Priority, Status, TicketType};
+use crate::models::{Category, Id, Priority, Status, TicketSearch, TicketType};
 use crate::roles::{StudentUser, TutorUser};
 use crate::services::{self, TicketService};
 use crate::templates::{self, MessageCode};
@@ -321,6 +321,48 @@ pub fn change_ticket_status(
             )
         }
     }
+}
+
+/// Form data for the ticket search form.
+#[derive(FromForm)]
+pub struct SearchOptions {
+    title: Option<String>,
+    course: Option<PositiveId>,
+    category: Option<Category>,
+    priority: Option<Priority>,
+    status: Option<Status>,
+}
+
+/// Ticket search page for all registered users.
+#[get("/search?<data..>")]
+pub fn search_tickets(
+    user: StudentUser,
+    data: Form<SearchOptions>,
+    conn: DbConn,
+) -> Result<templates::SearchTickets, ServerError> {
+    let service = services::ticket_service(
+        repositories::ticket_repo(&conn),
+        repositories::course_repo(&conn),
+    );
+
+    let mut search = TicketSearch {
+        title: data.0.title,
+        course_id: data.0.course.map(|c| c.0),
+        category: data.0.category,
+        priority: data.0.priority,
+        status: data.0.status,
+    };
+
+    let tickets = service.search(user.0.role, &mut search)?;
+
+    let courses = service.list_course_names()?;
+
+    Ok(templates::SearchTickets {
+        role: user.0.role,
+        tickets,
+        courses,
+        search,
+    })
 }
 
 #[cfg(test)]

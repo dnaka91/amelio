@@ -16,7 +16,7 @@ use super::models::{
 use crate::models::{
     Comment, CommentWithNames, Course, CourseWithNames, EditCourse, EditTicket, EditUser,
     MediumType, NewComment, NewCourse, NewMedium, NewTicket, NewUser, Priority, Role, Status,
-    Ticket, TicketWithNames, TicketWithRels, User,
+    Ticket, TicketSearch, TicketWithNames, TicketWithRels, User,
 };
 
 /// User related functionality.
@@ -297,6 +297,8 @@ pub trait TicketRepository {
     fn get_status(&self, id: i32) -> Result<Status>;
     /// Set the new status of a ticket.
     fn set_status(&self, id: i32, status: Status) -> Result<()>;
+    /// Search for tickets with different criteria.
+    fn search(&self, search: &TicketSearch) -> Result<Vec<TicketWithNames>>;
 }
 
 /// Main implementation of [`TicketRepository`].
@@ -312,7 +314,7 @@ impl<'a> TicketRepositoryImpl<'a> {
         tickets::table
             .load::<TicketEntity>(self.conn)
             .map_err(Into::into)
-            .and_then(|users| users.into_iter().map(TryInto::try_into).collect())
+            .and_then(|entities| entities.into_iter().map(TryInto::try_into).collect())
     }
 
     /// Get a single ticket by ID.
@@ -325,13 +327,11 @@ impl<'a> TicketRepositoryImpl<'a> {
             .map_err(Into::into)
             .and_then(TryInto::try_into)
     }
-}
 
-impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
-    fn list_with_names(&self) -> Result<Vec<TicketWithNames>> {
+    /// Load user and course names and attach them to the given list of tickets.
+    fn load_names(&self, tickets: Vec<Ticket>) -> Result<Vec<TicketWithNames>> {
         use super::schema::{courses, users};
 
-        let tickets = self.list()?;
         let mut user_ids = FnvHashSet::default();
         let mut course_ids = FnvHashSet::default();
 
@@ -391,6 +391,14 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
                 })
             })
             .collect()
+    }
+}
+
+impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
+    fn list_with_names(&self) -> Result<Vec<TicketWithNames>> {
+        let tickets = self.list()?;
+
+        self.load_names(tickets)
     }
 
     fn get_with_names(&self, id: i32) -> Result<TicketWithNames> {
@@ -610,6 +618,39 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
 
         ensure!(res == 1, "Ticket with ID {} not found", id);
         Ok(())
+    }
+
+    fn search(&self, search: &TicketSearch) -> Result<Vec<TicketWithNames>> {
+        use super::schema::tickets;
+
+        let mut query = tickets::table.into_boxed();
+
+        if let Some(title) = &search.title {
+            query = query.filter(tickets::title.like(format!("%{}%", title)));
+        }
+
+        if let Some(course_id) = search.course_id {
+            query = query.filter(tickets::course_id.eq(course_id));
+        }
+
+        if let Some(category) = search.category {
+            query = query.filter(tickets::category.eq(category.to_string()));
+        }
+
+        if let Some(priority) = search.priority {
+            query = query.filter(tickets::priority.eq(priority.to_string()));
+        }
+
+        if let Some(status) = search.status {
+            query = query.filter(tickets::status.eq(status.to_string()));
+        }
+
+        let tickets = query
+            .load::<TicketEntity>(self.conn)
+            .map_err(Into::into)
+            .and_then(|entities| entities.into_iter().map(TryInto::try_into).collect())?;
+
+        self.load_names(tickets)
     }
 }
 

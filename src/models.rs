@@ -113,6 +113,8 @@ impl TicketType {
 }
 
 /// The kind of medium that is attached to a [`Ticket`] based on the [`TicketType`].
+#[derive(Copy, Clone, Ord, PartialOrd, Eq, PartialEq, Display, EnumString, AsRefStr)]
+#[strum(serialize_all = "kebab-case")]
 pub enum MediumType {
     Text,
     Recording,
@@ -312,4 +314,15 @@ pub struct NewComment {
     pub creator_id: Id,
     pub timestamp: DateTime<Utc>,
     pub message: String,
+}
+
+/// Different options to search and filter tickets.
+///
+/// All options can be combined to further narrow down the search.
+pub struct TicketSearch {
+    pub title: Option<String>,
+    pub course_id: Option<Id>,
+    pub category: Option<Category>,
+    pub priority: Option<Priority>,
+    pub status: Option<Status>,
 }

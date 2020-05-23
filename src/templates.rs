@@ -1,14 +1,12 @@
 //! All templates that are used to render the web pages of this service.
 
-use std::borrow::Borrow;
-
 use askama::Template;
 use chrono::Timelike;
 use strum::{AsRefStr, EnumString};
 
 use crate::models::{
-    Category, Course, CourseWithNames, Id, Medium, MediumType, Priority, Role, Status, TicketType,
-    TicketWithNames, TicketWithRels, User,
+    Category, Course, CourseWithNames, Id, Medium, MediumType, Priority, Role, Status,
+    TicketSearch, TicketType, TicketWithNames, TicketWithRels, User,
 };
 
 mod filters {
@@ -51,6 +49,32 @@ mod filters {
             .with_timezone(&Berlin)
             .format("um %H:%M am %d.%m.%Y")
             .to_string())
+    }
+
+    /// Return the string representation of a value if it exists or an empty string if it's
+    /// [`None`].
+    pub fn opt_str<T: AsRef<str>>(opt: &Option<T>) -> askama::Result<&str> {
+        if let Some(value) = opt {
+            Ok(value.as_ref())
+        } else {
+            Ok("")
+        }
+    }
+
+    /// Compare two values and return ` selected` if they match, an empty string otherwise. This is
+    /// helpful in pre-selecting a value in HTML `<select>` elements.
+    pub fn select<T: Eq>(value: &T, other: &T) -> askama::Result<&'static str> {
+        Ok(if value == other { " selected" } else { "" })
+    }
+
+    /// Compare two values exactly as [`select`] but with the first value being optional.
+    /// If the first value is [`None`], an empty string is returned.
+    pub fn opt_select<T: Eq>(opt: &Option<T>, other: &T) -> askama::Result<&'static str> {
+        if let Some(value) = opt {
+            select(value, other)
+        } else {
+            Ok("")
+        }
     }
 }
 
@@ -335,6 +359,16 @@ pub struct TicketDetail {
     pub role: Role,
     pub flash: Option<(String, MessageCode)>,
     pub ticket: TicketWithRels,
+}
+
+/// Template for the ticket search page.
+#[derive(Template)]
+#[template(path = "tickets/search.html")]
+pub struct SearchTickets {
+    pub role: Role,
+    pub tickets: Vec<TicketWithNames>,
+    pub courses: Vec<(Id, String)>,
+    pub search: TicketSearch,
 }
 
 /// Template for the _403 Forbidden_ error.

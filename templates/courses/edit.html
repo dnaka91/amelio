@@ -58,7 +58,7 @@
                     <select name="author" required>
                       <option value=""></option>
                       {% for (id, name) in authors %}
-                      <option value="{{ id }}" {%- if id == course.author_id.borrow() %} selected{% endif %}>{{ name }}</option>
+                      <option value="{{ id }}" {{- course.author_id|select(id) }}>{{ name }}</option>
                       {% endfor %}
                     </select>
                   </div>
@@ -78,7 +78,7 @@
                     <select name="tutor" required>
                       <option value=""></option>
                       {% for (id, name) in tutors %}
-                      <option value="{{ id }}" {%- if id == course.tutor_id.borrow() %} selected{% endif %}>{{ name }}</option>
+                      <option value="{{ id }}" {{- course.tutor_id|select(id) }}>{{ name }}</option>
                       {% endfor %}
                     </select>
                   </div>

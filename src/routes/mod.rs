@@ -11,7 +11,7 @@ use num_traits::PrimInt;
 use rocket::http::{RawStr, Status};
 use rocket::request::{FromFormValue, FromParam};
 use rocket::response::{self, Redirect, Responder};
-use rocket::{get, uri, Request};
+use rocket::{get, uri, Request, UriDisplayPath};
 use url::Url;
 
 use crate::models::Id;
@@ -125,7 +125,7 @@ pub type PositiveId = PositiveNum<Id>;
 
 /// An integer that is guaranteed to equal or greater than `1` when parsed from a request param or form
 /// value.
-#[derive(rocket::UriDisplayPath)]
+#[derive(UriDisplayPath)]
 pub struct PositiveNum<N: PrimInt>(N);
 
 impl<'a, N: PrimInt + FromStr> TryFrom<&'a RawStr> for PositiveNum<N> {
@@ -144,6 +144,7 @@ impl<'a, N: PrimInt + FromStr> TryFrom<&'a RawStr> for PositiveNum<N> {
         }
     }
 }
+
 impl<'v, N: PrimInt + FromStr> FromFormValue<'v> for PositiveNum<N> {
     type Error = &'v RawStr;
 

@@ -133,10 +133,10 @@
                 <div class="control">
                   <div class="select is-fullwidth">
                     <select name="priority" required>
-                      <option value="critical" {%- if ticket.ticket.priority == Priority::Critical %} selected{% endif %}>Kritisch</option>
-                      <option value="high" {%- if ticket.ticket.priority == Priority::High %} selected{% endif %}>Hoch</option>
-                      <option value="medium" {%- if ticket.ticket.priority == Priority::Medium %} selected{% endif %}>Mittel</option>
-                      <option value="low" {%- if ticket.ticket.priority == Priority::Low %} selected{% endif %}>Niedrig</option>
+                      <option value="critical" {{- ticket.ticket.priority|select(Priority::Critical) }}>Kritisch</option>
+                      <option value="high" {{- ticket.ticket.priority|select(Priority::High) }}>Hoch</option>
+                      <option value="medium" {{- ticket.ticket.priority|select(Priority::Medium) }}>Mittel</option>
+                      <option value="low" {{- ticket.ticket.priority|select(Priority::Low) }}>Niedrig</option>
                     </select>
                   </div>
                 </div>
