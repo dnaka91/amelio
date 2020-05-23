@@ -19,7 +19,7 @@ use crate::templates::{self, MessageCode};
 
 /// User management page for administrators.
 #[get("/")]
-pub fn users(
+pub fn list(
     user: AdminUser,
     conn: DbConn,
     config: State<Config>,
@@ -43,7 +43,7 @@ pub fn users(
 
 /// User creation form for administrators.
 #[get("/new")]
-pub fn new_user(user: AdminUser, flash: Option<FlashMessage<'_, '_>>) -> templates::NewUser {
+pub fn new(user: AdminUser, flash: Option<FlashMessage<'_, '_>>) -> templates::NewUser {
     templates::NewUser {
         role: user.0.role,
         flash: flash.map(|f| f.msg().into()),
@@ -60,7 +60,7 @@ pub struct NewUser {
 
 /// New user POST endpoint to handle user creation, only for administrators.
 #[post("/new", data = "<data>")]
-pub fn post_new_user(
+pub fn post_new(
     _user: AdminUser,
     data: Form<NewUser>,
     conn: DbConn,
@@ -74,14 +74,11 @@ pub fn post_new_user(
     );
 
     match service.create(data.0.username.0, data.0.name.0, data.0.role) {
-        Ok(()) => Flash::success(
-            Redirect::to(uri!("/users", users)),
-            MessageCode::UserCreated,
-        ),
+        Ok(()) => Flash::success(Redirect::to(uri!("/users", list)), MessageCode::UserCreated),
         Err(e) => {
             error!("error during user creation: {:?}", e);
             Flash::error(
-                Redirect::to(uri!("/users", new_user)),
+                Redirect::to(uri!("/users", new)),
                 MessageCode::FailedUserCreation,
             )
         }
@@ -140,7 +137,7 @@ pub fn post_activate(
 
 /// Enable or disable users as administrator.
 #[get("/<id>/enable?<value>")]
-pub fn enable_user(
+pub fn enable(
     _user: AdminUser,
     id: PositiveId,
     value: bool,
@@ -155,12 +152,12 @@ pub fn enable_user(
     );
     service.enable(id.0, value)?;
 
-    Ok(Redirect::to(uri!("/users", users)))
+    Ok(Redirect::to(uri!("/users", list)))
 }
 
 /// User editing form for administrators.
 #[get("/<id>/edit")]
-pub fn edit_user(
+pub fn edit(
     user: AdminUser,
     id: PositiveId,
     conn: DbConn,
@@ -191,7 +188,7 @@ pub struct EditUser {
 
 /// Edit user POST endpoint to handle user editing, only for administrators.
 #[post("/<id>/edit", data = "<data>")]
-pub fn post_edit_user(
+pub fn post_edit(
     _user: AdminUser,
     id: PositiveId,
     data: Form<EditUser>,
@@ -206,14 +203,11 @@ pub fn post_edit_user(
     );
 
     match service.update(id.0, data.0.name.0, data.0.role) {
-        Ok(()) => Flash::success(
-            Redirect::to(uri!("/users", users)),
-            MessageCode::UserUpdated,
-        ),
+        Ok(()) => Flash::success(Redirect::to(uri!("/users", list)), MessageCode::UserUpdated),
         Err(e) => {
             error!("error during user update: {:?}", e);
             Flash::error(
-                Redirect::to(uri!("/users", edit_user: id)),
+                Redirect::to(uri!("/users", edit: id)),
                 MessageCode::FailedUserUpdate,
             )
         }
@@ -233,7 +227,7 @@ mod tests {
     #[test]
     fn invalid_post_new_user() {
         let client = prepare_logged_in_client("admin", "admin");
-        let uri = uri!("/users", super::post_new_user).to_string();
+        let uri = uri!("/users", super::post_new).to_string();
 
         assert_eq!(
             Status::UnprocessableEntity,
@@ -267,7 +261,7 @@ mod tests {
     #[test]
     fn invalid_enable_user_id() {
         let client = prepare_logged_in_client("admin", "admin");
-        let uri = uri!("/users", super::enable_user: PositiveNum(0), true).to_string();
+        let uri = uri!("/users", super::enable: PositiveNum(0), true).to_string();
 
         assert_eq!(Status::NotFound, client.get(uri).dispatch().status());
     }
@@ -275,7 +269,7 @@ mod tests {
     #[test]
     fn invalid_post_edit_user() {
         let client = prepare_logged_in_client("admin", "admin");
-        let uri = uri!("/users", super::post_edit_user: PositiveNum(1)).to_string();
+        let uri = uri!("/users", super::post_edit: PositiveNum(1)).to_string();
 
         assert_eq!(
             Status::UnprocessableEntity,
@@ -290,7 +284,7 @@ mod tests {
     #[test]
     fn invalid_edit_user_id() {
         let client = prepare_logged_in_client("admin", "admin");
-        let uri = uri!("/users", super::edit_user: PositiveNum(0)).to_string();
+        let uri = uri!("/users", super::edit: PositiveNum(0)).to_string();
 
         assert_eq!(Status::NotFound, client.get(uri).dispatch().status());
     }

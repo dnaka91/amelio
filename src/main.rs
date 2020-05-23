@@ -50,43 +50,43 @@ fn rocket() -> Result<Rocket> {
                 routes::users::activate,
                 routes::users::post_activate,
                 // Assets should always be last
-                routes::assets::assets,
+                routes::assets::get,
             ],
         )
         .mount(
             "/users",
             routes![
-                routes::users::users,
-                routes::users::new_user,
-                routes::users::post_new_user,
-                routes::users::enable_user,
-                routes::users::edit_user,
-                routes::users::post_edit_user,
+                routes::users::list,
+                routes::users::new,
+                routes::users::post_new,
+                routes::users::enable,
+                routes::users::edit,
+                routes::users::post_edit,
             ],
         )
         .mount(
             "/courses",
             routes![
-                routes::courses::courses,
-                routes::courses::new_course,
-                routes::courses::post_new_course,
-                routes::courses::enable_course,
-                routes::courses::edit_course,
-                routes::courses::post_edit_course,
+                routes::courses::list,
+                routes::courses::new,
+                routes::courses::post_new,
+                routes::courses::enable,
+                routes::courses::edit,
+                routes::courses::post_edit,
             ],
         )
         .mount(
             "/tickets",
             routes![
-                routes::tickets::tickets,
-                routes::tickets::new_ticket,
-                routes::tickets::post_new_ticket,
-                routes::tickets::edit_ticket,
+                routes::tickets::list,
+                routes::tickets::new,
+                routes::tickets::post_new,
+                routes::tickets::edit,
+                routes::tickets::post_edit,
                 routes::tickets::post_add_comment,
-                routes::tickets::post_edit_ticket,
-                routes::tickets::forward_ticket,
-                routes::tickets::change_ticket_status,
-                routes::tickets::search_tickets,
+                routes::tickets::forward,
+                routes::tickets::change_status,
+                routes::tickets::search,
             ],
         )
         .register(catchers![

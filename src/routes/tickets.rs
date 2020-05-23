@@ -18,7 +18,7 @@ use crate::templates::{self, MessageCode};
 
 /// Ticket listing page for students or higher ranked users.
 #[get("/")]
-pub fn tickets(
+pub fn list(
     user: StudentUser,
     conn: DbConn,
     flash: Option<FlashMessage<'_, '_>>,
@@ -38,7 +38,7 @@ pub fn tickets(
 
 /// Ticket creation form for students or higher ranked users.
 #[get("/new/<ty>")]
-pub fn new_ticket(
+pub fn new(
     user: StudentUser,
     ty: TicketType,
     conn: DbConn,
@@ -138,7 +138,7 @@ impl<'f> FromForm<'f> for NewTicket {
 
 /// New ticket POST endpoint to handle ticket creation, for students or higher ranked users.
 #[post("/new", data = "<data>")]
-pub fn post_new_ticket(user: StudentUser, data: Form<NewTicket>, conn: DbConn) -> Flash<Redirect> {
+pub fn post_new(user: StudentUser, data: Form<NewTicket>, conn: DbConn) -> Flash<Redirect> {
     let service = services::ticket_service(
         repositories::ticket_repo(&conn),
         repositories::course_repo(&conn),
@@ -169,7 +169,7 @@ pub fn post_new_ticket(user: StudentUser, data: Form<NewTicket>, conn: DbConn) -
         },
     ) {
         Ok(()) => Flash::success(
-            Redirect::to(uri!("/tickets", tickets)),
+            Redirect::to(uri!("/tickets", list)),
             MessageCode::TicketCreated,
         ),
         Err(e) => {
@@ -184,7 +184,7 @@ pub fn post_new_ticket(user: StudentUser, data: Form<NewTicket>, conn: DbConn) -
 
 /// Show the details of a ticket from student perspective.
 #[get("/<id>")]
-pub fn edit_ticket(
+pub fn edit(
     user: StudentUser,
     id: PositiveId,
     conn: DbConn,
@@ -202,6 +202,40 @@ pub fn edit_ticket(
         flash: flash.map(|f| (f.name().to_owned(), f.msg().into())),
         ticket,
     })
+}
+
+/// Form data for the ticket edit form.
+#[derive(FromForm)]
+pub struct EditTicket {
+    priority: Priority,
+}
+
+/// Endpoint to update ticket details.
+#[post("/<id>/edit", data = "<data>")]
+pub fn post_edit(
+    _user: TutorUser,
+    id: PositiveId,
+    data: Form<EditTicket>,
+    conn: DbConn,
+) -> Flash<Redirect> {
+    let service = services::ticket_service(
+        repositories::ticket_repo(&conn),
+        repositories::course_repo(&conn),
+    );
+
+    match service.update(id.0, data.priority) {
+        Ok(()) => Flash::success(
+            Redirect::to(uri!("/tickets", edit: id)),
+            MessageCode::TicketUpdated,
+        ),
+        Err(e) => {
+            error!("error during ticket update: {:?}", e);
+            Flash::error(
+                Redirect::to(uri!("/tickets", edit: id)),
+                MessageCode::FailedTicketUpdate,
+            )
+        }
+    }
 }
 
 /// Form data for the comment form.
@@ -225,48 +259,14 @@ pub fn post_add_comment(
 
     match service.add_comment(id.0, user.0.id, data.0.comment.0) {
         Ok(()) => Flash::success(
-            Redirect::to(uri!("/tickets", edit_ticket: id)),
+            Redirect::to(uri!("/tickets", edit: id)),
             MessageCode::CommentCreated,
         ),
         Err(e) => {
             error!("error during comment creation: {:?}", e);
             Flash::error(
-                Redirect::to(uri!("/tickets", edit_ticket: id)),
+                Redirect::to(uri!("/tickets", edit: id)),
                 MessageCode::FailedCommentCreation,
-            )
-        }
-    }
-}
-
-/// Form data for the ticket edit form.
-#[derive(FromForm)]
-pub struct EditTicket {
-    priority: Priority,
-}
-
-/// Endpoint to update ticket details.
-#[post("/<id>/edit", data = "<data>")]
-pub fn post_edit_ticket(
-    _user: TutorUser,
-    id: PositiveId,
-    data: Form<EditTicket>,
-    conn: DbConn,
-) -> Flash<Redirect> {
-    let service = services::ticket_service(
-        repositories::ticket_repo(&conn),
-        repositories::course_repo(&conn),
-    );
-
-    match service.update(id.0, data.priority) {
-        Ok(()) => Flash::success(
-            Redirect::to(uri!("/tickets", edit_ticket: id)),
-            MessageCode::TicketUpdated,
-        ),
-        Err(e) => {
-            error!("error during ticket update: {:?}", e);
-            Flash::error(
-                Redirect::to(uri!("/tickets", edit_ticket: id)),
-                MessageCode::FailedTicketUpdate,
             )
         }
     }
@@ -274,7 +274,7 @@ pub fn post_edit_ticket(
 
 /// Endpoint to forward a ticket to its course's author.
 #[get("/<id>/forward", rank = 2)]
-pub fn forward_ticket(_user: TutorUser, id: PositiveId, conn: DbConn) -> Flash<Redirect> {
+pub fn forward(_user: TutorUser, id: PositiveId, conn: DbConn) -> Flash<Redirect> {
     let service = services::ticket_service(
         repositories::ticket_repo(&conn),
         repositories::course_repo(&conn),
@@ -282,13 +282,13 @@ pub fn forward_ticket(_user: TutorUser, id: PositiveId, conn: DbConn) -> Flash<R
 
     match service.forward(id.0) {
         Ok(()) => Flash::success(
-            Redirect::to(uri!("/tickets", edit_ticket: id)),
+            Redirect::to(uri!("/tickets", edit: id)),
             MessageCode::TicketUpdated,
         ),
         Err(e) => {
             error!("error during ticket forwarding: {:?}", e);
             Flash::error(
-                Redirect::to(uri!("/tickets", edit_ticket: id)),
+                Redirect::to(uri!("/tickets", edit: id)),
                 MessageCode::FailedTicketUpdate,
             )
         }
@@ -297,7 +297,7 @@ pub fn forward_ticket(_user: TutorUser, id: PositiveId, conn: DbConn) -> Flash<R
 
 /// Endpoint to change a ticket's status.
 #[get("/<id>/status/<status>")]
-pub fn change_ticket_status(
+pub fn change_status(
     _user: TutorUser,
     id: PositiveId,
     status: Status,
@@ -310,13 +310,13 @@ pub fn change_ticket_status(
 
     match service.change_status(id.0, status) {
         Ok(()) => Flash::success(
-            Redirect::to(uri!("/tickets", edit_ticket: id)),
+            Redirect::to(uri!("/tickets", edit: id)),
             MessageCode::TicketUpdated,
         ),
         Err(e) => {
             error!("error during ticket status change: {:?}", e);
             Flash::error(
-                Redirect::to(uri!("/tickets", edit_ticket: id)),
+                Redirect::to(uri!("/tickets", edit: id)),
                 MessageCode::FailedTicketUpdate,
             )
         }
@@ -335,7 +335,7 @@ pub struct SearchOptions {
 
 /// Ticket search page for all registered users.
 #[get("/search?<data..>")]
-pub fn search_tickets(
+pub fn search(
     user: StudentUser,
     data: Form<SearchOptions>,
     conn: DbConn,
@@ -376,7 +376,7 @@ mod tests {
     #[test]
     fn invalid_post_new_ticket() {
         let client = prepare_logged_in_client("admin", "admin");
-        let uri = uri!("/tickets", super::post_new_ticket).to_string();
+        let uri = uri!("/tickets", super::post_new).to_string();
 
         let data_list = &[
             "ty=&category=content&title=a&description=a&course=1&page=1&line=1",

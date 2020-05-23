@@ -15,7 +15,7 @@ use crate::templates::{self, MessageCode};
 
 /// Course management page for administrators.
 #[get("/")]
-pub fn courses(
+pub fn list(
     user: AdminUser,
     conn: DbConn,
     flash: Option<FlashMessage<'_, '_>>,
@@ -35,7 +35,7 @@ pub fn courses(
 
 /// Course creation form for administrators.
 #[get("/new")]
-pub fn new_course(
+pub fn new(
     user: AdminUser,
     flash: Option<FlashMessage<'_, '_>>,
     conn: DbConn,
@@ -65,7 +65,7 @@ pub struct NewCourse {
 
 /// New course POST endpoint to handle course creation, only for administrators.
 #[post("/new", data = "<data>")]
-pub fn post_new_course(_user: AdminUser, data: Form<NewCourse>, conn: DbConn) -> Flash<Redirect> {
+pub fn post_new(_user: AdminUser, data: Form<NewCourse>, conn: DbConn) -> Flash<Redirect> {
     let service = services::course_service(
         repositories::user_repo(&conn),
         repositories::course_repo(&conn),
@@ -78,13 +78,13 @@ pub fn post_new_course(_user: AdminUser, data: Form<NewCourse>, conn: DbConn) ->
         data.0.tutor.0,
     ) {
         Ok(()) => Flash::success(
-            Redirect::to(uri!("/courses", courses)),
+            Redirect::to(uri!("/courses", list)),
             MessageCode::CourseCreated,
         ),
         Err(e) => {
             error!("error during course creation: {:?}", e);
             Flash::error(
-                Redirect::to(uri!("/courses", new_course)),
+                Redirect::to(uri!("/courses", new)),
                 MessageCode::FailedCourseCreation,
             )
         }
@@ -93,7 +93,7 @@ pub fn post_new_course(_user: AdminUser, data: Form<NewCourse>, conn: DbConn) ->
 
 /// Enable or disable courses as administrator.
 #[get("/<id>/enable?<value>")]
-pub fn enable_course(
+pub fn enable(
     _user: AdminUser,
     id: PositiveId,
     value: bool,
@@ -105,12 +105,12 @@ pub fn enable_course(
     );
     service.enable(id.0, value)?;
 
-    Ok(Redirect::to(uri!("/courses", courses)))
+    Ok(Redirect::to(uri!("/courses", list)))
 }
 
 /// Course editing form for administrators.
 #[get("/<id>/edit")]
-pub fn edit_course(
+pub fn edit(
     user: AdminUser,
     id: PositiveId,
     conn: DbConn,
@@ -142,7 +142,7 @@ pub struct EditCourse {
 
 /// Edit course POST endpoint to handle course editing, only for administrators.
 #[post("/<id>/edit", data = "<data>")]
-pub fn post_edit_course(
+pub fn post_edit(
     _user: AdminUser,
     id: PositiveId,
     data: Form<EditCourse>,
@@ -155,13 +155,13 @@ pub fn post_edit_course(
 
     match service.update(id.0, data.0.title.0, data.0.author.0, data.0.tutor.0) {
         Ok(()) => Flash::success(
-            Redirect::to(uri!("/courses", courses)),
+            Redirect::to(uri!("/courses", list)),
             MessageCode::CourseUpdated,
         ),
         Err(e) => {
             error!("error during course update: {:?}", e);
             Flash::error(
-                Redirect::to(uri!("/courses", edit_course: id)),
+                Redirect::to(uri!("/courses", edit: id)),
                 MessageCode::FailedCourseUpdate,
             )
         }
@@ -180,7 +180,7 @@ mod tests {
     #[test]
     fn invalid_post_new_course() {
         let client = prepare_logged_in_client("admin", "admin");
-        let uri = uri!("/courses", super::post_new_course).to_string();
+        let uri = uri!("/courses", super::post_new).to_string();
 
         assert_eq!(
             Status::UnprocessableEntity,
@@ -211,7 +211,7 @@ mod tests {
     #[test]
     fn invalid_enable_course_id() {
         let client = prepare_logged_in_client("admin", "admin");
-        let uri = uri!("/courses", super::enable_course: PositiveNum(0), true).to_string();
+        let uri = uri!("/courses", super::enable: PositiveNum(0), true).to_string();
 
         assert_eq!(Status::NotFound, client.get(uri).dispatch().status());
     }
@@ -219,7 +219,7 @@ mod tests {
     #[test]
     fn invalid_post_edit_course() {
         let client = prepare_logged_in_client("admin", "admin");
-        let uri = uri!("/courses", super::post_edit_course: PositiveNum(1)).to_string();
+        let uri = uri!("/courses", super::post_edit: PositiveNum(1)).to_string();
 
         assert_eq!(
             Status::UnprocessableEntity,
@@ -238,7 +238,7 @@ mod tests {
     #[test]
     fn invalid_edit_course_id() {
         let client = prepare_logged_in_client("admin", "admin");
-        let uri = uri!("/courses", super::edit_course: PositiveNum(0)).to_string();
+        let uri = uri!("/courses", super::edit: PositiveNum(0)).to_string();
 
         assert_eq!(Status::NotFound, client.get(uri).dispatch().status());
     }

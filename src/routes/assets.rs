@@ -40,7 +40,7 @@ include!(concat!(env!("OUT_DIR"), "/codegen.rs"));
 /// If an `ETag` is found in the request headers and it matches the requested asset, then
 /// [`Status::NotModified`] is returned instead of the actual file content.
 #[get("/<file..>", rank = 10)]
-pub fn assets<'r>(file: PathBuf, inm: Option<IfNoneMatch>) -> rocket::response::Result<'r> {
+pub fn get<'r>(file: PathBuf, inm: Option<IfNoneMatch>) -> rocket::response::Result<'r> {
     let file_str = file.to_string_lossy();
 
     // If the file didn't change, we don't have to send it again.

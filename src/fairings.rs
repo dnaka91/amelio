@@ -139,7 +139,7 @@ mod tests {
         let client = prepare_logged_in_client("admin", "admin");
 
         let res = client
-            .get(uri!("/users", routes::users::users).to_string())
+            .get(uri!("/users", routes::users::list).to_string())
             .dispatch();
 
         assert_eq!(Status::Ok, res.status());
@@ -150,7 +150,7 @@ mod tests {
         let client = prepare_logged_in_client("Max", "Mustermann");
 
         let res = client
-            .get(uri!("/users", routes::users::users).to_string())
+            .get(uri!("/users", routes::users::list).to_string())
             .dispatch();
 
         assert_eq!(Status::Forbidden, res.status());
@@ -161,7 +161,7 @@ mod tests {
         let client = Client::new(crate::rocket().unwrap()).unwrap();
 
         let res = client
-            .get(uri!("/users", routes::users::users).to_string())
+            .get(uri!("/users", routes::users::list).to_string())
             .dispatch();
 
         assert_eq!(Status::SeeOther, res.status());
