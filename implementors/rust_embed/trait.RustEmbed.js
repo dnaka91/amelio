@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["amelio"] = [{"text":"impl <a class=\"trait\" href=\"rust_embed/trait.RustEmbed.html\" title=\"trait rust_embed::RustEmbed\">RustEmbed</a> for <a class=\"struct\" href=\"amelio/routes/assets/struct.Assets.html\" title=\"struct amelio::routes::assets::Assets\">Assets</a>","synthetic":false,"types":["amelio::routes::assets::Assets"]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
