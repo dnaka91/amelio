@@ -1,3 +1,12 @@
+//! # Amelio - A university project for the IUBH
+//!
+//! Amelio is a group project for the IUBH in Germany. It is a ticket system that helps to report
+//! and track errors in study media.
+//!
+//! The name Amelio is a short version of _[ameliorate]_ and is another word for **improve**.
+//!
+//! [ameliorate]: https://www.dictionary.com/browse/ameliorate
+
 #![feature(proc_macro_hygiene, decl_macro)]
 #![forbid(unsafe_code)]
 #![deny(clippy::all, clippy::pedantic)]
