@@ -147,7 +147,7 @@ mod tests {
 
     #[test]
     fn student_is_forbidden() {
-        let client = prepare_logged_in_client("Max", "Mustermann");
+        let client = prepare_logged_in_client("max.mustermann", "Mustermann");
 
         let res = client
             .get(uri!("/users", routes::users::list).to_string())
