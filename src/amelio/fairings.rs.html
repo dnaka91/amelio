@@ -318,7 +318,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">student_is_forbidden</span>() {
-        <span class="kw">let</span> <span class="ident">client</span> <span class="op">=</span> <span class="ident">prepare_logged_in_client</span>(<span class="string">&quot;Max&quot;</span>, <span class="string">&quot;Mustermann&quot;</span>);
+        <span class="kw">let</span> <span class="ident">client</span> <span class="op">=</span> <span class="ident">prepare_logged_in_client</span>(<span class="string">&quot;max.mustermann&quot;</span>, <span class="string">&quot;Mustermann&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">client</span>
             .<span class="ident">get</span>(<span class="macro">uri</span><span class="macro">!</span>(<span class="string">&quot;/users&quot;</span>, <span class="ident">routes</span>::<span class="ident">users</span>::<span class="ident">list</span>).<span class="ident">to_string</span>())
