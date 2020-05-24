@@ -1,121 +1,149 @@
 [
     {
-        "username": "Max",
+        "username": "max.mustermann",
         "password": "Mustermann",
         "name": "Max Mustermann",
         "role": "student",
         "active": true
     },
     {
-        "username": "Johanna",
+        "username": "johanna.schwarz",
         "password": "Schwarz",
         "name": "Johanna Schwarz",
         "role": "author",
         "active": true
     },
     {
-        "username": "Murat",
+        "username": "murat.zibelnik",
         "password": "Zibelnik",
         "name": "Murat Zibelnik",
         "role": "author",
         "active": true
     },
     {
-        "username": "Laszlo",
+        "username": "laszlo.wagner",
         "password": "Wagner",
         "name": "Laszlo Wagner",
         "role": "author",
         "active": true
     },
     {
-        "username": "Clemens",
+        "username": "clemens.labs",
         "password": "Labs",
         "name": "Clemens Labs",
         "role": "tutor",
         "active": true
     },
     {
-        "username": "Tobias",
+        "username": "tobias.hochfellner",
         "password": "Hochfellner",
         "name": "Tobias Hochfellner",
         "role": "tutor",
         "active": true
     },
     {
-        "username": "Christina",
+        "username": "christina.nowy",
         "password": "Nowy",
         "name": "Christina Nowy",
         "role": "tutor",
         "active": true
     },
     {
-        "username": "Maria",
+        "username": "maria.meister",
         "password": "Meister",
         "name": "Maria Meister",
         "role": "student",
         "active": true
     },
     {
-        "username": "Bernd",
+        "username": "bernd.faultier",
         "password": "Failtier",
         "name": "Bernd Faultier",
         "role": "student",
         "active": false
     },
     {
-        "username": "Regina",
+        "username": "regina.schlafmaus",
         "password": "Schlafmaus",
         "name": "Regina Schlafmaus",
         "role": "student",
         "active": false
     },
     {
-        "username": "Siegfried",
+        "username": "siegfried.siegreich",
         "password": "Siegreich",
         "name": "Siegfried Siegreich",
         "role": "author",
         "active": true
     },
     {
-        "username": "Frieda",
+        "username": "frieda.freundlich",
         "password": "Freundlich",
         "name": "Frieda Freundlich",
         "role": "tutor",
         "active": false
     },
     {
-        "username": "Hans",
+        "username": "hans.wurst",
         "password": "Wurs",
         "name": "Hans Wurst",
         "role": "student",
         "active": true
     },
     {
-        "username": "Peter",
+        "username": "peter.maier",
         "password": "Maier",
         "name": "Peter Maier",
         "role": "student",
         "active": true
     },
     {
-        "username": "Karl",
+        "username": "karl.schmidt",
         "password": "Schmidt",
-        "name": "arl Schmidt",
+        "name": "Karl Schmidt",
         "role": "student",
         "active": true
     },
     {
-        "username": "Paulina",
+        "username": "paulina.weber",
         "password": "Weber",
         "name": "Paulina Weber",
         "role": "admin",
         "active": true
     },
     {
-        "username": "Martha",
+        "username": "martha.mueller",
         "password": "Mueller",
         "name": "Martha Mueller",
         "role": "admin",
+        "active": true
+    },
+    {
+        "username": "emmanuel.kaese",
+        "password": "Kaese",
+        "name": "Emmanuel Kaese",
+        "role": "tutor",
+        "active": true
+    },
+    {
+        "username": "karl.meier",
+        "password": "Meier",
+        "name": "Karl Meier",
+        "role": "tutor",
+        "active": true
+    },
+    {
+        "username": "alexander.wilsker",
+        "password": "Wilsker",
+        "name": "Alexander Wilsker",
+        "role": "author",
+        "active": true
+    },
+    {
+        "username": "marie.schmidt",
+        "password": "Schmidt",
+        "name": "Marie Schmidt",
+        "role": "author",
         "active": true
     }
 ]

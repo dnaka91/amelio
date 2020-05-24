@@ -56,7 +56,7 @@
             "creator_id": 18
         },
         {
-            "type": "course-book",
+            "type": "reading-list",
             "title": "ich komme damit einfach nicht zurecht",
             "description": "es gäbe hier viel zu schreiben, aber ich habe jetzt keine Zeit",
             "category": "editorial",
@@ -65,6 +65,72 @@
             "forwarded": false,
             "course_id": 2,
             "creator_id": 14
+        },
+        {
+            "type": "podcast",
+            "title": "der Tutor spricht zu undeutlich",
+            "description": "leider spricht der tutor sehr undeutlich, so dass man nicht alles versteht. ich glaube er isst nebenbei.",
+            "category": "improvement",
+            "priority": "high",
+            "status": "in-progress",
+            "forwarded": false,
+            "course_id": 10,
+            "creator_id": 15
+        },
+        {
+            "type": "presentation",
+            "title": "Seite 8 ist nur weiß",
+            "description": "Seite 8 fehlt leider, ausgerechnet diese ist leider sehr wichtig.",
+            "category": "content",
+            "priority": "critical",
+            "status": "open",
+            "forwarded": false,
+            "course_id": 9,
+            "creator_id": 16
+        },
+        {
+            "type": "live-tutorial-recording",
+            "title": "es wäre schön, wenn man hierfür eine bekannt persönlichkeit einbinden würde",
+            "description": "thematisch wäre es sicherlich interessanter, wenn man hier jemand bekanntes sehen würde",
+            "category": "improvement",
+            "priority": "low",
+            "status": "open",
+            "forwarded": false,
+            "course_id": 8,
+            "creator_id": 17
+        },
+        {
+            "type": "online-test",
+            "title": "Fragen nicht im Skript",
+            "description": "Frage 10 wurde im Skript nicht behandelt",
+            "category": "content",
+            "priority": "high",
+            "status": "open",
+            "forwarded": false,
+            "course_id": 7,
+            "creator_id": 18
+        },
+        {
+            "type": "podcast",
+            "title": "bei der 11. Minute geht der Podcast aus",
+            "description": "Podcast läuft nur gute 10 Minuten, danach geht er einfach aus.",
+            "category": "content",
+            "priority": "medium",
+            "status": "open",
+            "forwarded": false,
+            "course_id": 6,
+            "creator_id": 14
+        },
+        {
+            "type": "practice-exam",
+            "title": "Die Frage Nummer 12 hat sich wiederholt",
+            "description": "die Fragen Nummern 4 und 12 sind identisch",
+            "category": "addition",
+            "priority": "low",
+            "status": "open",
+            "forwarded": false,
+            "course_id": 7,
+            "creator_id": 17
         }
     ],
     "texts": [
@@ -77,12 +143,29 @@
             "ticket_id": 6,
             "page": 12,
             "line": 2
+        },
+        {
+            "ticket_id": 8,
+            "page": 8,
+            "line": 1
         }
     ],
     "recordings": [
         {
             "ticket_id": 5,
             "time": "07:42:15"
+        },
+        {
+            "ticket_id": 7,
+            "time": "00:12:11"
+        },
+        {
+            "ticket_id": 9,
+            "time": "06:23:14"
+        },
+        {
+            "ticket_id": 11,
+            "time": "00:11:00"
         }
     ],
     "interactives": [
@@ -101,6 +184,16 @@
             "ticket_id": 4,
             "question": 2,
             "answer": "die Antwort zur Frage Nummer 13 müsste 8 lauten"
+        },
+        {
+            "ticket_id": 10,
+            "question": 10,
+            "answer": "Frage 10 ist nicht im Skript"
+        },
+        {
+            "ticket_id": 12,
+            "question": 12,
+            "answer": "die Frage Nummer 12 muss ersetzt werden"
         }
     ]
 }
