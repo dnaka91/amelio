@@ -269,6 +269,13 @@ pub struct Login {
     pub flash: Option<(String, MessageCode)>,
 }
 
+/// Template for the FAQ page.
+#[derive(Template)]
+#[template(path = "faq.html")]
+pub struct Faq {
+    pub role: Role,
+}
+
 /// Template for the user list page.
 #[derive(Template)]
 #[template(path = "users/index.html")]

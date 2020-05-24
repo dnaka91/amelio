@@ -53,6 +53,8 @@ fn rocket() -> Result<Rocket> {
                 routes::fairing::to_login,
                 routes::index_user,
                 routes::index,
+                routes::faq_user,
+                routes::faq,
                 routes::auth::login,
                 routes::auth::post_login,
                 routes::auth::post_logout,

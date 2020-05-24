@@ -38,6 +38,18 @@ pub fn index() -> Redirect {
     Redirect::to(uri!(auth::login))
 }
 
+/// FAQ page for authenticated users.
+#[get("/faq")]
+pub fn faq_user(user: &AuthUser) -> templates::Faq {
+    templates::Faq { role: user.0.role }
+}
+
+/// FAQ page for non-authenticated users, redirecting to the login page.
+#[get("/faq", rank = 2)]
+pub fn faq() -> Redirect {
+    Redirect::to(uri!(auth::login))
+}
+
 /// A wrapper around [`anyhow::Error`] that will print the error and respond with a
 /// [`Status::InternalServerError`].
 #[derive(Debug)]

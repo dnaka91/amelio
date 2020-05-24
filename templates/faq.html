@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+{% include "components/navbar.html" %}
+{% endblock navbar %}
+
+{% block content %}
+<div class="container">
+  <div class="columns">
+    <div class="column is-half is-offset-one-quarter">
+      <h1 class="title">FAQ</h1>
+      <div class="content">
+
+        <h3>Wie lange dauert die durchschnittliche Bearbeitungszeit meiner Änderungsmeldung?</h3>
+        <p class="has-text-justified">Die durchschnittliche Bearbeitungszeit beträgt derzeit 1 bis 3 Tage. Sollten wir
+          jedoch feststellen, dass Ihre Meldung eine längere Bearbeitungszeit erfordert, werden wir Sie innerhalb von 3
+          Tagen über den Bearbeitungsstand informieren.</p>
+
+        <h3>Kann ich meiner Änderungsmeldung Anhänge (beispielsweise ein Foto oder Video) hinzufügen?</h3>
+        <p class="has-text-justified">Derzeit unterstützt das Ticketsystem Amelio diese Funktion nicht. Dies wird jedoch
+          auch nicht benötigt, da die Lokalisierung zu Ihrer Änderungsmeldung (z.B. Fehler in einem Skript) bereits
+          mitgeteilt werden kann. Sollte jedoch zwingend ein Foto oder Video benötigt werden, können Sie uns zusätzlich
+          den Anhang per Mail an beispiel.ticketsystem@iubh.de zuschicken.</p>
+
+        <h3>Ich habe meine Meldung versehentlich aufgegeben. Kann ich diese löschen?</h3>
+        <p class="has-text-justified">Sie können Ihre Änderungsmeldung in der Übersicht „meine Tickets /
+          Änderungsmeldung“ löschen.</p>
+
+        <h3>Ich finde bei der Medienauswahl nicht den Punkt „Klausur“, was soll ich tun?</h3>
+        <p class="has-text-justified">Sollten Sie ein Fehler bei einer Klausur der IUBH gefunden haben, richten Sie Ihr
+          Anliegen bitte an das Studiensekretariat.</p>
+
+        <h3>Ich habe eine wichtige Meldung, wird diese schneller bearbeitet?</h3>
+        <p class="has-text-justified">Sollten Sie beispielsweise feststellen, dass ein ganzes Skript oder Vodcast zu
+          Ihrem Kurs fehlt, wird das Ticket mit einer höheren Priorisierung ausgestattet. Dadurch wird die Bearbeitung
+          des Tickets vorgezogen, um Ihnen eine möglichst schnelle Wiederaufnahme der Bearbeitung Ihres Kurses zu
+          ermöglichen.</p>
+
+        <h3>Was passiert nach der Aufgabe meiner Änderungsmeldung?</h3>
+        <p class="has-text-justified">Ihre Änderungsmeldung wird zunächst von einer zentralen Stelle gesichtet, welche
+          Ihnen entweder bereits eine Rückmeldung geben kann oder Ihre Meldung an den entsprechenden Verantwortlichen
+          weiterleitet. Dort kann die Meldung endgültig bearbeitet werden. Anschließend erhalten Sie dazu eine
+          Rückmeldung.</p>
+
+        <h3>An wen soll ich mich wenden, wenn ich ein Problem habe (z.B. Amelio funktioniert nicht wie gewünscht)?</h3>
+        <p class="has-text-justified">Sollte es ein unvorhergesehenes Problem mit dem Ticketsystem Amelio geben,
+          versuchen Sie sich bitte erneut einzuloggen. Sollte das Problem weiterhin bestehen, schreiben Sie bitte dem
+          Studiensekretariat der IUBH.</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
