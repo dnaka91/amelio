@@ -259,6 +259,7 @@ impl Translate for MessageCode {
 #[template(path = "index.html")]
 pub struct Index {
     pub role: Role,
+    pub name: String,
 }
 
 /// Template for the login page.

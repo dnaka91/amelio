@@ -28,8 +28,11 @@ pub mod users;
 
 /// Index page for authenticated users.
 #[get("/")]
-pub const fn index_user(user: &AuthUser) -> templates::Index {
-    templates::Index { role: user.0.role }
+pub fn index_user(user: &AuthUser) -> templates::Index {
+    templates::Index {
+        role: user.0.role,
+        name: user.0.name.clone(),
+    }
 }
 
 /// Index page for non-authenticated users, redirecting to the login page.
