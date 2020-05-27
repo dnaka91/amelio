@@ -387,6 +387,9 @@
 <span id="387">387</span>
 <span id="388">388</span>
 <span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! All templates that are used to render the web pages of this service.</span>
 
@@ -649,6 +652,9 @@
 <span class="attribute">#[<span class="ident">template</span>(<span class="ident">path</span> <span class="op">=</span> <span class="string">&quot;index.html&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Index</span> {
     <span class="kw">pub</span> <span class="ident">role</span>: <span class="ident">Role</span>,
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">String</span>,
+    <span class="kw">pub</span> <span class="ident">created_tickets</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">TicketWithNames</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">assigned_tickets</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">TicketWithNames</span><span class="op">&gt;</span>,
 }
 
 <span class="doccomment">/// Template for the login page.</span>
