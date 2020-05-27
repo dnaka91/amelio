@@ -47,5 +47,70 @@
     </div>
   </div>
 
+  <div class="columns">
+
+    {% if !created_tickets.is_empty() %}
+    <div class="column">
+      <div class="box">
+        <p class="title is-4">Erstellte Tickets</p>
+        {% for t in created_tickets %}
+        <div class="content">
+          <h4>
+            <a href="/tickets/{{ t.ticket.id }}">{{ t.ticket.title }}</a>
+          </h4>
+
+          <div class="tag {{ t.ticket.status.tag() }}">
+            <span class="icon">
+              <i class="fas {{ t.ticket.status.icon() }}"></i>
+            </span>
+            <span>{{ t.ticket.status.german() }}</span>
+          </div>
+          <small>&bull; {{ t.course_name }} &bull; {{ t.ticket.category.german() }}</small>
+          <br>
+          <br>
+          <p>{{ t.ticket.description|escape|linebreaksbr|safe }}</p>
+          {% if !loop.last %}<hr>{% endif %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if role <= Role::Tutor && !assigned_tickets.is_empty() %}
+    <div class="column">
+      <div class="box">
+        <p class="title is-4">Zugewiesene Tickets</p>
+        <div class="table-container">
+          <table class="table is-hoverable is-fullwidth">
+            <tr>
+              <th>ID</th>
+              <th>Kurs</th>
+              <th>Status</th>
+              <th>Titel</th>
+            </tr>
+            {% for t in assigned_tickets %}
+            <tr>
+              <td>{{ t.ticket.id }}</td>
+              <td>{{ t.course_name }}</td>
+              <td>
+                <div class="tag {{ t.ticket.status.tag() }}">
+                  <span class="icon">
+                    <i class="fas {{ t.ticket.status.icon() }}"></i>
+                  </span>
+                  <span>{{ t.ticket.status.german() }}</span>
+                </div>
+              </td>
+              <td>
+                <a href="/tickets/{{ t.ticket.id }}">{{ t.ticket.title }}</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
 </div>
 {% endblock content %}

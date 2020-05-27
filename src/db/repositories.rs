@@ -281,6 +281,11 @@ pub fn course_repo<'a>(conn: &'a SqliteConnection) -> impl CourseRepository + 'a
 pub trait TicketRepository {
     /// List all tickets together with their course and creator names.
     fn list_with_names(&self) -> Result<Vec<TicketWithNames>>;
+    /// List all tickets by their creator ID.
+    fn list_by_creator_id(&self, creator_id: i32) -> Result<Vec<TicketWithNames>>;
+    /// List all tickets by their assignee ID. The assignee ID is the tutor or author ID of the
+    /// course that a ticket belongs to.
+    fn list_by_assignee_id(&self, assignee_id: i32) -> Result<Vec<TicketWithNames>>;
     /// Get a single ticket with course and creator names.
     fn get_with_names(&self, id: i32) -> Result<TicketWithNames>;
     /// Get a single ticket with all related data.
@@ -397,6 +402,39 @@ impl<'a> TicketRepositoryImpl<'a> {
 impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
     fn list_with_names(&self) -> Result<Vec<TicketWithNames>> {
         let tickets = self.list()?;
+
+        self.load_names(tickets)
+    }
+
+    fn list_by_creator_id(&self, creator_id: i32) -> Result<Vec<TicketWithNames>> {
+        use super::schema::tickets;
+
+        let tickets = tickets::table
+            .filter(tickets::creator_id.eq(creator_id))
+            .load::<TicketEntity>(self.conn)
+            .map_err(Into::into)
+            .and_then(|entities| entities.into_iter().map(TryInto::try_into).collect())?;
+
+        self.load_names(tickets)
+    }
+
+    fn list_by_assignee_id(&self, assignee_id: i32) -> Result<Vec<TicketWithNames>> {
+        use super::schema::{courses, tickets};
+
+        let course_ids = courses::table
+            .select(courses::id)
+            .filter(
+                courses::author_id
+                    .eq(assignee_id)
+                    .or(courses::tutor_id.eq(assignee_id)),
+            )
+            .load::<i32>(self.conn)?;
+
+        let tickets = tickets::table
+            .filter(tickets::course_id.eq_any(course_ids))
+            .load::<TicketEntity>(self.conn)
+            .map_err(Into::into)
+            .and_then(|entities| entities.into_iter().map(TryInto::try_into).collect())?;
 
         self.load_names(tickets)
     }

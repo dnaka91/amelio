@@ -14,8 +14,11 @@ use rocket::response::{self, Redirect, Responder};
 use rocket::{get, uri, Request, UriDisplayPath};
 use url::Url;
 
+use crate::db::connection::DbConn;
+use crate::db::repositories;
 use crate::models::Id;
 use crate::roles::AuthUser;
+use crate::services::{self, TicketService};
 use crate::templates;
 
 pub mod assets;
@@ -28,11 +31,21 @@ pub mod users;
 
 /// Index page for authenticated users.
 #[get("/")]
-pub fn index_user(user: &AuthUser) -> templates::Index {
-    templates::Index {
+pub fn index_user(user: &AuthUser, conn: DbConn) -> Result<templates::Index, ServerError> {
+    let service = services::ticket_service(
+        repositories::ticket_repo(&conn),
+        repositories::course_repo(&conn),
+    );
+
+    let created_tickets = service.list_created(user.0.id)?;
+    let assigned_tickets = service.list_assigned(user.0.id, user.0.role)?;
+
+    Ok(templates::Index {
         role: user.0.role,
         name: user.0.name.clone(),
-    }
+        created_tickets,
+        assigned_tickets,
+    })
 }
 
 /// Index page for non-authenticated users, redirecting to the login page.

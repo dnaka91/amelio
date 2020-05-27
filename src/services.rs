@@ -250,6 +250,10 @@ pub fn course_service(
 pub trait TicketService {
     /// List all tickets.
     fn list(&self) -> Result<Vec<TicketWithNames>>;
+    /// List all tickets that were created by the given user.
+    fn list_created(&self, user_id: Id) -> Result<Vec<TicketWithNames>>;
+    /// List all tickets that are currently assigned to the given user.
+    fn list_assigned(&self, user_id: Id, role: Role) -> Result<Vec<TicketWithNames>>;
     /// List all courses with ID and name.
     fn list_course_names(&self) -> Result<Vec<(Id, String)>>;
     /// Get a single ticket by its ID.
@@ -290,6 +294,18 @@ impl<TR: TicketRepository, CR: CourseRepository> TicketServiceImpl<TR, CR> {
 impl<TR: TicketRepository, CR: CourseRepository> TicketService for TicketServiceImpl<TR, CR> {
     fn list(&self) -> Result<Vec<TicketWithNames>> {
         self.ticket_repo.list_with_names()
+    }
+
+    fn list_created(&self, user_id: Id) -> Result<Vec<TicketWithNames>> {
+        self.ticket_repo.list_by_creator_id(user_id)
+    }
+
+    fn list_assigned(&self, user_id: Id, role: Role) -> Result<Vec<TicketWithNames>> {
+        if role <= Role::Tutor {
+            self.ticket_repo.list_by_assignee_id(user_id)
+        } else {
+            Ok(Vec::new())
+        }
     }
 
     fn list_course_names(&self) -> Result<Vec<(Id, String)>> {

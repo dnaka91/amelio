@@ -260,6 +260,8 @@ impl Translate for MessageCode {
 pub struct Index {
     pub role: Role,
     pub name: String,
+    pub created_tickets: Vec<TicketWithNames>,
+    pub assigned_tickets: Vec<TicketWithNames>,
 }
 
 /// Template for the login page.
