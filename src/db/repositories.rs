@@ -421,17 +421,17 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
     fn list_by_assignee_id(&self, assignee_id: i32) -> Result<Vec<TicketWithNames>> {
         use super::schema::{courses, tickets};
 
-        let course_ids = courses::table
-            .select(courses::id)
+        let tickets = tickets::table
+            .inner_join(courses::table)
             .filter(
                 courses::author_id
                     .eq(assignee_id)
-                    .or(courses::tutor_id.eq(assignee_id)),
+                    .and(tickets::forwarded.eq(true))
+                    .or(courses::tutor_id
+                        .eq(assignee_id)
+                        .and(tickets::forwarded.eq(false))),
             )
-            .load::<i32>(self.conn)?;
-
-        let tickets = tickets::table
-            .filter(tickets::course_id.eq_any(course_ids))
+            .select(tickets::all_columns)
             .load::<TicketEntity>(self.conn)
             .map_err(Into::into)
             .and_then(|entities| entities.into_iter().map(TryInto::try_into).collect())?;
