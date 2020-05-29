@@ -390,3 +390,8 @@ pub struct Error403;
 #[derive(Template)]
 #[template(path = "errors/404.html")]
 pub struct Error404;
+
+/// Template for the _500 Internal Server Error_ error.
+#[derive(Template)]
+#[template(path = "errors/500.html")]
+pub struct Error500;

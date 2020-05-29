@@ -102,7 +102,8 @@ fn rocket() -> Result<Rocket> {
         )
         .register(catchers![
             routes::errors::forbidden,
-            routes::errors::not_found
+            routes::errors::not_found,
+            routes::errors::internal_server_error,
         ]))
 }
 

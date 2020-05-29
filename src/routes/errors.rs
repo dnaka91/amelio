@@ -15,3 +15,9 @@ pub const fn forbidden() -> templates::Error403 {
 pub const fn not_found() -> templates::Error404 {
     templates::Error404
 }
+
+/// 500 Internal Server Error error page.
+#[catch(500)]
+pub const fn internal_server_error() -> templates::Error500 {
+    templates::Error500
+}
