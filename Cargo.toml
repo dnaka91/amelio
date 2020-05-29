@@ -7,7 +7,7 @@ license = "GPL-3.0"
 description = "Amelio - A university project for the IUBH"
 homepage = "https://amelio.dnaka91.rocks"
 repository = "https://github.com/dnaka91/amelio"
-documentation = "https://github.com/dnaka91/amelio"
+documentation = "https://dnaka91.github.io/amelio"
 build = "build.rs"
 
 [dependencies]
