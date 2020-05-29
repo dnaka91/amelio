@@ -16,26 +16,6 @@ use crate::roles::{StudentUser, TutorUser};
 use crate::services::{self, TicketService};
 use crate::templates::{self, MessageCode};
 
-/// Ticket listing page for students or higher ranked users.
-#[get("/")]
-pub fn list(
-    user: StudentUser,
-    conn: DbConn,
-    flash: Option<FlashMessage<'_, '_>>,
-) -> Result<templates::Tickets, ServerError> {
-    let service = services::ticket_service(
-        repositories::ticket_repo(&conn),
-        repositories::course_repo(&conn),
-    );
-    let tickets = service.list()?;
-
-    Ok(templates::Tickets {
-        role: user.0.role,
-        flash: flash.map(|f| (f.name().to_owned(), f.msg().into())),
-        tickets,
-    })
-}
-
 /// Ticket creation form for students or higher ranked users.
 #[get("/new/<ty>")]
 pub fn new(
@@ -168,8 +148,8 @@ pub fn post_new(user: StudentUser, data: Form<NewTicket>, conn: DbConn) -> Flash
             }
         },
     ) {
-        Ok(()) => Flash::success(
-            Redirect::to(uri!("/tickets", list)),
+        Ok(id) => Flash::success(
+            Redirect::to(uri!("/tickets", edit: PositiveNum(id))),
             MessageCode::TicketCreated,
         ),
         Err(e) => {

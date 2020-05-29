@@ -344,15 +344,6 @@ pub struct EditCourse {
     pub course: Course,
 }
 
-/// Template for the ticket list page.
-#[derive(Template)]
-#[template(path = "tickets/index.html")]
-pub struct Tickets {
-    pub role: Role,
-    pub flash: Option<(String, MessageCode)>,
-    pub tickets: Vec<TicketWithNames>,
-}
-
 /// Template for the new ticket page.
 #[derive(Template)]
 #[template(path = "tickets/new/index.html")]

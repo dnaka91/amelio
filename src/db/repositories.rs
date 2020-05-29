@@ -306,7 +306,7 @@ pub trait TicketRepository {
     /// Get a single ticket with all related data.
     fn get_with_rels(&self, id: i32) -> Result<TicketWithRels>;
     /// Create a new ticket.
-    fn create(&self, ticket: NewTicket, priority: Priority, medium: NewMedium) -> Result<()>;
+    fn create(&self, ticket: NewTicket, priority: Priority, medium: NewMedium) -> Result<i32>;
     /// Add a new comment to an existing ticket.
     fn add_comment(&self, comment: NewComment) -> Result<()>;
     /// Update an existing ticket.
@@ -581,7 +581,7 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
         })
     }
 
-    fn create(&self, ticket: NewTicket, priority: Priority, medium: NewMedium) -> Result<()> {
+    fn create(&self, ticket: NewTicket, priority: Priority, medium: NewMedium) -> Result<i32> {
         use super::schema::{
             medium_interactives, medium_questionaires, medium_recordings, medium_texts, tickets,
         };
@@ -637,7 +637,7 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
             }?;
 
             ensure!(res_medium == 1, "Failed inserting medium");
-            Ok(())
+            Ok(ticket_id)
         })
     }
 

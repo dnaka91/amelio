@@ -262,7 +262,7 @@ pub trait TicketService {
     /// and the ticket is still in [`Status::Open`] it will be changed to [`Status::InProgress`].
     fn get_with_rels(&self, id: Id, user_id: Id, role: Role) -> Result<TicketWithRels>;
     /// Create a new ticket in the system.
-    fn create(&self, ticket: NewTicket, medium: NewMedium) -> Result<()>;
+    fn create(&self, ticket: NewTicket, medium: NewMedium) -> Result<Id>;
     /// Add a new comment to a ticket.
     fn add_comment(&self, id: Id, creator_id: Id, message: String) -> Result<()>;
     /// Update the details of a ticket.
@@ -326,11 +326,10 @@ impl<TR: TicketRepository, CR: CourseRepository> TicketService for TicketService
         self.ticket_repo.get_with_rels(id)
     }
 
-    fn create(&self, ticket: NewTicket, medium: NewMedium) -> Result<()> {
-        let category = ticket.category;
+    fn create(&self, ticket: NewTicket, medium: NewMedium) -> Result<Id> {
+        let priority = Self::map_priority(ticket.category);
 
-        self.ticket_repo
-            .create(ticket, Self::map_priority(category), medium)
+        self.ticket_repo.create(ticket, priority, medium)
     }
 
     fn add_comment(&self, id: Id, creator_id: Id, message: String) -> Result<()> {

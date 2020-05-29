@@ -89,7 +89,6 @@ fn rocket() -> Result<Rocket> {
         .mount(
             "/tickets",
             routes![
-                routes::tickets::list,
                 routes::tickets::new,
                 routes::tickets::post_new,
                 routes::tickets::edit,
