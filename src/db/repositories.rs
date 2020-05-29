@@ -5,6 +5,7 @@ use std::iter::FromIterator;
 
 use anyhow::{ensure, Context, Result};
 use diesel::prelude::*;
+use diesel::result::Error as DieselError;
 use fnv::{FnvHashMap, FnvHashSet};
 
 use super::models::{
@@ -304,6 +305,9 @@ pub trait TicketRepository {
     fn set_status(&self, id: i32, status: Status) -> Result<()>;
     /// Search for tickets with different criteria.
     fn search(&self, search: &TicketSearch) -> Result<Vec<TicketWithNames>>;
+    /// Activate a new ticket, changing it to [`Status::InProgress`] if it's still in
+    /// [`Status::Open`] and accessed by a tutor or author user.
+    fn activate_ticket(&self, id: i32, user_id: i32) -> Result<()>;
 }
 
 /// Main implementation of [`TicketRepository`].
@@ -689,6 +693,41 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
             .and_then(|entities| entities.into_iter().map(TryInto::try_into).collect())?;
 
         self.load_names(tickets)
+    }
+
+    fn activate_ticket(&self, id: i32, user_id: i32) -> Result<()> {
+        use super::schema::{courses, tickets};
+
+        let res = tickets::table
+            .find(id)
+            .select(tickets::id)
+            .inner_join(courses::table)
+            .filter(tickets::status.eq(Status::Open.as_ref()))
+            .filter(
+                courses::tutor_id
+                    .eq(user_id)
+                    .and(tickets::forwarded.eq(false))
+                    .or(courses::author_id
+                        .eq(user_id)
+                        .and(tickets::forwarded.eq(true))),
+            )
+            .get_result::<i32>(self.conn);
+
+        let found = match res {
+            Ok(_) => true,
+            Err(DieselError::NotFound) => false,
+            Err(e) => return Err(e.into()),
+        };
+
+        if found {
+            let res = diesel::update(tickets::table.find(id))
+                .set(tickets::status.eq(Status::InProgress.as_ref()))
+                .execute(self.conn)?;
+
+            ensure!(res == 1, "Failed opening ticket");
+        }
+
+        Ok(())
     }
 }
 

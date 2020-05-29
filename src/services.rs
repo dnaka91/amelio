@@ -258,8 +258,9 @@ pub trait TicketService {
     fn list_course_names(&self) -> Result<Vec<(Id, String)>>;
     /// Get a single ticket by its ID.
     fn get(&self, id: Id) -> Result<TicketWithNames>;
-    /// Get a single ticket together with all relations.
-    fn get_with_rels(&self, id: Id) -> Result<TicketWithRels>;
+    /// Get a single ticket together with all relations. If the opening user is a tutor or author
+    /// and the ticket is still in [`Status::Open`] it will be changed to [`Status::InProgress`].
+    fn get_with_rels(&self, id: Id, user_id: Id, role: Role) -> Result<TicketWithRels>;
     /// Create a new ticket in the system.
     fn create(&self, ticket: NewTicket, medium: NewMedium) -> Result<()>;
     /// Add a new comment to a ticket.
@@ -316,7 +317,12 @@ impl<TR: TicketRepository, CR: CourseRepository> TicketService for TicketService
         self.ticket_repo.get_with_names(id)
     }
 
-    fn get_with_rels(&self, id: Id) -> Result<TicketWithRels> {
+    fn get_with_rels(&self, id: Id, user_id: Id, role: Role) -> Result<TicketWithRels> {
+        // If we open a ticket as tutor or author, update the status first.
+        if role == Role::Tutor || role == Role::Author {
+            self.ticket_repo.activate_ticket(id, user_id)?;
+        }
+
         self.ticket_repo.get_with_rels(id)
     }
 

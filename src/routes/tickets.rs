@@ -195,7 +195,7 @@ pub fn edit(
         repositories::course_repo(&conn),
     );
 
-    let ticket = service.get_with_rels(id.0)?;
+    let ticket = service.get_with_rels(id.0, user.0.id, user.0.role)?;
 
     Ok(templates::TicketDetail {
         role: user.0.role,
