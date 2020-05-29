@@ -1086,7 +1086,7 @@
     <span class="doccomment">/// Get a single ticket with all related data.</span>
     <span class="kw">fn</span> <span class="ident">get_with_rels</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">i32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">TicketWithRels</span><span class="op">&gt;</span>;
     <span class="doccomment">/// Create a new ticket.</span>
-    <span class="kw">fn</span> <span class="ident">create</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ticket</span>: <span class="ident">NewTicket</span>, <span class="ident">priority</span>: <span class="ident">Priority</span>, <span class="ident">medium</span>: <span class="ident">NewMedium</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">create</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ticket</span>: <span class="ident">NewTicket</span>, <span class="ident">priority</span>: <span class="ident">Priority</span>, <span class="ident">medium</span>: <span class="ident">NewMedium</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>;
     <span class="doccomment">/// Add a new comment to an existing ticket.</span>
     <span class="kw">fn</span> <span class="ident">add_comment</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">comment</span>: <span class="ident">NewComment</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>;
     <span class="doccomment">/// Update an existing ticket.</span>
@@ -1361,7 +1361,7 @@
         })
     }
 
-    <span class="kw">fn</span> <span class="ident">create</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ticket</span>: <span class="ident">NewTicket</span>, <span class="ident">priority</span>: <span class="ident">Priority</span>, <span class="ident">medium</span>: <span class="ident">NewMedium</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">create</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ticket</span>: <span class="ident">NewTicket</span>, <span class="ident">priority</span>: <span class="ident">Priority</span>, <span class="ident">medium</span>: <span class="ident">NewMedium</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span> {
         <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">schema</span>::{
             <span class="ident">medium_interactives</span>, <span class="ident">medium_questionaires</span>, <span class="ident">medium_recordings</span>, <span class="ident">medium_texts</span>, <span class="ident">tickets</span>,
         };
@@ -1417,7 +1417,7 @@
             }<span class="question-mark">?</span>;
 
             <span class="macro">ensure</span><span class="macro">!</span>(<span class="ident">res_medium</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span>, <span class="string">&quot;Failed inserting medium&quot;</span>);
-            <span class="prelude-val">Ok</span>(())
+            <span class="prelude-val">Ok</span>(<span class="ident">ticket_id</span>)
         })
     }
 

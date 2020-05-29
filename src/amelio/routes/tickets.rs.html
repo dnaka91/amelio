@@ -385,26 +385,6 @@
 <span id="385">385</span>
 <span id="386">386</span>
 <span id="387">387</span>
-<span id="388">388</span>
-<span id="389">389</span>
-<span id="390">390</span>
-<span id="391">391</span>
-<span id="392">392</span>
-<span id="393">393</span>
-<span id="394">394</span>
-<span id="395">395</span>
-<span id="396">396</span>
-<span id="397">397</span>
-<span id="398">398</span>
-<span id="399">399</span>
-<span id="400">400</span>
-<span id="401">401</span>
-<span id="402">402</span>
-<span id="403">403</span>
-<span id="404">404</span>
-<span id="405">405</span>
-<span id="406">406</span>
-<span id="407">407</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Ticket related routes.</span>
 
@@ -423,26 +403,6 @@
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">roles</span>::{<span class="ident">StudentUser</span>, <span class="ident">TutorUser</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">services</span>::{<span class="self">self</span>, <span class="ident">TicketService</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">templates</span>::{<span class="self">self</span>, <span class="ident">MessageCode</span>};
-
-<span class="doccomment">/// Ticket listing page for students or higher ranked users.</span>
-<span class="attribute">#[<span class="ident">get</span>(<span class="string">&quot;/&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">list</span>(
-    <span class="ident">user</span>: <span class="ident">StudentUser</span>,
-    <span class="ident">conn</span>: <span class="ident">DbConn</span>,
-    <span class="ident">flash</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">FlashMessage</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;_</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">templates</span>::<span class="ident">Tickets</span>, <span class="ident">ServerError</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">service</span> <span class="op">=</span> <span class="ident">services</span>::<span class="ident">ticket_service</span>(
-        <span class="ident">repositories</span>::<span class="ident">ticket_repo</span>(<span class="kw-2">&amp;</span><span class="ident">conn</span>),
-        <span class="ident">repositories</span>::<span class="ident">course_repo</span>(<span class="kw-2">&amp;</span><span class="ident">conn</span>),
-    );
-    <span class="kw">let</span> <span class="ident">tickets</span> <span class="op">=</span> <span class="ident">service</span>.<span class="ident">list</span>()<span class="question-mark">?</span>;
-
-    <span class="prelude-val">Ok</span>(<span class="ident">templates</span>::<span class="ident">Tickets</span> {
-        <span class="ident">role</span>: <span class="ident">user</span>.<span class="number">0</span>.<span class="ident">role</span>,
-        <span class="ident">flash</span>: <span class="ident">flash</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">f</span><span class="op">|</span> (<span class="ident">f</span>.<span class="ident">name</span>().<span class="ident">to_owned</span>(), <span class="ident">f</span>.<span class="ident">msg</span>().<span class="ident">into</span>())),
-        <span class="ident">tickets</span>,
-    })
-}
 
 <span class="doccomment">/// Ticket creation form for students or higher ranked users.</span>
 <span class="attribute">#[<span class="ident">get</span>(<span class="string">&quot;/new/&lt;ty&gt;&quot;</span>)]</span>
@@ -576,8 +536,8 @@
             }
         },
     ) {
-        <span class="prelude-val">Ok</span>(()) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Flash</span>::<span class="ident">success</span>(
-            <span class="ident">Redirect</span>::<span class="ident">to</span>(<span class="macro">uri</span><span class="macro">!</span>(<span class="string">&quot;/tickets&quot;</span>, <span class="ident">list</span>)),
+        <span class="prelude-val">Ok</span>(<span class="ident">id</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Flash</span>::<span class="ident">success</span>(
+            <span class="ident">Redirect</span>::<span class="ident">to</span>(<span class="macro">uri</span><span class="macro">!</span>(<span class="string">&quot;/tickets&quot;</span>, <span class="ident">edit</span>: <span class="ident">PositiveNum</span>(<span class="ident">id</span>))),
             <span class="ident">MessageCode</span>::<span class="ident">TicketCreated</span>,
         ),
         <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> {
