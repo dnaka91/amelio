@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["GHash","GHASH: universal hash over GF(2^128) used by AES-GCM."]]});

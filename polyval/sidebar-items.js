@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Polyval","POLYVAL: GHASH-like universal hash over GF(2^128)."]]});

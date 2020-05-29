@@ -156,6 +156,7 @@
 <span id="156">156</span>
 <span id="157">157</span>
 <span id="158">158</span>
+<span id="159">159</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! # Amelio - A university project for the IUBH</span>
 <span class="doccomment">//!</span>
@@ -261,7 +262,8 @@
         )
         .<span class="ident">register</span>(<span class="macro">catchers</span><span class="macro">!</span>[
             <span class="ident">routes</span>::<span class="ident">errors</span>::<span class="ident">forbidden</span>,
-            <span class="ident">routes</span>::<span class="ident">errors</span>::<span class="ident">not_found</span>
+            <span class="ident">routes</span>::<span class="ident">errors</span>::<span class="ident">not_found</span>,
+            <span class="ident">routes</span>::<span class="ident">errors</span>::<span class="ident">internal_server_error</span>,
         ]))
 }
 

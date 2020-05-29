@@ -603,7 +603,7 @@
         <span class="ident">repositories</span>::<span class="ident">course_repo</span>(<span class="kw-2">&amp;</span><span class="ident">conn</span>),
     );
 
-    <span class="kw">let</span> <span class="ident">ticket</span> <span class="op">=</span> <span class="ident">service</span>.<span class="ident">get_with_rels</span>(<span class="ident">id</span>.<span class="number">0</span>)<span class="question-mark">?</span>;
+    <span class="kw">let</span> <span class="ident">ticket</span> <span class="op">=</span> <span class="ident">service</span>.<span class="ident">get_with_rels</span>(<span class="ident">id</span>.<span class="number">0</span>, <span class="ident">user</span>.<span class="number">0</span>.<span class="ident">id</span>, <span class="ident">user</span>.<span class="number">0</span>.<span class="ident">role</span>)<span class="question-mark">?</span>;
 
     <span class="prelude-val">Ok</span>(<span class="ident">templates</span>::<span class="ident">TicketDetail</span> {
         <span class="ident">role</span>: <span class="ident">user</span>.<span class="number">0</span>.<span class="ident">role</span>,

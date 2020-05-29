@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Hkdf","Structure representing the HKDF, capable of HKDF-Expand and HKDF-extract operations."],["InvalidLength","Structure for InvalidLength, used for output error handling."],["InvalidPrkLength","Error that is returned when supplied pseudorandom key (PRK) is not long enough."]]});

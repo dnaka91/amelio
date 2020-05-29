@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/cookie-0.11.2/src/secure/key.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>key.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../cookie/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/cookie-0.11.3/src/secure/key.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>key.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../cookie/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -172,35 +172,102 @@
 <span id="172">172</span>
 <span id="173">173</span>
 <span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="ident">secure</span>::<span class="ident">ring</span>::<span class="ident">hkdf</span>::<span class="ident">expand</span>;
-<span class="kw">use</span> <span class="ident">secure</span>::<span class="ident">ring</span>::<span class="ident">digest</span>::{<span class="ident">SHA256</span>, <span class="ident">Algorithm</span>};
-<span class="kw">use</span> <span class="ident">secure</span>::<span class="ident">ring</span>::<span class="ident">hmac</span>::<span class="ident">SigningKey</span>;
-<span class="kw">use</span> <span class="ident">secure</span>::<span class="ident">ring</span>::<span class="ident">rand</span>::{<span class="ident">SecureRandom</span>, <span class="ident">SystemRandom</span>};
+<span class="kw">const</span> <span class="ident">PRIVATE_KEY_LEN</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">32</span>;
+<span class="kw">const</span> <span class="ident">SIGNED_KEY_LEN</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">32</span>;
+<span class="kw">const</span> <span class="ident">COMBINED_KEY_LENGTH</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="ident">PRIVATE_KEY_LEN</span> <span class="op">+</span> <span class="ident">SIGNED_KEY_LEN</span>;
 
-<span class="kw">use</span> <span class="ident">secure</span>::<span class="ident">private</span>::<span class="ident">KEY_LEN</span> <span class="kw">as</span> <span class="ident">PRIVATE_KEY_LEN</span>;
-<span class="kw">use</span> <span class="ident">secure</span>::<span class="ident">signed</span>::<span class="ident">KEY_LEN</span> <span class="kw">as</span> <span class="ident">SIGNED_KEY_LEN</span>;
-
-<span class="kw">static</span> <span class="ident">HKDF_DIGEST</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">Algorithm</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">SHA256</span>;
-<span class="kw">const</span> <span class="ident">KEYS_INFO</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;COOKIE;SIGNED:HMAC-SHA256;PRIVATE:AEAD-AES-256-GCM&quot;</span>;
+<span class="comment">// Statically ensure the numbers above are in-sync.</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;private&quot;</span>)]</span>
+<span class="macro">const_assert</span><span class="macro">!</span>(<span class="kw">crate</span>::<span class="ident">secure</span>::<span class="ident">private</span>::<span class="ident">KEY_LEN</span> <span class="op">=</span><span class="op">=</span> <span class="ident">PRIVATE_KEY_LEN</span>);
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;signed&quot;</span>)]</span>
+<span class="macro">const_assert</span><span class="macro">!</span>(<span class="kw">crate</span>::<span class="ident">secure</span>::<span class="ident">signed</span>::<span class="ident">KEY_LEN</span> <span class="op">=</span><span class="op">=</span> <span class="ident">SIGNED_KEY_LEN</span>);
 
 <span class="doccomment">/// A cryptographic master key for use with `Signed` and/or `Private` jars.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// This structure encapsulates secure, cryptographic keys for use with both</span>
-<span class="doccomment">/// [PrivateJar](struct.PrivateJar.html) and [SignedJar](struct.SignedJar.html).</span>
-<span class="doccomment">/// It can be derived from a single master key via</span>
-<span class="doccomment">/// [from_master](#method.from_master) or generated from a secure random source</span>
-<span class="doccomment">/// via [generate](#method.generate). A single instance of `Key` can be used for</span>
-<span class="doccomment">/// both a `PrivateJar` and a `SignedJar`.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// This type is only available when the `secure` feature is enabled.</span>
+<span class="doccomment">/// [`PrivateJar`](crate::PrivateJar) and [`SignedJar`](crate::SignedJar). A</span>
+<span class="doccomment">/// single instance of a `Key` can be used for both a `PrivateJar` and a</span>
+<span class="doccomment">/// `SignedJar` simultaneously with no notable security implications.</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">all</span>(<span class="ident">doc</span>, <span class="ident">not</span>(<span class="ident">doctest</span>)), <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;private&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;signed&quot;</span>))))]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Key</span> {
-    <span class="ident">signing_key</span>: [<span class="ident">u8</span>; <span class="ident">SIGNED_KEY_LEN</span>],
-    <span class="ident">encryption_key</span>: [<span class="ident">u8</span>; <span class="ident">PRIVATE_KEY_LEN</span>]
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">signing</span>: [<span class="ident">u8</span>; <span class="ident">SIGNED_KEY_LEN</span>],
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">encryption</span>: [<span class="ident">u8</span>; <span class="ident">PRIVATE_KEY_LEN</span>]
 }
 
 <span class="kw">impl</span> <span class="ident">Key</span> {
+    <span class="comment">// An empty key structure, to be filled.</span>
+    <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">zero</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="ident">Key</span> { <span class="ident">signing</span>: [<span class="number">0</span>; <span class="ident">SIGNED_KEY_LEN</span>], <span class="ident">encryption</span>: [<span class="number">0</span>; <span class="ident">PRIVATE_KEY_LEN</span>] }
+    }
+
+    <span class="doccomment">/// Creates a new `Key` from a 512-bit cryptographically random string.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The supplied key must be at least 512-bits (64 bytes). For security, the</span>
+    <span class="doccomment">/// master key _must_ be cryptographically random.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Panics</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Panics if `key` is less than 64 bytes in length.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Example</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```rust</span>
+    <span class="doccomment">/// use cookie::Key;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # /*</span>
+    <span class="doccomment">/// let key = { /* a cryptographically random key &gt;= 64 bytes */ };</span>
+    <span class="doccomment">/// # */</span>
+    <span class="doccomment">/// # let key: &amp;Vec&lt;u8&gt; = &amp;(0..64).collect();</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let key = Key::from(key);</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">key</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Key</span> {
+        <span class="kw">if</span> <span class="ident">key</span>.<span class="ident">len</span>() <span class="op">&lt;</span> <span class="number">64</span> {
+            <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;bad key length: expected &gt;= 64 bytes, found {}&quot;</span>, <span class="ident">key</span>.<span class="ident">len</span>());
+        }
+
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">output</span> <span class="op">=</span> <span class="ident">Key</span>::<span class="ident">zero</span>();
+        <span class="ident">output</span>.<span class="ident">signing</span>.<span class="ident">copy_from_slice</span>(<span class="kw-2">&amp;</span><span class="ident">key</span>[..<span class="ident">SIGNED_KEY_LEN</span>]);
+        <span class="ident">output</span>.<span class="ident">encryption</span>.<span class="ident">copy_from_slice</span>(<span class="kw-2">&amp;</span><span class="ident">key</span>[<span class="ident">SIGNED_KEY_LEN</span>..<span class="ident">COMBINED_KEY_LENGTH</span>]);
+        <span class="ident">output</span>
+    }
+
     <span class="doccomment">/// Derives new signing/encryption keys from a master key.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// The master key must be at least 256-bits (32 bytes). For security, the</span>
@@ -223,26 +290,19 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// let key = Key::from_master(master_key);</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_master</span>(<span class="ident">key</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Key</span> {
-        <span class="kw">if</span> <span class="ident">key</span>.<span class="ident">len</span>() <span class="op">&lt;</span> <span class="number">32</span> {
-            <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;bad master key length: expected at least 32 bytes, found {}&quot;</span>, <span class="ident">key</span>.<span class="ident">len</span>());
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_master</span>(<span class="ident">master_key</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="kw">if</span> <span class="ident">master_key</span>.<span class="ident">len</span>() <span class="op">&lt;</span> <span class="number">32</span> {
+            <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;bad master key length: expected &gt;= 32 bytes, found {}&quot;</span>, <span class="ident">master_key</span>.<span class="ident">len</span>());
         }
 
-        <span class="comment">// Expand the user&#39;s key into two.</span>
-        <span class="kw">let</span> <span class="ident">prk</span> <span class="op">=</span> <span class="ident">SigningKey</span>::<span class="ident">new</span>(<span class="ident">HKDF_DIGEST</span>, <span class="ident">key</span>);
+        <span class="comment">// Expand the master key into two HKDF generated keys.</span>
+        <span class="kw">const</span> <span class="ident">KEYS_INFO</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>] <span class="op">=</span> <span class="string">b&quot;COOKIE;SIGNED:HMAC-SHA256;PRIVATE:AEAD-AES-256-GCM&quot;</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">both_keys</span> <span class="op">=</span> [<span class="number">0</span>; <span class="ident">SIGNED_KEY_LEN</span> <span class="op">+</span> <span class="ident">PRIVATE_KEY_LEN</span>];
-        <span class="ident">expand</span>(<span class="kw-2">&amp;</span><span class="ident">prk</span>, <span class="ident">KEYS_INFO</span>.<span class="ident">as_bytes</span>(), <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">both_keys</span>);
+        <span class="kw">let</span> <span class="ident">hk</span> <span class="op">=</span> <span class="ident">hkdf</span>::<span class="ident">Hkdf</span>::<span class="op">&lt;</span><span class="ident">sha2</span>::<span class="ident">Sha256</span><span class="op">&gt;</span>::<span class="ident">from_prk</span>(<span class="ident">master_key</span>).<span class="ident">expect</span>(<span class="string">&quot;key length prechecked&quot;</span>);
+        <span class="ident">hk</span>.<span class="ident">expand</span>(<span class="ident">KEYS_INFO</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">both_keys</span>).<span class="ident">expect</span>(<span class="string">&quot;expand into keys&quot;</span>);
 
-        <span class="comment">// Copy the keys into their respective arrays.</span>
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">signing_key</span> <span class="op">=</span> [<span class="number">0</span>; <span class="ident">SIGNED_KEY_LEN</span>];
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">encryption_key</span> <span class="op">=</span> [<span class="number">0</span>; <span class="ident">PRIVATE_KEY_LEN</span>];
-        <span class="ident">signing_key</span>.<span class="ident">copy_from_slice</span>(<span class="kw-2">&amp;</span><span class="ident">both_keys</span>[..<span class="ident">SIGNED_KEY_LEN</span>]);
-        <span class="ident">encryption_key</span>.<span class="ident">copy_from_slice</span>(<span class="kw-2">&amp;</span><span class="ident">both_keys</span>[<span class="ident">SIGNED_KEY_LEN</span>..]);
-
-        <span class="ident">Key</span> {
-            <span class="ident">signing_key</span>: <span class="ident">signing_key</span>,
-            <span class="ident">encryption_key</span>: <span class="ident">encryption_key</span>
-        }
+        <span class="comment">// Copy the key parts into their respective fields.</span>
+        <span class="ident">Key</span>::<span class="ident">from</span>(<span class="kw-2">&amp;</span><span class="ident">both_keys</span>)
     }
 
     <span class="doccomment">/// Generates signing/encryption keys from a secure, random source. Keys are</span>
@@ -251,7 +311,7 @@
     <span class="doccomment">/// # Panics</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Panics if randomness cannot be retrieved from the operating system. See</span>
-    <span class="doccomment">/// [try_generate](#method.try_generate) for a non-panicking version.</span>
+    <span class="doccomment">/// [`Key::try_generate()`] for a non-panicking version.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Example</span>
     <span class="doccomment">///</span>
@@ -276,15 +336,12 @@
     <span class="doccomment">/// let key = Key::try_generate();</span>
     <span class="doccomment">/// ```</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_generate</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Key</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">sign_key</span> <span class="op">=</span> [<span class="number">0</span>; <span class="ident">SIGNED_KEY_LEN</span>];
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">enc_key</span> <span class="op">=</span> [<span class="number">0</span>; <span class="ident">PRIVATE_KEY_LEN</span>];
+        <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">secure</span>::<span class="ident">rand</span>::<span class="ident">RngCore</span>;
 
-        <span class="kw">let</span> <span class="ident">rng</span> <span class="op">=</span> <span class="ident">SystemRandom</span>::<span class="ident">new</span>();
-        <span class="kw">if</span> <span class="ident">rng</span>.<span class="ident">fill</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">sign_key</span>).<span class="ident">is_err</span>() <span class="op">|</span><span class="op">|</span> <span class="ident">rng</span>.<span class="ident">fill</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">enc_key</span>).<span class="ident">is_err</span>() {
-            <span class="kw">return</span> <span class="prelude-val">None</span>
-        }
-
-        <span class="prelude-val">Some</span>(<span class="ident">Key</span> { <span class="ident">signing_key</span>: <span class="ident">sign_key</span>, <span class="ident">encryption_key</span>: <span class="ident">enc_key</span> })
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rng</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">secure</span>::<span class="ident">rand</span>::<span class="ident">thread_rng</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">both_keys</span> <span class="op">=</span> [<span class="number">0</span>; <span class="ident">SIGNED_KEY_LEN</span> <span class="op">+</span> <span class="ident">PRIVATE_KEY_LEN</span>];
+        <span class="ident">rng</span>.<span class="ident">try_fill_bytes</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">both_keys</span>).<span class="ident">ok</span>()<span class="question-mark">?</span>;
+        <span class="prelude-val">Some</span>(<span class="ident">Key</span>::<span class="ident">from</span>(<span class="kw-2">&amp;</span><span class="ident">both_keys</span>))
     }
 
     <span class="doccomment">/// Returns the raw bytes of a key suitable for signing cookies.</span>
@@ -298,7 +355,7 @@
     <span class="doccomment">/// let signing_key = key.signing();</span>
     <span class="doccomment">/// ```</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">signing</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>] {
-        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">signing_key</span>[..]
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">signing</span>[..]
     }
 
     <span class="doccomment">/// Returns the raw bytes of a key suitable for encrypting cookies.</span>
@@ -312,7 +369,7 @@
     <span class="doccomment">/// let encryption_key = key.encryption();</span>
     <span class="doccomment">/// ```</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">encryption</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>] {
-        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">encryption_key</span>[..]
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">encryption</span>[..]
     }
 }
 
@@ -321,7 +378,18 @@
     <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Key</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">deterministic_from_master</span>() {
+    <span class="kw">fn</span> <span class="ident">from_works</span>() {
+        <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="ident">Key</span>::<span class="ident">from</span>(<span class="kw-2">&amp;</span>(<span class="number">0</span>..<span class="number">64</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>());
+
+        <span class="kw">let</span> <span class="ident">signing</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> <span class="op">=</span> (<span class="number">0</span>..<span class="number">32</span>).<span class="ident">collect</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">key</span>.<span class="ident">signing</span>(), <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">signing</span>);
+
+        <span class="kw">let</span> <span class="ident">encryption</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> <span class="op">=</span> (<span class="number">32</span>..<span class="number">64</span>).<span class="ident">collect</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">key</span>.<span class="ident">encryption</span>(), <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">encryption</span>);
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">deterministic_derive</span>() {
         <span class="kw">let</span> <span class="ident">master_key</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> <span class="op">=</span> (<span class="number">0</span>..<span class="number">32</span>).<span class="ident">collect</span>();
 
         <span class="kw">let</span> <span class="ident">key_a</span> <span class="op">=</span> <span class="ident">Key</span>::<span class="ident">from_master</span>(<span class="kw-2">&amp;</span><span class="ident">master_key</span>);

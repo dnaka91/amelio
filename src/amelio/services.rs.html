@@ -373,6 +373,12 @@
 <span id="373">373</span>
 <span id="374">374</span>
 <span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Services of the application which contain the business logic.</span>
 
@@ -634,8 +640,9 @@
     <span class="kw">fn</span> <span class="ident">list_course_names</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">Id</span>, <span class="ident">String</span>)<span class="op">&gt;</span><span class="op">&gt;</span>;
     <span class="doccomment">/// Get a single ticket by its ID.</span>
     <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">Id</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">TicketWithNames</span><span class="op">&gt;</span>;
-    <span class="doccomment">/// Get a single ticket together with all relations.</span>
-    <span class="kw">fn</span> <span class="ident">get_with_rels</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">Id</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">TicketWithRels</span><span class="op">&gt;</span>;
+    <span class="doccomment">/// Get a single ticket together with all relations. If the opening user is a tutor or author</span>
+    <span class="doccomment">/// and the ticket is still in [`Status::Open`] it will be changed to [`Status::InProgress`].</span>
+    <span class="kw">fn</span> <span class="ident">get_with_rels</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">Id</span>, <span class="ident">user_id</span>: <span class="ident">Id</span>, <span class="ident">role</span>: <span class="ident">Role</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">TicketWithRels</span><span class="op">&gt;</span>;
     <span class="doccomment">/// Create a new ticket in the system.</span>
     <span class="kw">fn</span> <span class="ident">create</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ticket</span>: <span class="ident">NewTicket</span>, <span class="ident">medium</span>: <span class="ident">NewMedium</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>;
     <span class="doccomment">/// Add a new comment to a ticket.</span>
@@ -692,7 +699,12 @@
         <span class="self">self</span>.<span class="ident">ticket_repo</span>.<span class="ident">get_with_names</span>(<span class="ident">id</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">get_with_rels</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">Id</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">TicketWithRels</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">get_with_rels</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">Id</span>, <span class="ident">user_id</span>: <span class="ident">Id</span>, <span class="ident">role</span>: <span class="ident">Role</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">TicketWithRels</span><span class="op">&gt;</span> {
+        <span class="comment">// If we open a ticket as tutor or author, update the status first.</span>
+        <span class="kw">if</span> <span class="ident">role</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Role</span>::<span class="ident">Tutor</span> <span class="op">|</span><span class="op">|</span> <span class="ident">role</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Role</span>::<span class="ident">Author</span> {
+            <span class="self">self</span>.<span class="ident">ticket_repo</span>.<span class="ident">activate_ticket</span>(<span class="ident">id</span>, <span class="ident">user_id</span>)<span class="question-mark">?</span>;
+        }
+
         <span class="self">self</span>.<span class="ident">ticket_repo</span>.<span class="ident">get_with_rels</span>(<span class="ident">id</span>)
     }
 
