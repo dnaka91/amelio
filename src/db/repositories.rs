@@ -13,7 +13,7 @@ use super::models::{
     MediumRecordingEntity, MediumTextEntity, NewCommentEntity, NewCourseEntity, NewTicketEntity,
     NewUserEntity, TicketEntity, UserEntity,
 };
-
+use super::QueryExt;
 use crate::models::{
     Comment, CommentWithNames, Course, CourseWithNames, EditCourse, EditTicket, EditUser,
     MediumType, NewComment, NewCourse, NewMedium, NewTicket, NewUser, Priority, Role, Status,
@@ -52,6 +52,7 @@ impl<'a> UserRepository for UserRepositoryImpl<'a> {
         users::table
             .find(id)
             .filter(users::active.eq(true))
+            .log_query()
             .get_result::<UserEntity>(self.conn)
             .map_err(Into::into)
             .and_then(TryInto::try_into)
@@ -62,6 +63,7 @@ impl<'a> UserRepository for UserRepositoryImpl<'a> {
 
         users::table
             .filter(users::active.eq(true).and(users::username.eq(username)))
+            .log_query()
             .get_result::<UserEntity>(self.conn)
             .map_err(Into::into)
             .and_then(TryInto::try_into)
@@ -82,6 +84,7 @@ impl<'a> UserRepository for UserRepositoryImpl<'a> {
         users::table
             .select((users::id, users::name))
             .filter(users::role.eq(role.as_ref()))
+            .log_query()
             .load::<(i32, String)>(self.conn)
             .map_err(Into::into)
     }
@@ -91,6 +94,7 @@ impl<'a> UserRepository for UserRepositoryImpl<'a> {
 
         let res = diesel::insert_into(users::table)
             .values(NewUserEntity::from(user))
+            .log_query()
             .execute(self.conn)?;
 
         ensure!(res == 1, "Failed inserting user");
@@ -106,6 +110,7 @@ impl<'a> UserRepository for UserRepositoryImpl<'a> {
                 users::active.eq(true),
                 users::code.eq(""),
             ))
+            .log_query()
             .execute(self.conn)?;
 
         ensure!(res == 1, "User with code {} not found", code);
@@ -117,6 +122,7 @@ impl<'a> UserRepository for UserRepositoryImpl<'a> {
 
         let res = diesel::update(users::table.filter(users::id.eq(id)))
             .set(users::active.eq(enable))
+            .log_query()
             .execute(self.conn)?;
 
         ensure!(res == 1, "User with ID {} not found", id);
@@ -131,6 +137,7 @@ impl<'a> UserRepository for UserRepositoryImpl<'a> {
                 users::name.eq(user.name),
                 users::role.eq(user.role.as_ref()),
             ))
+            .log_query()
             .execute(self.conn)?;
 
         ensure!(res == 1, "User with ID {} not found", user.id);
@@ -171,6 +178,7 @@ impl<'a> CourseRepositoryImpl<'a> {
 
         courses::table
             .order_by(courses::code)
+            .log_query()
             .load::<CourseEntity>(self.conn)
             .map_err(Into::into)
             .and_then(|courses| courses.into_iter().map(TryInto::try_into).collect())
@@ -192,6 +200,7 @@ impl<'a> CourseRepository for CourseRepositoryImpl<'a> {
         let users = users::table
             .select((users::id, users::name))
             .filter(users::id.eq_any(&user_ids))
+            .log_query()
             .load::<(i32, String)>(self.conn)
             .map(FnvHashMap::from_iter)?;
 
@@ -221,6 +230,7 @@ impl<'a> CourseRepository for CourseRepositoryImpl<'a> {
         courses::table
             .select((courses::id, courses::code))
             .order_by(courses::code)
+            .log_query()
             .load::<(i32, String)>(self.conn)
             .map_err(Into::into)
     }
@@ -230,6 +240,7 @@ impl<'a> CourseRepository for CourseRepositoryImpl<'a> {
 
         courses::table
             .find(id)
+            .log_query()
             .get_result::<CourseEntity>(self.conn)
             .map_err(Into::into)
             .and_then(TryInto::try_into)
@@ -240,6 +251,7 @@ impl<'a> CourseRepository for CourseRepositoryImpl<'a> {
 
         let res = diesel::insert_into(courses::table)
             .values(NewCourseEntity::from(course))
+            .log_query()
             .execute(self.conn)?;
 
         ensure!(res == 1, "Failed inserting course");
@@ -251,6 +263,7 @@ impl<'a> CourseRepository for CourseRepositoryImpl<'a> {
 
         let res = diesel::update(courses::table.filter(courses::id.eq(id)))
             .set(courses::active.eq(enable))
+            .log_query()
             .execute(self.conn)?;
 
         ensure!(res == 1, "Course with ID {} not found", id);
@@ -266,6 +279,7 @@ impl<'a> CourseRepository for CourseRepositoryImpl<'a> {
                 courses::author_id.eq(course.author_id),
                 courses::tutor_id.eq(course.tutor_id),
             ))
+            .log_query()
             .execute(self.conn)?;
 
         ensure!(res == 1, "Course with ID {} not found", course.id);
@@ -332,6 +346,7 @@ impl<'a> TicketRepositoryImpl<'a> {
 
         tickets::table
             .find(id)
+            .log_query()
             .get_result::<TicketEntity>(self.conn)
             .map_err(Into::into)
             .and_then(TryInto::try_into)
@@ -357,6 +372,7 @@ impl<'a> TicketRepositoryImpl<'a> {
                 courses::tutor_id,
             ))
             .filter(courses::id.eq_any(&course_ids))
+            .log_query()
             .load::<(i32, String, i32, i32)>(self.conn)
             .map(|data| {
                 FnvHashMap::from_iter(data.into_iter().map(|row| (row.0, (row.1, row.2, row.3))))
@@ -370,6 +386,7 @@ impl<'a> TicketRepositoryImpl<'a> {
         let users = users::table
             .select((users::id, users::name))
             .filter(users::id.eq_any(&user_ids))
+            .log_query()
             .load::<(i32, String)>(self.conn)
             .map(FnvHashMap::from_iter)?;
 
@@ -415,6 +432,7 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
 
         let tickets = tickets::table
             .filter(tickets::creator_id.eq(creator_id))
+            .log_query()
             .load::<TicketEntity>(self.conn)
             .map_err(Into::into)
             .and_then(|entities| entities.into_iter().map(TryInto::try_into).collect())?;
@@ -436,6 +454,7 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
                         .and(tickets::forwarded.eq(false))),
             )
             .select(tickets::all_columns)
+            .log_query()
             .load::<TicketEntity>(self.conn)
             .map_err(Into::into)
             .and_then(|entities| entities.into_iter().map(TryInto::try_into).collect())?;
@@ -451,11 +470,13 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
         let (course_name, author_id, tutor_id) = courses::table
             .find(ticket.course_id)
             .select((courses::code, courses::author_id, courses::tutor_id))
+            .log_query()
             .get_result::<(String, i32, i32)>(self.conn)?;
 
         let creator_name = users::table
             .find(ticket.creator_id)
             .select(users::name)
+            .log_query()
             .get_result(self.conn)?;
 
         let editor_name = users::table
@@ -465,6 +486,7 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
                 tutor_id
             })
             .select(users::name)
+            .log_query()
             .get_result(self.conn)?;
 
         Ok(TicketWithNames {
@@ -486,21 +508,25 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
         let medium = match ticket.ticket.type_.medium() {
             MediumType::Text => medium_texts::table
                 .find(id)
+                .log_query()
                 .get_result::<MediumTextEntity>(self.conn)
                 .map_err(Into::into)
                 .and_then(TryInto::try_into),
             MediumType::Recording => medium_recordings::table
                 .find(id)
+                .log_query()
                 .get_result::<MediumRecordingEntity>(self.conn)
                 .map_err(Into::into)
                 .and_then(TryInto::try_into),
             MediumType::Interactive => medium_interactives::table
                 .find(id)
+                .log_query()
                 .get_result::<MediumInteractiveEntity>(self.conn)
                 .map_err(Into::into)
                 .and_then(TryInto::try_into),
             MediumType::Questionaire => medium_questionaires::table
                 .find(id)
+                .log_query()
                 .get_result::<MediumQuestionaireEntity>(self.conn)
                 .map_err(Into::into)
                 .and_then(TryInto::try_into),
@@ -508,6 +534,7 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
 
         let comments = comments::table
             .filter(comments::ticket_id.eq(id))
+            .log_query()
             .load::<CommentEntity>(self.conn)
             .map_err(Into::into)
             .and_then(|comments| {
@@ -525,6 +552,7 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
         let users = users::table
             .select((users::id, users::name))
             .filter(users::id.eq_any(creator_ids))
+            .log_query()
             .load::<(i32, String)>(self.conn)
             .map(FnvHashMap::from_iter)?;
 
@@ -561,6 +589,7 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
         self.conn.transaction(|| {
             let res = diesel::insert_into(tickets::table)
                 .values(NewTicketEntity::from((ticket, priority)))
+                .log_query()
                 .execute(self.conn)?;
 
             ensure!(res == 1, "Failed inserting ticket");
@@ -569,6 +598,7 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
                 .select(tickets::id)
                 .order_by(tickets::id.desc())
                 .limit(1)
+                .log_query()
                 .get_result::<i32>(self.conn)?;
 
             let res_medium = match medium {
@@ -578,18 +608,21 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
                         page: page.into(),
                         line: line.into(),
                     })
+                    .log_query()
                     .execute(self.conn),
                 NewMedium::Recording { time } => diesel::insert_into(medium_recordings::table)
                     .values(MediumRecordingEntity {
                         ticket_id,
                         time: time.format("%H:%M:%S").to_string(),
                     })
+                    .log_query()
                     .execute(self.conn),
                 NewMedium::Interactive { url } => diesel::insert_into(medium_interactives::table)
                     .values(MediumInteractiveEntity {
                         ticket_id,
                         url: url.into_string(),
                     })
+                    .log_query()
                     .execute(self.conn),
                 NewMedium::Questionaire { question, answer } => {
                     diesel::insert_into(medium_questionaires::table)
@@ -598,6 +631,7 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
                             question: question.into(),
                             answer,
                         })
+                        .log_query()
                         .execute(self.conn)
                 }
             }?;
@@ -612,6 +646,7 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
 
         let res = diesel::insert_into(comments::table)
             .values(NewCommentEntity::from(comment))
+            .log_query()
             .execute(self.conn)?;
 
         ensure!(res == 1, "Failed inserting comment");
@@ -623,6 +658,7 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
 
         let res = diesel::update(tickets::table.find(ticket.id))
             .set(tickets::priority.eq(ticket.priority.as_ref()))
+            .log_query()
             .execute(self.conn)?;
 
         ensure!(res == 1, "Ticket with ID {} not found", ticket.id);
@@ -634,6 +670,7 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
 
         let res = diesel::update(tickets::table.find(id))
             .set(tickets::forwarded.eq(true))
+            .log_query()
             .execute(self.conn)?;
 
         ensure!(res == 1, "Ticket with ID {} not found", id);
@@ -646,6 +683,7 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
         tickets::table
             .find(id)
             .select(tickets::status)
+            .log_query()
             .get_result::<String>(self.conn)
             .map_err(Into::into)
             .and_then(|v| v.parse().map_err(Into::into))
@@ -656,6 +694,7 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
 
         let res = diesel::update(tickets::table.find(id))
             .set(tickets::status.eq(status.as_ref()))
+            .log_query()
             .execute(self.conn)?;
 
         ensure!(res == 1, "Ticket with ID {} not found", id);
@@ -688,6 +727,7 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
         }
 
         let tickets = query
+            .log_query()
             .load::<TicketEntity>(self.conn)
             .map_err(Into::into)
             .and_then(|entities| entities.into_iter().map(TryInto::try_into).collect())?;
@@ -711,6 +751,7 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
                         .eq(user_id)
                         .and(tickets::forwarded.eq(true))),
             )
+            .log_query()
             .get_result::<i32>(self.conn);
 
         let found = match res {
@@ -722,6 +763,7 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
         if found {
             let res = diesel::update(tickets::table.find(id))
                 .set(tickets::status.eq(Status::InProgress.as_ref()))
+                .log_query()
                 .execute(self.conn)?;
 
             ensure!(res == 1, "Failed opening ticket");

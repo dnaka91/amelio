@@ -7,9 +7,13 @@ use std::iter;
 
 use anyhow::{Context, Result};
 use chrono::NaiveTime;
+use diesel::backend::Backend;
 use diesel::prelude::*;
+use diesel::query_builder::QueryFragment;
 use diesel::result::Error as DieselError;
+use diesel::sqlite::Sqlite;
 use diesel::SqliteConnection;
+
 use rand::distributions::Alphanumeric;
 use rand::Rng;
 use rocket::fairing::{AdHoc, Fairing};
@@ -253,4 +257,28 @@ fn create_sample_tickets(conn: &SqliteConnection) -> Result<()> {
 
     set_created(conn, Samples::Tickets)?;
     Ok(())
+}
+
+/// Extensions for query fragments in [`diesel`] queries.
+trait QueryExt<DB, T>
+where
+    DB: Backend,
+    DB::QueryBuilder: Default,
+    T: QueryFragment<DB>,
+{
+    /// Log the current query.
+    fn log_query(self) -> Self;
+}
+
+impl<T> QueryExt<Sqlite, T> for T
+where
+    T: QueryFragment<Sqlite>,
+{
+    #[inline]
+    fn log_query(self) -> Self {
+        // Only log when in debug mode.
+        #[cfg(debug_assertions)]
+        log::info!("query: {}", diesel::debug_query::<Sqlite, _>(&self));
+        self
+    }
 }
