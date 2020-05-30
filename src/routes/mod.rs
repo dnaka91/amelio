@@ -8,7 +8,8 @@ use std::str::FromStr;
 
 use log::error;
 use num_traits::PrimInt;
-use rocket::http::{RawStr, Status};
+use rocket::http::uri::{Formatter, Path, Query, UriDisplay};
+use rocket::http::{impl_from_uri_param_identity, RawStr, Status};
 use rocket::request::{FromFormValue, FromParam};
 use rocket::response::{self, Redirect, Responder};
 use rocket::{get, uri, Request, UriDisplayPath};
@@ -119,6 +120,21 @@ macro_rules! enum_from_request {
         }
 
         from_request!($t);
+
+        impl UriDisplay<Path> for $t {
+            fn fmt(&self, f: &mut Formatter<Path>) -> std::fmt::Result {
+                f.write_value(self.as_ref())
+            }
+        }
+
+        impl UriDisplay<Query> for $t {
+            fn fmt(&self, f: &mut Formatter<Query>) -> std::fmt::Result {
+                f.write_value(self.as_ref())
+            }
+        }
+
+        impl_from_uri_param_identity!([Path] $t);
+        impl_from_uri_param_identity!([Query] $t);
     };
 }
 

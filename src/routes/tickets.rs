@@ -155,7 +155,7 @@ pub fn post_new(user: StudentUser, data: Form<NewTicket>, conn: DbConn) -> Flash
         Err(e) => {
             error!("error during ticket creation: {:?}", e);
             Flash::error(
-                Redirect::to(format!("/tickets/new/{}", data.0.ty)),
+                Redirect::to(uri!("/tickets", new: data.0.ty)),
                 MessageCode::FailedTicketCreation,
             )
         }
