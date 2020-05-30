@@ -12,11 +12,13 @@ use rocket::http::uri::{Formatter, Path, Query, UriDisplay};
 use rocket::http::{impl_from_uri_param_identity, RawStr, Status};
 use rocket::request::{FromFormValue, FromParam};
 use rocket::response::{self, Redirect, Responder};
-use rocket::{get, uri, Request, UriDisplayPath};
+use rocket::{get, uri, Request, State, UriDisplayPath};
 use url::Url;
 
+use crate::config::Config;
 use crate::db::connection::DbConn;
 use crate::db::repositories;
+use crate::email;
 use crate::models::Id;
 use crate::roles::AuthUser;
 use crate::services::{self, TicketService};
@@ -32,10 +34,17 @@ pub mod users;
 
 /// Index page for authenticated users.
 #[get("/")]
-pub fn index_user(user: &AuthUser, conn: DbConn) -> Result<templates::Index, ServerError> {
+pub fn index_user(
+    user: &AuthUser,
+    conn: DbConn,
+    config: State<Config>,
+) -> Result<templates::Index, ServerError> {
     let service = services::ticket_service(
         repositories::ticket_repo(&conn),
         repositories::course_repo(&conn),
+        repositories::user_repo(&conn),
+        email::new_smtp_sender(&config.smtp),
+        email::new_mail_renderer(&config.host),
     );
 
     let created_tickets = service.list_created(user.0.id)?;

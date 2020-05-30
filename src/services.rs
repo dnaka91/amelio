@@ -8,11 +8,11 @@ use rand::distributions::Alphanumeric;
 use rand::Rng;
 
 use crate::db::repositories::{CourseRepository, TicketRepository, UserRepository};
-use crate::email::{Mail, MailRenderer, MailSender};
+use crate::email::{CommentDetails, Mail, MailRenderer, MailSender, StatusDetails};
 use crate::hashing::Hasher;
 use crate::models::{
     Category, Course, CourseWithNames, EditCourse, EditTicket, EditUser, Id, NewComment, NewCourse,
-    NewMedium, NewTicket, NewUser, Priority, Role, Status, TicketSearch, TicketWithNames,
+    NewMedium, NewTicket, NewUser, Priority, Role, Status, Ticket, TicketSearch, TicketWithNames,
     TicketWithRels, User,
 };
 
@@ -264,7 +264,7 @@ pub trait TicketService {
     /// Create a new ticket in the system.
     fn create(&self, ticket: NewTicket, medium: NewMedium) -> Result<Id>;
     /// Add a new comment to a ticket.
-    fn add_comment(&self, id: Id, creator_id: Id, message: String) -> Result<()>;
+    fn add_comment(&self, id: Id, writer_id: Id, message: String) -> Result<()>;
     /// Update the details of a ticket.
     fn update(&self, id: Id, priority: Priority) -> Result<()>;
     /// Forward a ticket to its course's author.
@@ -278,12 +278,29 @@ pub trait TicketService {
 }
 
 /// Main implementation of [`TicketService`].
-struct TicketServiceImpl<TR: TicketRepository, CR: CourseRepository> {
+struct TicketServiceImpl<TR, CR, UR, MS, MR>
+where
+    TR: TicketRepository,
+    CR: CourseRepository,
+    UR: UserRepository,
+    MS: MailSender,
+    MR: MailRenderer,
+{
     ticket_repo: TR,
     course_repo: CR,
+    user_repo: UR,
+    mail_sender: MS,
+    mail_renderer: MR,
 }
 
-impl<TR: TicketRepository, CR: CourseRepository> TicketServiceImpl<TR, CR> {
+impl<TR, CR, UR, MS, MR> TicketServiceImpl<TR, CR, UR, MS, MR>
+where
+    TR: TicketRepository,
+    CR: CourseRepository,
+    UR: UserRepository,
+    MS: MailSender,
+    MR: MailRenderer,
+{
     /// Decide the priority of a ticket based on its category.
     fn map_priority(category: Category) -> Priority {
         match category {
@@ -292,9 +309,74 @@ impl<TR: TicketRepository, CR: CourseRepository> TicketServiceImpl<TR, CR> {
             Category::Improvement | Category::Addition => Priority::Low,
         }
     }
+
+    /// Send an email about a ticket status change.
+    fn send_status_update(
+        &self,
+        ticket: &Ticket,
+        creator: User,
+        old: Status,
+        new: Status,
+    ) -> Result<()> {
+        let (subject, message) = self.mail_renderer.status_change(
+            &creator.name,
+            StatusDetails {
+                ticket_title: &ticket.title,
+                ticket_id: ticket.id,
+                old_status: old,
+                new_status: new,
+            },
+        );
+
+        self.mail_sender.send(Mail {
+            from: ("amelio@dnaka91.rocks", "Amelio"),
+            to: (
+                &format!("{}@iubh-fernstudium.de", creator.username),
+                &creator.name,
+            ),
+            subject,
+            message: &message,
+        })
+    }
+
+    /// Send an email about a new comment for a ticket.
+    fn send_comment_update(
+        &self,
+        ticket: &Ticket,
+        creator: User,
+        writer: User,
+        comment: &str,
+    ) -> Result<()> {
+        let (subject, message) = self.mail_renderer.new_comment(
+            &creator.name,
+            CommentDetails {
+                ticket_title: &ticket.title,
+                ticket_id: ticket.id,
+                comment,
+                writer_name: &writer.name,
+            },
+        );
+
+        self.mail_sender.send(Mail {
+            from: ("amelio@dnaka91.rocks", "Amelio"),
+            to: (
+                &format!("{}@iubh-fernstudium.de", creator.username),
+                &creator.name,
+            ),
+            subject,
+            message: &message,
+        })
+    }
 }
 
-impl<TR: TicketRepository, CR: CourseRepository> TicketService for TicketServiceImpl<TR, CR> {
+impl<TR, CR, UR, MS, MR> TicketService for TicketServiceImpl<TR, CR, UR, MS, MR>
+where
+    TR: TicketRepository,
+    CR: CourseRepository,
+    UR: UserRepository,
+    MS: MailSender,
+    MR: MailRenderer,
+{
     fn list(&self) -> Result<Vec<TicketWithNames>> {
         self.ticket_repo.list_with_names()
     }
@@ -321,11 +403,20 @@ impl<TR: TicketRepository, CR: CourseRepository> TicketService for TicketService
 
     fn get_with_rels(&self, id: Id, user_id: Id, role: Role) -> Result<TicketWithRels> {
         // If we open a ticket as tutor or author, update the status first.
-        if role == Role::Tutor || role == Role::Author {
-            self.ticket_repo.activate_ticket(id, user_id)?;
+        let activated = if role == Role::Tutor || role == Role::Author {
+            self.ticket_repo.activate_ticket(id, user_id)?
+        } else {
+            false
+        };
+
+        let ticket = self.ticket_repo.get_with_rels(id)?;
+
+        if activated {
+            let creator = self.user_repo.find(ticket.ticket.creator_id)?;
+            self.send_status_update(&ticket.ticket, creator, Status::Open, ticket.ticket.status)?;
         }
 
-        self.ticket_repo.get_with_rels(id)
+        Ok(ticket)
     }
 
     fn create(&self, ticket: NewTicket, medium: NewMedium) -> Result<Id> {
@@ -334,13 +425,25 @@ impl<TR: TicketRepository, CR: CourseRepository> TicketService for TicketService
         self.ticket_repo.create(ticket, priority, medium)
     }
 
-    fn add_comment(&self, id: Id, creator_id: Id, message: String) -> Result<()> {
+    fn add_comment(&self, id: Id, writer_id: Id, message: String) -> Result<()> {
         self.ticket_repo.add_comment(NewComment {
             ticket_id: id,
-            creator_id,
+            creator_id: writer_id,
             timestamp: Utc::now(),
-            message,
-        })
+            message: message.clone(),
+        })?;
+
+        let creator = self.user_repo.find_ticket_creator(id)?;
+
+        // We don't want emails for our own comments
+        if creator.id == writer_id {
+            return Ok(());
+        }
+
+        let writer = self.user_repo.find(writer_id)?;
+        let ticket = self.ticket_repo.get(id)?;
+
+        self.send_comment_update(&ticket, creator, writer, &message)
     }
 
     fn update(&self, id: Id, priority: Priority) -> Result<()> {
@@ -352,13 +455,13 @@ impl<TR: TicketRepository, CR: CourseRepository> TicketService for TicketService
     }
 
     fn change_status(&self, id: Id, status: Status) -> Result<()> {
-        let current_status = self.ticket_repo.get_status(id)?;
-        ensure!(
-            current_status.can_change(status),
-            "Status cannot be changed"
-        );
+        let ticket = self.ticket_repo.get(id)?;
+        ensure!(ticket.status.can_change(status), "Status cannot be changed");
 
-        self.ticket_repo.set_status(id, status)
+        self.ticket_repo.set_status(id, status)?;
+
+        let creator = self.user_repo.find_ticket_creator(id)?;
+        self.send_status_update(&ticket, creator, ticket.status, status)
     }
 
     fn search(&self, role: Role, mut search: &mut TicketSearch) -> Result<Vec<TicketWithNames>> {
@@ -383,9 +486,15 @@ impl<TR: TicketRepository, CR: CourseRepository> TicketService for TicketService
 pub fn ticket_service(
     ticket_repo: impl TicketRepository,
     course_repo: impl CourseRepository,
+    user_repo: impl UserRepository,
+    mail_sender: impl MailSender,
+    mail_renderer: impl MailRenderer,
 ) -> impl TicketService {
     TicketServiceImpl {
         ticket_repo,
         course_repo,
+        user_repo,
+        mail_sender,
+        mail_renderer,
     }
 }

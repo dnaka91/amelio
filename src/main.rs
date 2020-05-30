@@ -30,6 +30,7 @@ mod db;
 mod email;
 mod fairings;
 mod hashing;
+mod language;
 mod models;
 mod roles;
 mod routes;

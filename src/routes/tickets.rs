@@ -5,12 +5,14 @@ use log::error;
 use rocket::http::RawStr;
 use rocket::request::{FlashMessage, Form, FormItems, FormParseError, FromForm};
 use rocket::response::{Flash, Redirect};
-use rocket::{get, post, uri};
+use rocket::{get, post, uri, State};
 use url::Url;
 
 use super::{Hour, Minute, NonEmptyString, PositiveId, PositiveNum, Second, ServerError, ValidUrl};
+use crate::config::Config;
 use crate::db::connection::DbConn;
 use crate::db::repositories;
+use crate::email;
 use crate::models::{Category, Id, Priority, Status, TicketSearch, TicketType};
 use crate::roles::{StudentUser, TutorUser};
 use crate::services::{self, TicketService};
@@ -22,10 +24,14 @@ pub fn new(
     user: StudentUser,
     ty: TicketType,
     conn: DbConn,
+    config: State<Config>,
 ) -> Result<templates::NewTicket, ServerError> {
     let service = services::ticket_service(
         repositories::ticket_repo(&conn),
         repositories::course_repo(&conn),
+        repositories::user_repo(&conn),
+        email::new_smtp_sender(&config.smtp),
+        email::new_mail_renderer(&config.host),
     );
     let courses = service.list_course_names()?;
 
@@ -118,10 +124,18 @@ impl<'f> FromForm<'f> for NewTicket {
 
 /// New ticket POST endpoint to handle ticket creation, for students or higher ranked users.
 #[post("/new", data = "<data>")]
-pub fn post_new(user: StudentUser, data: Form<NewTicket>, conn: DbConn) -> Flash<Redirect> {
+pub fn post_new(
+    user: StudentUser,
+    data: Form<NewTicket>,
+    conn: DbConn,
+    config: State<Config>,
+) -> Flash<Redirect> {
     let service = services::ticket_service(
         repositories::ticket_repo(&conn),
         repositories::course_repo(&conn),
+        repositories::user_repo(&conn),
+        email::new_smtp_sender(&config.smtp),
+        email::new_mail_renderer(&config.host),
     );
 
     match service.create(
@@ -175,11 +189,15 @@ pub fn edit(
     user: StudentUser,
     id: PositiveId,
     conn: DbConn,
+    config: State<Config>,
     flash: Option<FlashMessage<'_, '_>>,
 ) -> Result<EditResponse, ServerError> {
     let service = services::ticket_service(
         repositories::ticket_repo(&conn),
         repositories::course_repo(&conn),
+        repositories::user_repo(&conn),
+        email::new_smtp_sender(&config.smtp),
+        email::new_mail_renderer(&config.host),
     );
 
     if !service.can_open(id.0, user.0.id, user.0.role)? {
@@ -208,10 +226,14 @@ pub fn post_edit(
     id: PositiveId,
     data: Form<EditTicket>,
     conn: DbConn,
+    config: State<Config>,
 ) -> Flash<Redirect> {
     let service = services::ticket_service(
         repositories::ticket_repo(&conn),
         repositories::course_repo(&conn),
+        repositories::user_repo(&conn),
+        email::new_smtp_sender(&config.smtp),
+        email::new_mail_renderer(&config.host),
     );
 
     match service.update(id.0, data.priority) {
@@ -242,10 +264,14 @@ pub fn post_add_comment(
     id: PositiveId,
     data: Form<NewComment>,
     conn: DbConn,
+    config: State<Config>,
 ) -> Flash<Redirect> {
     let service = services::ticket_service(
         repositories::ticket_repo(&conn),
         repositories::course_repo(&conn),
+        repositories::user_repo(&conn),
+        email::new_smtp_sender(&config.smtp),
+        email::new_mail_renderer(&config.host),
     );
 
     match service.add_comment(id.0, user.0.id, data.0.comment.0) {
@@ -265,10 +291,18 @@ pub fn post_add_comment(
 
 /// Endpoint to forward a ticket to its course's author.
 #[get("/<id>/forward", rank = 2)]
-pub fn forward(_user: TutorUser, id: PositiveId, conn: DbConn) -> Flash<Redirect> {
+pub fn forward(
+    _user: TutorUser,
+    id: PositiveId,
+    conn: DbConn,
+    config: State<Config>,
+) -> Flash<Redirect> {
     let service = services::ticket_service(
         repositories::ticket_repo(&conn),
         repositories::course_repo(&conn),
+        repositories::user_repo(&conn),
+        email::new_smtp_sender(&config.smtp),
+        email::new_mail_renderer(&config.host),
     );
 
     match service.forward(id.0) {
@@ -293,10 +327,14 @@ pub fn change_status(
     id: PositiveId,
     status: Status,
     conn: DbConn,
+    config: State<Config>,
 ) -> Flash<Redirect> {
     let service = services::ticket_service(
         repositories::ticket_repo(&conn),
         repositories::course_repo(&conn),
+        repositories::user_repo(&conn),
+        email::new_smtp_sender(&config.smtp),
+        email::new_mail_renderer(&config.host),
     );
 
     match service.change_status(id.0, status) {
@@ -330,10 +368,14 @@ pub fn search(
     user: StudentUser,
     data: Form<SearchOptions>,
     conn: DbConn,
+    config: State<Config>,
 ) -> Result<templates::SearchTickets, ServerError> {
     let service = services::ticket_service(
         repositories::ticket_repo(&conn),
         repositories::course_repo(&conn),
+        repositories::user_repo(&conn),
+        email::new_smtp_sender(&config.smtp),
+        email::new_mail_renderer(&config.host),
     );
 
     let mut search = TicketSearch {

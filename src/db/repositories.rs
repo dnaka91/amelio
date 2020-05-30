@@ -24,8 +24,10 @@ use crate::models::{
 pub trait UserRepository {
     /// Find a single user by its ID.
     fn find(&self, id: i32) -> Result<User>;
-    /// Find a singel user by its username.
+    /// Find a single user by its username.
     fn find_by_username(&self, username: &str) -> Result<User>;
+    /// Find the user who created a ticket.
+    fn find_ticket_creator(&self, ticket_id: i32) -> Result<User>;
     /// List all users.
     fn list(&self) -> Result<Vec<User>>;
     /// List all users' ID and name filtered by role.
@@ -63,6 +65,19 @@ impl<'a> UserRepository for UserRepositoryImpl<'a> {
 
         users::table
             .filter(users::active.eq(true).and(users::username.eq(username)))
+            .log_query()
+            .get_result::<UserEntity>(self.conn)
+            .map_err(Into::into)
+            .and_then(TryInto::try_into)
+    }
+
+    fn find_ticket_creator(&self, ticket_id: i32) -> Result<User> {
+        use super::schema::{tickets, users};
+
+        tickets::table
+            .find(ticket_id)
+            .inner_join(users::table)
+            .select(users::all_columns)
             .log_query()
             .get_result::<UserEntity>(self.conn)
             .map_err(Into::into)
@@ -301,6 +316,8 @@ pub trait TicketRepository {
     /// List all tickets by their assignee ID. The assignee ID is the tutor or author ID of the
     /// course that a ticket belongs to.
     fn list_by_assignee_id(&self, assignee_id: i32) -> Result<Vec<TicketWithNames>>;
+    /// Get a single ticket by ID.
+    fn get(&self, id: i32) -> Result<Ticket>;
     /// Get a single ticket with course and creator names.
     fn get_with_names(&self, id: i32) -> Result<TicketWithNames>;
     /// Get a single ticket with all related data.
@@ -321,7 +338,7 @@ pub trait TicketRepository {
     fn search(&self, search: &TicketSearch) -> Result<Vec<TicketWithNames>>;
     /// Activate a new ticket, changing it to [`Status::InProgress`] if it's still in
     /// [`Status::Open`] and accessed by a tutor or author user.
-    fn activate_ticket(&self, id: i32, user_id: i32) -> Result<()>;
+    fn activate_ticket(&self, id: i32, user_id: i32) -> Result<bool>;
     /// Check whether the provided user is the creator of a ticket.
     fn is_creator(&self, id: i32, user_id: i32) -> Result<bool>;
 }
@@ -340,18 +357,6 @@ impl<'a> TicketRepositoryImpl<'a> {
             .load::<TicketEntity>(self.conn)
             .map_err(Into::into)
             .and_then(|entities| entities.into_iter().map(TryInto::try_into).collect())
-    }
-
-    /// Get a single ticket by ID.
-    fn get(&self, id: i32) -> Result<Ticket> {
-        use super::schema::tickets;
-
-        tickets::table
-            .find(id)
-            .log_query()
-            .get_result::<TicketEntity>(self.conn)
-            .map_err(Into::into)
-            .and_then(TryInto::try_into)
     }
 
     /// Load user and course names and attach them to the given list of tickets.
@@ -462,6 +467,17 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
             .and_then(|entities| entities.into_iter().map(TryInto::try_into).collect())?;
 
         self.load_names(tickets)
+    }
+
+    fn get(&self, id: i32) -> Result<Ticket> {
+        use super::schema::tickets;
+
+        tickets::table
+            .find(id)
+            .log_query()
+            .get_result::<TicketEntity>(self.conn)
+            .map_err(Into::into)
+            .and_then(TryInto::try_into)
     }
 
     fn get_with_names(&self, id: i32) -> Result<TicketWithNames> {
@@ -737,7 +753,7 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
         self.load_names(tickets)
     }
 
-    fn activate_ticket(&self, id: i32, user_id: i32) -> Result<()> {
+    fn activate_ticket(&self, id: i32, user_id: i32) -> Result<bool> {
         use super::schema::{courses, tickets};
 
         let res = tickets::table
@@ -769,9 +785,10 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
                 .execute(self.conn)?;
 
             ensure!(res == 1, "Failed opening ticket");
+            return Ok(true);
         }
 
-        Ok(())
+        Ok(false)
     }
 
     fn is_creator(&self, id: i32, user_id: i32) -> Result<bool> {
