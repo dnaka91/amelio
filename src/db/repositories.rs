@@ -322,6 +322,8 @@ pub trait TicketRepository {
     /// Activate a new ticket, changing it to [`Status::InProgress`] if it's still in
     /// [`Status::Open`] and accessed by a tutor or author user.
     fn activate_ticket(&self, id: i32, user_id: i32) -> Result<()>;
+    /// Check whether the provided user is the creator of a ticket.
+    fn is_creator(&self, id: i32, user_id: i32) -> Result<bool>;
 }
 
 /// Main implementation of [`TicketRepository`].
@@ -770,6 +772,20 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
         }
 
         Ok(())
+    }
+
+    fn is_creator(&self, id: i32, user_id: i32) -> Result<bool> {
+        use super::schema::tickets;
+        use diesel::dsl::count;
+
+        let res = tickets::table
+            .find(id)
+            .select(count(tickets::id))
+            .filter(tickets::creator_id.eq(user_id))
+            .log_query()
+            .get_result::<i64>(self.conn)?;
+
+        Ok(res == 1)
     }
 }
 

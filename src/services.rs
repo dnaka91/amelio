@@ -273,6 +273,8 @@ pub trait TicketService {
     fn change_status(&self, id: Id, status: Status) -> Result<()>;
     /// Search for tickets with different criteria.
     fn search(&self, role: Role, search: &mut TicketSearch) -> Result<Vec<TicketWithNames>>;
+    /// Check whether the user can open a specific ticket.
+    fn can_open(&self, id: Id, user_id: Id, role: Role) -> Result<bool>;
 }
 
 /// Main implementation of [`TicketService`].
@@ -365,6 +367,15 @@ impl<TR: TicketRepository, CR: CourseRepository> TicketService for TicketService
         }
 
         self.ticket_repo.search(search)
+    }
+
+    fn can_open(&self, id: Id, user_id: Id, role: Role) -> Result<bool> {
+        // Everyone above a student can always see any ticket details
+        if role < Role::Student {
+            return Ok(true);
+        }
+
+        self.ticket_repo.is_creator(id, user_id)
     }
 }
 

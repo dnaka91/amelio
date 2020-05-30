@@ -162,6 +162,13 @@ pub fn post_new(user: StudentUser, data: Form<NewTicket>, conn: DbConn) -> Flash
     }
 }
 
+/// Response of the [`edit`] endpoint.
+#[derive(rocket::Responder)]
+pub enum EditResponse {
+    Edit(templates::TicketDetail),
+    Forbidden(templates::Error403),
+}
+
 /// Show the details of a ticket from student perspective.
 #[get("/<id>")]
 pub fn edit(
@@ -169,19 +176,23 @@ pub fn edit(
     id: PositiveId,
     conn: DbConn,
     flash: Option<FlashMessage<'_, '_>>,
-) -> Result<templates::TicketDetail, ServerError> {
+) -> Result<EditResponse, ServerError> {
     let service = services::ticket_service(
         repositories::ticket_repo(&conn),
         repositories::course_repo(&conn),
     );
 
+    if !service.can_open(id.0, user.0.id, user.0.role)? {
+        return Ok(EditResponse::Forbidden(templates::Error403));
+    }
+
     let ticket = service.get_with_rels(id.0, user.0.id, user.0.role)?;
 
-    Ok(templates::TicketDetail {
+    Ok(EditResponse::Edit(templates::TicketDetail {
         role: user.0.role,
         flash: flash.map(|f| (f.name().to_owned(), f.msg().into())),
         ticket,
-    })
+    }))
 }
 
 /// Form data for the ticket edit form.
@@ -339,6 +350,7 @@ pub fn search(
 
     Ok(templates::SearchTickets {
         role: user.0.role,
+        user_id: user.0.id,
         tickets,
         courses,
         search,

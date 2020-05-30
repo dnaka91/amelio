@@ -367,6 +367,7 @@ pub struct TicketDetail {
 #[template(path = "tickets/search.html")]
 pub struct SearchTickets {
     pub role: Role,
+    pub user_id: Id,
     pub tickets: Vec<TicketWithNames>,
     pub courses: Vec<(Id, String)>,
     pub search: TicketSearch,

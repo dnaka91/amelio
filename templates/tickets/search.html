@@ -144,7 +144,11 @@
                 </div>
               </td>
               <td>
+                {% if role < Role::Student || t.ticket.creator_id == user_id %}
                 <a href="/tickets/{{ t.ticket.id }}">{{ t.ticket.title }}</a>
+                {% else %}
+                {{ t.ticket.title }}
+                {% endif %}
               </td>
             </tr>
             {% endfor %}
