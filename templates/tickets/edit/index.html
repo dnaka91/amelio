@@ -94,7 +94,7 @@
           <div class="field-body">
             <div class="field">
               <div class="control">
-                <textarea class="textarea" rows="5" disabled>{{ ticket.ticket.description|escape|linebreaksbr|safe }}</textarea>
+                <textarea class="textarea" rows="5" disabled>{{ ticket.ticket.description }}</textarea>
               </div>
             </div>
           </div>
@@ -242,6 +242,7 @@
         </div>
         {% endfor %}
 
+        {% if ticket.ticket.is_editable() %}
         <form action="/tickets/{{ ticket.ticket.id }}/comment" method="POST">
           <div class="field">
             <label class="label">Kommentar</label>
@@ -258,6 +259,7 @@
             </button>
           </div>
         </form>
+        {% endif %}
       </div>
     </div>
   </div>
