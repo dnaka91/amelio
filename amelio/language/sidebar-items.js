@@ -1,0 +1,1 @@
+initSidebarItems({"trait":[["Translate","The translate trait allows for any implementing object to translate itself or its value into different languages."]]});

@@ -777,6 +777,39 @@
 <span id="777">777</span>
 <span id="778">778</span>
 <span id="779">779</span>
+<span id="780">780</span>
+<span id="781">781</span>
+<span id="782">782</span>
+<span id="783">783</span>
+<span id="784">784</span>
+<span id="785">785</span>
+<span id="786">786</span>
+<span id="787">787</span>
+<span id="788">788</span>
+<span id="789">789</span>
+<span id="790">790</span>
+<span id="791">791</span>
+<span id="792">792</span>
+<span id="793">793</span>
+<span id="794">794</span>
+<span id="795">795</span>
+<span id="796">796</span>
+<span id="797">797</span>
+<span id="798">798</span>
+<span id="799">799</span>
+<span id="800">800</span>
+<span id="801">801</span>
+<span id="802">802</span>
+<span id="803">803</span>
+<span id="804">804</span>
+<span id="805">805</span>
+<span id="806">806</span>
+<span id="807">807</span>
+<span id="808">808</span>
+<span id="809">809</span>
+<span id="810">810</span>
+<span id="811">811</span>
+<span id="812">812</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Abstractions over the database for easy access to the data.</span>
 
@@ -804,8 +837,10 @@
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">UserRepository</span> {
     <span class="doccomment">/// Find a single user by its ID.</span>
     <span class="kw">fn</span> <span class="ident">find</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">i32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">User</span><span class="op">&gt;</span>;
-    <span class="doccomment">/// Find a singel user by its username.</span>
+    <span class="doccomment">/// Find a single user by its username.</span>
     <span class="kw">fn</span> <span class="ident">find_by_username</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">username</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">User</span><span class="op">&gt;</span>;
+    <span class="doccomment">/// Find the user who created a ticket.</span>
+    <span class="kw">fn</span> <span class="ident">find_ticket_creator</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ticket_id</span>: <span class="ident">i32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">User</span><span class="op">&gt;</span>;
     <span class="doccomment">/// List all users.</span>
     <span class="kw">fn</span> <span class="ident">list</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">User</span><span class="op">&gt;</span><span class="op">&gt;</span>;
     <span class="doccomment">/// List all users&#39; ID and name filtered by role.</span>
@@ -843,6 +878,19 @@
 
         <span class="ident">users</span>::<span class="ident">table</span>
             .<span class="ident">filter</span>(<span class="ident">users</span>::<span class="ident">active</span>.<span class="ident">eq</span>(<span class="bool-val">true</span>).<span class="ident">and</span>(<span class="ident">users</span>::<span class="ident">username</span>.<span class="ident">eq</span>(<span class="ident">username</span>)))
+            .<span class="ident">log_query</span>()
+            .<span class="ident">get_result</span>::<span class="op">&lt;</span><span class="ident">UserEntity</span><span class="op">&gt;</span>(<span class="self">self</span>.<span class="ident">conn</span>)
+            .<span class="ident">map_err</span>(<span class="ident">Into</span>::<span class="ident">into</span>)
+            .<span class="ident">and_then</span>(<span class="ident">TryInto</span>::<span class="ident">try_into</span>)
+    }
+
+    <span class="kw">fn</span> <span class="ident">find_ticket_creator</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ticket_id</span>: <span class="ident">i32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">User</span><span class="op">&gt;</span> {
+        <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">schema</span>::{<span class="ident">tickets</span>, <span class="ident">users</span>};
+
+        <span class="ident">tickets</span>::<span class="ident">table</span>
+            .<span class="ident">find</span>(<span class="ident">ticket_id</span>)
+            .<span class="ident">inner_join</span>(<span class="ident">users</span>::<span class="ident">table</span>)
+            .<span class="ident">select</span>(<span class="ident">users</span>::<span class="ident">all_columns</span>)
             .<span class="ident">log_query</span>()
             .<span class="ident">get_result</span>::<span class="op">&lt;</span><span class="ident">UserEntity</span><span class="op">&gt;</span>(<span class="self">self</span>.<span class="ident">conn</span>)
             .<span class="ident">map_err</span>(<span class="ident">Into</span>::<span class="ident">into</span>)
@@ -1081,6 +1129,8 @@
     <span class="doccomment">/// List all tickets by their assignee ID. The assignee ID is the tutor or author ID of the</span>
     <span class="doccomment">/// course that a ticket belongs to.</span>
     <span class="kw">fn</span> <span class="ident">list_by_assignee_id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">assignee_id</span>: <span class="ident">i32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">TicketWithNames</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+    <span class="doccomment">/// Get a single ticket by ID.</span>
+    <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">i32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Ticket</span><span class="op">&gt;</span>;
     <span class="doccomment">/// Get a single ticket with course and creator names.</span>
     <span class="kw">fn</span> <span class="ident">get_with_names</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">i32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">TicketWithNames</span><span class="op">&gt;</span>;
     <span class="doccomment">/// Get a single ticket with all related data.</span>
@@ -1101,7 +1151,9 @@
     <span class="kw">fn</span> <span class="ident">search</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">search</span>: <span class="kw-2">&amp;</span><span class="ident">TicketSearch</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">TicketWithNames</span><span class="op">&gt;</span><span class="op">&gt;</span>;
     <span class="doccomment">/// Activate a new ticket, changing it to [`Status::InProgress`] if it&#39;s still in</span>
     <span class="doccomment">/// [`Status::Open`] and accessed by a tutor or author user.</span>
-    <span class="kw">fn</span> <span class="ident">activate_ticket</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">i32</span>, <span class="ident">user_id</span>: <span class="ident">i32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">activate_ticket</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">i32</span>, <span class="ident">user_id</span>: <span class="ident">i32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>;
+    <span class="doccomment">/// Check whether the provided user is the creator of a ticket.</span>
+    <span class="kw">fn</span> <span class="ident">is_creator</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">i32</span>, <span class="ident">user_id</span>: <span class="ident">i32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>;
 }
 
 <span class="doccomment">/// Main implementation of [`TicketRepository`].</span>
@@ -1118,18 +1170,6 @@
             .<span class="ident">load</span>::<span class="op">&lt;</span><span class="ident">TicketEntity</span><span class="op">&gt;</span>(<span class="self">self</span>.<span class="ident">conn</span>)
             .<span class="ident">map_err</span>(<span class="ident">Into</span>::<span class="ident">into</span>)
             .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">entities</span><span class="op">|</span> <span class="ident">entities</span>.<span class="ident">into_iter</span>().<span class="ident">map</span>(<span class="ident">TryInto</span>::<span class="ident">try_into</span>).<span class="ident">collect</span>())
-    }
-
-    <span class="doccomment">/// Get a single ticket by ID.</span>
-    <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">i32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Ticket</span><span class="op">&gt;</span> {
-        <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">schema</span>::<span class="ident">tickets</span>;
-
-        <span class="ident">tickets</span>::<span class="ident">table</span>
-            .<span class="ident">find</span>(<span class="ident">id</span>)
-            .<span class="ident">log_query</span>()
-            .<span class="ident">get_result</span>::<span class="op">&lt;</span><span class="ident">TicketEntity</span><span class="op">&gt;</span>(<span class="self">self</span>.<span class="ident">conn</span>)
-            .<span class="ident">map_err</span>(<span class="ident">Into</span>::<span class="ident">into</span>)
-            .<span class="ident">and_then</span>(<span class="ident">TryInto</span>::<span class="ident">try_into</span>)
     }
 
     <span class="doccomment">/// Load user and course names and attach them to the given list of tickets.</span>
@@ -1240,6 +1280,17 @@
             .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">entities</span><span class="op">|</span> <span class="ident">entities</span>.<span class="ident">into_iter</span>().<span class="ident">map</span>(<span class="ident">TryInto</span>::<span class="ident">try_into</span>).<span class="ident">collect</span>())<span class="question-mark">?</span>;
 
         <span class="self">self</span>.<span class="ident">load_names</span>(<span class="ident">tickets</span>)
+    }
+
+    <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">i32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Ticket</span><span class="op">&gt;</span> {
+        <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">schema</span>::<span class="ident">tickets</span>;
+
+        <span class="ident">tickets</span>::<span class="ident">table</span>
+            .<span class="ident">find</span>(<span class="ident">id</span>)
+            .<span class="ident">log_query</span>()
+            .<span class="ident">get_result</span>::<span class="op">&lt;</span><span class="ident">TicketEntity</span><span class="op">&gt;</span>(<span class="self">self</span>.<span class="ident">conn</span>)
+            .<span class="ident">map_err</span>(<span class="ident">Into</span>::<span class="ident">into</span>)
+            .<span class="ident">and_then</span>(<span class="ident">TryInto</span>::<span class="ident">try_into</span>)
     }
 
     <span class="kw">fn</span> <span class="ident">get_with_names</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">i32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">TicketWithNames</span><span class="op">&gt;</span> {
@@ -1515,7 +1566,7 @@
         <span class="self">self</span>.<span class="ident">load_names</span>(<span class="ident">tickets</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">activate_ticket</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">i32</span>, <span class="ident">user_id</span>: <span class="ident">i32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">activate_ticket</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">i32</span>, <span class="ident">user_id</span>: <span class="ident">i32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span> {
         <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">schema</span>::{<span class="ident">courses</span>, <span class="ident">tickets</span>};
 
         <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">tickets</span>::<span class="ident">table</span>
@@ -1547,9 +1598,24 @@
                 .<span class="ident">execute</span>(<span class="self">self</span>.<span class="ident">conn</span>)<span class="question-mark">?</span>;
 
             <span class="macro">ensure</span><span class="macro">!</span>(<span class="ident">res</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span>, <span class="string">&quot;Failed opening ticket&quot;</span>);
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>);
         }
 
-        <span class="prelude-val">Ok</span>(())
+        <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>)
+    }
+
+    <span class="kw">fn</span> <span class="ident">is_creator</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">i32</span>, <span class="ident">user_id</span>: <span class="ident">i32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span> {
+        <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">schema</span>::<span class="ident">tickets</span>;
+        <span class="kw">use</span> <span class="ident">diesel</span>::<span class="ident">dsl</span>::<span class="ident">count</span>;
+
+        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">tickets</span>::<span class="ident">table</span>
+            .<span class="ident">find</span>(<span class="ident">id</span>)
+            .<span class="ident">select</span>(<span class="ident">count</span>(<span class="ident">tickets</span>::<span class="ident">id</span>))
+            .<span class="ident">filter</span>(<span class="ident">tickets</span>::<span class="ident">creator_id</span>.<span class="ident">eq</span>(<span class="ident">user_id</span>))
+            .<span class="ident">log_query</span>()
+            .<span class="ident">get_result</span>::<span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>(<span class="self">self</span>.<span class="ident">conn</span>)<span class="question-mark">?</span>;
+
+        <span class="prelude-val">Ok</span>(<span class="ident">res</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span>)
     }
 }
 
