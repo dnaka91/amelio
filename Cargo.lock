@@ -66,7 +66,7 @@ dependencies = [
 
 [[package]]
 name = "amelio"
-version = "0.3.0"
+version = "1.0.0"
 dependencies = [
  "anyhow",
  "askama",
@@ -1490,12 +1490,12 @@ dependencies = [
 
 [[package]]
 name = "rocket"
-version = "0.4.4"
+version = "0.4.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e20afbad214b001cabbe31dd270b48b3be980a7153ee2ed8392e241f856d651b"
+checksum = "6130967b369cfb8411b0b73e96fcba1229c32a9cc6f295d144f879bfced13c6e"
 dependencies = [
  "atty",
- "base64 0.10.1",
+ "base64 0.12.1",
  "log 0.4.8",
  "memchr",
  "num_cpus",
@@ -1511,9 +1511,9 @@ dependencies = [
 
 [[package]]
 name = "rocket_codegen"
-version = "0.4.4"
+version = "0.4.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2108b35e2c3a35759d3f16cc3002ece05523191d884d3ad6523693fd43324dde"
+checksum = "cb852e6da168fb948a8f2b798ba2e2f0e4fc860eae0efa9cf2bf0f5466bb0425"
 dependencies = [
  "devise",
  "glob",
@@ -1526,9 +1526,9 @@ dependencies = [
 
 [[package]]
 name = "rocket_http"
-version = "0.4.4"
+version = "0.4.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6ce8ca76247376ea21cf271af0f95e3f2014596e3e4c7cc04e44ee6242a40ff2"
+checksum = "1aff5a5480175f2f553a876b251e9350c74196128806d176da3a51c82aab5428"
 dependencies = [
  "cookie",
  "hyper",
