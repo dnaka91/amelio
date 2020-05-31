@@ -28,6 +28,9 @@ The project contains a `Dockerfile` so you can build it as an independent image:
 docker build -t amelio .
 ```
 
+Make sure to enable BuildKit for your Docker instance as the file contains experimental features.
+Alternatively you can pull a pre-generated image: `docker pull dnaka91/amelio`.
+
 ## License
 
 This project is licensed under [GPL License](LICENSE) (or
