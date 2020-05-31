@@ -34,8 +34,9 @@ impl Fairing for Csp {
             default-src 'none'; \
             img-src 'self'; \
             script-src 'self' https://cdn.jsdelivr.net; \
-            style-src https://cdn.jsdelivr.net; \
+            style-src 'unsafe-inline' https://cdn.jsdelivr.net; \
             font-src https://cdn.jsdelivr.net; \
+            frame-src https://www.youtube-nocookie.com; \
             base-uri 'none'; \
             form-action 'self'; \
             frame-ancestors 'none'\
