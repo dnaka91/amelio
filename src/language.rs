@@ -64,7 +64,7 @@ impl Translate for Status {
         match self {
             Self::Open => "Offen",
             Self::InProgress => "In Bearbeitung",
-            Self::Accepted => "Aktzeptiert",
+            Self::Accepted => "Akzeptiert",
             Self::Refused => "Abgelehnt",
             Self::Completed => "Abgeschlossen",
         }
