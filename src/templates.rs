@@ -67,7 +67,7 @@ mod filters {
     /// Compare two values exactly as [`select`] but with the first value being optional.
     /// If the first value is [`None`], an empty string is returned.
     pub fn opt_select<T: Eq>(opt: &Option<T>, other: &T) -> askama::Result<&'static str> {
-        opt.as_ref().map_or(Ok(""), |value|select(value,other))
+        opt.as_ref().map_or(Ok(""), |value| select(value, other))
     }
 }
 

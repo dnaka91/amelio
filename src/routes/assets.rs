@@ -52,8 +52,7 @@ pub fn get<'r>(file: PathBuf, inm: Option<IfNoneMatch>) -> rocket::response::Res
         || Err(Status::NotFound),
         |data| {
             let ext = file.extension().and_then(OsStr::to_str).unwrap_or_default();
-            let content_type =
-                ContentType::from_extension(ext).unwrap_or(ContentType::Binary);
+            let content_type = ContentType::from_extension(ext).unwrap_or(ContentType::Binary);
 
             Response::build()
                 .header(content_type)
