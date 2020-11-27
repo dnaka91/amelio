@@ -88,7 +88,6 @@
 <span id="85">85</span>
 <span id="86">86</span>
 <span id="87">87</span>
-<span id="88">88</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Routes for loading static assets.</span>
 
@@ -144,8 +143,7 @@
         <span class="op">|</span><span class="op">|</span> <span class="prelude-val">Err</span>(<span class="ident">Status</span>::<span class="ident">NotFound</span>),
         <span class="op">|</span><span class="ident">data</span><span class="op">|</span> {
             <span class="kw">let</span> <span class="ident">ext</span> <span class="op">=</span> <span class="ident">file</span>.<span class="ident">extension</span>().<span class="ident">and_then</span>(<span class="ident">OsStr</span>::<span class="ident">to_str</span>).<span class="ident">unwrap_or_default</span>();
-            <span class="kw">let</span> <span class="ident">content_type</span> <span class="op">=</span>
-                <span class="ident">ContentType</span>::<span class="ident">from_extension</span>(<span class="ident">ext</span>).<span class="ident">unwrap_or</span>(<span class="ident">ContentType</span>::<span class="ident">Binary</span>);
+            <span class="kw">let</span> <span class="ident">content_type</span> <span class="op">=</span> <span class="ident">ContentType</span>::<span class="ident">from_extension</span>(<span class="ident">ext</span>).<span class="ident">unwrap_or</span>(<span class="ident">ContentType</span>::<span class="ident">Binary</span>);
 
             <span class="ident">Response</span>::<span class="ident">build</span>()
                 .<span class="ident">header</span>(<span class="ident">content_type</span>)
