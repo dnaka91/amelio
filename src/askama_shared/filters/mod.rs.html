@@ -1,4 +1,7 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/askama_shared-0.9.1/src/filters/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../askama_shared/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/askama_shared-0.11.1/src/filters/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script id="default-settings"></script><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../../favicon.svg">
+<link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png">
+<link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../askama_shared/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
+                <a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -452,12 +455,170 @@
 <span id="452">452</span>
 <span id="453">453</span>
 <span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Module for built-in filter functions</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! Contains all the built-in filter functions for use in templates.</span>
-<span class="doccomment">//! You can define your own filters; for more information,</span>
-<span class="doccomment">//! see the top-level crate documentation.</span>
+<span class="doccomment">//! You can define your own filters, as well.</span>
+<span class="doccomment">//! For more information, read the [book](https://djc.github.io/askama/filters.html).</span>
 <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">trivially_copy_pass_by_ref</span>)]</span>
 
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
@@ -477,22 +638,39 @@
 <span class="kw">use</span> <span class="ident">askama_escape</span>::{<span class="ident">Escaper</span>, <span class="ident">MarkupDisplay</span>};
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;humansize&quot;</span>)]</span>
 <span class="kw">use</span> <span class="ident">humansize</span>::{<span class="ident">file_size_opts</span>, <span class="ident">FileSize</span>};
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;num_traits&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;num-traits&quot;</span>)]</span>
 <span class="kw">use</span> <span class="ident">num_traits</span>::{<span class="ident">cast</span>::<span class="ident">NumCast</span>, <span class="ident">Signed</span>};
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;percent-encoding&quot;</span>)]</span>
+<span class="kw">use</span> <span class="ident">percent_encoding</span>::{<span class="ident">utf8_percent_encode</span>, <span class="ident">AsciiSet</span>, <span class="ident">NON_ALPHANUMERIC</span>};
 
 <span class="kw">use</span> <span class="kw">super</span>::<span class="prelude-ty">Result</span>;
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;percent-encoding&quot;</span>)]</span>
+<span class="comment">// Urlencode char encoding set. Only the characters in the unreserved set don&#39;t</span>
+<span class="comment">// have any special purpose in any part of a URI and can be safely left</span>
+<span class="comment">// unencoded as specified in https://tools.ietf.org/html/rfc3986.html#section-2.3</span>
+<span class="kw">const</span> <span class="ident">URLENCODE_STRICT_SET</span>: <span class="kw-2">&amp;</span><span class="ident">AsciiSet</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">NON_ALPHANUMERIC</span>
+    .<span class="ident">remove</span>(<span class="string">b&#39;_&#39;</span>)
+    .<span class="ident">remove</span>(<span class="string">b&#39;.&#39;</span>)
+    .<span class="ident">remove</span>(<span class="string">b&#39;-&#39;</span>)
+    .<span class="ident">remove</span>(<span class="string">b&#39;~&#39;</span>);
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;percent-encoding&quot;</span>)]</span>
+<span class="comment">// Same as URLENCODE_STRICT_SET, but preserves forward slashes for encoding paths</span>
+<span class="kw">const</span> <span class="ident">URLENCODE_SET</span>: <span class="kw-2">&amp;</span><span class="ident">AsciiSet</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">URLENCODE_STRICT_SET</span>.<span class="ident">remove</span>(<span class="string">b&#39;/&#39;</span>);
 
 <span class="comment">// This is used by the code generator to decide whether a named filter is part of</span>
 <span class="comment">// Askama or should refer to a local `filters` module. It should contain all the</span>
 <span class="comment">// filters shipped with Askama, even the optional ones (since optional inclusion</span>
 <span class="comment">// in the const vector based on features seems impossible right now).</span>
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">BUILT_IN_FILTERS</span>: [<span class="kw-2">&amp;</span><span class="ident">str</span>; <span class="number">23</span>] <span class="op">=</span> [
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">BUILT_IN_FILTERS</span>: [<span class="kw-2">&amp;</span><span class="ident">str</span>; <span class="number">26</span>] <span class="op">=</span> [
     <span class="string">&quot;abs&quot;</span>,
     <span class="string">&quot;capitalize&quot;</span>,
     <span class="string">&quot;center&quot;</span>,
     <span class="string">&quot;e&quot;</span>,
     <span class="string">&quot;escape&quot;</span>,
     <span class="string">&quot;filesizeformat&quot;</span>,
+    <span class="string">&quot;fmt&quot;</span>,
     <span class="string">&quot;format&quot;</span>,
     <span class="string">&quot;indent&quot;</span>,
     <span class="string">&quot;into_f64&quot;</span>,
@@ -507,6 +685,8 @@
     <span class="string">&quot;truncate&quot;</span>,
     <span class="string">&quot;upper&quot;</span>,
     <span class="string">&quot;uppercase&quot;</span>,
+    <span class="string">&quot;urlencode&quot;</span>,
+    <span class="string">&quot;urlencode_strict&quot;</span>,
     <span class="string">&quot;wordcount&quot;</span>,
     <span class="string">&quot;json&quot;</span>, <span class="comment">// Optional feature; reserve the name anyway</span>
     <span class="string">&quot;yaml&quot;</span>, <span class="comment">// Optional feature; reserve the name anyway</span>
@@ -552,10 +732,70 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;humansize&quot;</span>)]</span>
 <span class="doccomment">/// Returns adequate string representation (in KB, ..) of number of bytes</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">filesizeformat</span>(<span class="ident">b</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">filesizeformat</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">FileSize</span><span class="op">&gt;</span>(<span class="ident">b</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
     <span class="ident">b</span>.<span class="ident">file_size</span>(<span class="ident">file_size_opts</span>::<span class="ident">DECIMAL</span>)
         .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">Fmt</span>(<span class="ident">fmt</span>::<span class="ident">Error</span>))
 }
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;percent-encoding&quot;</span>)]</span>
+<span class="doccomment">/// Percent-encodes the argument for safe use in URI; does not encode `/`</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This should be safe for all parts of URI (paths segments, query keys, query</span>
+<span class="doccomment">/// values). In the rare case that the server can&#39;t deal with forward slashes in</span>
+<span class="doccomment">/// the query string, use [`urlencode_strict`], which encodes them as well.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Encodes all characters except ASCII letters, digits, and `_.-~/`. In other</span>
+<span class="doccomment">/// words, encodes all characters which are not in the unreserved set,</span>
+<span class="doccomment">/// as specified by [RFC3986](https://tools.ietf.org/html/rfc3986#section-2.3),</span>
+<span class="doccomment">/// with the exception of `/`.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```none,ignore</span>
+<span class="doccomment">/// &lt;a href=&quot;/metro{{ &quot;/stations/Château d&#39;Eau&quot; | urlencode }}&quot;&gt;Station&lt;/a&gt;</span>
+<span class="doccomment">/// &lt;a href=&quot;/page?text={{ &quot;look, unicode/emojis ✨&quot; | urlencode }}&quot;&gt;Page&lt;/a&gt;</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// To encode `/` as well, see [`urlencode_strict`](./fn.urlencode_strict.html).</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// [`urlencode_strict`]: ./fn.urlencode_strict.html</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">urlencode</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">dyn</span> <span class="ident">fmt</span>::<span class="ident">Display</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">to_string</span>();
+    <span class="prelude-val">Ok</span>(<span class="ident">utf8_percent_encode</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>, <span class="ident">URLENCODE_SET</span>).<span class="ident">to_string</span>())
+}
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;percent-encoding&quot;</span>)]</span>
+<span class="doccomment">/// Percent-encodes the argument for safe use in URI; encodes `/`</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Use this filter for encoding query keys and values in the rare case that</span>
+<span class="doccomment">/// the server can&#39;t process them unencoded.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Encodes all characters except ASCII letters, digits, and `_.-~`. In other</span>
+<span class="doccomment">/// words, encodes all characters which are not in the unreserved set,</span>
+<span class="doccomment">/// as specified by [RFC3986](https://tools.ietf.org/html/rfc3986#section-2.3).</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```none,ignore</span>
+<span class="doccomment">/// &lt;a href=&quot;/page?text={{ &quot;look, unicode/emojis ✨&quot; | urlencode_strict }}&quot;&gt;Page&lt;/a&gt;</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// If you want to preserve `/`, see [`urlencode`](./fn.urlencode.html).</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">urlencode_strict</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">dyn</span> <span class="ident">fmt</span>::<span class="ident">Display</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">to_string</span>();
+    <span class="prelude-val">Ok</span>(<span class="ident">utf8_percent_encode</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>, <span class="ident">URLENCODE_STRICT_SET</span>).<span class="ident">to_string</span>())
+}
+
+<span class="doccomment">/// Formats arguments according to the specified format</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The *second* argument to this filter must be a string literal (as in normal</span>
+<span class="doccomment">/// Rust). The two arguments are passed through to the `format!()`</span>
+<span class="doccomment">/// [macro](https://doc.rust-lang.org/stable/std/macro.format.html) by</span>
+<span class="doccomment">/// the Askama code generator, but the order is swapped to support filter</span>
+<span class="doccomment">/// composition.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```ignore</span>
+<span class="doccomment">/// {{ value | fmt(&quot;{:?}&quot;) }}</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Compare with [format](./fn.format.html).</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fmt</span>() {}
 
 <span class="doccomment">/// Formats arguments according to the specified format</span>
 <span class="doccomment">///</span>
@@ -563,13 +803,19 @@
 <span class="doccomment">/// Rust). All arguments are passed through to the `format!()`</span>
 <span class="doccomment">/// [macro](https://doc.rust-lang.org/stable/std/macro.format.html) by</span>
 <span class="doccomment">/// the Askama code generator.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```ignore</span>
+<span class="doccomment">/// {{ &quot;{:?}{:?}&quot; | format(value, other_value) }}</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Compare with [fmt](./fn.fmt.html).</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">format</span>() {}
 
 <span class="doccomment">/// Replaces line breaks in plain text with appropriate HTML</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// A single newline becomes an HTML line break `&lt;br&gt;` and a new line</span>
 <span class="doccomment">/// followed by a blank line becomes a paragraph break `&lt;p&gt;`.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">linebreaks</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">fmt</span>::<span class="ident">Display</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">linebreaks</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">dyn</span> <span class="ident">fmt</span>::<span class="ident">Display</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">to_string</span>();
     <span class="kw">let</span> <span class="ident">linebroken</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">replace</span>(<span class="string">&quot;\n\n&quot;</span>, <span class="string">&quot;&lt;/p&gt;&lt;p&gt;&quot;</span>).<span class="ident">replace</span>(<span class="string">&quot;\n&quot;</span>, <span class="string">&quot;&lt;br/&gt;&quot;</span>);
 
@@ -577,53 +823,57 @@
 }
 
 <span class="doccomment">/// Converts all newlines in a piece of plain text to HTML line breaks</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">linebreaksbr</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">fmt</span>::<span class="ident">Display</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">linebreaksbr</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">dyn</span> <span class="ident">fmt</span>::<span class="ident">Display</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">to_string</span>();
     <span class="prelude-val">Ok</span>(<span class="ident">s</span>.<span class="ident">replace</span>(<span class="string">&quot;\n&quot;</span>, <span class="string">&quot;&lt;br/&gt;&quot;</span>))
 }
 
 <span class="doccomment">/// Converts to lowercase</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lower</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">fmt</span>::<span class="ident">Display</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lower</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">dyn</span> <span class="ident">fmt</span>::<span class="ident">Display</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">to_string</span>();
     <span class="prelude-val">Ok</span>(<span class="ident">s</span>.<span class="ident">to_lowercase</span>())
 }
 
 <span class="doccomment">/// Alias for the `lower()` filter</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lowercase</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">fmt</span>::<span class="ident">Display</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lowercase</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">dyn</span> <span class="ident">fmt</span>::<span class="ident">Display</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
     <span class="ident">lower</span>(<span class="ident">s</span>)
 }
 
 <span class="doccomment">/// Converts to uppercase</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">upper</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">fmt</span>::<span class="ident">Display</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">upper</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">dyn</span> <span class="ident">fmt</span>::<span class="ident">Display</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">to_string</span>();
     <span class="prelude-val">Ok</span>(<span class="ident">s</span>.<span class="ident">to_uppercase</span>())
 }
 
 <span class="doccomment">/// Alias for the `upper()` filter</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">uppercase</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">fmt</span>::<span class="ident">Display</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">uppercase</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">dyn</span> <span class="ident">fmt</span>::<span class="ident">Display</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
     <span class="ident">upper</span>(<span class="ident">s</span>)
 }
 
 <span class="doccomment">/// Strip leading and trailing whitespace</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">trim</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">fmt</span>::<span class="ident">Display</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">trim</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">dyn</span> <span class="ident">fmt</span>::<span class="ident">Display</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">to_string</span>();
     <span class="prelude-val">Ok</span>(<span class="ident">s</span>.<span class="ident">trim</span>().<span class="ident">to_owned</span>())
 }
 
 <span class="doccomment">/// Limit string length, appends &#39;...&#39; if truncated</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">truncate</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">fmt</span>::<span class="ident">Display</span>, <span class="ident">len</span>: <span class="kw-2">&amp;</span><span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">truncate</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">dyn</span> <span class="ident">fmt</span>::<span class="ident">Display</span>, <span class="ident">len</span>: <span class="kw-2">&amp;</span><span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">to_string</span>();
-    <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">len</span>() <span class="op">&lt;</span> <span class="kw-2">*</span><span class="ident">len</span> {
+    <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">len</span>() <span class="op">&lt;</span><span class="op">=</span> <span class="kw-2">*</span><span class="ident">len</span> {
         <span class="prelude-val">Ok</span>(<span class="ident">s</span>)
     } <span class="kw">else</span> {
-        <span class="ident">s</span>.<span class="ident">truncate</span>(<span class="kw-2">*</span><span class="ident">len</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">real_len</span> <span class="op">=</span> <span class="kw-2">*</span><span class="ident">len</span>;
+        <span class="kw">while</span> <span class="op">!</span><span class="ident">s</span>.<span class="ident">is_char_boundary</span>(<span class="ident">real_len</span>) {
+            <span class="ident">real_len</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+        }
+        <span class="ident">s</span>.<span class="ident">truncate</span>(<span class="ident">real_len</span>);
         <span class="ident">s</span>.<span class="ident">push_str</span>(<span class="string">&quot;...&quot;</span>);
         <span class="prelude-val">Ok</span>(<span class="ident">s</span>)
     }
 }
 
 <span class="doccomment">/// Indent lines with `width` spaces</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">indent</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">fmt</span>::<span class="ident">Display</span>, <span class="ident">width</span>: <span class="kw-2">&amp;</span><span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">indent</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">dyn</span> <span class="ident">fmt</span>::<span class="ident">Display</span>, <span class="ident">width</span>: <span class="kw-2">&amp;</span><span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">to_string</span>();
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">indented</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">new</span>();
@@ -631,7 +881,7 @@
     <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">c</span>) <span class="kw">in</span> <span class="ident">s</span>.<span class="ident">char_indices</span>() {
         <span class="ident">indented</span>.<span class="ident">push</span>(<span class="ident">c</span>);
 
-        <span class="kw">if</span> <span class="ident">c</span> <span class="op">=</span><span class="op">=</span> <span class="string">&#39;\n&#39;</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="ident">s</span>.<span class="ident">len</span>() <span class="op">-</span> <span class="number">1</span> {
+        <span class="kw">if</span> <span class="ident">c</span> <span class="op">=</span><span class="op">=</span> <span class="string">&#39;\n&#39;</span> <span class="op">&amp;&amp;</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="ident">s</span>.<span class="ident">len</span>() <span class="op">-</span> <span class="number">1</span> {
             <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="kw-2">*</span><span class="ident">width</span> {
                 <span class="ident">indented</span>.<span class="ident">push</span>(<span class="string">&#39; &#39;</span>);
             }
@@ -641,18 +891,18 @@
     <span class="prelude-val">Ok</span>(<span class="ident">indented</span>)
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;num_traits&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;num-traits&quot;</span>)]</span>
 <span class="doccomment">/// Casts number to f64</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_f64</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">number</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_f64</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">number</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">NumCast</span>,
 {
     <span class="ident">number</span>.<span class="ident">to_f64</span>().<span class="ident">ok_or</span>(<span class="ident">Fmt</span>(<span class="ident">fmt</span>::<span class="ident">Error</span>))
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;num_traits&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;num-traits&quot;</span>)]</span>
 <span class="doccomment">/// Casts number to isize</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_isize</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">number</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">isize</span><span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_isize</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">number</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">isize</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">NumCast</span>,
 {
@@ -681,7 +931,7 @@
     <span class="prelude-val">Ok</span>(<span class="ident">rv</span>)
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;num_traits&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;num-traits&quot;</span>)]</span>
 <span class="doccomment">/// Absolute value</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">abs</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">number</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
 <span class="kw">where</span>
@@ -691,7 +941,7 @@
 }
 
 <span class="doccomment">/// Capitalize a value. The first character will be uppercase, all others lowercase.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">capitalize</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">fmt</span>::<span class="ident">Display</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">capitalize</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">dyn</span> <span class="ident">fmt</span>::<span class="ident">Display</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">to_string</span>();
 
     <span class="kw">match</span> <span class="ident">s</span>.<span class="ident">get_mut</span>(<span class="number">0</span>..<span class="number">1</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> {
@@ -699,17 +949,18 @@
         <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">s</span>
     }) {
         <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">s</span>),
-        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">s</span>.<span class="ident">get_mut</span>(<span class="number">1</span>..).<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> {
-            <span class="ident">s</span>.<span class="ident">make_ascii_lowercase</span>();
-            <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">s</span>
-        }) {
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">s</span>),
-        },
+        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">s</span>.<span class="ident">get_mut</span>(<span class="number">1</span>..).<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> {
+                <span class="ident">s</span>.<span class="ident">make_ascii_lowercase</span>();
+                <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">s</span>
+            });
+            <span class="prelude-val">Ok</span>(<span class="ident">s</span>)
+        }
     }
 }
 
 <span class="doccomment">/// Centers the value in a field of a given width</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">center</span>(<span class="ident">src</span>: <span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">fmt</span>::<span class="ident">Display</span>, <span class="ident">dst_len</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">center</span>(<span class="ident">src</span>: <span class="kw-2">&amp;</span><span class="ident">dyn</span> <span class="ident">fmt</span>::<span class="ident">Display</span>, <span class="ident">dst_len</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">src</span> <span class="op">=</span> <span class="ident">src</span>.<span class="ident">to_string</span>();
     <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">src</span>.<span class="ident">len</span>();
 
@@ -736,7 +987,7 @@
 }
 
 <span class="doccomment">/// Count the words in that string</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">wordcount</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">fmt</span>::<span class="ident">Display</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">wordcount</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">dyn</span> <span class="ident">fmt</span>::<span class="ident">Display</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">to_string</span>();
 
     <span class="prelude-val">Ok</span>(<span class="ident">s</span>.<span class="ident">split_whitespace</span>().<span class="ident">count</span>())
@@ -745,17 +996,60 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;num_traits&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;num-traits&quot;</span>)]</span>
     <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">f64</span>::<span class="ident">INFINITY</span>;
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;humansize&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_filesizeformat</span>() {
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">filesizeformat</span>(<span class="number">0</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;0 B&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">filesizeformat</span>(<span class="number">999</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;999 B&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">filesizeformat</span>(<span class="number">1000</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;1 KB&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">filesizeformat</span>(<span class="number">1023</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;1.02 KB&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">filesizeformat</span>(<span class="number">1024</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;1.02 KB&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">filesizeformat</span>(<span class="kw-2">&amp;</span><span class="number">0</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;0 B&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">filesizeformat</span>(<span class="kw-2">&amp;</span><span class="number">999u64</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;999 B&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">filesizeformat</span>(<span class="kw-2">&amp;</span><span class="number">1000i32</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;1 KB&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">filesizeformat</span>(<span class="kw-2">&amp;</span><span class="number">1023</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;1.02 KB&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">filesizeformat</span>(<span class="kw-2">&amp;</span><span class="number">1024usize</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;1.02 KB&quot;</span>);
+    }
+
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;percent-encoding&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_urlencoding</span>() {
+        <span class="comment">// Unreserved (https://tools.ietf.org/html/rfc3986.html#section-2.3)</span>
+        <span class="comment">// alpha / digit</span>
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">urlencode</span>(<span class="kw-2">&amp;</span><span class="string">&quot;AZaz09&quot;</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;AZaz09&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">urlencode_strict</span>(<span class="kw-2">&amp;</span><span class="string">&quot;AZaz09&quot;</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;AZaz09&quot;</span>);
+        <span class="comment">// other</span>
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">urlencode</span>(<span class="kw-2">&amp;</span><span class="string">&quot;_.-~&quot;</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;_.-~&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">urlencode_strict</span>(<span class="kw-2">&amp;</span><span class="string">&quot;_.-~&quot;</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;_.-~&quot;</span>);
+
+        <span class="comment">// Reserved (https://tools.ietf.org/html/rfc3986.html#section-2.2)</span>
+        <span class="comment">// gen-delims</span>
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">urlencode</span>(<span class="kw-2">&amp;</span><span class="string">&quot;:/?#[]@&quot;</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;%3A/%3F%23%5B%5D%40&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">urlencode_strict</span>(<span class="kw-2">&amp;</span><span class="string">&quot;:/?#[]@&quot;</span>).<span class="ident">unwrap</span>(),
+            <span class="string">&quot;%3A%2F%3F%23%5B%5D%40&quot;</span>
+        );
+        <span class="comment">// sub-delims</span>
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">urlencode</span>(<span class="kw-2">&amp;</span><span class="string">&quot;!$&amp;&#39;()*+,;=&quot;</span>).<span class="ident">unwrap</span>(),
+            <span class="string">&quot;%21%24%26%27%28%29%2A%2B%2C%3B%3D&quot;</span>
+        );
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">urlencode_strict</span>(<span class="kw-2">&amp;</span><span class="string">&quot;!$&amp;&#39;()*+,;=&quot;</span>).<span class="ident">unwrap</span>(),
+            <span class="string">&quot;%21%24%26%27%28%29%2A%2B%2C%3B%3D&quot;</span>
+        );
+
+        <span class="comment">// Other</span>
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">urlencode</span>(<span class="kw-2">&amp;</span><span class="string">&quot;žŠďŤňĚáÉóŮ&quot;</span>).<span class="ident">unwrap</span>(),
+            <span class="string">&quot;%C5%BE%C5%A0%C4%8F%C5%A4%C5%88%C4%9A%C3%A1%C3%89%C3%B3%C5%AE&quot;</span>
+        );
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">urlencode_strict</span>(<span class="kw-2">&amp;</span><span class="string">&quot;žŠďŤňĚáÉóŮ&quot;</span>).<span class="ident">unwrap</span>(),
+            <span class="string">&quot;%C5%BE%C5%A0%C4%8F%C5%A4%C5%88%C4%9A%C3%A1%C3%89%C3%B3%C5%AE&quot;</span>
+        );
+
+        <span class="comment">// Ferris</span>
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">urlencode</span>(<span class="kw-2">&amp;</span><span class="string">&quot;🦀&quot;</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;%F0%9F%A6%80&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">urlencode_strict</span>(<span class="kw-2">&amp;</span><span class="string">&quot;🦀&quot;</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;%F0%9F%A6%80&quot;</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -801,6 +1095,31 @@
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_truncate</span>() {
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">truncate</span>(<span class="kw-2">&amp;</span><span class="string">&quot;hello&quot;</span>, <span class="kw-2">&amp;</span><span class="number">2</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;he...&quot;</span>);
+        <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;您好&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">a</span>.<span class="ident">len</span>(), <span class="number">6</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;您&quot;</span>).<span class="ident">len</span>(), <span class="number">3</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">truncate</span>(<span class="kw-2">&amp;</span><span class="string">&quot;您好&quot;</span>, <span class="kw-2">&amp;</span><span class="number">1</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;您...&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">truncate</span>(<span class="kw-2">&amp;</span><span class="string">&quot;您好&quot;</span>, <span class="kw-2">&amp;</span><span class="number">2</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;您...&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">truncate</span>(<span class="kw-2">&amp;</span><span class="string">&quot;您好&quot;</span>, <span class="kw-2">&amp;</span><span class="number">3</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;您...&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">truncate</span>(<span class="kw-2">&amp;</span><span class="string">&quot;您好&quot;</span>, <span class="kw-2">&amp;</span><span class="number">4</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;您好...&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">truncate</span>(<span class="kw-2">&amp;</span><span class="string">&quot;您好&quot;</span>, <span class="kw-2">&amp;</span><span class="number">6</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;您好&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">truncate</span>(<span class="kw-2">&amp;</span><span class="string">&quot;您好&quot;</span>, <span class="kw-2">&amp;</span><span class="number">7</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;您好&quot;</span>);
+        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;🤚a🤚&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">s</span>.<span class="ident">len</span>(), <span class="number">9</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;🤚&quot;</span>).<span class="ident">len</span>(), <span class="number">4</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">truncate</span>(<span class="kw-2">&amp;</span><span class="string">&quot;🤚a🤚&quot;</span>, <span class="kw-2">&amp;</span><span class="number">1</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;🤚...&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">truncate</span>(<span class="kw-2">&amp;</span><span class="string">&quot;🤚a🤚&quot;</span>, <span class="kw-2">&amp;</span><span class="number">2</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;🤚...&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">truncate</span>(<span class="kw-2">&amp;</span><span class="string">&quot;🤚a🤚&quot;</span>, <span class="kw-2">&amp;</span><span class="number">3</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;🤚...&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">truncate</span>(<span class="kw-2">&amp;</span><span class="string">&quot;🤚a🤚&quot;</span>, <span class="kw-2">&amp;</span><span class="number">4</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;🤚...&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">truncate</span>(<span class="kw-2">&amp;</span><span class="string">&quot;🤚a🤚&quot;</span>, <span class="kw-2">&amp;</span><span class="number">5</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;🤚a...&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">truncate</span>(<span class="kw-2">&amp;</span><span class="string">&quot;🤚a🤚&quot;</span>, <span class="kw-2">&amp;</span><span class="number">6</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;🤚a🤚...&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">truncate</span>(<span class="kw-2">&amp;</span><span class="string">&quot;🤚a🤚&quot;</span>, <span class="kw-2">&amp;</span><span class="number">9</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;🤚a🤚&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">truncate</span>(<span class="kw-2">&amp;</span><span class="string">&quot;🤚a🤚&quot;</span>, <span class="kw-2">&amp;</span><span class="number">10</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;🤚a🤚&quot;</span>);
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_indent</span>() {
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">indent</span>(<span class="kw-2">&amp;</span><span class="string">&quot;hello&quot;</span>, <span class="kw-2">&amp;</span><span class="number">2</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;hello&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">indent</span>(<span class="kw-2">&amp;</span><span class="string">&quot;hello\n&quot;</span>, <span class="kw-2">&amp;</span><span class="number">2</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;hello\n&quot;</span>);
@@ -811,26 +1130,26 @@
         );
     }
 
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;num_traits&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;num-traits&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">float_cmp</span>)]</span>
     <span class="kw">fn</span> <span class="ident">test_into_f64</span>() {
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">into_f64</span>(<span class="number">1</span>).<span class="ident">unwrap</span>(), <span class="number">1.0</span> <span class="kw">as</span> <span class="ident">f64</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">into_f64</span>(<span class="number">1.9</span>).<span class="ident">unwrap</span>(), <span class="number">1.9</span> <span class="kw">as</span> <span class="ident">f64</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">into_f64</span>(<span class="op">-</span><span class="number">1.9</span>).<span class="ident">unwrap</span>(), <span class="op">-</span><span class="number">1.9</span> <span class="kw">as</span> <span class="ident">f64</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">into_f64</span>(<span class="ident">INFINITY</span> <span class="kw">as</span> <span class="ident">f32</span>).<span class="ident">unwrap</span>(), <span class="ident">INFINITY</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">into_f64</span>(<span class="op">-</span><span class="ident">INFINITY</span> <span class="kw">as</span> <span class="ident">f32</span>).<span class="ident">unwrap</span>(), <span class="op">-</span><span class="ident">INFINITY</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">into_f64</span>(<span class="kw-2">&amp;</span><span class="number">1</span>).<span class="ident">unwrap</span>(), <span class="number">1.0</span> <span class="kw">as</span> <span class="ident">f64</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">into_f64</span>(<span class="kw-2">&amp;</span><span class="number">1.9</span>).<span class="ident">unwrap</span>(), <span class="number">1.9</span> <span class="kw">as</span> <span class="ident">f64</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">into_f64</span>(<span class="kw-2">&amp;</span><span class="op">-</span><span class="number">1.9</span>).<span class="ident">unwrap</span>(), <span class="op">-</span><span class="number">1.9</span> <span class="kw">as</span> <span class="ident">f64</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">into_f64</span>(<span class="kw-2">&amp;</span>(<span class="ident">INFINITY</span> <span class="kw">as</span> <span class="ident">f32</span>)).<span class="ident">unwrap</span>(), <span class="ident">INFINITY</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">into_f64</span>(<span class="kw-2">&amp;</span>(<span class="op">-</span><span class="ident">INFINITY</span> <span class="kw">as</span> <span class="ident">f32</span>)).<span class="ident">unwrap</span>(), <span class="op">-</span><span class="ident">INFINITY</span>);
     }
 
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;num_traits&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;num-traits&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_into_isize</span>() {
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">into_isize</span>(<span class="number">1</span>).<span class="ident">unwrap</span>(), <span class="number">1</span> <span class="kw">as</span> <span class="ident">isize</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">into_isize</span>(<span class="number">1.9</span>).<span class="ident">unwrap</span>(), <span class="number">1</span> <span class="kw">as</span> <span class="ident">isize</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">into_isize</span>(<span class="op">-</span><span class="number">1.9</span>).<span class="ident">unwrap</span>(), <span class="op">-</span><span class="number">1</span> <span class="kw">as</span> <span class="ident">isize</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">into_isize</span>(<span class="number">1.5</span> <span class="kw">as</span> <span class="ident">f64</span>).<span class="ident">unwrap</span>(), <span class="number">1</span> <span class="kw">as</span> <span class="ident">isize</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">into_isize</span>(<span class="op">-</span><span class="number">1.5</span> <span class="kw">as</span> <span class="ident">f64</span>).<span class="ident">unwrap</span>(), <span class="op">-</span><span class="number">1</span> <span class="kw">as</span> <span class="ident">isize</span>);
-        <span class="kw">match</span> <span class="ident">into_isize</span>(<span class="ident">INFINITY</span>) {
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">into_isize</span>(<span class="kw-2">&amp;</span><span class="number">1</span>).<span class="ident">unwrap</span>(), <span class="number">1</span> <span class="kw">as</span> <span class="ident">isize</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">into_isize</span>(<span class="kw-2">&amp;</span><span class="number">1.9</span>).<span class="ident">unwrap</span>(), <span class="number">1</span> <span class="kw">as</span> <span class="ident">isize</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">into_isize</span>(<span class="kw-2">&amp;</span><span class="op">-</span><span class="number">1.9</span>).<span class="ident">unwrap</span>(), <span class="op">-</span><span class="number">1</span> <span class="kw">as</span> <span class="ident">isize</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">into_isize</span>(<span class="kw-2">&amp;</span>(<span class="number">1.5</span> <span class="kw">as</span> <span class="ident">f64</span>)).<span class="ident">unwrap</span>(), <span class="number">1</span> <span class="kw">as</span> <span class="ident">isize</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">into_isize</span>(<span class="kw-2">&amp;</span>(<span class="op">-</span><span class="number">1.5</span> <span class="kw">as</span> <span class="ident">f64</span>)).<span class="ident">unwrap</span>(), <span class="op">-</span><span class="number">1</span> <span class="kw">as</span> <span class="ident">isize</span>);
+        <span class="kw">match</span> <span class="ident">into_isize</span>(<span class="kw-2">&amp;</span><span class="ident">INFINITY</span>) {
             <span class="prelude-val">Err</span>(<span class="ident">Fmt</span>(<span class="ident">fmt</span>::<span class="ident">Error</span>)) <span class="op">=</span><span class="op">&gt;</span> {}
             <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Should return error of type Err(Fmt(fmt::Error))&quot;</span>),
         };
@@ -852,7 +1171,7 @@
             <span class="ident">join</span>((<span class="kw-2">&amp;</span><span class="ident">input</span>).<span class="ident">iter</span>(), <span class="string">&quot;:&quot;</span>.<span class="ident">to_string</span>()).<span class="ident">unwrap</span>(),
             <span class="string">&quot;foo:bar:bazz&quot;</span>
         );
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">join</span>(<span class="ident">input</span>.<span class="ident">clone</span>().<span class="ident">iter</span>(), <span class="string">&quot;:&quot;</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;foo:bar:bazz&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">join</span>(<span class="ident">input</span>.<span class="ident">iter</span>(), <span class="string">&quot;:&quot;</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;foo:bar:bazz&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">join</span>(<span class="ident">input</span>.<span class="ident">iter</span>(), <span class="string">&quot;:&quot;</span>.<span class="ident">to_string</span>()).<span class="ident">unwrap</span>(), <span class="string">&quot;foo:bar:bazz&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">String</span>] <span class="op">=</span> <span class="kw-2">&amp;</span>[<span class="string">&quot;foo&quot;</span>.<span class="ident">into</span>(), <span class="string">&quot;bar&quot;</span>.<span class="ident">into</span>()];
@@ -864,12 +1183,12 @@
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">join</span>(<span class="ident">input</span>.<span class="ident">iter</span>(), <span class="string">&quot;;&quot;</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;blah&quot;</span>);
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(
-            <span class="ident">join</span>((<span class="kw-2">&amp;</span><span class="kw-2">&amp;</span><span class="kw-2">&amp;</span><span class="kw-2">&amp;</span><span class="kw-2">&amp;</span>[<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>]).<span class="ident">iter</span>(), <span class="string">&quot;, &quot;</span>).<span class="ident">unwrap</span>(),
+            <span class="ident">join</span>((<span class="op">&amp;&amp;</span><span class="op">&amp;&amp;</span><span class="kw-2">&amp;</span>[<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>]).<span class="ident">iter</span>(), <span class="string">&quot;, &quot;</span>).<span class="ident">unwrap</span>(),
             <span class="string">&quot;foo, bar&quot;</span>
         );
     }
 
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;num_traits&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;num-traits&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">float_cmp</span>)]</span>
     <span class="kw">fn</span> <span class="ident">test_abs</span>() {
@@ -908,4 +1227,4 @@
     }
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "askama_shared";</script><script src="../../../aliases.js"></script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "askama_shared";</script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>

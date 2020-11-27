@@ -1,4 +1,4 @@
 (function() {var implementors = {};
-implementors["amelio"] = [{"text":"impl <a class=\"trait\" href=\"rocket/fairing/trait.Fairing.html\" title=\"trait rocket::fairing::Fairing\">Fairing</a> for <a class=\"struct\" href=\"amelio/fairings/struct.Csp.html\" title=\"struct amelio::fairings::Csp\">Csp</a>","synthetic":false,"types":["amelio::fairings::Csp"]},{"text":"impl <a class=\"trait\" href=\"rocket/fairing/trait.Fairing.html\" title=\"trait rocket::fairing::Fairing\">Fairing</a> for <a class=\"struct\" href=\"amelio/fairings/struct.Auth.html\" title=\"struct amelio::fairings::Auth\">Auth</a>","synthetic":false,"types":["amelio::fairings::Auth"]}];
+implementors["amelio"] = [{"text":"impl Fairing for Csp","synthetic":false,"types":[]},{"text":"impl Fairing for Auth","synthetic":false,"types":[]}];
 implementors["rocket"] = [];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

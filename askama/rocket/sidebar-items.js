@@ -1,1 +1,0 @@
-initSidebarItems({"derive":[["Responder","Derive for the [`Responder`] trait."]],"fn":[["respond",""]],"struct":[["Request","The type of an incoming web request."]],"trait":[["Responder","Trait implemented by types that generate responses for clients."]],"type":[["Result","Type alias for the `Result` of a `Responder::respond` call."]]});

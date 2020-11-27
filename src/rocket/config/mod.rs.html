@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/rocket-0.4.5/src/config/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="https://rocket.rs/v0.4/images/favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../rocket/index.html'><div class='logo-container'><img src='https://rocket.rs/v0.4/images/logo-boxed.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/rocket-0.4.6/src/config/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script id="default-settings"></script><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="https://rocket.rs/v0.4/images/favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../rocket/index.html'><div class='logo-container'><img src='https://rocket.rs/v0.4/images/logo-boxed.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
+                <a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -1169,6 +1170,42 @@
 <span id="1169">1169</span>
 <span id="1170">1170</span>
 <span id="1171">1171</span>
+<span id="1172">1172</span>
+<span id="1173">1173</span>
+<span id="1174">1174</span>
+<span id="1175">1175</span>
+<span id="1176">1176</span>
+<span id="1177">1177</span>
+<span id="1178">1178</span>
+<span id="1179">1179</span>
+<span id="1180">1180</span>
+<span id="1181">1181</span>
+<span id="1182">1182</span>
+<span id="1183">1183</span>
+<span id="1184">1184</span>
+<span id="1185">1185</span>
+<span id="1186">1186</span>
+<span id="1187">1187</span>
+<span id="1188">1188</span>
+<span id="1189">1189</span>
+<span id="1190">1190</span>
+<span id="1191">1191</span>
+<span id="1192">1192</span>
+<span id="1193">1193</span>
+<span id="1194">1194</span>
+<span id="1195">1195</span>
+<span id="1196">1196</span>
+<span id="1197">1197</span>
+<span id="1198">1198</span>
+<span id="1199">1199</span>
+<span id="1200">1200</span>
+<span id="1201">1201</span>
+<span id="1202">1202</span>
+<span id="1203">1203</span>
+<span id="1204">1204</span>
+<span id="1205">1205</span>
+<span id="1206">1206</span>
+<span id="1207">1207</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Application configuration and configuration parameter retrieval.</span>
 <span class="doccomment">//!</span>
@@ -1203,18 +1240,20 @@
 <span class="doccomment">//! not used by Rocket itself but can be used by external libraries. The</span>
 <span class="doccomment">//! standard configuration parameters are:</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! | name       | type           | description                                                 | examples                   |</span>
-<span class="doccomment">//! |------------|----------------|-------------------------------------------------------------|----------------------------|</span>
-<span class="doccomment">//! | address    | string         | ip address or host to listen on                             | `&quot;localhost&quot;`, `&quot;1.2.3.4&quot;` |</span>
-<span class="doccomment">//! | port       | integer        | port number to listen on                                    | `8000`, `80`               |</span>
-<span class="doccomment">//! | keep_alive | integer        | keep-alive timeout in seconds                               | `0` (disable), `10`        |</span>
-<span class="doccomment">//! | workers    | integer        | number of concurrent thread workers                         | `36`, `512`                |</span>
-<span class="doccomment">//! | log        | string         | max log level: `&quot;off&quot;`, `&quot;normal&quot;`, `&quot;debug&quot;`, `&quot;critical&quot;` | `&quot;off&quot;`, `&quot;normal&quot;`        |</span>
-<span class="doccomment">//! | secret_key | 256-bit base64 | secret key for private cookies                              | `&quot;8Xui8SI...&quot;` (44 chars)  |</span>
-<span class="doccomment">//! | tls        | table          | tls config table with two keys (`certs`, `key`)             | _see below_                |</span>
-<span class="doccomment">//! | tls.certs  | string         | path to certificate chain in PEM format                     | `&quot;private/cert.pem&quot;`       |</span>
-<span class="doccomment">//! | tls.key    | string         | path to private key for `tls.certs` in PEM format           | `&quot;private/key.pem&quot;`        |</span>
-<span class="doccomment">//! | limits     | table          | map from data type (string) to data limit (integer: bytes)  | `{ forms = 65536 }`        |</span>
+<span class="doccomment">//! | name          | type           | description                                                 | examples                   |</span>
+<span class="doccomment">//! |------------   |----------------|-------------------------------------------------------------|----------------------------|</span>
+<span class="doccomment">//! | address       | string         | ip address or host to listen on                             | `&quot;localhost&quot;`, `&quot;1.2.3.4&quot;` |</span>
+<span class="doccomment">//! | port          | integer        | port number to listen on                                    | `8000`, `80`               |</span>
+<span class="doccomment">//! | keep_alive    | integer        | keep-alive timeout in seconds                               | `0` (disable), `10`        |</span>
+<span class="doccomment">//! | read_timeout  | integer        | data read timeout in seconds                                | `0` (disable), `5`         |</span>
+<span class="doccomment">//! | write_timeout | integer        | data write timeout in seconds                               | `0` (disable), `5`         |</span>
+<span class="doccomment">//! | workers       | integer        | number of concurrent thread workers                         | `36`, `512`                |</span>
+<span class="doccomment">//! | log           | string         | max log level: `&quot;off&quot;`, `&quot;normal&quot;`, `&quot;debug&quot;`, `&quot;critical&quot;` | `&quot;off&quot;`, `&quot;normal&quot;`        |</span>
+<span class="doccomment">//! | secret_key    | 256-bit base64 | secret key for private cookies                              | `&quot;8Xui8SI...&quot;` (44 chars)  |</span>
+<span class="doccomment">//! | tls           | table          | tls config table with two keys (`certs`, `key`)             | _see below_                |</span>
+<span class="doccomment">//! | tls.certs     | string         | path to certificate chain in PEM format                     | `&quot;private/cert.pem&quot;`       |</span>
+<span class="doccomment">//! | tls.key       | string         | path to private key for `tls.certs` in PEM format           | `&quot;private/key.pem&quot;`        |</span>
+<span class="doccomment">//! | limits        | table          | map from data type (string) to data limit (integer: bytes)  | `{ forms = 65536 }`        |</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ### Rocket.toml</span>
 <span class="doccomment">//!</span>
@@ -1236,6 +1275,8 @@
 <span class="doccomment">//! port = 8000</span>
 <span class="doccomment">//! workers = [number_of_cpus * 2]</span>
 <span class="doccomment">//! keep_alive = 5</span>
+<span class="doccomment">//! read_timeout = 5</span>
+<span class="doccomment">//! write_timeout = 5</span>
 <span class="doccomment">//! log = &quot;normal&quot;</span>
 <span class="doccomment">//! secret_key = [randomly generated at launch]</span>
 <span class="doccomment">//! limits = { forms = 32768 }</span>
@@ -1245,6 +1286,8 @@
 <span class="doccomment">//! port = 8000</span>
 <span class="doccomment">//! workers = [number_of_cpus * 2]</span>
 <span class="doccomment">//! keep_alive = 5</span>
+<span class="doccomment">//! read_timeout = 5</span>
+<span class="doccomment">//! write_timeout = 5</span>
 <span class="doccomment">//! log = &quot;normal&quot;</span>
 <span class="doccomment">//! secret_key = [randomly generated at launch]</span>
 <span class="doccomment">//! limits = { forms = 32768 }</span>
@@ -1254,6 +1297,8 @@
 <span class="doccomment">//! port = 8000</span>
 <span class="doccomment">//! workers = [number_of_cpus * 2]</span>
 <span class="doccomment">//! keep_alive = 5</span>
+<span class="doccomment">//! read_timeout = 5</span>
+<span class="doccomment">//! write_timeout = 5</span>
 <span class="doccomment">//! log = &quot;critical&quot;</span>
 <span class="doccomment">//! secret_key = [randomly generated at launch]</span>
 <span class="doccomment">//! limits = { forms = 32768 }</span>
@@ -1751,6 +1796,8 @@
             workers = 21
             log = &quot;critical&quot;
             keep_alive = 0
+            read_timeout = 1
+            write_timeout = 0
             secret_key = &quot;8Xui8SN4mI+7egV/9dlfYYLGQJeEx4+DwmSQLwDVXJg=&quot;
             template_dir = &quot;mine&quot;
             json = true
@@ -1763,6 +1810,8 @@
             .<span class="ident">workers</span>(<span class="number">21</span>)
             .<span class="ident">log_level</span>(<span class="ident">LoggingLevel</span>::<span class="ident">Critical</span>)
             .<span class="ident">keep_alive</span>(<span class="number">0</span>)
+            .<span class="ident">read_timeout</span>(<span class="number">1</span>)
+            .<span class="ident">write_timeout</span>(<span class="number">0</span>)
             .<span class="ident">secret_key</span>(<span class="string">&quot;8Xui8SN4mI+7egV/9dlfYYLGQJeEx4+DwmSQLwDVXJg=&quot;</span>)
             .<span class="ident">extra</span>(<span class="string">&quot;template_dir&quot;</span>, <span class="string">&quot;mine&quot;</span>)
             .<span class="ident">extra</span>(<span class="string">&quot;json&quot;</span>, <span class="bool-val">true</span>)
@@ -2038,7 +2087,7 @@
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_good_keep_alives</span>() {
+    <span class="kw">fn</span> <span class="ident">test_good_keep_alives_and_timeouts</span>() {
         <span class="comment">// Take the lock so changing the environment doesn&#39;t cause races.</span>
         <span class="kw">let</span> <span class="ident">_env_lock</span> <span class="op">=</span> <span class="ident">ENV_LOCK</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
         <span class="ident">env</span>::<span class="ident">set_var</span>(<span class="ident">CONFIG_ENV</span>, <span class="string">&quot;stage&quot;</span>);
@@ -2070,10 +2119,24 @@
                       &quot;#</span>.<span class="ident">to_string</span>(), <span class="ident">TEST_CONFIG_FILENAME</span>), {
                           <span class="ident">default_config</span>(<span class="ident">Staging</span>).<span class="ident">keep_alive</span>(<span class="number">0</span>)
                       });
+
+        <span class="macro">check_config</span><span class="macro">!</span>(<span class="ident">RocketConfig</span>::<span class="ident">parse</span>(<span class="string">r#&quot;
+                          [stage]
+                          read_timeout = 10
+                      &quot;#</span>.<span class="ident">to_string</span>(), <span class="ident">TEST_CONFIG_FILENAME</span>), {
+                          <span class="ident">default_config</span>(<span class="ident">Staging</span>).<span class="ident">read_timeout</span>(<span class="number">10</span>)
+                      });
+
+        <span class="macro">check_config</span><span class="macro">!</span>(<span class="ident">RocketConfig</span>::<span class="ident">parse</span>(<span class="string">r#&quot;
+                          [stage]
+                          write_timeout = 4
+                      &quot;#</span>.<span class="ident">to_string</span>(), <span class="ident">TEST_CONFIG_FILENAME</span>), {
+                          <span class="ident">default_config</span>(<span class="ident">Staging</span>).<span class="ident">write_timeout</span>(<span class="number">4</span>)
+                      });
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_bad_keep_alives</span>() {
+    <span class="kw">fn</span> <span class="ident">test_bad_keep_alives_and_timeouts</span>() {
         <span class="comment">// Take the lock so changing the environment doesn&#39;t cause races.</span>
         <span class="kw">let</span> <span class="ident">_env_lock</span> <span class="op">=</span> <span class="ident">ENV_LOCK</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
         <span class="ident">env</span>::<span class="ident">remove_var</span>(<span class="ident">CONFIG_ENV</span>);
@@ -2096,6 +2159,16 @@
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">RocketConfig</span>::<span class="ident">parse</span>(<span class="string">r#&quot;
             [dev]
             keep_alive = 4294967296
+        &quot;#</span>.<span class="ident">to_string</span>(), <span class="ident">TEST_CONFIG_FILENAME</span>).<span class="ident">is_err</span>());
+
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">RocketConfig</span>::<span class="ident">parse</span>(<span class="string">r#&quot;
+            [dev]
+            read_timeout = true
+        &quot;#</span>.<span class="ident">to_string</span>(), <span class="ident">TEST_CONFIG_FILENAME</span>).<span class="ident">is_err</span>());
+
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">RocketConfig</span>::<span class="ident">parse</span>(<span class="string">r#&quot;
+            [dev]
+            write_timeout = None
         &quot;#</span>.<span class="ident">to_string</span>(), <span class="ident">TEST_CONFIG_FILENAME</span>).<span class="ident">is_err</span>());
     }
 
@@ -2342,4 +2415,4 @@
     }
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "rocket";</script><script src="../../../aliases.js"></script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "rocket";</script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>
