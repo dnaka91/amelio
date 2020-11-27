@@ -1,5 +1,5 @@
 # syntax = docker/dockerfile:experimental
-FROM clux/muslrust:nightly-2020-05-12 as builder
+FROM clux/muslrust:nightly-2020-11-25 as builder
 
 COPY assets/ assets/
 COPY migrations/ migrations/
@@ -12,11 +12,11 @@ RUN --mount=type=cache,target=/root/.cargo/git \
     --mount=type=cache,target=/volume/target \
     cargo install --path .
 
-FROM alpine:3.11
+FROM alpine:3.12
 
 WORKDIR /data
 
-RUN apk add --no-cache ca-certificates tzdata
+RUN apk add --no-cache ca-certificates
 
 COPY --from=builder /root/.cargo/bin/amelio /app/
 

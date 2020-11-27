@@ -11,31 +11,31 @@ documentation = "https://dnaka91.github.io/amelio"
 build = "build.rs"
 
 [dependencies]
-anyhow = "1.0.31"
-askama = { version = "0.9.0", features = ["with-rocket"] }
-bcrypt = "0.8.0"
-chrono = "0.4.11"
-chrono-tz = "0.5.1"
-ctrlc = { version = "3.1.4", features = ["termination"] }
-diesel = { version = "1.4.4", features = ["r2d2", "sqlite"] }
+anyhow = "1.0.34"
+askama = { version = "0.10.5", default-features = false, features = ["with-rocket"] }
+askama_rocket = "0.10.0"
+bcrypt = "0.9.0"
+chrono = "0.4.19"
+chrono-tz = "0.5.3"
+ctrlc = { version = "3.1.7", features = ["termination"] }
+diesel = { version = "1.4.5", features = ["r2d2", "sqlite"] }
 diesel_migrations = "1.4.0"
 dotenv = "0.15.0"
-envy = "0.4.1"
 fnv = "1.0.7"
 lettre_email = "0.9.4"
-libsqlite3-sys = { version = "0.17.3", features = ["bundled"] }
-log = { version = "0.4.8", features = ["release_max_level_info"] }
-native-tls = { version = "0.2.4", features = ["vendored"] }
-num-traits = "0.2.11"
+libsqlite3-sys = { version = "0.18.0", features = ["bundled"] }
+log = { version = "0.4.11", features = ["release_max_level_info"] }
+native-tls = { version = "0.2.6", features = ["vendored"] }
+num-traits = "0.2.14"
 phf = "0.8.0"
 rand = "0.7.3"
-rocket = "0.4.5"
-rust-embed = "5.5.1"
-serde = { version = "1.0.111", features = ["derive"] }
-serde_json = "1.0.53"
-strum = { version = "0.18.0", features = ["derive"] }
-toml = "0.5.6"
-url = "2.1.1"
+rocket = "0.4.6"
+rust-embed = "5.6.0"
+serde = { version = "1.0.117", features = ["derive"] }
+serde_json = "1.0.59"
+strum = { version = "0.20.0", features = ["derive"] }
+toml = "0.5.7"
+url = "2.2.0"
 
 [dependencies.lettre]
 version = "0.9.3"
@@ -47,9 +47,9 @@ pretty_assertions = "0.6.1"
 
 [build-dependencies]
 hex = "0.4.2"
-ignore = "0.4.16"
+ignore = "0.4.17"
 phf_codegen = "0.8.0"
-sha-1 = "0.8.2"
+sha-1 = "0.9.2"
 
 [profile.release]
 lto = true
