@@ -55,7 +55,7 @@ impl<'a> MailSender for SmtpSender<'a> {
             ))
             .transport();
 
-        let email = EmailBuilder::new()
+        let email_message = EmailBuilder::new()
             // Usually SMTP servers refuse to send emails when the **From** field doesn't match with
             // the actual user account. Therefore, we just ignore the username from [`Mail`] and use
             // the configuration's username instead.
@@ -65,7 +65,8 @@ impl<'a> MailSender for SmtpSender<'a> {
             .text(mail.message)
             .build()?;
 
-        std::thread::spawn(move || match sender.send(email.into()) {
+        #[allow(clippy::match_wildcard_for_single_variants)]
+        std::thread::spawn(move || match sender.send(email_message.into()) {
             Ok(r) if !r.is_positive() => error!("Failed sending email: {}", r.code),
             Err(e) => error!("Failed sending email: {:?}", e),
             _ => (),
@@ -76,7 +77,7 @@ impl<'a> MailSender for SmtpSender<'a> {
 }
 
 /// Create a new mail sender that uses a SMTP client.
-pub fn new_smtp_sender<'a>(config: &'a SmtpConfig) -> impl MailSender + 'a {
+pub fn new_smtp_sender(config: &SmtpConfig) -> impl MailSender + '_ {
     SmtpSender { config }
 }
 
@@ -182,6 +183,6 @@ impl<'a> MailRenderer for MailRendererImpl<'a> {
 }
 
 /// Create a new mail renderer.
-pub fn new_mail_renderer<'a>(host: &'a str) -> impl MailRenderer + 'a {
+pub fn new_mail_renderer(host: &str) -> impl MailRenderer + '_ {
     MailRendererImpl { host }
 }

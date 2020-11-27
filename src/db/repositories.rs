@@ -161,7 +161,7 @@ impl<'a> UserRepository for UserRepositoryImpl<'a> {
 }
 
 /// Create a new user repository.
-pub fn user_repo<'a>(conn: &'a SqliteConnection) -> impl UserRepository + 'a {
+pub fn user_repo(conn: &SqliteConnection) -> impl UserRepository + '_ {
     UserRepositoryImpl { conn }
 }
 
@@ -303,7 +303,7 @@ impl<'a> CourseRepository for CourseRepositoryImpl<'a> {
 }
 
 /// Create a new course repository.
-pub fn course_repo<'a>(conn: &'a SqliteConnection) -> impl CourseRepository + 'a {
+pub fn course_repo(conn: &SqliteConnection) -> impl CourseRepository + '_ {
     CourseRepositoryImpl { conn }
 }
 
@@ -807,6 +807,6 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
 }
 
 /// Create a new ticket repository.
-pub fn ticket_repo<'a>(conn: &'a SqliteConnection) -> impl TicketRepository + 'a {
+pub fn ticket_repo(conn: &SqliteConnection) -> impl TicketRepository + '_ {
     TicketRepositoryImpl { conn }
 }

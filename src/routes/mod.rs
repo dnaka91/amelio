@@ -1,6 +1,6 @@
 //! All routes for the server.
 
-#![allow(clippy::missing_const_for_fn)]
+#![allow(clippy::map_err_ignore, clippy::missing_const_for_fn)]
 #![cfg_attr(doc, allow(unused_braces))]
 
 use std::convert::{TryFrom, TryInto};

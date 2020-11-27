@@ -100,7 +100,7 @@ pub enum TicketType {
 }
 
 impl TicketType {
-    pub fn medium(self) -> MediumType {
+    pub const fn medium(self) -> MediumType {
         match self {
             Self::CourseBook | Self::ReadingList | Self::Presentation => MediumType::Text,
             Self::Vodcast | Self::Podcast | Self::LiveTutorialRecording => MediumType::Recording,

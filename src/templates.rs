@@ -55,11 +55,7 @@ mod filters {
     /// Return the string representation of a value if it exists or an empty string if it's
     /// [`None`].
     pub fn opt_str<T: AsRef<str>>(opt: &Option<T>) -> askama::Result<&str> {
-        if let Some(value) = opt {
-            Ok(value.as_ref())
-        } else {
-            Ok("")
-        }
+        Ok(opt.as_ref().map_or("", AsRef::as_ref))
     }
 
     /// Compare two values and return ` selected` if they match, an empty string otherwise. This is
@@ -71,11 +67,7 @@ mod filters {
     /// Compare two values exactly as [`select`] but with the first value being optional.
     /// If the first value is [`None`], an empty string is returned.
     pub fn opt_select<T: Eq>(opt: &Option<T>, other: &T) -> askama::Result<&'static str> {
-        if let Some(value) = opt {
-            select(value, other)
-        } else {
-            Ok("")
-        }
+        opt.as_ref().map_or(Ok(""), |value|select(value,other))
     }
 }
 

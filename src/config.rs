@@ -47,6 +47,7 @@ pub fn load() -> Result<(RocketConfig, Config)> {
 
     let config = RocketConfig::build(environment).port(file_config.port.unwrap_or(8080));
 
+    #[allow(clippy::clippy::option_if_let_else)]
     #[cfg(debug_assertions)]
     let config = if let Some(ref secret_key) = file_config.secret_key {
         config.secret_key(secret_key)
