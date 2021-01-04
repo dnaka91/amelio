@@ -74,6 +74,7 @@ fn load_file() -> Result<Config> {
 }
 
 #[cfg(test)]
+#[allow(clippy::unnecessary_wraps)]
 fn load_file() -> Result<Config> {
     Ok(Config {
         port: None,

@@ -92,6 +92,7 @@ where
 
         iter::repeat(())
             .map(|_| rng.sample(Alphanumeric))
+            .map(char::from)
             .take(20)
             .collect()
     }

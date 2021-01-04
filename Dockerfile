@@ -1,5 +1,5 @@
 # syntax = docker/dockerfile:experimental
-FROM clux/muslrust:nightly-2020-11-25 as builder
+FROM clux/muslrust:nightly-2021-01-01 as builder
 
 COPY assets/ assets/
 COPY migrations/ migrations/

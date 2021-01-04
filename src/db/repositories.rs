@@ -382,7 +382,9 @@ impl<'a> TicketRepositoryImpl<'a> {
             .log_query()
             .load::<(i32, String, i32, i32)>(self.conn)
             .map(|data| {
-                FnvHashMap::from_iter(data.into_iter().map(|row| (row.0, (row.1, row.2, row.3))))
+                data.into_iter()
+                    .map(|row| (row.0, (row.1, row.2, row.3)))
+                    .collect::<FnvHashMap<_, _>>()
             })?;
 
         for (_, author_id, tutor_id) in courses.values() {

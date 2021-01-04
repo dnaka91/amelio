@@ -124,6 +124,7 @@ fn create_admin_user(conn: &SqliteConnection) -> Result<()> {
     } else {
         let password = iter::repeat(())
             .map(|_| rng.sample(Alphanumeric))
+            .map(char::from)
             .take(16)
             .collect::<String>();
 
