@@ -67,7 +67,7 @@ pub fn load() -> Result<(RocketConfig, Config)> {
 fn load_file() -> Result<Config> {
     use std::{env, fs};
 
-    const DEFAULT_CONFIG_FILE: &str = concat!("/etc/", env!("CARGO_PKG_NAME", "/config.toml"));
+    const DEFAULT_CONFIG_FILE: &str = concat!("/etc/", env!("CARGO_PKG_NAME"), "/config.toml");
 
     let path = env::var("CONFIG_FILE").unwrap_or_else(|_| String::from(DEFAULT_CONFIG_FILE));
     let file = fs::read(path)?;
