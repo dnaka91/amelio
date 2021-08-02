@@ -50,7 +50,7 @@ pub fn get<'r>(file: PathBuf, inm: Option<IfNoneMatch>) -> rocket::response::Res
 
     Assets::get(file_str.as_ref()).map_or_else(
         || Err(Status::NotFound),
-        |data| {
+        |embedded_file| {
             let ext = file.extension().and_then(OsStr::to_str).unwrap_or_default();
             let content_type = ContentType::from_extension(ext).unwrap_or(ContentType::Binary);
 
@@ -61,7 +61,7 @@ pub fn get<'r>(file: PathBuf, inm: Option<IfNoneMatch>) -> rocket::response::Res
                     CacheDirective::MaxAge(315_360_000),
                 ]))
                 .header(ETag(EntityTag::new(false, get_etag(file_str))))
-                .sized_body(Cursor::new(data))
+                .sized_body(Cursor::new(embedded_file.data))
                 .ok()
         },
     )

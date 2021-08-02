@@ -640,7 +640,7 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
                 NewMedium::Interactive { url } => diesel::insert_into(medium_interactives::table)
                     .values(MediumInteractiveEntity {
                         ticket_id,
-                        url: url.into_string(),
+                        url: url.into(),
                     })
                     .log_query()
                     .execute(self.conn),
