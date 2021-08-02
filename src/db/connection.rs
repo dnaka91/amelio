@@ -1,5 +1,6 @@
 //! Connection creation for the database.
 
+use std::fs;
 use std::ops::Deref;
 
 use diesel::r2d2::{
@@ -10,6 +11,9 @@ use rocket::fairing::{AdHoc, Fairing};
 use rocket::http::Status;
 use rocket::request::{self, FromRequest};
 use rocket::{Outcome, Request, State};
+
+const STATE_DIR: &str = concat!("/var/lib/", env!("CARGO_PKG_NAME"));
+const DB_FILE: &str = concat!("/var/lib/", env!("CARGO_PKG_NAME"), "/data.db");
 
 /// Customizer to run specific commands for every newly created connection.
 #[derive(Copy, Clone, Debug)]
@@ -47,7 +51,15 @@ impl DbConn {
     /// Create a fairing for Rocket.
     pub fn fairing() -> impl Fairing {
         AdHoc::on_attach("Database Pool", |rocket| {
-            let url = if cfg!(test) { ":memory:" } else { "data.db" };
+            let url = if cfg!(test) {
+                ":memory:"
+            } else {
+                if let Err(e) = fs::create_dir_all(STATE_DIR) {
+                    rocket::logger::error(&format!("Failed creating database file\n{:?}", e));
+                }
+
+                DB_FILE
+            };
             let manager = ConnectionManager::<SqliteConnection>::new(url);
 
             // First create a single connection to make sure all eventually locking PRAGMAs are run,

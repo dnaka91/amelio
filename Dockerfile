@@ -18,8 +18,6 @@ RUN strip --strip-all /root/.cargo/bin/amelio
 
 FROM alpine:3.14
 
-WORKDIR /data
-
 RUN apk add --no-cache ca-certificates
 
 COPY --from=builder /root/.cargo/bin/amelio /bin/
