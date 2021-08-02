@@ -12,6 +12,7 @@ use crate::models::{
 
 mod filters {
     //! Custom filters for [`askama`] templates.
+    #![allow(clippy::unnecessary_wraps)]
 
     use chrono::prelude::*;
     use chrono_tz::Europe::Berlin;
