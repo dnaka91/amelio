@@ -1,7 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/openssl-0.10.32/src/symm.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>symm.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings"></script><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="alternate icon" type="image/png" href="../../favicon-16x16.png">
-<link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../openssl/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
-                <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `&#x2F;home&#x2F;runner&#x2F;.cargo&#x2F;registry&#x2F;src&#x2F;github.com-1ecc6299db9ec823&#x2F;openssl-0.10.35&#x2F;src&#x2F;symm.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>symm.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg"><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../openssl/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -1553,7 +1550,18 @@
 <span id="1550">1550</span>
 <span id="1551">1551</span>
 <span id="1552">1552</span>
-</pre><div class="example-wrap"><pre class="rust ">
+<span id="1553">1553</span>
+<span id="1554">1554</span>
+<span id="1555">1555</span>
+<span id="1556">1556</span>
+<span id="1557">1557</span>
+<span id="1558">1558</span>
+<span id="1559">1559</span>
+<span id="1560">1560</span>
+<span id="1561">1561</span>
+<span id="1562">1562</span>
+<span id="1563">1563</span>
+</pre><pre class="rust">
 <span class="doccomment">//! High level interface to certain symmetric ciphers.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! # Examples</span>
@@ -1608,14 +1616,14 @@
 <span class="doccomment">//! println!(&quot;Decrypted: &#39;{}&#39;&quot;, output_string);</span>
 <span class="doccomment">//! ```</span>
 
-<span class="kw">use</span> <span class="ident">ffi</span>;
-<span class="kw">use</span> <span class="ident">libc</span>::<span class="ident">c_int</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cmp</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ptr</span>;
+<span class="kw">use</span> <span class="ident">cfg_if::cfg_if</span>;
+<span class="kw">use</span> <span class="ident">libc::c_int</span>;
+<span class="kw">use</span> <span class="ident">std::cmp</span>;
+<span class="kw">use</span> <span class="ident">std::ptr</span>;
 
-<span class="kw">use</span> <span class="ident">error</span>::<span class="ident">ErrorStack</span>;
-<span class="kw">use</span> <span class="ident">nid</span>::<span class="ident">Nid</span>;
-<span class="kw">use</span> {<span class="ident">cvt</span>, <span class="ident">cvt_p</span>};
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::error::ErrorStack</span>;
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::nid::Nid</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">cvt</span>, <span class="ident">cvt_p</span>};
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Mode</span> {
@@ -1629,7 +1637,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// [`EVP_EncryptInit`]: https://www.openssl.org/docs/man1.1.0/crypto/EVP_EncryptInit.html</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Cipher</span>(<span class="kw-2">*</span><span class="kw">const</span> <span class="ident">ffi</span>::<span class="ident">EVP_CIPHER</span>);
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Cipher</span>(<span class="kw-2">*</span><span class="kw">const</span> <span class="ident">ffi::EVP_CIPHER</span>);
 
 <span class="kw">impl</span> <span class="ident">Cipher</span> {
     <span class="doccomment">/// Looks up the cipher for a certain nid.</span>
@@ -1638,7 +1646,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`EVP_get_cipherbynid`]: https://www.openssl.org/docs/man1.0.2/crypto/EVP_get_cipherbyname.html</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_nid</span>(<span class="ident">nid</span>: <span class="ident">Nid</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Cipher</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">ffi</span>::<span class="ident">EVP_get_cipherbyname</span>(<span class="ident">ffi</span>::<span class="ident">OBJ_nid2sn</span>(<span class="ident">nid</span>.<span class="ident">as_raw</span>())) };
+        <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">ffi::EVP_get_cipherbyname</span>(<span class="ident">ffi::OBJ_nid2sn</span>(<span class="ident">nid</span>.<span class="ident">as_raw</span>())) };
         <span class="kw">if</span> <span class="ident">ptr</span>.<span class="ident">is_null</span>() {
             <span class="prelude-val">None</span>
         } <span class="kw">else</span> {
@@ -1646,194 +1654,204 @@
         }
     }
 
+    <span class="doccomment">/// Returns the cipher&#39;s Nid.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This corresponds to [`EVP_CIPHER_nid`]</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [`EVP_CIPHER_nid`]: https://www.openssl.org/docs/man1.0.2/crypto/EVP_CIPHER_nid.html</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">nid</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Nid</span> {
+        <span class="kw">let</span> <span class="ident">nid</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">ffi::EVP_CIPHER_nid</span>(<span class="self">self</span>.<span class="number">0</span>) };
+        <span class="ident">Nid::from_raw</span>(<span class="ident">nid</span>)
+    }
+
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">aes_128_ecb</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_aes_128_ecb</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_aes_128_ecb</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">aes_128_cbc</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_aes_128_cbc</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_aes_128_cbc</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">aes_128_xts</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_aes_128_xts</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_aes_128_xts</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">aes_128_ctr</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_aes_128_ctr</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_aes_128_ctr</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">aes_128_cfb1</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_aes_128_cfb1</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_aes_128_cfb1</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">aes_128_cfb128</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_aes_128_cfb128</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_aes_128_cfb128</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">aes_128_cfb8</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_aes_128_cfb8</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_aes_128_cfb8</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">aes_128_gcm</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_aes_128_gcm</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_aes_128_gcm</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">aes_128_ccm</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_aes_128_ccm</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_aes_128_ccm</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">aes_128_ofb</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_aes_128_ofb</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_aes_128_ofb</span>()) }
     }
 
     <span class="doccomment">/// Requires OpenSSL 1.1.0 or newer.</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">ossl110</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">aes_128_ocb</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_aes_128_ocb</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_aes_128_ocb</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">aes_192_ecb</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_aes_192_ecb</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_aes_192_ecb</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">aes_192_cbc</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_aes_192_cbc</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_aes_192_cbc</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">aes_192_ctr</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_aes_192_ctr</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_aes_192_ctr</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">aes_192_cfb1</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_aes_192_cfb1</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_aes_192_cfb1</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">aes_192_cfb128</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_aes_192_cfb128</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_aes_192_cfb128</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">aes_192_cfb8</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_aes_192_cfb8</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_aes_192_cfb8</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">aes_192_gcm</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_aes_192_gcm</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_aes_192_gcm</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">aes_192_ccm</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_aes_192_ccm</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_aes_192_ccm</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">aes_192_ofb</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_aes_192_ofb</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_aes_192_ofb</span>()) }
     }
 
     <span class="doccomment">/// Requires OpenSSL 1.1.0 or newer.</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">ossl110</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">aes_192_ocb</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_aes_192_ocb</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_aes_192_ocb</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">aes_256_ecb</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_aes_256_ecb</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_aes_256_ecb</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">aes_256_cbc</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_aes_256_cbc</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_aes_256_cbc</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">aes_256_xts</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_aes_256_xts</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_aes_256_xts</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">aes_256_ctr</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_aes_256_ctr</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_aes_256_ctr</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">aes_256_cfb1</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_aes_256_cfb1</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_aes_256_cfb1</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">aes_256_cfb128</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_aes_256_cfb128</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_aes_256_cfb128</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">aes_256_cfb8</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_aes_256_cfb8</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_aes_256_cfb8</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">aes_256_gcm</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_aes_256_gcm</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_aes_256_gcm</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">aes_256_ccm</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_aes_256_ccm</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_aes_256_ccm</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">aes_256_ofb</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_aes_256_ofb</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_aes_256_ofb</span>()) }
     }
 
     <span class="doccomment">/// Requires OpenSSL 1.1.0 or newer.</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">ossl110</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">aes_256_ocb</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_aes_256_ocb</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_aes_256_ocb</span>()) }
     }
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">osslconf</span> <span class="op">=</span> <span class="string">&quot;OPENSSL_NO_BF&quot;</span>))]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">bf_cbc</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_bf_cbc</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_bf_cbc</span>()) }
     }
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">osslconf</span> <span class="op">=</span> <span class="string">&quot;OPENSSL_NO_BF&quot;</span>))]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">bf_ecb</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_bf_ecb</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_bf_ecb</span>()) }
     }
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">osslconf</span> <span class="op">=</span> <span class="string">&quot;OPENSSL_NO_BF&quot;</span>))]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">bf_cfb64</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_bf_cfb64</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_bf_cfb64</span>()) }
     }
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">osslconf</span> <span class="op">=</span> <span class="string">&quot;OPENSSL_NO_BF&quot;</span>))]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">bf_ofb</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_bf_ofb</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_bf_ofb</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">des_cbc</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_des_cbc</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_des_cbc</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">des_ecb</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_des_ecb</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_des_ecb</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">des_ede3</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_des_ede3</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_des_ede3</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">des_ede3_cbc</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_des_ede3_cbc</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_des_ede3_cbc</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">des_ede3_cfb64</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_des_ede3_cfb64</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_des_ede3_cfb64</span>()) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rc4</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_rc4</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_rc4</span>()) }
     }
 
     <span class="doccomment">/// Requires OpenSSL 1.1.0 or newer.</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">ossl110</span>))]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">chacha20</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_chacha20</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_chacha20</span>()) }
     }
 
     <span class="doccomment">/// Requires OpenSSL 1.1.0 or newer.</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">ossl110</span>))]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">chacha20_poly1305</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi</span>::<span class="ident">EVP_chacha20_poly1305</span>()) }
+        <span class="kw">unsafe</span> { <span class="ident">Cipher</span>(<span class="ident">ffi::EVP_chacha20_poly1305</span>()) }
     }
 
     <span class="doccomment">/// Creates a `Cipher` from a raw pointer to its OpenSSL type.</span>
@@ -1841,24 +1859,24 @@
     <span class="doccomment">/// # Safety</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// The caller must ensure the pointer is valid for the `&#39;static` lifetime.</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">from_ptr</span>(<span class="ident">ptr</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">ffi</span>::<span class="ident">EVP_CIPHER</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
+    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">from_ptr</span>(<span class="ident">ptr</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">ffi::EVP_CIPHER</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cipher</span> {
         <span class="ident">Cipher</span>(<span class="ident">ptr</span>)
     }
 
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">trivially_copy_pass_by_ref</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_ptr</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">ffi</span>::<span class="ident">EVP_CIPHER</span> {
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::trivially_copy_pass_by_ref</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_ptr</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">ffi::EVP_CIPHER</span> {
         <span class="self">self</span>.<span class="number">0</span>
     }
 
     <span class="doccomment">/// Returns the length of keys used with this cipher.</span>
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">trivially_copy_pass_by_ref</span>)]</span>
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::trivially_copy_pass_by_ref</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">key_len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
         <span class="kw">unsafe</span> { <span class="ident">EVP_CIPHER_key_length</span>(<span class="self">self</span>.<span class="number">0</span>) <span class="kw">as</span> <span class="ident">usize</span> }
     }
 
     <span class="doccomment">/// Returns the length of the IV used with this cipher, or `None` if the</span>
     <span class="doccomment">/// cipher does not use an IV.</span>
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">trivially_copy_pass_by_ref</span>)]</span>
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::trivially_copy_pass_by_ref</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iv_len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
         <span class="kw">unsafe</span> {
             <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">EVP_CIPHER_iv_length</span>(<span class="self">self</span>.<span class="number">0</span>) <span class="kw">as</span> <span class="ident">usize</span>;
@@ -1875,7 +1893,7 @@
     <span class="doccomment">/// # Note</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Stream ciphers such as RC4 have a block size of 1.</span>
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">trivially_copy_pass_by_ref</span>)]</span>
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::trivially_copy_pass_by_ref</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">block_size</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
         <span class="kw">unsafe</span> { <span class="ident">EVP_CIPHER_block_size</span>(<span class="self">self</span>.<span class="number">0</span>) <span class="kw">as</span> <span class="ident">usize</span> }
     }
@@ -1883,15 +1901,15 @@
     <span class="doccomment">/// Determines whether the cipher is using CCM mode</span>
     <span class="kw">fn</span> <span class="ident">is_ccm</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="comment">// NOTE: OpenSSL returns pointers to static structs, which makes this work as expected</span>
-        <span class="self">self</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Cipher</span>::<span class="ident">aes_128_ccm</span>() <span class="op">|</span><span class="op">|</span> <span class="self">self</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Cipher</span>::<span class="ident">aes_256_ccm</span>()
+        <span class="self">self</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Cipher::aes_128_ccm</span>() <span class="op">|</span><span class="op">|</span> <span class="self">self</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Cipher::aes_256_ccm</span>()
     }
 
     <span class="doccomment">/// Determines whether the cipher is using OCB mode</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">ossl110</span>)]</span>
     <span class="kw">fn</span> <span class="ident">is_ocb</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="self">self</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Cipher</span>::<span class="ident">aes_128_ocb</span>()
-            <span class="op">|</span><span class="op">|</span> <span class="self">self</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Cipher</span>::<span class="ident">aes_192_ocb</span>()
-            <span class="op">|</span><span class="op">|</span> <span class="self">self</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Cipher</span>::<span class="ident">aes_256_ocb</span>()
+        <span class="self">self</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Cipher::aes_128_ocb</span>()
+            <span class="op">|</span><span class="op">|</span> <span class="self">self</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Cipher::aes_192_ocb</span>()
+            <span class="op">|</span><span class="op">|</span> <span class="self">self</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Cipher::aes_256_ocb</span>()
     }
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">ossl110</span>))]</span>
@@ -1964,7 +1982,7 @@
 <span class="doccomment">/// assert_eq!(b&quot;Some Stream of Crypto Text&quot;, &amp;plaintext[..]);</span>
 <span class="doccomment">/// ```</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Crypter</span> {
-    <span class="ident">ctx</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">ffi</span>::<span class="ident">EVP_CIPHER_CTX</span>,
+    <span class="ident">ctx</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">ffi::EVP_CIPHER_CTX</span>,
     <span class="ident">block_size</span>: <span class="ident">usize</span>,
 }
 
@@ -1985,31 +2003,31 @@
         <span class="ident">key</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
         <span class="ident">iv</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Crypter</span>, <span class="ident">ErrorStack</span><span class="op">&gt;</span> {
-        <span class="ident">ffi</span>::<span class="ident">init</span>();
+        <span class="ident">ffi::init</span>();
 
         <span class="kw">unsafe</span> {
-            <span class="kw">let</span> <span class="ident">ctx</span> <span class="op">=</span> <span class="ident">cvt_p</span>(<span class="ident">ffi</span>::<span class="ident">EVP_CIPHER_CTX_new</span>())<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">ctx</span> <span class="op">=</span> <span class="ident">cvt_p</span>(<span class="ident">ffi::EVP_CIPHER_CTX_new</span>())<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">crypter</span> <span class="op">=</span> <span class="ident">Crypter</span> {
                 <span class="ident">ctx</span>,
                 <span class="ident">block_size</span>: <span class="ident">t</span>.<span class="ident">block_size</span>(),
             };
 
             <span class="kw">let</span> <span class="ident">mode</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">mode</span> {
-                <span class="ident">Mode</span>::<span class="ident">Encrypt</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">1</span>,
-                <span class="ident">Mode</span>::<span class="ident">Decrypt</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0</span>,
+                <span class="ident">Mode::Encrypt</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">1</span>,
+                <span class="ident">Mode::Decrypt</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0</span>,
             };
 
-            <span class="ident">cvt</span>(<span class="ident">ffi</span>::<span class="ident">EVP_CipherInit_ex</span>(
+            <span class="ident">cvt</span>(<span class="ident">ffi::EVP_CipherInit_ex</span>(
                 <span class="ident">crypter</span>.<span class="ident">ctx</span>,
                 <span class="ident">t</span>.<span class="ident">as_ptr</span>(),
-                <span class="ident">ptr</span>::<span class="ident">null_mut</span>(),
-                <span class="ident">ptr</span>::<span class="ident">null_mut</span>(),
-                <span class="ident">ptr</span>::<span class="ident">null_mut</span>(),
+                <span class="ident">ptr::null_mut</span>(),
+                <span class="ident">ptr::null_mut</span>(),
+                <span class="ident">ptr::null_mut</span>(),
                 <span class="ident">mode</span>,
             ))<span class="question-mark">?</span>;
 
-            <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">key</span>.<span class="ident">len</span>() <span class="op">&lt;</span><span class="op">=</span> <span class="ident">c_int</span>::<span class="ident">max_value</span>() <span class="kw">as</span> <span class="ident">usize</span>);
-            <span class="ident">cvt</span>(<span class="ident">ffi</span>::<span class="ident">EVP_CIPHER_CTX_set_key_length</span>(
+            <span class="macro">assert!</span>(<span class="ident">key</span>.<span class="ident">len</span>() <span class="op">&lt;</span><span class="op">=</span> <span class="ident">c_int::max_value</span>() <span class="kw">as</span> <span class="ident">usize</span>);
+            <span class="ident">cvt</span>(<span class="ident">ffi::EVP_CIPHER_CTX_set_key_length</span>(
                 <span class="ident">crypter</span>.<span class="ident">ctx</span>,
                 <span class="ident">key</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">c_int</span>,
             ))<span class="question-mark">?</span>;
@@ -2018,23 +2036,23 @@
             <span class="kw">let</span> <span class="ident">iv</span> <span class="op">=</span> <span class="kw">match</span> (<span class="ident">iv</span>, <span class="ident">t</span>.<span class="ident">iv_len</span>()) {
                 (<span class="prelude-val">Some</span>(<span class="ident">iv</span>), <span class="prelude-val">Some</span>(<span class="ident">len</span>)) <span class="op">=</span><span class="op">&gt;</span> {
                     <span class="kw">if</span> <span class="ident">iv</span>.<span class="ident">len</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">len</span> {
-                        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">iv</span>.<span class="ident">len</span>() <span class="op">&lt;</span><span class="op">=</span> <span class="ident">c_int</span>::<span class="ident">max_value</span>() <span class="kw">as</span> <span class="ident">usize</span>);
-                        <span class="ident">cvt</span>(<span class="ident">ffi</span>::<span class="ident">EVP_CIPHER_CTX_ctrl</span>(
+                        <span class="macro">assert!</span>(<span class="ident">iv</span>.<span class="ident">len</span>() <span class="op">&lt;</span><span class="op">=</span> <span class="ident">c_int::max_value</span>() <span class="kw">as</span> <span class="ident">usize</span>);
+                        <span class="ident">cvt</span>(<span class="ident">ffi::EVP_CIPHER_CTX_ctrl</span>(
                             <span class="ident">crypter</span>.<span class="ident">ctx</span>,
-                            <span class="ident">ffi</span>::<span class="ident">EVP_CTRL_GCM_SET_IVLEN</span>,
+                            <span class="ident">ffi::EVP_CTRL_GCM_SET_IVLEN</span>,
                             <span class="ident">iv</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">c_int</span>,
-                            <span class="ident">ptr</span>::<span class="ident">null_mut</span>(),
+                            <span class="ident">ptr::null_mut</span>(),
                         ))<span class="question-mark">?</span>;
                     }
                     <span class="ident">iv</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="kw">_</span>
                 }
-                (<span class="prelude-val">Some</span>(<span class="kw">_</span>), <span class="prelude-val">None</span>) <span class="op">|</span> (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ptr</span>::<span class="ident">null_mut</span>(),
-                (<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="kw">_</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;an IV is required for this cipher&quot;</span>),
+                (<span class="prelude-val">Some</span>(<span class="kw">_</span>), <span class="prelude-val">None</span>) <span class="op">|</span> (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ptr::null_mut</span>(),
+                (<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="kw">_</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic!</span>(<span class="string">&quot;an IV is required for this cipher&quot;</span>),
             };
-            <span class="ident">cvt</span>(<span class="ident">ffi</span>::<span class="ident">EVP_CipherInit_ex</span>(
+            <span class="ident">cvt</span>(<span class="ident">ffi::EVP_CipherInit_ex</span>(
                 <span class="ident">crypter</span>.<span class="ident">ctx</span>,
-                <span class="ident">ptr</span>::<span class="ident">null</span>(),
-                <span class="ident">ptr</span>::<span class="ident">null_mut</span>(),
+                <span class="ident">ptr::null</span>(),
+                <span class="ident">ptr::null_mut</span>(),
                 <span class="ident">key</span>,
                 <span class="ident">iv</span>,
                 <span class="ident">mode</span>,
@@ -2050,7 +2068,7 @@
     <span class="doccomment">/// be a multiple of the cipher&#39;s block size.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">pad</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">padding</span>: <span class="ident">bool</span>) {
         <span class="kw">unsafe</span> {
-            <span class="ident">ffi</span>::<span class="ident">EVP_CIPHER_CTX_set_padding</span>(<span class="self">self</span>.<span class="ident">ctx</span>, <span class="ident">padding</span> <span class="kw">as</span> <span class="ident">c_int</span>);
+            <span class="ident">ffi::EVP_CIPHER_CTX_set_padding</span>(<span class="self">self</span>.<span class="ident">ctx</span>, <span class="ident">padding</span> <span class="kw">as</span> <span class="ident">c_int</span>);
         }
     }
 
@@ -2059,11 +2077,11 @@
     <span class="doccomment">/// When decrypting cipher text using an AEAD cipher, this must be called before `finalize`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_tag</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">tag</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ErrorStack</span><span class="op">&gt;</span> {
         <span class="kw">unsafe</span> {
-            <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">tag</span>.<span class="ident">len</span>() <span class="op">&lt;</span><span class="op">=</span> <span class="ident">c_int</span>::<span class="ident">max_value</span>() <span class="kw">as</span> <span class="ident">usize</span>);
+            <span class="macro">assert!</span>(<span class="ident">tag</span>.<span class="ident">len</span>() <span class="op">&lt;</span><span class="op">=</span> <span class="ident">c_int::max_value</span>() <span class="kw">as</span> <span class="ident">usize</span>);
             <span class="comment">// NB: this constant is actually more general than just GCM.</span>
-            <span class="ident">cvt</span>(<span class="ident">ffi</span>::<span class="ident">EVP_CIPHER_CTX_ctrl</span>(
+            <span class="ident">cvt</span>(<span class="ident">ffi::EVP_CIPHER_CTX_ctrl</span>(
                 <span class="self">self</span>.<span class="ident">ctx</span>,
-                <span class="ident">ffi</span>::<span class="ident">EVP_CTRL_GCM_SET_TAG</span>,
+                <span class="ident">ffi::EVP_CTRL_GCM_SET_TAG</span>,
                 <span class="ident">tag</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">c_int</span>,
                 <span class="ident">tag</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="kw">_</span>,
             ))
@@ -2077,13 +2095,13 @@
     <span class="doccomment">/// to use a value different than the default 12 bytes.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_tag_len</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">tag_len</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ErrorStack</span><span class="op">&gt;</span> {
         <span class="kw">unsafe</span> {
-            <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">tag_len</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">c_int</span>::<span class="ident">max_value</span>() <span class="kw">as</span> <span class="ident">usize</span>);
+            <span class="macro">assert!</span>(<span class="ident">tag_len</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">c_int::max_value</span>() <span class="kw">as</span> <span class="ident">usize</span>);
             <span class="comment">// NB: this constant is actually more general than just GCM.</span>
-            <span class="ident">cvt</span>(<span class="ident">ffi</span>::<span class="ident">EVP_CIPHER_CTX_ctrl</span>(
+            <span class="ident">cvt</span>(<span class="ident">ffi::EVP_CIPHER_CTX_ctrl</span>(
                 <span class="self">self</span>.<span class="ident">ctx</span>,
-                <span class="ident">ffi</span>::<span class="ident">EVP_CTRL_GCM_SET_TAG</span>,
+                <span class="ident">ffi::EVP_CTRL_GCM_SET_TAG</span>,
                 <span class="ident">tag_len</span> <span class="kw">as</span> <span class="ident">c_int</span>,
-                <span class="ident">ptr</span>::<span class="ident">null_mut</span>(),
+                <span class="ident">ptr::null_mut</span>(),
             ))
             .<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ())
         }
@@ -2095,13 +2113,13 @@
     <span class="doccomment">/// CCM mode.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_data_len</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">data_len</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ErrorStack</span><span class="op">&gt;</span> {
         <span class="kw">unsafe</span> {
-            <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">data_len</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">c_int</span>::<span class="ident">max_value</span>() <span class="kw">as</span> <span class="ident">usize</span>);
+            <span class="macro">assert!</span>(<span class="ident">data_len</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">c_int::max_value</span>() <span class="kw">as</span> <span class="ident">usize</span>);
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">len</span> <span class="op">=</span> <span class="number">0</span>;
-            <span class="ident">cvt</span>(<span class="ident">ffi</span>::<span class="ident">EVP_CipherUpdate</span>(
+            <span class="ident">cvt</span>(<span class="ident">ffi::EVP_CipherUpdate</span>(
                 <span class="self">self</span>.<span class="ident">ctx</span>,
-                <span class="ident">ptr</span>::<span class="ident">null_mut</span>(),
+                <span class="ident">ptr::null_mut</span>(),
                 <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">len</span>,
-                <span class="ident">ptr</span>::<span class="ident">null_mut</span>(),
+                <span class="ident">ptr::null_mut</span>(),
                 <span class="ident">data_len</span> <span class="kw">as</span> <span class="ident">c_int</span>,
             ))
             .<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ())
@@ -2115,11 +2133,11 @@
     <span class="doccomment">/// `update`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">aad_update</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ErrorStack</span><span class="op">&gt;</span> {
         <span class="kw">unsafe</span> {
-            <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">input</span>.<span class="ident">len</span>() <span class="op">&lt;</span><span class="op">=</span> <span class="ident">c_int</span>::<span class="ident">max_value</span>() <span class="kw">as</span> <span class="ident">usize</span>);
+            <span class="macro">assert!</span>(<span class="ident">input</span>.<span class="ident">len</span>() <span class="op">&lt;</span><span class="op">=</span> <span class="ident">c_int::max_value</span>() <span class="kw">as</span> <span class="ident">usize</span>);
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">len</span> <span class="op">=</span> <span class="number">0</span>;
-            <span class="ident">cvt</span>(<span class="ident">ffi</span>::<span class="ident">EVP_CipherUpdate</span>(
+            <span class="ident">cvt</span>(<span class="ident">ffi::EVP_CipherUpdate</span>(
                 <span class="self">self</span>.<span class="ident">ctx</span>,
-                <span class="ident">ptr</span>::<span class="ident">null_mut</span>(),
+                <span class="ident">ptr::null_mut</span>(),
                 <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">len</span>,
                 <span class="ident">input</span>.<span class="ident">as_ptr</span>(),
                 <span class="ident">input</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">c_int</span>,
@@ -2149,12 +2167,12 @@
             } <span class="kw">else</span> {
                 <span class="number">0</span>
             };
-            <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">output</span>.<span class="ident">len</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="ident">input</span>.<span class="ident">len</span>() <span class="op">+</span> <span class="ident">block_size</span>);
-            <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">output</span>.<span class="ident">len</span>() <span class="op">&lt;</span><span class="op">=</span> <span class="ident">c_int</span>::<span class="ident">max_value</span>() <span class="kw">as</span> <span class="ident">usize</span>);
+            <span class="macro">assert!</span>(<span class="ident">output</span>.<span class="ident">len</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="ident">input</span>.<span class="ident">len</span>() <span class="op">+</span> <span class="ident">block_size</span>);
+            <span class="macro">assert!</span>(<span class="ident">output</span>.<span class="ident">len</span>() <span class="op">&lt;</span><span class="op">=</span> <span class="ident">c_int::max_value</span>() <span class="kw">as</span> <span class="ident">usize</span>);
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">outl</span> <span class="op">=</span> <span class="ident">output</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">c_int</span>;
             <span class="kw">let</span> <span class="ident">inl</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">c_int</span>;
 
-            <span class="ident">cvt</span>(<span class="ident">ffi</span>::<span class="ident">EVP_CipherUpdate</span>(
+            <span class="ident">cvt</span>(<span class="ident">ffi::EVP_CipherUpdate</span>(
                 <span class="self">self</span>.<span class="ident">ctx</span>,
                 <span class="ident">output</span>.<span class="ident">as_mut_ptr</span>(),
                 <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">outl</span>,
@@ -2180,11 +2198,11 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">finalize</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">output</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">ErrorStack</span><span class="op">&gt;</span> {
         <span class="kw">unsafe</span> {
             <span class="kw">if</span> <span class="self">self</span>.<span class="ident">block_size</span> <span class="op">&gt;</span> <span class="number">1</span> {
-                <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">output</span>.<span class="ident">len</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">block_size</span>);
+                <span class="macro">assert!</span>(<span class="ident">output</span>.<span class="ident">len</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">block_size</span>);
             }
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">outl</span> <span class="op">=</span> <span class="ident">cmp</span>::<span class="ident">min</span>(<span class="ident">output</span>.<span class="ident">len</span>(), <span class="ident">c_int</span>::<span class="ident">max_value</span>() <span class="kw">as</span> <span class="ident">usize</span>) <span class="kw">as</span> <span class="ident">c_int</span>;
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">outl</span> <span class="op">=</span> <span class="ident">cmp::min</span>(<span class="ident">output</span>.<span class="ident">len</span>(), <span class="ident">c_int::max_value</span>() <span class="kw">as</span> <span class="ident">usize</span>) <span class="kw">as</span> <span class="ident">c_int</span>;
 
-            <span class="ident">cvt</span>(<span class="ident">ffi</span>::<span class="ident">EVP_CipherFinal</span>(
+            <span class="ident">cvt</span>(<span class="ident">ffi::EVP_CipherFinal</span>(
                 <span class="self">self</span>.<span class="ident">ctx</span>,
                 <span class="ident">output</span>.<span class="ident">as_mut_ptr</span>(),
                 <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">outl</span>,
@@ -2204,10 +2222,10 @@
     <span class="doccomment">/// bytes, for example.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_tag</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">tag</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ErrorStack</span><span class="op">&gt;</span> {
         <span class="kw">unsafe</span> {
-            <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">tag</span>.<span class="ident">len</span>() <span class="op">&lt;</span><span class="op">=</span> <span class="ident">c_int</span>::<span class="ident">max_value</span>() <span class="kw">as</span> <span class="ident">usize</span>);
-            <span class="ident">cvt</span>(<span class="ident">ffi</span>::<span class="ident">EVP_CIPHER_CTX_ctrl</span>(
+            <span class="macro">assert!</span>(<span class="ident">tag</span>.<span class="ident">len</span>() <span class="op">&lt;</span><span class="op">=</span> <span class="ident">c_int::max_value</span>() <span class="kw">as</span> <span class="ident">usize</span>);
+            <span class="ident">cvt</span>(<span class="ident">ffi::EVP_CIPHER_CTX_ctrl</span>(
                 <span class="self">self</span>.<span class="ident">ctx</span>,
-                <span class="ident">ffi</span>::<span class="ident">EVP_CTRL_GCM_GET_TAG</span>,
+                <span class="ident">ffi::EVP_CTRL_GCM_GET_TAG</span>,
                 <span class="ident">tag</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">c_int</span>,
                 <span class="ident">tag</span>.<span class="ident">as_mut_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="kw">_</span>,
             ))
@@ -2219,7 +2237,7 @@
 <span class="kw">impl</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">Crypter</span> {
     <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
         <span class="kw">unsafe</span> {
-            <span class="ident">ffi</span>::<span class="ident">EVP_CIPHER_CTX_free</span>(<span class="self">self</span>.<span class="ident">ctx</span>);
+            <span class="ident">ffi::EVP_CIPHER_CTX_free</span>(<span class="self">self</span>.<span class="ident">ctx</span>);
         }
     }
 }
@@ -2260,7 +2278,7 @@
     <span class="ident">iv</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>,
     <span class="ident">data</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">ErrorStack</span><span class="op">&gt;</span> {
-    <span class="ident">cipher</span>(<span class="ident">t</span>, <span class="ident">Mode</span>::<span class="ident">Encrypt</span>, <span class="ident">key</span>, <span class="ident">iv</span>, <span class="ident">data</span>)
+    <span class="ident">cipher</span>(<span class="ident">t</span>, <span class="ident">Mode::Encrypt</span>, <span class="ident">key</span>, <span class="ident">iv</span>, <span class="ident">data</span>)
 }
 
 <span class="doccomment">/// Decrypts data in one go, and returns the decrypted data.</span>
@@ -2299,7 +2317,7 @@
     <span class="ident">iv</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>,
     <span class="ident">data</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">ErrorStack</span><span class="op">&gt;</span> {
-    <span class="ident">cipher</span>(<span class="ident">t</span>, <span class="ident">Mode</span>::<span class="ident">Decrypt</span>, <span class="ident">key</span>, <span class="ident">iv</span>, <span class="ident">data</span>)
+    <span class="ident">cipher</span>(<span class="ident">t</span>, <span class="ident">Mode::Decrypt</span>, <span class="ident">key</span>, <span class="ident">iv</span>, <span class="ident">data</span>)
 }
 
 <span class="kw">fn</span> <span class="ident">cipher</span>(
@@ -2309,8 +2327,8 @@
     <span class="ident">iv</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>,
     <span class="ident">data</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">ErrorStack</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">Crypter</span>::<span class="ident">new</span>(<span class="ident">t</span>, <span class="ident">mode</span>, <span class="ident">key</span>, <span class="ident">iv</span>)<span class="question-mark">?</span>;
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>; <span class="ident">data</span>.<span class="ident">len</span>() <span class="op">+</span> <span class="ident">t</span>.<span class="ident">block_size</span>()];
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">Crypter::new</span>(<span class="ident">t</span>, <span class="ident">mode</span>, <span class="ident">key</span>, <span class="ident">iv</span>)<span class="question-mark">?</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out</span> <span class="op">=</span> <span class="macro">vec!</span>[<span class="number">0</span>; <span class="ident">data</span>.<span class="ident">len</span>() <span class="op">+</span> <span class="ident">t</span>.<span class="ident">block_size</span>()];
     <span class="kw">let</span> <span class="ident">count</span> <span class="op">=</span> <span class="ident">c</span>.<span class="ident">update</span>(<span class="ident">data</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">out</span>)<span class="question-mark">?</span>;
     <span class="kw">let</span> <span class="ident">rest</span> <span class="op">=</span> <span class="ident">c</span>.<span class="ident">finalize</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">out</span>[<span class="ident">count</span>..])<span class="question-mark">?</span>;
     <span class="ident">out</span>.<span class="ident">truncate</span>(<span class="ident">count</span> <span class="op">+</span> <span class="ident">rest</span>);
@@ -2333,8 +2351,8 @@
     <span class="ident">data</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
     <span class="ident">tag</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>],
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">ErrorStack</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">Crypter</span>::<span class="ident">new</span>(<span class="ident">t</span>, <span class="ident">Mode</span>::<span class="ident">Encrypt</span>, <span class="ident">key</span>, <span class="ident">iv</span>)<span class="question-mark">?</span>;
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>; <span class="ident">data</span>.<span class="ident">len</span>() <span class="op">+</span> <span class="ident">t</span>.<span class="ident">block_size</span>()];
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">Crypter::new</span>(<span class="ident">t</span>, <span class="ident">Mode::Encrypt</span>, <span class="ident">key</span>, <span class="ident">iv</span>)<span class="question-mark">?</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out</span> <span class="op">=</span> <span class="macro">vec!</span>[<span class="number">0</span>; <span class="ident">data</span>.<span class="ident">len</span>() <span class="op">+</span> <span class="ident">t</span>.<span class="ident">block_size</span>()];
 
     <span class="kw">let</span> <span class="ident">is_ccm</span> <span class="op">=</span> <span class="ident">t</span>.<span class="ident">is_ccm</span>();
     <span class="kw">if</span> <span class="ident">is_ccm</span> <span class="op">|</span><span class="op">|</span> <span class="ident">t</span>.<span class="ident">is_ocb</span>() {
@@ -2364,8 +2382,8 @@
     <span class="ident">data</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
     <span class="ident">tag</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">ErrorStack</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">Crypter</span>::<span class="ident">new</span>(<span class="ident">t</span>, <span class="ident">Mode</span>::<span class="ident">Decrypt</span>, <span class="ident">key</span>, <span class="ident">iv</span>)<span class="question-mark">?</span>;
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>; <span class="ident">data</span>.<span class="ident">len</span>() <span class="op">+</span> <span class="ident">t</span>.<span class="ident">block_size</span>()];
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">Crypter::new</span>(<span class="ident">t</span>, <span class="ident">Mode::Decrypt</span>, <span class="ident">key</span>, <span class="ident">iv</span>)<span class="question-mark">?</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out</span> <span class="op">=</span> <span class="macro">vec!</span>[<span class="number">0</span>; <span class="ident">data</span>.<span class="ident">len</span>() <span class="op">+</span> <span class="ident">t</span>.<span class="ident">block_size</span>()];
 
     <span class="kw">let</span> <span class="ident">is_ccm</span> <span class="op">=</span> <span class="ident">t</span>.<span class="ident">is_ccm</span>();
     <span class="kw">if</span> <span class="ident">is_ccm</span> <span class="op">|</span><span class="op">|</span> <span class="ident">t</span>.<span class="ident">is_ocb</span>() {
@@ -2389,22 +2407,22 @@
     <span class="prelude-val">Ok</span>(<span class="ident">out</span>)
 }
 
-<span class="macro">cfg_if</span><span class="macro">!</span> {
+<span class="macro">cfg_if!</span> {
     <span class="kw">if</span> <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">ossl110</span>, <span class="ident">libressl273</span>))]</span> {
         <span class="kw">use</span> <span class="ident">ffi</span>::{<span class="ident">EVP_CIPHER_block_size</span>, <span class="ident">EVP_CIPHER_iv_length</span>, <span class="ident">EVP_CIPHER_key_length</span>};
     } <span class="kw">else</span> {
         <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">bad_style</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">EVP_CIPHER_iv_length</span>(<span class="ident">ptr</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">ffi</span>::<span class="ident">EVP_CIPHER</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span> {
+        <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">EVP_CIPHER_iv_length</span>(<span class="ident">ptr</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">ffi::EVP_CIPHER</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span> {
             (<span class="kw-2">*</span><span class="ident">ptr</span>).<span class="ident">iv_len</span>
         }
 
         <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">bad_style</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">EVP_CIPHER_block_size</span>(<span class="ident">ptr</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">ffi</span>::<span class="ident">EVP_CIPHER</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span> {
+        <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">EVP_CIPHER_block_size</span>(<span class="ident">ptr</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">ffi::EVP_CIPHER</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span> {
             (<span class="kw-2">*</span><span class="ident">ptr</span>).<span class="ident">block_size</span>
         }
 
         <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">bad_style</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">EVP_CIPHER_key_length</span>(<span class="ident">ptr</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">ffi</span>::<span class="ident">EVP_CIPHER</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span> {
+        <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">EVP_CIPHER_key_length</span>(<span class="ident">ptr</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">ffi::EVP_CIPHER</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span> {
             (<span class="kw-2">*</span><span class="ident">ptr</span>).<span class="ident">key_len</span>
         }
     }
@@ -2419,17 +2437,17 @@
     <span class="kw">fn</span> <span class="ident">test_stream_cipher_output</span>() {
         <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> [<span class="number">0u8</span>; <span class="number">16</span>];
         <span class="kw">let</span> <span class="ident">iv</span> <span class="op">=</span> [<span class="number">0u8</span>; <span class="number">16</span>];
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">c</span> <span class="op">=</span> <span class="kw">super</span>::<span class="ident">Crypter</span>::<span class="ident">new</span>(
-            <span class="kw">super</span>::<span class="ident">Cipher</span>::<span class="ident">aes_128_ctr</span>(),
-            <span class="kw">super</span>::<span class="ident">Mode</span>::<span class="ident">Encrypt</span>,
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">c</span> <span class="op">=</span> <span class="kw">super</span><span class="ident">::Crypter::new</span>(
+            <span class="kw">super</span><span class="ident">::Cipher::aes_128_ctr</span>(),
+            <span class="kw">super</span><span class="ident">::Mode::Encrypt</span>,
             <span class="kw-2">&amp;</span><span class="ident">key</span>,
             <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">iv</span>),
         )
         .<span class="ident">unwrap</span>();
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">c</span>.<span class="ident">update</span>(<span class="kw-2">&amp;</span>[<span class="number">0u8</span>; <span class="number">15</span>], <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="number">0u8</span>; <span class="number">15</span>]).<span class="ident">unwrap</span>(), <span class="number">15</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">c</span>.<span class="ident">update</span>(<span class="kw-2">&amp;</span>[<span class="number">0u8</span>; <span class="number">1</span>], <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="number">0u8</span>; <span class="number">1</span>]).<span class="ident">unwrap</span>(), <span class="number">1</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">c</span>.<span class="ident">finalize</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="number">0u8</span>; <span class="number">0</span>]).<span class="ident">unwrap</span>(), <span class="number">0</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">c</span>.<span class="ident">update</span>(<span class="kw-2">&amp;</span>[<span class="number">0u8</span>; <span class="number">15</span>], <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="number">0u8</span>; <span class="number">15</span>]).<span class="ident">unwrap</span>(), <span class="number">15</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">c</span>.<span class="ident">update</span>(<span class="kw-2">&amp;</span>[<span class="number">0u8</span>; <span class="number">1</span>], <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="number">0u8</span>; <span class="number">1</span>]).<span class="ident">unwrap</span>(), <span class="number">1</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">c</span>.<span class="ident">finalize</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="number">0u8</span>; <span class="number">0</span>]).<span class="ident">unwrap</span>(), <span class="number">0</span>);
     }
 
     <span class="comment">// Test vectors from FIPS-197:</span>
@@ -2449,33 +2467,33 @@
             <span class="number">0x8eu8</span>, <span class="number">0xa2u8</span>, <span class="number">0xb7u8</span>, <span class="number">0xcau8</span>, <span class="number">0x51u8</span>, <span class="number">0x67u8</span>, <span class="number">0x45u8</span>, <span class="number">0xbfu8</span>, <span class="number">0xeau8</span>, <span class="number">0xfcu8</span>, <span class="number">0x49u8</span>,
             <span class="number">0x90u8</span>, <span class="number">0x4bu8</span>, <span class="number">0x49u8</span>, <span class="number">0x60u8</span>, <span class="number">0x89u8</span>,
         ];
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">c</span> <span class="op">=</span> <span class="kw">super</span>::<span class="ident">Crypter</span>::<span class="ident">new</span>(
-            <span class="kw">super</span>::<span class="ident">Cipher</span>::<span class="ident">aes_256_ecb</span>(),
-            <span class="kw">super</span>::<span class="ident">Mode</span>::<span class="ident">Encrypt</span>,
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">c</span> <span class="op">=</span> <span class="kw">super</span><span class="ident">::Crypter::new</span>(
+            <span class="kw">super</span><span class="ident">::Cipher::aes_256_ecb</span>(),
+            <span class="kw">super</span><span class="ident">::Mode::Encrypt</span>,
             <span class="kw-2">&amp;</span><span class="ident">k0</span>,
             <span class="prelude-val">None</span>,
         )
         .<span class="ident">unwrap</span>();
         <span class="ident">c</span>.<span class="ident">pad</span>(<span class="bool-val">false</span>);
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">r0</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>; <span class="ident">c0</span>.<span class="ident">len</span>() <span class="op">+</span> <span class="kw">super</span>::<span class="ident">Cipher</span>::<span class="ident">aes_256_ecb</span>().<span class="ident">block_size</span>()];
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">r0</span> <span class="op">=</span> <span class="macro">vec!</span>[<span class="number">0</span>; <span class="ident">c0</span>.<span class="ident">len</span>() <span class="op">+</span> <span class="kw">super</span><span class="ident">::Cipher::aes_256_ecb</span>().<span class="ident">block_size</span>()];
         <span class="kw">let</span> <span class="ident">count</span> <span class="op">=</span> <span class="ident">c</span>.<span class="ident">update</span>(<span class="kw-2">&amp;</span><span class="ident">p0</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">r0</span>).<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">rest</span> <span class="op">=</span> <span class="ident">c</span>.<span class="ident">finalize</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">r0</span>[<span class="ident">count</span>..]).<span class="ident">unwrap</span>();
         <span class="ident">r0</span>.<span class="ident">truncate</span>(<span class="ident">count</span> <span class="op">+</span> <span class="ident">rest</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">hex</span>::<span class="ident">encode</span>(<span class="kw-2">&amp;</span><span class="ident">r0</span>), <span class="ident">hex</span>::<span class="ident">encode</span>(<span class="ident">c0</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">hex::encode</span>(<span class="kw-2">&amp;</span><span class="ident">r0</span>), <span class="ident">hex::encode</span>(<span class="ident">c0</span>));
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">c</span> <span class="op">=</span> <span class="kw">super</span>::<span class="ident">Crypter</span>::<span class="ident">new</span>(
-            <span class="kw">super</span>::<span class="ident">Cipher</span>::<span class="ident">aes_256_ecb</span>(),
-            <span class="kw">super</span>::<span class="ident">Mode</span>::<span class="ident">Decrypt</span>,
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">c</span> <span class="op">=</span> <span class="kw">super</span><span class="ident">::Crypter::new</span>(
+            <span class="kw">super</span><span class="ident">::Cipher::aes_256_ecb</span>(),
+            <span class="kw">super</span><span class="ident">::Mode::Decrypt</span>,
             <span class="kw-2">&amp;</span><span class="ident">k0</span>,
             <span class="prelude-val">None</span>,
         )
         .<span class="ident">unwrap</span>();
         <span class="ident">c</span>.<span class="ident">pad</span>(<span class="bool-val">false</span>);
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">p1</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>; <span class="ident">r0</span>.<span class="ident">len</span>() <span class="op">+</span> <span class="kw">super</span>::<span class="ident">Cipher</span>::<span class="ident">aes_256_ecb</span>().<span class="ident">block_size</span>()];
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">p1</span> <span class="op">=</span> <span class="macro">vec!</span>[<span class="number">0</span>; <span class="ident">r0</span>.<span class="ident">len</span>() <span class="op">+</span> <span class="kw">super</span><span class="ident">::Cipher::aes_256_ecb</span>().<span class="ident">block_size</span>()];
         <span class="kw">let</span> <span class="ident">count</span> <span class="op">=</span> <span class="ident">c</span>.<span class="ident">update</span>(<span class="kw-2">&amp;</span><span class="ident">r0</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">p1</span>).<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">rest</span> <span class="op">=</span> <span class="ident">c</span>.<span class="ident">finalize</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">p1</span>[<span class="ident">count</span>..]).<span class="ident">unwrap</span>();
         <span class="ident">p1</span>.<span class="ident">truncate</span>(<span class="ident">count</span> <span class="op">+</span> <span class="ident">rest</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">hex</span>::<span class="ident">encode</span>(<span class="ident">p1</span>), <span class="ident">hex</span>::<span class="ident">encode</span>(<span class="ident">p0</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">hex::encode</span>(<span class="ident">p1</span>), <span class="ident">hex::encode</span>(<span class="ident">p0</span>));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2493,57 +2511,57 @@
             <span class="number">0x4a_u8</span>, <span class="number">0x2e_u8</span>, <span class="number">0xe5_u8</span>, <span class="number">0x6_u8</span>, <span class="number">0xbf_u8</span>, <span class="number">0xcf_u8</span>, <span class="number">0xf2_u8</span>, <span class="number">0xd7_u8</span>, <span class="number">0xea_u8</span>,
             <span class="number">0x2d_u8</span>, <span class="number">0xb1_u8</span>, <span class="number">0x85_u8</span>, <span class="number">0x6c_u8</span>, <span class="number">0x93_u8</span>, <span class="number">0x65_u8</span>, <span class="number">0x6f_u8</span>,
         ];
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cr</span> <span class="op">=</span> <span class="kw">super</span>::<span class="ident">Crypter</span>::<span class="ident">new</span>(
-            <span class="kw">super</span>::<span class="ident">Cipher</span>::<span class="ident">aes_256_cbc</span>(),
-            <span class="kw">super</span>::<span class="ident">Mode</span>::<span class="ident">Decrypt</span>,
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cr</span> <span class="op">=</span> <span class="kw">super</span><span class="ident">::Crypter::new</span>(
+            <span class="kw">super</span><span class="ident">::Cipher::aes_256_cbc</span>(),
+            <span class="kw">super</span><span class="ident">::Mode::Decrypt</span>,
             <span class="kw-2">&amp;</span><span class="ident">data</span>,
             <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">iv</span>),
         )
         .<span class="ident">unwrap</span>();
         <span class="ident">cr</span>.<span class="ident">pad</span>(<span class="bool-val">false</span>);
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">unciphered_data</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>; <span class="ident">data</span>.<span class="ident">len</span>() <span class="op">+</span> <span class="kw">super</span>::<span class="ident">Cipher</span>::<span class="ident">aes_256_cbc</span>().<span class="ident">block_size</span>()];
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">unciphered_data</span> <span class="op">=</span> <span class="macro">vec!</span>[<span class="number">0</span>; <span class="ident">data</span>.<span class="ident">len</span>() <span class="op">+</span> <span class="kw">super</span><span class="ident">::Cipher::aes_256_cbc</span>().<span class="ident">block_size</span>()];
         <span class="kw">let</span> <span class="ident">count</span> <span class="op">=</span> <span class="ident">cr</span>.<span class="ident">update</span>(<span class="kw-2">&amp;</span><span class="ident">ciphered_data</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">unciphered_data</span>).<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">rest</span> <span class="op">=</span> <span class="ident">cr</span>.<span class="ident">finalize</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">unciphered_data</span>[<span class="ident">count</span>..]).<span class="ident">unwrap</span>();
         <span class="ident">unciphered_data</span>.<span class="ident">truncate</span>(<span class="ident">count</span> <span class="op">+</span> <span class="ident">rest</span>);
 
         <span class="kw">let</span> <span class="ident">expected_unciphered_data</span> <span class="op">=</span> <span class="string">b&quot;I love turtles.\x01&quot;</span>;
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">unciphered_data</span>, <span class="ident">expected_unciphered_data</span>);
+        <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span><span class="ident">unciphered_data</span>, <span class="ident">expected_unciphered_data</span>);
     }
 
-    <span class="kw">fn</span> <span class="ident">cipher_test</span>(<span class="ident">ciphertype</span>: <span class="kw">super</span>::<span class="ident">Cipher</span>, <span class="ident">pt</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">ct</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">key</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">iv</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
-        <span class="kw">let</span> <span class="ident">pt</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">pt</span>).<span class="ident">unwrap</span>();
-        <span class="kw">let</span> <span class="ident">ct</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">ct</span>).<span class="ident">unwrap</span>();
-        <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">key</span>).<span class="ident">unwrap</span>();
-        <span class="kw">let</span> <span class="ident">iv</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">iv</span>).<span class="ident">unwrap</span>();
+    <span class="kw">fn</span> <span class="ident">cipher_test</span>(<span class="ident">ciphertype</span>: <span class="kw">super</span><span class="ident">::Cipher</span>, <span class="ident">pt</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">ct</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">key</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">iv</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
+        <span class="kw">let</span> <span class="ident">pt</span> <span class="op">=</span> <span class="ident">Vec::from_hex</span>(<span class="ident">pt</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">ct</span> <span class="op">=</span> <span class="ident">Vec::from_hex</span>(<span class="ident">ct</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="ident">Vec::from_hex</span>(<span class="ident">key</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">iv</span> <span class="op">=</span> <span class="ident">Vec::from_hex</span>(<span class="ident">iv</span>).<span class="ident">unwrap</span>();
 
-        <span class="kw">let</span> <span class="ident">computed</span> <span class="op">=</span> <span class="kw">super</span>::<span class="ident">decrypt</span>(<span class="ident">ciphertype</span>, <span class="kw-2">&amp;</span><span class="ident">key</span>, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">iv</span>), <span class="kw-2">&amp;</span><span class="ident">ct</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">computed</span> <span class="op">=</span> <span class="kw">super</span><span class="ident">::decrypt</span>(<span class="ident">ciphertype</span>, <span class="kw-2">&amp;</span><span class="ident">key</span>, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">iv</span>), <span class="kw-2">&amp;</span><span class="ident">ct</span>).<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span> <span class="ident">pt</span>;
 
         <span class="kw">if</span> <span class="ident">computed</span> <span class="op">!</span><span class="op">=</span> <span class="ident">expected</span> {
-            <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Computed: {}&quot;</span>, <span class="ident">hex</span>::<span class="ident">encode</span>(<span class="kw-2">&amp;</span><span class="ident">computed</span>));
-            <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Expected: {}&quot;</span>, <span class="ident">hex</span>::<span class="ident">encode</span>(<span class="kw-2">&amp;</span><span class="ident">expected</span>));
+            <span class="macro">println!</span>(<span class="string">&quot;Computed: {}&quot;</span>, <span class="ident">hex::encode</span>(<span class="kw-2">&amp;</span><span class="ident">computed</span>));
+            <span class="macro">println!</span>(<span class="string">&quot;Expected: {}&quot;</span>, <span class="ident">hex::encode</span>(<span class="kw-2">&amp;</span><span class="ident">expected</span>));
             <span class="kw">if</span> <span class="ident">computed</span>.<span class="ident">len</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">expected</span>.<span class="ident">len</span>() {
-                <span class="macro">println</span><span class="macro">!</span>(
+                <span class="macro">println!</span>(
                     <span class="string">&quot;Lengths differ: {} in computed vs {} expected&quot;</span>,
                     <span class="ident">computed</span>.<span class="ident">len</span>(),
                     <span class="ident">expected</span>.<span class="ident">len</span>()
                 );
             }
-            <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;test failure&quot;</span>);
+            <span class="macro">panic!</span>(<span class="string">&quot;test failure&quot;</span>);
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">cipher_test_nopad</span>(<span class="ident">ciphertype</span>: <span class="kw">super</span>::<span class="ident">Cipher</span>, <span class="ident">pt</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">ct</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">key</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">iv</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
-        <span class="kw">let</span> <span class="ident">pt</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">pt</span>).<span class="ident">unwrap</span>();
-        <span class="kw">let</span> <span class="ident">ct</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">ct</span>).<span class="ident">unwrap</span>();
-        <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">key</span>).<span class="ident">unwrap</span>();
-        <span class="kw">let</span> <span class="ident">iv</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">iv</span>).<span class="ident">unwrap</span>();
+    <span class="kw">fn</span> <span class="ident">cipher_test_nopad</span>(<span class="ident">ciphertype</span>: <span class="kw">super</span><span class="ident">::Cipher</span>, <span class="ident">pt</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">ct</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">key</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">iv</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
+        <span class="kw">let</span> <span class="ident">pt</span> <span class="op">=</span> <span class="ident">Vec::from_hex</span>(<span class="ident">pt</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">ct</span> <span class="op">=</span> <span class="ident">Vec::from_hex</span>(<span class="ident">ct</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="ident">Vec::from_hex</span>(<span class="ident">key</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">iv</span> <span class="op">=</span> <span class="ident">Vec::from_hex</span>(<span class="ident">iv</span>).<span class="ident">unwrap</span>();
 
         <span class="kw">let</span> <span class="ident">computed</span> <span class="op">=</span> {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">Crypter</span>::<span class="ident">new</span>(<span class="ident">ciphertype</span>, <span class="ident">Mode</span>::<span class="ident">Decrypt</span>, <span class="kw-2">&amp;</span><span class="ident">key</span>, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">iv</span>)).<span class="ident">unwrap</span>();
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">Crypter::new</span>(<span class="ident">ciphertype</span>, <span class="ident">Mode::Decrypt</span>, <span class="kw-2">&amp;</span><span class="ident">key</span>, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">iv</span>)).<span class="ident">unwrap</span>();
             <span class="ident">c</span>.<span class="ident">pad</span>(<span class="bool-val">false</span>);
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>; <span class="ident">ct</span>.<span class="ident">len</span>() <span class="op">+</span> <span class="ident">ciphertype</span>.<span class="ident">block_size</span>()];
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out</span> <span class="op">=</span> <span class="macro">vec!</span>[<span class="number">0</span>; <span class="ident">ct</span>.<span class="ident">len</span>() <span class="op">+</span> <span class="ident">ciphertype</span>.<span class="ident">block_size</span>()];
             <span class="kw">let</span> <span class="ident">count</span> <span class="op">=</span> <span class="ident">c</span>.<span class="ident">update</span>(<span class="kw-2">&amp;</span><span class="ident">ct</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">out</span>).<span class="ident">unwrap</span>();
             <span class="kw">let</span> <span class="ident">rest</span> <span class="op">=</span> <span class="ident">c</span>.<span class="ident">finalize</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">out</span>[<span class="ident">count</span>..]).<span class="ident">unwrap</span>();
             <span class="ident">out</span>.<span class="ident">truncate</span>(<span class="ident">count</span> <span class="op">+</span> <span class="ident">rest</span>);
@@ -2552,27 +2570,28 @@
         <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span> <span class="ident">pt</span>;
 
         <span class="kw">if</span> <span class="ident">computed</span> <span class="op">!</span><span class="op">=</span> <span class="ident">expected</span> {
-            <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Computed: {}&quot;</span>, <span class="ident">hex</span>::<span class="ident">encode</span>(<span class="kw-2">&amp;</span><span class="ident">computed</span>));
-            <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Expected: {}&quot;</span>, <span class="ident">hex</span>::<span class="ident">encode</span>(<span class="kw-2">&amp;</span><span class="ident">expected</span>));
+            <span class="macro">println!</span>(<span class="string">&quot;Computed: {}&quot;</span>, <span class="ident">hex::encode</span>(<span class="kw-2">&amp;</span><span class="ident">computed</span>));
+            <span class="macro">println!</span>(<span class="string">&quot;Expected: {}&quot;</span>, <span class="ident">hex::encode</span>(<span class="kw-2">&amp;</span><span class="ident">expected</span>));
             <span class="kw">if</span> <span class="ident">computed</span>.<span class="ident">len</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">expected</span>.<span class="ident">len</span>() {
-                <span class="macro">println</span><span class="macro">!</span>(
+                <span class="macro">println!</span>(
                     <span class="string">&quot;Lengths differ: {} in computed vs {} expected&quot;</span>,
                     <span class="ident">computed</span>.<span class="ident">len</span>(),
                     <span class="ident">expected</span>.<span class="ident">len</span>()
                 );
             }
-            <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;test failure&quot;</span>);
+            <span class="macro">panic!</span>(<span class="string">&quot;test failure&quot;</span>);
         }
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">ossl300</span>, <span class="ident">ignore</span>)]</span>
     <span class="kw">fn</span> <span class="ident">test_rc4</span>() {
         <span class="kw">let</span> <span class="ident">pt</span> <span class="op">=</span> <span class="string">&quot;0000000000000000000000000000000000000000000000000000000000000000000000000000&quot;</span>;
         <span class="kw">let</span> <span class="ident">ct</span> <span class="op">=</span> <span class="string">&quot;A68686B04D686AA107BD8D4CAB191A3EEC0A6294BC78B60F65C25CB47BD7BB3A48EFC4D26BE4&quot;</span>;
         <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="string">&quot;97CD440324DA5FD1F7955C1C13B6B466&quot;</span>;
         <span class="kw">let</span> <span class="ident">iv</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>;
 
-        <span class="ident">cipher_test</span>(<span class="kw">super</span>::<span class="ident">Cipher</span>::<span class="ident">rc4</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
+        <span class="ident">cipher_test</span>(<span class="kw">super</span><span class="ident">::Cipher::rc4</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2587,7 +2606,7 @@
                    4180026ad640b74243b3133e7b9fae629403f6733423dae28&quot;</span>;
         <span class="kw">let</span> <span class="ident">iv</span> <span class="op">=</span> <span class="string">&quot;db200efb7eaaa737dbdf40babb68953f&quot;</span>;
 
-        <span class="ident">cipher_test</span>(<span class="kw">super</span>::<span class="ident">Cipher</span>::<span class="ident">aes_256_xts</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
+        <span class="ident">cipher_test</span>(<span class="kw">super</span><span class="ident">::Cipher::aes_256_xts</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2599,7 +2618,7 @@
         <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="string">&quot;2B7E151628AED2A6ABF7158809CF4F3C&quot;</span>;
         <span class="kw">let</span> <span class="ident">iv</span> <span class="op">=</span> <span class="string">&quot;F0F1F2F3F4F5F6F7F8F9FAFBFCFDFEFF&quot;</span>;
 
-        <span class="ident">cipher_test</span>(<span class="kw">super</span>::<span class="ident">Cipher</span>::<span class="ident">aes_128_ctr</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
+        <span class="ident">cipher_test</span>(<span class="kw">super</span><span class="ident">::Cipher::aes_128_ctr</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2611,7 +2630,7 @@
         <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="string">&quot;2b7e151628aed2a6abf7158809cf4f3c&quot;</span>;
         <span class="kw">let</span> <span class="ident">iv</span> <span class="op">=</span> <span class="string">&quot;000102030405060708090a0b0c0d0e0f&quot;</span>;
 
-        <span class="ident">cipher_test</span>(<span class="kw">super</span>::<span class="ident">Cipher</span>::<span class="ident">aes_128_cfb1</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
+        <span class="ident">cipher_test</span>(<span class="kw">super</span><span class="ident">::Cipher::aes_128_cfb1</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2621,7 +2640,7 @@
         <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="string">&quot;2b7e151628aed2a6abf7158809cf4f3c&quot;</span>;
         <span class="kw">let</span> <span class="ident">iv</span> <span class="op">=</span> <span class="string">&quot;000102030405060708090a0b0c0d0e0f&quot;</span>;
 
-        <span class="ident">cipher_test</span>(<span class="kw">super</span>::<span class="ident">Cipher</span>::<span class="ident">aes_128_cfb128</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
+        <span class="ident">cipher_test</span>(<span class="kw">super</span><span class="ident">::Cipher::aes_128_cfb128</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2631,7 +2650,7 @@
         <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="string">&quot;2b7e151628aed2a6abf7158809cf4f3c&quot;</span>;
         <span class="kw">let</span> <span class="ident">iv</span> <span class="op">=</span> <span class="string">&quot;000102030405060708090a0b0c0d0e0f&quot;</span>;
 
-        <span class="ident">cipher_test</span>(<span class="kw">super</span>::<span class="ident">Cipher</span>::<span class="ident">aes_128_cfb8</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
+        <span class="ident">cipher_test</span>(<span class="kw">super</span><span class="ident">::Cipher::aes_128_cfb8</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2643,7 +2662,7 @@
         <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="string">&quot;2b7e151628aed2a6abf7158809cf4f3c&quot;</span>;
         <span class="kw">let</span> <span class="ident">iv</span> <span class="op">=</span> <span class="string">&quot;000102030405060708090a0b0c0d0e0f&quot;</span>;
 
-        <span class="ident">cipher_test</span>(<span class="kw">super</span>::<span class="ident">Cipher</span>::<span class="ident">aes_128_ofb</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
+        <span class="ident">cipher_test</span>(<span class="kw">super</span><span class="ident">::Cipher::aes_128_ofb</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2655,7 +2674,7 @@
         <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="string">&quot;8e73b0f7da0e6452c810f32b809079e562f8ead2522c6b7b&quot;</span>;
         <span class="kw">let</span> <span class="ident">iv</span> <span class="op">=</span> <span class="string">&quot;f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff&quot;</span>;
 
-        <span class="ident">cipher_test</span>(<span class="kw">super</span>::<span class="ident">Cipher</span>::<span class="ident">aes_192_ctr</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
+        <span class="ident">cipher_test</span>(<span class="kw">super</span><span class="ident">::Cipher::aes_192_ctr</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2667,7 +2686,7 @@
         <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="string">&quot;8e73b0f7da0e6452c810f32b809079e562f8ead2522c6b7b&quot;</span>;
         <span class="kw">let</span> <span class="ident">iv</span> <span class="op">=</span> <span class="string">&quot;000102030405060708090a0b0c0d0e0f&quot;</span>;
 
-        <span class="ident">cipher_test</span>(<span class="kw">super</span>::<span class="ident">Cipher</span>::<span class="ident">aes_192_cfb1</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
+        <span class="ident">cipher_test</span>(<span class="kw">super</span><span class="ident">::Cipher::aes_192_cfb1</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2679,7 +2698,7 @@
         <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="string">&quot;8e73b0f7da0e6452c810f32b809079e562f8ead2522c6b7b&quot;</span>;
         <span class="kw">let</span> <span class="ident">iv</span> <span class="op">=</span> <span class="string">&quot;000102030405060708090a0b0c0d0e0f&quot;</span>;
 
-        <span class="ident">cipher_test</span>(<span class="kw">super</span>::<span class="ident">Cipher</span>::<span class="ident">aes_192_cfb128</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
+        <span class="ident">cipher_test</span>(<span class="kw">super</span><span class="ident">::Cipher::aes_192_cfb128</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2691,7 +2710,7 @@
         <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="string">&quot;8e73b0f7da0e6452c810f32b809079e562f8ead2522c6b7b&quot;</span>;
         <span class="kw">let</span> <span class="ident">iv</span> <span class="op">=</span> <span class="string">&quot;000102030405060708090a0b0c0d0e0f&quot;</span>;
 
-        <span class="ident">cipher_test</span>(<span class="kw">super</span>::<span class="ident">Cipher</span>::<span class="ident">aes_192_cfb8</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
+        <span class="ident">cipher_test</span>(<span class="kw">super</span><span class="ident">::Cipher::aes_192_cfb8</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2703,7 +2722,7 @@
         <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="string">&quot;8e73b0f7da0e6452c810f32b809079e562f8ead2522c6b7b&quot;</span>;
         <span class="kw">let</span> <span class="ident">iv</span> <span class="op">=</span> <span class="string">&quot;000102030405060708090a0b0c0d0e0f&quot;</span>;
 
-        <span class="ident">cipher_test</span>(<span class="kw">super</span>::<span class="ident">Cipher</span>::<span class="ident">aes_192_ofb</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
+        <span class="ident">cipher_test</span>(<span class="kw">super</span><span class="ident">::Cipher::aes_192_ofb</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2713,7 +2732,7 @@
         <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="string">&quot;603deb1015ca71be2b73aef0857d77811f352c073b6108d72d9810a30914dff4&quot;</span>;
         <span class="kw">let</span> <span class="ident">iv</span> <span class="op">=</span> <span class="string">&quot;000102030405060708090a0b0c0d0e0f&quot;</span>;
 
-        <span class="ident">cipher_test</span>(<span class="kw">super</span>::<span class="ident">Cipher</span>::<span class="ident">aes_256_cfb1</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
+        <span class="ident">cipher_test</span>(<span class="kw">super</span><span class="ident">::Cipher::aes_256_cfb1</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2723,7 +2742,7 @@
         <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="string">&quot;603deb1015ca71be2b73aef0857d77811f352c073b6108d72d9810a30914dff4&quot;</span>;
         <span class="kw">let</span> <span class="ident">iv</span> <span class="op">=</span> <span class="string">&quot;000102030405060708090a0b0c0d0e0f&quot;</span>;
 
-        <span class="ident">cipher_test</span>(<span class="kw">super</span>::<span class="ident">Cipher</span>::<span class="ident">aes_256_cfb128</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
+        <span class="ident">cipher_test</span>(<span class="kw">super</span><span class="ident">::Cipher::aes_256_cfb128</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2733,7 +2752,7 @@
         <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="string">&quot;603deb1015ca71be2b73aef0857d77811f352c073b6108d72d9810a30914dff4&quot;</span>;
         <span class="kw">let</span> <span class="ident">iv</span> <span class="op">=</span> <span class="string">&quot;000102030405060708090a0b0c0d0e0f&quot;</span>;
 
-        <span class="ident">cipher_test</span>(<span class="kw">super</span>::<span class="ident">Cipher</span>::<span class="ident">aes_256_cfb8</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
+        <span class="ident">cipher_test</span>(<span class="kw">super</span><span class="ident">::Cipher::aes_256_cfb8</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2745,10 +2764,11 @@
         <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="string">&quot;603deb1015ca71be2b73aef0857d77811f352c073b6108d72d9810a30914dff4&quot;</span>;
         <span class="kw">let</span> <span class="ident">iv</span> <span class="op">=</span> <span class="string">&quot;000102030405060708090a0b0c0d0e0f&quot;</span>;
 
-        <span class="ident">cipher_test</span>(<span class="kw">super</span>::<span class="ident">Cipher</span>::<span class="ident">aes_256_ofb</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
+        <span class="ident">cipher_test</span>(<span class="kw">super</span><span class="ident">::Cipher::aes_256_ofb</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">ossl300</span>, <span class="ident">ignore</span>)]</span>
     <span class="kw">fn</span> <span class="ident">test_bf_cbc</span>() {
         <span class="comment">// https://www.schneier.com/code/vectors.txt</span>
 
@@ -2757,57 +2777,62 @@
         <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="string">&quot;0123456789ABCDEFF0E1D2C3B4A59687&quot;</span>;
         <span class="kw">let</span> <span class="ident">iv</span> <span class="op">=</span> <span class="string">&quot;FEDCBA9876543210&quot;</span>;
 
-        <span class="ident">cipher_test_nopad</span>(<span class="kw">super</span>::<span class="ident">Cipher</span>::<span class="ident">bf_cbc</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
+        <span class="ident">cipher_test_nopad</span>(<span class="kw">super</span><span class="ident">::Cipher::bf_cbc</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">ossl300</span>, <span class="ident">ignore</span>)]</span>
     <span class="kw">fn</span> <span class="ident">test_bf_ecb</span>() {
         <span class="kw">let</span> <span class="ident">pt</span> <span class="op">=</span> <span class="string">&quot;5CD54CA83DEF57DA&quot;</span>;
         <span class="kw">let</span> <span class="ident">ct</span> <span class="op">=</span> <span class="string">&quot;B1B8CC0B250F09A0&quot;</span>;
         <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="string">&quot;0131D9619DC1376E&quot;</span>;
         <span class="kw">let</span> <span class="ident">iv</span> <span class="op">=</span> <span class="string">&quot;0000000000000000&quot;</span>;
 
-        <span class="ident">cipher_test_nopad</span>(<span class="kw">super</span>::<span class="ident">Cipher</span>::<span class="ident">bf_ecb</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
+        <span class="ident">cipher_test_nopad</span>(<span class="kw">super</span><span class="ident">::Cipher::bf_ecb</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">ossl300</span>, <span class="ident">ignore</span>)]</span>
     <span class="kw">fn</span> <span class="ident">test_bf_cfb64</span>() {
         <span class="kw">let</span> <span class="ident">pt</span> <span class="op">=</span> <span class="string">&quot;37363534333231204E6F77206973207468652074696D6520666F722000&quot;</span>;
         <span class="kw">let</span> <span class="ident">ct</span> <span class="op">=</span> <span class="string">&quot;E73214A2822139CAF26ECF6D2EB9E76E3DA3DE04D1517200519D57A6C3&quot;</span>;
         <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="string">&quot;0123456789ABCDEFF0E1D2C3B4A59687&quot;</span>;
         <span class="kw">let</span> <span class="ident">iv</span> <span class="op">=</span> <span class="string">&quot;FEDCBA9876543210&quot;</span>;
 
-        <span class="ident">cipher_test_nopad</span>(<span class="kw">super</span>::<span class="ident">Cipher</span>::<span class="ident">bf_cfb64</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
+        <span class="ident">cipher_test_nopad</span>(<span class="kw">super</span><span class="ident">::Cipher::bf_cfb64</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">ossl300</span>, <span class="ident">ignore</span>)]</span>
     <span class="kw">fn</span> <span class="ident">test_bf_ofb</span>() {
         <span class="kw">let</span> <span class="ident">pt</span> <span class="op">=</span> <span class="string">&quot;37363534333231204E6F77206973207468652074696D6520666F722000&quot;</span>;
         <span class="kw">let</span> <span class="ident">ct</span> <span class="op">=</span> <span class="string">&quot;E73214A2822139CA62B343CC5B65587310DD908D0C241B2263C2CF80DA&quot;</span>;
         <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="string">&quot;0123456789ABCDEFF0E1D2C3B4A59687&quot;</span>;
         <span class="kw">let</span> <span class="ident">iv</span> <span class="op">=</span> <span class="string">&quot;FEDCBA9876543210&quot;</span>;
 
-        <span class="ident">cipher_test_nopad</span>(<span class="kw">super</span>::<span class="ident">Cipher</span>::<span class="ident">bf_ofb</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
+        <span class="ident">cipher_test_nopad</span>(<span class="kw">super</span><span class="ident">::Cipher::bf_ofb</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">ossl300</span>, <span class="ident">ignore</span>)]</span>
     <span class="kw">fn</span> <span class="ident">test_des_cbc</span>() {
         <span class="kw">let</span> <span class="ident">pt</span> <span class="op">=</span> <span class="string">&quot;54686973206973206120746573742e&quot;</span>;
         <span class="kw">let</span> <span class="ident">ct</span> <span class="op">=</span> <span class="string">&quot;6f2867cfefda048a4046ef7e556c7132&quot;</span>;
         <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="string">&quot;7cb66337f3d3c0fe&quot;</span>;
         <span class="kw">let</span> <span class="ident">iv</span> <span class="op">=</span> <span class="string">&quot;0001020304050607&quot;</span>;
 
-        <span class="ident">cipher_test</span>(<span class="kw">super</span>::<span class="ident">Cipher</span>::<span class="ident">des_cbc</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
+        <span class="ident">cipher_test</span>(<span class="kw">super</span><span class="ident">::Cipher::des_cbc</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">ossl300</span>, <span class="ident">ignore</span>)]</span>
     <span class="kw">fn</span> <span class="ident">test_des_ecb</span>() {
         <span class="kw">let</span> <span class="ident">pt</span> <span class="op">=</span> <span class="string">&quot;54686973206973206120746573742e&quot;</span>;
         <span class="kw">let</span> <span class="ident">ct</span> <span class="op">=</span> <span class="string">&quot;0050ab8aecec758843fe157b4dde938c&quot;</span>;
         <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="string">&quot;7cb66337f3d3c0fe&quot;</span>;
         <span class="kw">let</span> <span class="ident">iv</span> <span class="op">=</span> <span class="string">&quot;0001020304050607&quot;</span>;
 
-        <span class="ident">cipher_test</span>(<span class="kw">super</span>::<span class="ident">Cipher</span>::<span class="ident">des_ecb</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
+        <span class="ident">cipher_test</span>(<span class="kw">super</span><span class="ident">::Cipher::des_ecb</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2817,7 +2842,7 @@
         <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="string">&quot;010203040506070801020304050607080102030405060708&quot;</span>;
         <span class="kw">let</span> <span class="ident">iv</span> <span class="op">=</span> <span class="string">&quot;5cc118306dc702e4&quot;</span>;
 
-        <span class="ident">cipher_test</span>(<span class="kw">super</span>::<span class="ident">Cipher</span>::<span class="ident">des_ede3</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
+        <span class="ident">cipher_test</span>(<span class="kw">super</span><span class="ident">::Cipher::des_ede3</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2827,7 +2852,7 @@
         <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="string">&quot;7cb66337f3d3c0fe7cb66337f3d3c0fe7cb66337f3d3c0fe&quot;</span>;
         <span class="kw">let</span> <span class="ident">iv</span> <span class="op">=</span> <span class="string">&quot;0001020304050607&quot;</span>;
 
-        <span class="ident">cipher_test</span>(<span class="kw">super</span>::<span class="ident">Cipher</span>::<span class="ident">des_ede3_cbc</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
+        <span class="ident">cipher_test</span>(<span class="kw">super</span><span class="ident">::Cipher::des_ede3_cbc</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2837,49 +2862,43 @@
         <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="string">&quot;7cb66337f3d3c0fe7cb66337f3d3c0fe7cb66337f3d3c0fe&quot;</span>;
         <span class="kw">let</span> <span class="ident">iv</span> <span class="op">=</span> <span class="string">&quot;0001020304050607&quot;</span>;
 
-        <span class="ident">cipher_test</span>(<span class="kw">super</span>::<span class="ident">Cipher</span>::<span class="ident">des_ede3_cfb64</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
+        <span class="ident">cipher_test</span>(<span class="kw">super</span><span class="ident">::Cipher::des_ede3_cfb64</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_aes128_gcm</span>() {
-        <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="string">&quot;0e00c76561d2bd9b40c3c15427e2b08f&quot;</span>;
-        <span class="kw">let</span> <span class="ident">iv</span> <span class="op">=</span> <span class="string">&quot;492cadaccd3ca3fbc9cf9f06eb3325c4e159850b0dbe98199b89b7af528806610b6f63998e1eae80c348e7\
-             4cbb921d8326631631fc6a5d304f39166daf7ea15fa1977f101819adb510b50fe9932e12c5a85aa3fd1e73\
-             d8d760af218be829903a77c63359d75edd91b4f6ed5465a72662f5055999e059e7654a8edc921aa0d496&quot;</span>;
-        <span class="kw">let</span> <span class="ident">pt</span> <span class="op">=</span> <span class="string">&quot;fef03c2d7fb15bf0d2df18007d99f967c878ad59359034f7bb2c19af120685d78e32f6b8b83b032019956c\
-             a9c0195721476b85&quot;</span>;
-        <span class="kw">let</span> <span class="ident">aad</span> <span class="op">=</span> <span class="string">&quot;d8f1163d8c840292a2b2dacf4ac7c36aff8733f18fabb4fa5594544125e03d1e6e5d6d0fd61656c8d8f327\
-             c92839ae5539bb469c9257f109ebff85aad7bd220fdaa95c022dbd0c7bb2d878ad504122c943045d3c5eba\
-             8f1f56c0&quot;</span>;
-        <span class="kw">let</span> <span class="ident">ct</span> <span class="op">=</span> <span class="string">&quot;4f6cf471be7cbd2575cd5a1747aea8fe9dea83e51936beac3e68f66206922060c697ffa7af80ad6bb68f2c\
-             f4fc97416ee52abe&quot;</span>;
-        <span class="kw">let</span> <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;e20b6655&quot;</span>;
+        <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="string">&quot;23dc8d23d95b6fd1251741a64f7d4f41&quot;</span>;
+        <span class="kw">let</span> <span class="ident">iv</span> <span class="op">=</span> <span class="string">&quot;f416f48ad44d9efa1179e167&quot;</span>;
+        <span class="kw">let</span> <span class="ident">pt</span> <span class="op">=</span> <span class="string">&quot;6cb9b71dd0ccd42cdf87e8e396fc581fd8e0d700e360f590593b748e105390de&quot;</span>;
+        <span class="kw">let</span> <span class="ident">aad</span> <span class="op">=</span> <span class="string">&quot;45074844c97d515c65bbe37c210a5a4b08c21c588efe5c5f73c4d9c17d34dacddc0bb6a8a53f7bf477b9780c1c2a928660df87016b2873fe876b2b887fb5886bfd63216b7eaecc046372a82c047eb043f0b063226ee52a12c69b&quot;</span>;
+        <span class="kw">let</span> <span class="ident">ct</span> <span class="op">=</span> <span class="string">&quot;8ad20486778e87387efb3f2574e509951c0626816722018129e578b2787969d3&quot;</span>;
+        <span class="kw">let</span> <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;91e1bc09&quot;</span>;
 
         <span class="comment">// this tag is smaller than you&#39;d normally want, but I pulled this test from the part of</span>
         <span class="comment">// the NIST test vectors that cover 4 byte tags.</span>
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">actual_tag</span> <span class="op">=</span> [<span class="number">0</span>; <span class="number">4</span>];
         <span class="kw">let</span> <span class="ident">out</span> <span class="op">=</span> <span class="ident">encrypt_aead</span>(
-            <span class="ident">Cipher</span>::<span class="ident">aes_128_gcm</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">key</span>).<span class="ident">unwrap</span>(),
-            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">iv</span>).<span class="ident">unwrap</span>()),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">aad</span>).<span class="ident">unwrap</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">pt</span>).<span class="ident">unwrap</span>(),
+            <span class="ident">Cipher::aes_128_gcm</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">key</span>).<span class="ident">unwrap</span>(),
+            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">iv</span>).<span class="ident">unwrap</span>()),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">aad</span>).<span class="ident">unwrap</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">pt</span>).<span class="ident">unwrap</span>(),
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">actual_tag</span>,
         )
         .<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ct</span>, <span class="ident">hex</span>::<span class="ident">encode</span>(<span class="ident">out</span>));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">tag</span>, <span class="ident">hex</span>::<span class="ident">encode</span>(<span class="ident">actual_tag</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">ct</span>, <span class="ident">hex::encode</span>(<span class="ident">out</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">tag</span>, <span class="ident">hex::encode</span>(<span class="ident">actual_tag</span>));
 
         <span class="kw">let</span> <span class="ident">out</span> <span class="op">=</span> <span class="ident">decrypt_aead</span>(
-            <span class="ident">Cipher</span>::<span class="ident">aes_128_gcm</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">key</span>).<span class="ident">unwrap</span>(),
-            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">iv</span>).<span class="ident">unwrap</span>()),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">aad</span>).<span class="ident">unwrap</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">ct</span>).<span class="ident">unwrap</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">tag</span>).<span class="ident">unwrap</span>(),
+            <span class="ident">Cipher::aes_128_gcm</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">key</span>).<span class="ident">unwrap</span>(),
+            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">iv</span>).<span class="ident">unwrap</span>()),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">aad</span>).<span class="ident">unwrap</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">ct</span>).<span class="ident">unwrap</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">tag</span>).<span class="ident">unwrap</span>(),
         )
         .<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">pt</span>, <span class="ident">hex</span>::<span class="ident">encode</span>(<span class="ident">out</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">pt</span>, <span class="ident">hex::encode</span>(<span class="ident">out</span>));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2894,28 +2913,28 @@
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">actual_tag</span> <span class="op">=</span> [<span class="number">0</span>; <span class="number">12</span>];
         <span class="kw">let</span> <span class="ident">out</span> <span class="op">=</span> <span class="ident">encrypt_aead</span>(
-            <span class="ident">Cipher</span>::<span class="ident">aes_128_ccm</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">key</span>).<span class="ident">unwrap</span>(),
-            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">nonce</span>).<span class="ident">unwrap</span>()),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">aad</span>).<span class="ident">unwrap</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">pt</span>).<span class="ident">unwrap</span>(),
+            <span class="ident">Cipher::aes_128_ccm</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">key</span>).<span class="ident">unwrap</span>(),
+            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">nonce</span>).<span class="ident">unwrap</span>()),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">aad</span>).<span class="ident">unwrap</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">pt</span>).<span class="ident">unwrap</span>(),
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">actual_tag</span>,
         )
         .<span class="ident">unwrap</span>();
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ct</span>, <span class="ident">hex</span>::<span class="ident">encode</span>(<span class="ident">out</span>));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">tag</span>, <span class="ident">hex</span>::<span class="ident">encode</span>(<span class="ident">actual_tag</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">ct</span>, <span class="ident">hex::encode</span>(<span class="ident">out</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">tag</span>, <span class="ident">hex::encode</span>(<span class="ident">actual_tag</span>));
 
         <span class="kw">let</span> <span class="ident">out</span> <span class="op">=</span> <span class="ident">decrypt_aead</span>(
-            <span class="ident">Cipher</span>::<span class="ident">aes_128_ccm</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">key</span>).<span class="ident">unwrap</span>(),
-            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">nonce</span>).<span class="ident">unwrap</span>()),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">aad</span>).<span class="ident">unwrap</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">ct</span>).<span class="ident">unwrap</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">tag</span>).<span class="ident">unwrap</span>(),
+            <span class="ident">Cipher::aes_128_ccm</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">key</span>).<span class="ident">unwrap</span>(),
+            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">nonce</span>).<span class="ident">unwrap</span>()),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">aad</span>).<span class="ident">unwrap</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">ct</span>).<span class="ident">unwrap</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">tag</span>).<span class="ident">unwrap</span>(),
         )
         .<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">pt</span>, <span class="ident">hex</span>::<span class="ident">encode</span>(<span class="ident">out</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">pt</span>, <span class="ident">hex::encode</span>(<span class="ident">out</span>));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2928,14 +2947,14 @@
         <span class="kw">let</span> <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;00005f5aa6e31302a9cc2b36&quot;</span>;
 
         <span class="kw">let</span> <span class="ident">out</span> <span class="op">=</span> <span class="ident">decrypt_aead</span>(
-            <span class="ident">Cipher</span>::<span class="ident">aes_128_ccm</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">key</span>).<span class="ident">unwrap</span>(),
-            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">nonce</span>).<span class="ident">unwrap</span>()),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">aad</span>).<span class="ident">unwrap</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">ct</span>).<span class="ident">unwrap</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">tag</span>).<span class="ident">unwrap</span>(),
+            <span class="ident">Cipher::aes_128_ccm</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">key</span>).<span class="ident">unwrap</span>(),
+            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">nonce</span>).<span class="ident">unwrap</span>()),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">aad</span>).<span class="ident">unwrap</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">ct</span>).<span class="ident">unwrap</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">tag</span>).<span class="ident">unwrap</span>(),
         );
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">out</span>.<span class="ident">is_err</span>());
+        <span class="macro">assert!</span>(<span class="ident">out</span>.<span class="ident">is_err</span>());
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2950,28 +2969,28 @@
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">actual_tag</span> <span class="op">=</span> [<span class="number">0</span>; <span class="number">12</span>];
         <span class="kw">let</span> <span class="ident">out</span> <span class="op">=</span> <span class="ident">encrypt_aead</span>(
-            <span class="ident">Cipher</span>::<span class="ident">aes_256_ccm</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">key</span>).<span class="ident">unwrap</span>(),
-            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">nonce</span>).<span class="ident">unwrap</span>()),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">aad</span>).<span class="ident">unwrap</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">pt</span>).<span class="ident">unwrap</span>(),
+            <span class="ident">Cipher::aes_256_ccm</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">key</span>).<span class="ident">unwrap</span>(),
+            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">nonce</span>).<span class="ident">unwrap</span>()),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">aad</span>).<span class="ident">unwrap</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">pt</span>).<span class="ident">unwrap</span>(),
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">actual_tag</span>,
         )
         .<span class="ident">unwrap</span>();
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ct</span>, <span class="ident">hex</span>::<span class="ident">encode</span>(<span class="ident">out</span>));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">tag</span>, <span class="ident">hex</span>::<span class="ident">encode</span>(<span class="ident">actual_tag</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">ct</span>, <span class="ident">hex::encode</span>(<span class="ident">out</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">tag</span>, <span class="ident">hex::encode</span>(<span class="ident">actual_tag</span>));
 
         <span class="kw">let</span> <span class="ident">out</span> <span class="op">=</span> <span class="ident">decrypt_aead</span>(
-            <span class="ident">Cipher</span>::<span class="ident">aes_256_ccm</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">key</span>).<span class="ident">unwrap</span>(),
-            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">nonce</span>).<span class="ident">unwrap</span>()),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">aad</span>).<span class="ident">unwrap</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">ct</span>).<span class="ident">unwrap</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">tag</span>).<span class="ident">unwrap</span>(),
+            <span class="ident">Cipher::aes_256_ccm</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">key</span>).<span class="ident">unwrap</span>(),
+            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">nonce</span>).<span class="ident">unwrap</span>()),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">aad</span>).<span class="ident">unwrap</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">ct</span>).<span class="ident">unwrap</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">tag</span>).<span class="ident">unwrap</span>(),
         )
         .<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">pt</span>, <span class="ident">hex</span>::<span class="ident">encode</span>(<span class="ident">out</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">pt</span>, <span class="ident">hex::encode</span>(<span class="ident">out</span>));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2984,14 +3003,14 @@
         <span class="kw">let</span> <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;0000a053c9244d3217a7ad05&quot;</span>;
 
         <span class="kw">let</span> <span class="ident">out</span> <span class="op">=</span> <span class="ident">decrypt_aead</span>(
-            <span class="ident">Cipher</span>::<span class="ident">aes_256_ccm</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">key</span>).<span class="ident">unwrap</span>(),
-            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">nonce</span>).<span class="ident">unwrap</span>()),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">aad</span>).<span class="ident">unwrap</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">ct</span>).<span class="ident">unwrap</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">tag</span>).<span class="ident">unwrap</span>(),
+            <span class="ident">Cipher::aes_256_ccm</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">key</span>).<span class="ident">unwrap</span>(),
+            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">nonce</span>).<span class="ident">unwrap</span>()),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">aad</span>).<span class="ident">unwrap</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">ct</span>).<span class="ident">unwrap</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">tag</span>).<span class="ident">unwrap</span>(),
         );
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">out</span>.<span class="ident">is_err</span>());
+        <span class="macro">assert!</span>(<span class="ident">out</span>.<span class="ident">is_err</span>());
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -3006,28 +3025,28 @@
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">actual_tag</span> <span class="op">=</span> [<span class="number">0</span>; <span class="number">16</span>];
         <span class="kw">let</span> <span class="ident">out</span> <span class="op">=</span> <span class="ident">encrypt_aead</span>(
-            <span class="ident">Cipher</span>::<span class="ident">aes_128_ocb</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">key</span>).<span class="ident">unwrap</span>(),
-            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">iv</span>).<span class="ident">unwrap</span>()),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">aad</span>).<span class="ident">unwrap</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">pt</span>).<span class="ident">unwrap</span>(),
+            <span class="ident">Cipher::aes_128_ocb</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">key</span>).<span class="ident">unwrap</span>(),
+            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">iv</span>).<span class="ident">unwrap</span>()),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">aad</span>).<span class="ident">unwrap</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">pt</span>).<span class="ident">unwrap</span>(),
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">actual_tag</span>,
         )
         .<span class="ident">unwrap</span>();
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ct</span>, <span class="ident">hex</span>::<span class="ident">encode</span>(<span class="ident">out</span>));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">tag</span>, <span class="ident">hex</span>::<span class="ident">encode</span>(<span class="ident">actual_tag</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">ct</span>, <span class="ident">hex::encode</span>(<span class="ident">out</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">tag</span>, <span class="ident">hex::encode</span>(<span class="ident">actual_tag</span>));
 
         <span class="kw">let</span> <span class="ident">out</span> <span class="op">=</span> <span class="ident">decrypt_aead</span>(
-            <span class="ident">Cipher</span>::<span class="ident">aes_128_ocb</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">key</span>).<span class="ident">unwrap</span>(),
-            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">iv</span>).<span class="ident">unwrap</span>()),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">aad</span>).<span class="ident">unwrap</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">ct</span>).<span class="ident">unwrap</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">tag</span>).<span class="ident">unwrap</span>(),
+            <span class="ident">Cipher::aes_128_ocb</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">key</span>).<span class="ident">unwrap</span>(),
+            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">iv</span>).<span class="ident">unwrap</span>()),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">aad</span>).<span class="ident">unwrap</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">ct</span>).<span class="ident">unwrap</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">tag</span>).<span class="ident">unwrap</span>(),
         )
         .<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">pt</span>, <span class="ident">hex</span>::<span class="ident">encode</span>(<span class="ident">out</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">pt</span>, <span class="ident">hex::encode</span>(<span class="ident">out</span>));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -3040,14 +3059,14 @@
         <span class="kw">let</span> <span class="ident">ct</span> <span class="op">=</span> <span class="string">&quot;92b657130a74b85a&quot;</span>;
 
         <span class="kw">let</span> <span class="ident">out</span> <span class="op">=</span> <span class="ident">decrypt_aead</span>(
-            <span class="ident">Cipher</span>::<span class="ident">aes_128_ocb</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">key</span>).<span class="ident">unwrap</span>(),
-            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">iv</span>).<span class="ident">unwrap</span>()),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">aad</span>).<span class="ident">unwrap</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">ct</span>).<span class="ident">unwrap</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">tag</span>).<span class="ident">unwrap</span>(),
+            <span class="ident">Cipher::aes_128_ocb</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">key</span>).<span class="ident">unwrap</span>(),
+            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">iv</span>).<span class="ident">unwrap</span>()),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">aad</span>).<span class="ident">unwrap</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">ct</span>).<span class="ident">unwrap</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">tag</span>).<span class="ident">unwrap</span>(),
         );
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">out</span>.<span class="ident">is_err</span>());
+        <span class="macro">assert!</span>(<span class="ident">out</span>.<span class="ident">is_err</span>());
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -3062,7 +3081,7 @@
             <span class="string">&quot;76b8e0ada0f13d90405d6ae55386bd28bdd219b8a08ded1aa836efcc8b770dc7da41597c5157488d7\
              724e03fb8d84a376a43b8f41518a11cc387b669b2ee6586&quot;</span>;
 
-        <span class="ident">cipher_test</span>(<span class="ident">Cipher</span>::<span class="ident">chacha20</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
+        <span class="ident">cipher_test</span>(<span class="ident">Cipher::chacha20</span>(), <span class="ident">pt</span>, <span class="ident">ct</span>, <span class="ident">key</span>, <span class="ident">iv</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -3083,28 +3102,30 @@
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">actual_tag</span> <span class="op">=</span> [<span class="number">0</span>; <span class="number">16</span>];
         <span class="kw">let</span> <span class="ident">out</span> <span class="op">=</span> <span class="ident">encrypt_aead</span>(
-            <span class="ident">Cipher</span>::<span class="ident">chacha20_poly1305</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">key</span>).<span class="ident">unwrap</span>(),
-            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">iv</span>).<span class="ident">unwrap</span>()),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">aad</span>).<span class="ident">unwrap</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">pt</span>).<span class="ident">unwrap</span>(),
+            <span class="ident">Cipher::chacha20_poly1305</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">key</span>).<span class="ident">unwrap</span>(),
+            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">iv</span>).<span class="ident">unwrap</span>()),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">aad</span>).<span class="ident">unwrap</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">pt</span>).<span class="ident">unwrap</span>(),
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">actual_tag</span>,
         )
         .<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ct</span>, <span class="ident">hex</span>::<span class="ident">encode</span>(<span class="ident">out</span>));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">tag</span>, <span class="ident">hex</span>::<span class="ident">encode</span>(<span class="ident">actual_tag</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">ct</span>, <span class="ident">hex::encode</span>(<span class="ident">out</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">tag</span>, <span class="ident">hex::encode</span>(<span class="ident">actual_tag</span>));
 
         <span class="kw">let</span> <span class="ident">out</span> <span class="op">=</span> <span class="ident">decrypt_aead</span>(
-            <span class="ident">Cipher</span>::<span class="ident">chacha20_poly1305</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">key</span>).<span class="ident">unwrap</span>(),
-            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">iv</span>).<span class="ident">unwrap</span>()),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">aad</span>).<span class="ident">unwrap</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">ct</span>).<span class="ident">unwrap</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">from_hex</span>(<span class="ident">tag</span>).<span class="ident">unwrap</span>(),
+            <span class="ident">Cipher::chacha20_poly1305</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">key</span>).<span class="ident">unwrap</span>(),
+            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">iv</span>).<span class="ident">unwrap</span>()),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">aad</span>).<span class="ident">unwrap</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">ct</span>).<span class="ident">unwrap</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">Vec::from_hex</span>(<span class="ident">tag</span>).<span class="ident">unwrap</span>(),
         )
         .<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">pt</span>, <span class="ident">hex</span>::<span class="ident">encode</span>(<span class="ident">out</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">pt</span>, <span class="ident">hex::encode</span>(<span class="ident">out</span>));
     }
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "openssl";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="openssl" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
+    <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script>
+</body></html>

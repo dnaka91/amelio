@@ -1,7 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/rocket_http-0.4.6/src/hyper.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>hyper.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings"></script><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="alternate icon" type="image/png" href="../../favicon-16x16.png">
-<link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../rocket_http/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
-                <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1"> 1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `&#x2F;home&#x2F;runner&#x2F;.cargo&#x2F;registry&#x2F;src&#x2F;github.com-1ecc6299db9ec823&#x2F;rocket_http-0.4.10&#x2F;src&#x2F;hyper.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>hyper.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg"><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../rocket_http/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1"> 1</span>
 <span id="2"> 2</span>
 <span id="3"> 3</span>
 <span id="4"> 4</span>
@@ -80,7 +77,7 @@
 <span id="77">77</span>
 <span id="78">78</span>
 <span id="79">79</span>
-</pre><div class="example-wrap"><pre class="rust ">
+</pre><pre class="rust">
 <span class="doccomment">//! Re-exported hyper HTTP library types.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! All types that are re-exported from Hyper reside inside of this module.</span>
@@ -89,46 +86,46 @@
 
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">hyper</span>;
 
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span> <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">hyper</span>::<span class="ident">server</span>::<span class="ident">Request</span> <span class="kw">as</span> <span class="ident">Request</span>;
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span> <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">hyper</span>::<span class="ident">server</span>::<span class="ident">Response</span> <span class="kw">as</span> <span class="ident">Response</span>;
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span> <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">hyper</span>::<span class="ident">server</span>::<span class="ident">Server</span> <span class="kw">as</span> <span class="ident">Server</span>;
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span> <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">hyper</span>::<span class="ident">server</span>::<span class="ident">Handler</span> <span class="kw">as</span> <span class="ident">Handler</span>;
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span> <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span><span class="ident">::hyper::server::Request</span> <span class="kw">as</span> <span class="ident">Request</span>;
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span> <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span><span class="ident">::hyper::server::Response</span> <span class="kw">as</span> <span class="ident">Response</span>;
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span> <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span><span class="ident">::hyper::server::Server</span> <span class="kw">as</span> <span class="ident">Server</span>;
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span> <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span><span class="ident">::hyper::server::Handler</span> <span class="kw">as</span> <span class="ident">Handler</span>;
 
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span> <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">hyper</span>::<span class="ident">net</span>;
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span> <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span><span class="ident">::hyper::net</span>;
 
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span> <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">hyper</span>::<span class="ident">method</span>::<span class="ident">Method</span>;
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span> <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">hyper</span>::<span class="ident">status</span>::<span class="ident">StatusCode</span>;
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span> <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">hyper</span>::<span class="ident">error</span>::<span class="ident">Error</span>;
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span> <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">hyper</span>::<span class="ident">uri</span>::<span class="ident">RequestUri</span>;
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span> <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">hyper</span>::<span class="ident">http</span>::<span class="ident">h1</span>;
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span> <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">hyper</span>::<span class="ident">buffer</span>;
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span> <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span><span class="ident">::hyper::method::Method</span>;
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span> <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span><span class="ident">::hyper::status::StatusCode</span>;
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span> <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span><span class="ident">::hyper::error::Error</span>;
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span> <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span><span class="ident">::hyper::uri::RequestUri</span>;
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span> <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span><span class="ident">::hyper::http::h1</span>;
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span> <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span><span class="ident">::hyper::buffer</span>;
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">hyper</span>::<span class="ident">mime</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span><span class="ident">::hyper::mime</span>;
 
 <span class="doccomment">/// Type alias to `self::hyper::Response&lt;&#39;a, self::hyper::net::Fresh&gt;`.</span>
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span> <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">FreshResponse</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="op">=</span> <span class="self">self</span>::<span class="ident">Response</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="self">self</span>::<span class="ident">net</span>::<span class="ident">Fresh</span><span class="op">&gt;</span>;
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span> <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">FreshResponse</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="op">=</span> <span class="self">self</span><span class="ident">::Response</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="self">self</span><span class="ident">::net::Fresh</span><span class="op">&gt;</span>;
 
 <span class="doccomment">/// Reexported Hyper header types.</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">header</span> {
     <span class="kw">use</span> <span class="ident">Header</span>;
 
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">hyper</span>::<span class="ident">header</span>::<span class="ident">Header</span> <span class="kw">as</span> <span class="ident">HyperHeaderTrait</span>;
+    <span class="kw">use</span> <span class="kw">super</span><span class="ident">::hyper::header::Header</span> <span class="kw">as</span> <span class="ident">HyperHeaderTrait</span>;
 
-    <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">import_hyper_items</span> {
-        ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">item</span>:<span class="ident">ident</span>),<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> ($(<span class="kw">pub</span> <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">hyper</span>::<span class="ident">header</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">item</span>;)<span class="kw-2">*</span>)
+    <span class="macro">macro_rules!</span> <span class="ident">import_hyper_items</span> {
+        ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">item</span>:<span class="ident">ident</span>),<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> ($(<span class="kw">pub</span> <span class="kw">use</span> <span class="kw">super</span><span class="ident">::hyper::header</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">item</span>;)<span class="kw-2">*</span>)
     }
 
-    <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">import_hyper_headers</span> {
+    <span class="macro">macro_rules!</span> <span class="ident">import_hyper_headers</span> {
         ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>),<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> ($(
-            <span class="kw">impl</span> ::<span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">From</span><span class="op">&lt;</span><span class="self">self</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Header</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span><span class="op">&gt;</span> {
+            <span class="kw">impl</span> <span class="ident">::std::convert::From</span><span class="op">&lt;</span><span class="self">self</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Header</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span><span class="op">&gt;</span> {
                 <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">header</span>: <span class="self">self</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Header</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span><span class="op">&gt;</span> {
-                    <span class="ident">Header</span>::<span class="ident">new</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>::<span class="ident">header_name</span>(), <span class="ident">header</span>.<span class="ident">to_string</span>())
+                    <span class="ident">Header::new</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name::header_name</span>(), <span class="ident">header</span>.<span class="ident">to_string</span>())
                 }
             }
         )<span class="kw-2">*</span>)
     }
 
-    <span class="macro">import_hyper_items</span><span class="macro">!</span> {
+    <span class="macro">import_hyper_items!</span> {
         <span class="ident">Accept</span>, <span class="ident">AcceptCharset</span>, <span class="ident">AcceptEncoding</span>, <span class="ident">AcceptLanguage</span>, <span class="ident">AcceptRanges</span>,
         <span class="ident">AccessControlAllowCredentials</span>, <span class="ident">AccessControlAllowHeaders</span>,
         <span class="ident">AccessControlAllowMethods</span>, <span class="ident">AccessControlExposeHeaders</span>,
@@ -146,7 +143,7 @@
         <span class="ident">ProtocolName</span>, <span class="ident">Range</span>, <span class="ident">RangeUnit</span>, <span class="ident">ReferrerPolicy</span>, <span class="ident">Vary</span>, <span class="ident">Scheme</span>, <span class="ident">q</span>, <span class="ident">qitem</span>
     }
 
-    <span class="macro">import_hyper_headers</span><span class="macro">!</span> {
+    <span class="macro">import_hyper_headers!</span> {
         <span class="ident">Accept</span>, <span class="ident">AccessControlAllowCredentials</span>, <span class="ident">AccessControlAllowHeaders</span>,
         <span class="ident">AccessControlAllowMethods</span>, <span class="ident">AccessControlAllowOrigin</span>,
         <span class="ident">AccessControlExposeHeaders</span>, <span class="ident">AccessControlMaxAge</span>,
@@ -161,4 +158,6 @@
     }
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "rocket_http";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="rocket_http" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
+    <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script>
+</body></html>

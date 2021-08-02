@@ -1,7 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/chrono-tz-0.5.3/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings"></script><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="alternate icon" type="image/png" href="../../favicon-16x16.png">
-<link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../chrono_tz/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
-                <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `&#x2F;home&#x2F;runner&#x2F;.cargo&#x2F;registry&#x2F;src&#x2F;github.com-1ecc6299db9ec823&#x2F;chrono-tz-0.5.3&#x2F;src&#x2F;lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg"><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../chrono_tz/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -424,7 +421,7 @@
 <span id="421">421</span>
 <span id="422">422</span>
 <span id="423">423</span>
-</pre><div class="example-wrap"><pre class="rust ">
+</pre><pre class="rust">
 <span class="doccomment">//! # Chrono-TZ 0.4.1</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! `Chrono-TZ` is a library that provides implementors of the</span>
@@ -595,26 +592,26 @@
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">directory</span>::<span class="kw-2">*</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">timezone_impl</span>::{<span class="ident">OffsetComponents</span>, <span class="ident">OffsetName</span>};
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">timezones</span>::<span class="ident">Tz</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">timezones</span>::<span class="ident">TZ_VARIANTS</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">timezones::Tz</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">timezones::TZ_VARIANTS</span>;
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">America</span>::<span class="ident">Danmarkshavn</span>;
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Asia</span>::<span class="ident">Dhaka</span>;
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Australia</span>::<span class="ident">Adelaide</span>;
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Europe</span>::<span class="ident">Amsterdam</span>;
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Europe</span>::<span class="ident">Berlin</span>;
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Europe</span>::<span class="ident">London</span>;
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Europe</span>::<span class="ident">Moscow</span>;
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Europe</span>::<span class="ident">Vilnius</span>;
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Europe</span>::<span class="ident">Warsaw</span>;
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Pacific</span>::<span class="ident">Apia</span>;
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Pacific</span>::<span class="ident">Noumea</span>;
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Pacific</span>::<span class="ident">Tahiti</span>;
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Tz</span>;
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">US</span>::<span class="ident">Eastern</span>;
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">UTC</span>;
+    <span class="kw">use</span> <span class="kw">super</span><span class="ident">::America::Danmarkshavn</span>;
+    <span class="kw">use</span> <span class="kw">super</span><span class="ident">::Asia::Dhaka</span>;
+    <span class="kw">use</span> <span class="kw">super</span><span class="ident">::Australia::Adelaide</span>;
+    <span class="kw">use</span> <span class="kw">super</span><span class="ident">::Europe::Amsterdam</span>;
+    <span class="kw">use</span> <span class="kw">super</span><span class="ident">::Europe::Berlin</span>;
+    <span class="kw">use</span> <span class="kw">super</span><span class="ident">::Europe::London</span>;
+    <span class="kw">use</span> <span class="kw">super</span><span class="ident">::Europe::Moscow</span>;
+    <span class="kw">use</span> <span class="kw">super</span><span class="ident">::Europe::Vilnius</span>;
+    <span class="kw">use</span> <span class="kw">super</span><span class="ident">::Europe::Warsaw</span>;
+    <span class="kw">use</span> <span class="kw">super</span><span class="ident">::Pacific::Apia</span>;
+    <span class="kw">use</span> <span class="kw">super</span><span class="ident">::Pacific::Noumea</span>;
+    <span class="kw">use</span> <span class="kw">super</span><span class="ident">::Pacific::Tahiti</span>;
+    <span class="kw">use</span> <span class="kw">super</span><span class="ident">::Tz</span>;
+    <span class="kw">use</span> <span class="kw">super</span><span class="ident">::US::Eastern</span>;
+    <span class="kw">use</span> <span class="kw">super</span><span class="ident">::UTC</span>;
     <span class="kw">use</span> <span class="ident">chrono</span>::{<span class="ident">Duration</span>, <span class="ident">TimeZone</span>};
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -622,84 +619,84 @@
         <span class="kw">let</span> <span class="ident">dt</span> <span class="op">=</span> <span class="ident">London</span>.<span class="ident">ymd</span>(<span class="number">2016</span>, <span class="number">10</span>, <span class="number">8</span>).<span class="ident">and_hms</span>(<span class="number">17</span>, <span class="number">0</span>, <span class="number">0</span>);
         <span class="kw">let</span> <span class="ident">converted</span> <span class="op">=</span> <span class="ident">dt</span>.<span class="ident">with_timezone</span>(<span class="kw-2">&amp;</span><span class="ident">Berlin</span>);
         <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span> <span class="ident">Berlin</span>.<span class="ident">ymd</span>(<span class="number">2016</span>, <span class="number">10</span>, <span class="number">8</span>).<span class="ident">and_hms</span>(<span class="number">18</span>, <span class="number">0</span>, <span class="number">0</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">converted</span>, <span class="ident">expected</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">converted</span>, <span class="ident">expected</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">us_eastern_dst_commutativity</span>() {
         <span class="kw">let</span> <span class="ident">dt</span> <span class="op">=</span> <span class="ident">UTC</span>.<span class="ident">ymd</span>(<span class="number">2002</span>, <span class="number">4</span>, <span class="number">7</span>).<span class="ident">and_hms</span>(<span class="number">7</span>, <span class="number">0</span>, <span class="number">0</span>);
         <span class="kw">for</span> <span class="ident">days</span> <span class="kw">in</span> <span class="op">-</span><span class="number">420</span>..<span class="number">720</span> {
-            <span class="kw">let</span> <span class="ident">dt1</span> <span class="op">=</span> (<span class="ident">dt</span> <span class="op">+</span> <span class="ident">Duration</span>::<span class="ident">days</span>(<span class="ident">days</span>)).<span class="ident">with_timezone</span>(<span class="kw-2">&amp;</span><span class="ident">Eastern</span>);
-            <span class="kw">let</span> <span class="ident">dt2</span> <span class="op">=</span> <span class="ident">dt</span>.<span class="ident">with_timezone</span>(<span class="kw-2">&amp;</span><span class="ident">Eastern</span>) <span class="op">+</span> <span class="ident">Duration</span>::<span class="ident">days</span>(<span class="ident">days</span>);
-            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dt1</span>, <span class="ident">dt2</span>);
+            <span class="kw">let</span> <span class="ident">dt1</span> <span class="op">=</span> (<span class="ident">dt</span> <span class="op">+</span> <span class="ident">Duration::days</span>(<span class="ident">days</span>)).<span class="ident">with_timezone</span>(<span class="kw-2">&amp;</span><span class="ident">Eastern</span>);
+            <span class="kw">let</span> <span class="ident">dt2</span> <span class="op">=</span> <span class="ident">dt</span>.<span class="ident">with_timezone</span>(<span class="kw-2">&amp;</span><span class="ident">Eastern</span>) <span class="op">+</span> <span class="ident">Duration::days</span>(<span class="ident">days</span>);
+            <span class="macro">assert_eq!</span>(<span class="ident">dt1</span>, <span class="ident">dt2</span>);
         }
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_addition_across_dst_boundary</span>() {
-        <span class="kw">use</span> <span class="ident">chrono</span>::<span class="ident">TimeZone</span>;
-        <span class="kw">let</span> <span class="ident">two_hours</span> <span class="op">=</span> <span class="ident">Duration</span>::<span class="ident">hours</span>(<span class="number">2</span>);
+        <span class="kw">use</span> <span class="ident">chrono::TimeZone</span>;
+        <span class="kw">let</span> <span class="ident">two_hours</span> <span class="op">=</span> <span class="ident">Duration::hours</span>(<span class="number">2</span>);
         <span class="kw">let</span> <span class="ident">edt</span> <span class="op">=</span> <span class="ident">Eastern</span>.<span class="ident">ymd</span>(<span class="number">2019</span>, <span class="number">11</span>, <span class="number">3</span>).<span class="ident">and_hms</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);
         <span class="kw">let</span> <span class="ident">est</span> <span class="op">=</span> <span class="ident">edt</span> <span class="op">+</span> <span class="ident">two_hours</span>;
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">edt</span>.<span class="ident">to_string</span>(), <span class="string">&quot;2019-11-03 00:00:00 EDT&quot;</span>.<span class="ident">to_string</span>());
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">est</span>.<span class="ident">to_string</span>(), <span class="string">&quot;2019-11-03 01:00:00 EST&quot;</span>.<span class="ident">to_string</span>());
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">est</span>.<span class="ident">timestamp</span>(), <span class="ident">edt</span>.<span class="ident">timestamp</span>() <span class="op">+</span> <span class="ident">two_hours</span>.<span class="ident">num_seconds</span>());
+        <span class="macro">assert_eq!</span>(<span class="ident">edt</span>.<span class="ident">to_string</span>(), <span class="string">&quot;2019-11-03 00:00:00 EDT&quot;</span>.<span class="ident">to_string</span>());
+        <span class="macro">assert_eq!</span>(<span class="ident">est</span>.<span class="ident">to_string</span>(), <span class="string">&quot;2019-11-03 01:00:00 EST&quot;</span>.<span class="ident">to_string</span>());
+        <span class="macro">assert_eq!</span>(<span class="ident">est</span>.<span class="ident">timestamp</span>(), <span class="ident">edt</span>.<span class="ident">timestamp</span>() <span class="op">+</span> <span class="ident">two_hours</span>.<span class="ident">num_seconds</span>());
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">warsaw_tz_name</span>() {
         <span class="kw">let</span> <span class="ident">dt</span> <span class="op">=</span> <span class="ident">UTC</span>.<span class="ident">ymd</span>(<span class="number">1915</span>, <span class="number">8</span>, <span class="number">4</span>).<span class="ident">and_hms</span>(<span class="number">22</span>, <span class="number">35</span>, <span class="number">59</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dt</span>.<span class="ident">with_timezone</span>(<span class="kw-2">&amp;</span><span class="ident">Warsaw</span>).<span class="ident">format</span>(<span class="string">&quot;%Z&quot;</span>).<span class="ident">to_string</span>(), <span class="string">&quot;WMT&quot;</span>);
-        <span class="kw">let</span> <span class="ident">dt</span> <span class="op">=</span> <span class="ident">dt</span> <span class="op">+</span> <span class="ident">Duration</span>::<span class="ident">seconds</span>(<span class="number">1</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dt</span>.<span class="ident">with_timezone</span>(<span class="kw-2">&amp;</span><span class="ident">Warsaw</span>).<span class="ident">format</span>(<span class="string">&quot;%Z&quot;</span>).<span class="ident">to_string</span>(), <span class="string">&quot;CET&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">dt</span>.<span class="ident">with_timezone</span>(<span class="kw-2">&amp;</span><span class="ident">Warsaw</span>).<span class="ident">format</span>(<span class="string">&quot;%Z&quot;</span>).<span class="ident">to_string</span>(), <span class="string">&quot;WMT&quot;</span>);
+        <span class="kw">let</span> <span class="ident">dt</span> <span class="op">=</span> <span class="ident">dt</span> <span class="op">+</span> <span class="ident">Duration::seconds</span>(<span class="number">1</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">dt</span>.<span class="ident">with_timezone</span>(<span class="kw-2">&amp;</span><span class="ident">Warsaw</span>).<span class="ident">format</span>(<span class="string">&quot;%Z&quot;</span>).<span class="ident">to_string</span>(), <span class="string">&quot;CET&quot;</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">vilnius_utc_offset</span>() {
         <span class="kw">let</span> <span class="ident">dt</span> <span class="op">=</span> <span class="ident">UTC</span>.<span class="ident">ymd</span>(<span class="number">1916</span>, <span class="number">12</span>, <span class="number">31</span>).<span class="ident">and_hms</span>(<span class="number">22</span>, <span class="number">35</span>, <span class="number">59</span>).<span class="ident">with_timezone</span>(<span class="kw-2">&amp;</span><span class="ident">Vilnius</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dt</span>, <span class="ident">Vilnius</span>.<span class="ident">ymd</span>(<span class="number">1916</span>, <span class="number">12</span>, <span class="number">31</span>).<span class="ident">and_hms</span>(<span class="number">23</span>, <span class="number">59</span>, <span class="number">59</span>));
-        <span class="kw">let</span> <span class="ident">dt</span> <span class="op">=</span> <span class="ident">dt</span> <span class="op">+</span> <span class="ident">Duration</span>::<span class="ident">seconds</span>(<span class="number">1</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dt</span>, <span class="ident">Vilnius</span>.<span class="ident">ymd</span>(<span class="number">1917</span>, <span class="number">1</span>, <span class="number">1</span>).<span class="ident">and_hms</span>(<span class="number">0</span>, <span class="number">11</span>, <span class="number">36</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">dt</span>, <span class="ident">Vilnius</span>.<span class="ident">ymd</span>(<span class="number">1916</span>, <span class="number">12</span>, <span class="number">31</span>).<span class="ident">and_hms</span>(<span class="number">23</span>, <span class="number">59</span>, <span class="number">59</span>));
+        <span class="kw">let</span> <span class="ident">dt</span> <span class="op">=</span> <span class="ident">dt</span> <span class="op">+</span> <span class="ident">Duration::seconds</span>(<span class="number">1</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">dt</span>, <span class="ident">Vilnius</span>.<span class="ident">ymd</span>(<span class="number">1917</span>, <span class="number">1</span>, <span class="number">1</span>).<span class="ident">and_hms</span>(<span class="number">0</span>, <span class="number">11</span>, <span class="number">36</span>));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">victorian_times</span>() {
         <span class="kw">let</span> <span class="ident">dt</span> <span class="op">=</span> <span class="ident">UTC</span>.<span class="ident">ymd</span>(<span class="number">1847</span>, <span class="number">12</span>, <span class="number">1</span>).<span class="ident">and_hms</span>(<span class="number">0</span>, <span class="number">1</span>, <span class="number">14</span>).<span class="ident">with_timezone</span>(<span class="kw-2">&amp;</span><span class="ident">London</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dt</span>, <span class="ident">London</span>.<span class="ident">ymd</span>(<span class="number">1847</span>, <span class="number">11</span>, <span class="number">30</span>).<span class="ident">and_hms</span>(<span class="number">23</span>, <span class="number">59</span>, <span class="number">59</span>));
-        <span class="kw">let</span> <span class="ident">dt</span> <span class="op">=</span> <span class="ident">dt</span> <span class="op">+</span> <span class="ident">Duration</span>::<span class="ident">seconds</span>(<span class="number">1</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dt</span>, <span class="ident">London</span>.<span class="ident">ymd</span>(<span class="number">1847</span>, <span class="number">12</span>, <span class="number">1</span>).<span class="ident">and_hms</span>(<span class="number">0</span>, <span class="number">1</span>, <span class="number">15</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">dt</span>, <span class="ident">London</span>.<span class="ident">ymd</span>(<span class="number">1847</span>, <span class="number">11</span>, <span class="number">30</span>).<span class="ident">and_hms</span>(<span class="number">23</span>, <span class="number">59</span>, <span class="number">59</span>));
+        <span class="kw">let</span> <span class="ident">dt</span> <span class="op">=</span> <span class="ident">dt</span> <span class="op">+</span> <span class="ident">Duration::seconds</span>(<span class="number">1</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">dt</span>, <span class="ident">London</span>.<span class="ident">ymd</span>(<span class="number">1847</span>, <span class="number">12</span>, <span class="number">1</span>).<span class="ident">and_hms</span>(<span class="number">0</span>, <span class="number">1</span>, <span class="number">15</span>));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">london_dst</span>() {
         <span class="kw">let</span> <span class="ident">dt</span> <span class="op">=</span> <span class="ident">London</span>.<span class="ident">ymd</span>(<span class="number">2016</span>, <span class="number">3</span>, <span class="number">10</span>).<span class="ident">and_hms</span>(<span class="number">5</span>, <span class="number">0</span>, <span class="number">0</span>);
-        <span class="kw">let</span> <span class="ident">later</span> <span class="op">=</span> <span class="ident">dt</span> <span class="op">+</span> <span class="ident">Duration</span>::<span class="ident">days</span>(<span class="number">180</span>);
+        <span class="kw">let</span> <span class="ident">later</span> <span class="op">=</span> <span class="ident">dt</span> <span class="op">+</span> <span class="ident">Duration::days</span>(<span class="number">180</span>);
         <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span> <span class="ident">London</span>.<span class="ident">ymd</span>(<span class="number">2016</span>, <span class="number">9</span>, <span class="number">6</span>).<span class="ident">and_hms</span>(<span class="number">6</span>, <span class="number">0</span>, <span class="number">0</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">later</span>, <span class="ident">expected</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">later</span>, <span class="ident">expected</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">international_date_line_change</span>() {
         <span class="kw">let</span> <span class="ident">dt</span> <span class="op">=</span> <span class="ident">UTC</span>.<span class="ident">ymd</span>(<span class="number">2011</span>, <span class="number">12</span>, <span class="number">30</span>).<span class="ident">and_hms</span>(<span class="number">9</span>, <span class="number">59</span>, <span class="number">59</span>).<span class="ident">with_timezone</span>(<span class="kw-2">&amp;</span><span class="ident">Apia</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dt</span>, <span class="ident">Apia</span>.<span class="ident">ymd</span>(<span class="number">2011</span>, <span class="number">12</span>, <span class="number">29</span>).<span class="ident">and_hms</span>(<span class="number">23</span>, <span class="number">59</span>, <span class="number">59</span>));
-        <span class="kw">let</span> <span class="ident">dt</span> <span class="op">=</span> <span class="ident">dt</span> <span class="op">+</span> <span class="ident">Duration</span>::<span class="ident">seconds</span>(<span class="number">1</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dt</span>, <span class="ident">Apia</span>.<span class="ident">ymd</span>(<span class="number">2011</span>, <span class="number">12</span>, <span class="number">31</span>).<span class="ident">and_hms</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">dt</span>, <span class="ident">Apia</span>.<span class="ident">ymd</span>(<span class="number">2011</span>, <span class="number">12</span>, <span class="number">29</span>).<span class="ident">and_hms</span>(<span class="number">23</span>, <span class="number">59</span>, <span class="number">59</span>));
+        <span class="kw">let</span> <span class="ident">dt</span> <span class="op">=</span> <span class="ident">dt</span> <span class="op">+</span> <span class="ident">Duration::seconds</span>(<span class="number">1</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">dt</span>, <span class="ident">Apia</span>.<span class="ident">ymd</span>(<span class="number">2011</span>, <span class="number">12</span>, <span class="number">31</span>).<span class="ident">and_hms</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">negative_offset_with_minutes_and_seconds</span>() {
         <span class="kw">let</span> <span class="ident">dt</span> <span class="op">=</span> <span class="ident">UTC</span>.<span class="ident">ymd</span>(<span class="number">1900</span>, <span class="number">1</span>, <span class="number">1</span>).<span class="ident">and_hms</span>(<span class="number">12</span>, <span class="number">0</span>, <span class="number">0</span>).<span class="ident">with_timezone</span>(<span class="kw-2">&amp;</span><span class="ident">Danmarkshavn</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dt</span>, <span class="ident">Danmarkshavn</span>.<span class="ident">ymd</span>(<span class="number">1900</span>, <span class="number">1</span>, <span class="number">1</span>).<span class="ident">and_hms</span>(<span class="number">10</span>, <span class="number">45</span>, <span class="number">20</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">dt</span>, <span class="ident">Danmarkshavn</span>.<span class="ident">ymd</span>(<span class="number">1900</span>, <span class="number">1</span>, <span class="number">1</span>).<span class="ident">and_hms</span>(<span class="number">10</span>, <span class="number">45</span>, <span class="number">20</span>));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">monotonicity</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dt</span> <span class="op">=</span> <span class="ident">Noumea</span>.<span class="ident">ymd</span>(<span class="number">1800</span>, <span class="number">1</span>, <span class="number">1</span>).<span class="ident">and_hms</span>(<span class="number">12</span>, <span class="number">0</span>, <span class="number">0</span>);
         <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">24</span> <span class="op">*</span> <span class="number">356</span> <span class="op">*</span> <span class="number">400</span> {
-            <span class="kw">let</span> <span class="ident">new</span> <span class="op">=</span> <span class="ident">dt</span> <span class="op">+</span> <span class="ident">Duration</span>::<span class="ident">hours</span>(<span class="number">1</span>);
-            <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">new</span> <span class="op">&gt;</span> <span class="ident">dt</span>);
-            <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">new</span>.<span class="ident">with_timezone</span>(<span class="kw-2">&amp;</span><span class="ident">UTC</span>) <span class="op">&gt;</span> <span class="ident">dt</span>.<span class="ident">with_timezone</span>(<span class="kw-2">&amp;</span><span class="ident">UTC</span>));
+            <span class="kw">let</span> <span class="ident">new</span> <span class="op">=</span> <span class="ident">dt</span> <span class="op">+</span> <span class="ident">Duration::hours</span>(<span class="number">1</span>);
+            <span class="macro">assert!</span>(<span class="ident">new</span> <span class="op">&gt;</span> <span class="ident">dt</span>);
+            <span class="macro">assert!</span>(<span class="ident">new</span>.<span class="ident">with_timezone</span>(<span class="kw-2">&amp;</span><span class="ident">UTC</span>) <span class="op">&gt;</span> <span class="ident">dt</span>.<span class="ident">with_timezone</span>(<span class="kw-2">&amp;</span><span class="ident">UTC</span>));
             <span class="ident">dt</span> <span class="op">=</span> <span class="ident">new</span>;
         }
     }
@@ -712,7 +709,7 @@
                         <span class="kw">let</span> <span class="ident">dt</span> <span class="op">=</span> <span class="ident">UTC</span>.<span class="ident">yo</span>(<span class="ident">y</span>, <span class="ident">d</span>).<span class="ident">and_hms</span>(<span class="ident">h</span>, <span class="ident">m</span>, <span class="number">0</span>);
                         <span class="kw">let</span> <span class="ident">with_tz</span> <span class="op">=</span> <span class="ident">dt</span>.<span class="ident">with_timezone</span>(<span class="kw-2">&amp;</span><span class="ident">tz</span>);
                         <span class="kw">let</span> <span class="ident">utc</span> <span class="op">=</span> <span class="ident">with_tz</span>.<span class="ident">with_timezone</span>(<span class="kw-2">&amp;</span><span class="ident">UTC</span>);
-                        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dt</span>, <span class="ident">utc</span>);
+                        <span class="macro">assert_eq!</span>(<span class="ident">dt</span>, <span class="ident">utc</span>);
                     }
                 }
             }
@@ -742,25 +739,25 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">string_representation</span>() {
         <span class="kw">let</span> <span class="ident">dt</span> <span class="op">=</span> <span class="ident">UTC</span>.<span class="ident">ymd</span>(<span class="number">2000</span>, <span class="number">9</span>, <span class="number">1</span>).<span class="ident">and_hms</span>(<span class="number">12</span>, <span class="number">30</span>, <span class="number">15</span>).<span class="ident">with_timezone</span>(<span class="kw-2">&amp;</span><span class="ident">Adelaide</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dt</span>.<span class="ident">to_string</span>(), <span class="string">&quot;2000-09-01 22:00:15 ACST&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">dt</span>), <span class="string">&quot;2000-09-01T22:00:15ACST&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dt</span>.<span class="ident">to_rfc3339</span>(), <span class="string">&quot;2000-09-01T22:00:15+09:30&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">dt</span>), <span class="string">&quot;2000-09-01 22:00:15 ACST&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">dt</span>.<span class="ident">to_string</span>(), <span class="string">&quot;2000-09-01 22:00:15 ACST&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="macro">format!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">dt</span>), <span class="string">&quot;2000-09-01T22:00:15ACST&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">dt</span>.<span class="ident">to_rfc3339</span>(), <span class="string">&quot;2000-09-01T22:00:15+09:30&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">dt</span>), <span class="string">&quot;2000-09-01 22:00:15 ACST&quot;</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">tahiti</span>() {
         <span class="kw">let</span> <span class="ident">dt</span> <span class="op">=</span> <span class="ident">UTC</span>.<span class="ident">ymd</span>(<span class="number">1912</span>, <span class="number">10</span>, <span class="number">1</span>).<span class="ident">and_hms</span>(<span class="number">9</span>, <span class="number">58</span>, <span class="number">16</span>).<span class="ident">with_timezone</span>(<span class="kw-2">&amp;</span><span class="ident">Tahiti</span>);
-        <span class="kw">let</span> <span class="ident">before</span> <span class="op">=</span> <span class="ident">dt</span> <span class="op">-</span> <span class="ident">Duration</span>::<span class="ident">hours</span>(<span class="number">1</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">before</span>, <span class="ident">Tahiti</span>.<span class="ident">ymd</span>(<span class="number">1912</span>, <span class="number">9</span>, <span class="number">30</span>).<span class="ident">and_hms</span>(<span class="number">23</span>, <span class="number">0</span>, <span class="number">0</span>));
-        <span class="kw">let</span> <span class="ident">after</span> <span class="op">=</span> <span class="ident">dt</span> <span class="op">+</span> <span class="ident">Duration</span>::<span class="ident">hours</span>(<span class="number">1</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">after</span>, <span class="ident">Tahiti</span>.<span class="ident">ymd</span>(<span class="number">1912</span>, <span class="number">10</span>, <span class="number">1</span>).<span class="ident">and_hms</span>(<span class="number">0</span>, <span class="number">58</span>, <span class="number">16</span>));
+        <span class="kw">let</span> <span class="ident">before</span> <span class="op">=</span> <span class="ident">dt</span> <span class="op">-</span> <span class="ident">Duration::hours</span>(<span class="number">1</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">before</span>, <span class="ident">Tahiti</span>.<span class="ident">ymd</span>(<span class="number">1912</span>, <span class="number">9</span>, <span class="number">30</span>).<span class="ident">and_hms</span>(<span class="number">23</span>, <span class="number">0</span>, <span class="number">0</span>));
+        <span class="kw">let</span> <span class="ident">after</span> <span class="op">=</span> <span class="ident">dt</span> <span class="op">+</span> <span class="ident">Duration::hours</span>(<span class="number">1</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">after</span>, <span class="ident">Tahiti</span>.<span class="ident">ymd</span>(<span class="number">1912</span>, <span class="number">10</span>, <span class="number">1</span>).<span class="ident">and_hms</span>(<span class="number">0</span>, <span class="number">58</span>, <span class="number">16</span>));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">second_offsets</span>() {
         <span class="kw">let</span> <span class="ident">dt</span> <span class="op">=</span> <span class="ident">UTC</span>.<span class="ident">ymd</span>(<span class="number">1914</span>, <span class="number">1</span>, <span class="number">1</span>).<span class="ident">and_hms</span>(<span class="number">13</span>, <span class="number">40</span>, <span class="number">28</span>).<span class="ident">with_timezone</span>(<span class="kw-2">&amp;</span><span class="ident">Amsterdam</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dt</span>.<span class="ident">to_string</span>(), <span class="string">&quot;1914-01-01 14:00:00 AMT&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">dt</span>.<span class="ident">to_string</span>(), <span class="string">&quot;1914-01-01 14:00:00 AMT&quot;</span>);
 
         <span class="comment">// NOTE: pytz will give a different result here. The actual offset is +00:19:32.</span>
         <span class="comment">//       The implementation of RFC3339 formatting in chrono rounds down the</span>
@@ -771,7 +768,7 @@
         <span class="comment">//       In any case, the actual datetime objects themselves always retain full</span>
         <span class="comment">//       precision in this implementation (unlike pytz). It is only (some) string</span>
         <span class="comment">//       representations that lack precision.</span>
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dt</span>.<span class="ident">to_rfc3339</span>(), <span class="string">&quot;1914-01-01T14:00:00+00:19&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">dt</span>.<span class="ident">to_rfc3339</span>(), <span class="string">&quot;1914-01-01T14:00:00+00:19&quot;</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -827,18 +824,18 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_get_name</span>() {
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">London</span>.<span class="ident">name</span>(), <span class="string">&quot;Europe/London&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Tz</span>::<span class="ident">Africa__Abidjan</span>.<span class="ident">name</span>(), <span class="string">&quot;Africa/Abidjan&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Tz</span>::<span class="ident">UTC</span>.<span class="ident">name</span>(), <span class="string">&quot;UTC&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Tz</span>::<span class="ident">Zulu</span>.<span class="ident">name</span>(), <span class="string">&quot;Zulu&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">London</span>.<span class="ident">name</span>(), <span class="string">&quot;Europe/London&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">Tz::Africa__Abidjan</span>.<span class="ident">name</span>(), <span class="string">&quot;Africa/Abidjan&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">Tz::UTC</span>.<span class="ident">name</span>(), <span class="string">&quot;UTC&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">Tz::Zulu</span>.<span class="ident">name</span>(), <span class="string">&quot;Zulu&quot;</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_display</span>() {
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">London</span>), <span class="string">&quot;Europe/London&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">Tz</span>::<span class="ident">Africa__Abidjan</span>), <span class="string">&quot;Africa/Abidjan&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">Tz</span>::<span class="ident">UTC</span>), <span class="string">&quot;UTC&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">Tz</span>::<span class="ident">Zulu</span>), <span class="string">&quot;Zulu&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">London</span>), <span class="string">&quot;Europe/London&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">Tz::Africa__Abidjan</span>), <span class="string">&quot;Africa/Abidjan&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">Tz::UTC</span>), <span class="string">&quot;UTC&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">Tz::Zulu</span>), <span class="string">&quot;Zulu&quot;</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -849,4 +846,6 @@
     }
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "chrono_tz";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="chrono_tz" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
+    <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script>
+</body></html>

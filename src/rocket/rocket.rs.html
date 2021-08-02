@@ -1,5 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/rocket-0.4.6/src/rocket.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>rocket.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings"></script><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="https://rocket.rs/v0.4/images/favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../rocket/index.html'><div class='logo-container'><img src='https://rocket.rs/v0.4/images/logo-boxed.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
-                <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `&#x2F;home&#x2F;runner&#x2F;.cargo&#x2F;registry&#x2F;src&#x2F;github.com-1ecc6299db9ec823&#x2F;rocket-0.4.10&#x2F;src&#x2F;rocket.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>rocket.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="https:&#x2F;&#x2F;rocket.rs&#x2F;v0.4&#x2F;images&#x2F;favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../rocket/index.html'><div class='logo-container rust-logo'><img src='https:&#x2F;&#x2F;rocket.rs&#x2F;v0.4&#x2F;images&#x2F;logo-boxed.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -839,34 +838,34 @@
 <span id="838">838</span>
 <span id="839">839</span>
 <span id="840">840</span>
-</pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashMap</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">str</span>::<span class="ident">from_utf8</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cmp</span>::<span class="ident">min</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::{<span class="self">self</span>, <span class="ident">Write</span>};
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">time</span>::<span class="ident">Duration</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>;
+</pre><pre class="rust">
+<span class="kw">use</span> <span class="ident">std::collections::HashMap</span>;
+<span class="kw">use</span> <span class="ident">std::str::from_utf8</span>;
+<span class="kw">use</span> <span class="ident">std::cmp::min</span>;
+<span class="kw">use</span> <span class="ident">std::io</span>::{<span class="self">self</span>, <span class="ident">Write</span>};
+<span class="kw">use</span> <span class="ident">std::time::Duration</span>;
+<span class="kw">use</span> <span class="ident">std::mem</span>;
 
-<span class="kw">use</span> <span class="ident">yansi</span>::<span class="ident">Paint</span>;
-<span class="kw">use</span> <span class="ident">state</span>::<span class="ident">Container</span>;
+<span class="kw">use</span> <span class="ident">yansi::Paint</span>;
+<span class="kw">use</span> <span class="ident">state::Container</span>;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tls&quot;</span>)]</span> <span class="kw">use</span> <span class="ident">http</span>::<span class="ident">tls</span>::<span class="ident">TlsServer</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tls&quot;</span>)]</span> <span class="kw">use</span> <span class="ident">http::tls::TlsServer</span>;
 
 <span class="kw">use</span> {<span class="ident">logger</span>, <span class="ident">handler</span>};
-<span class="kw">use</span> <span class="ident">ext</span>::<span class="ident">ReadExt</span>;
+<span class="kw">use</span> <span class="ident">ext::ReadExt</span>;
 <span class="kw">use</span> <span class="ident">config</span>::{<span class="self">self</span>, <span class="ident">Config</span>, <span class="ident">LoggedValue</span>};
 <span class="kw">use</span> <span class="ident">request</span>::{<span class="ident">Request</span>, <span class="ident">FormItems</span>};
-<span class="kw">use</span> <span class="ident">data</span>::<span class="ident">Data</span>;
+<span class="kw">use</span> <span class="ident">data::Data</span>;
 <span class="kw">use</span> <span class="ident">response</span>::{<span class="ident">Body</span>, <span class="ident">Response</span>};
 <span class="kw">use</span> <span class="ident">router</span>::{<span class="ident">Router</span>, <span class="ident">Route</span>};
 <span class="kw">use</span> <span class="ident">catcher</span>::{<span class="self">self</span>, <span class="ident">Catcher</span>};
-<span class="kw">use</span> <span class="ident">outcome</span>::<span class="ident">Outcome</span>;
+<span class="kw">use</span> <span class="ident">outcome::Outcome</span>;
 <span class="kw">use</span> <span class="ident">error</span>::{<span class="ident">LaunchError</span>, <span class="ident">LaunchErrorKind</span>};
 <span class="kw">use</span> <span class="ident">fairing</span>::{<span class="ident">Fairing</span>, <span class="ident">Fairings</span>};
 
 <span class="kw">use</span> <span class="ident">http</span>::{<span class="ident">Method</span>, <span class="ident">Status</span>, <span class="ident">Header</span>};
-<span class="kw">use</span> <span class="ident">http</span>::<span class="ident">hyper</span>::{<span class="self">self</span>, <span class="ident">header</span>};
-<span class="kw">use</span> <span class="ident">http</span>::<span class="ident">uri</span>::<span class="ident">Origin</span>;
+<span class="kw">use</span> <span class="ident">http::hyper</span>::{<span class="self">self</span>, <span class="ident">header</span>};
+<span class="kw">use</span> <span class="ident">http::uri::Origin</span>;
 
 <span class="doccomment">/// The main `Rocket` type: used to mount routes and catchers and launch the</span>
 <span class="doccomment">/// application.</span>
@@ -880,7 +879,7 @@
 }
 
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-<span class="kw">impl</span> <span class="ident">hyper</span>::<span class="ident">Handler</span> <span class="kw">for</span> <span class="ident">Rocket</span> {
+<span class="kw">impl</span> <span class="ident">hyper::Handler</span> <span class="kw">for</span> <span class="ident">Rocket</span> {
     <span class="comment">// This function tries to hide all of the Hyper-ness from Rocket. It</span>
     <span class="comment">// essentially converts Hyper types into Rocket types, then calls the</span>
     <span class="comment">// `dispatch` function, which knows nothing about Hyper. Because responding</span>
@@ -888,34 +887,34 @@
     <span class="comment">// response processing.</span>
     <span class="kw">fn</span> <span class="ident">handle</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="lifetime">&#39;k</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">hyp_req</span>: <span class="ident">hyper</span>::<span class="ident">Request</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="lifetime">&#39;k</span><span class="op">&gt;</span>,
-        <span class="ident">res</span>: <span class="ident">hyper</span>::<span class="ident">FreshResponse</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span><span class="op">&gt;</span>,
+        <span class="ident">hyp_req</span>: <span class="ident">hyper::Request</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="lifetime">&#39;k</span><span class="op">&gt;</span>,
+        <span class="ident">res</span>: <span class="ident">hyper::FreshResponse</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span><span class="op">&gt;</span>,
     ) {
         <span class="comment">// Get all of the information from Hyper.</span>
         <span class="kw">let</span> (<span class="ident">h_addr</span>, <span class="ident">h_method</span>, <span class="ident">h_headers</span>, <span class="ident">h_uri</span>, <span class="kw">_</span>, <span class="ident">h_body</span>) <span class="op">=</span> <span class="ident">hyp_req</span>.<span class="ident">deconstruct</span>();
 
         <span class="comment">// Convert the Hyper request into a Rocket request.</span>
-        <span class="kw">let</span> <span class="ident">req_res</span> <span class="op">=</span> <span class="ident">Request</span>::<span class="ident">from_hyp</span>(<span class="self">self</span>, <span class="ident">h_method</span>, <span class="ident">h_headers</span>, <span class="ident">h_uri</span>, <span class="ident">h_addr</span>);
+        <span class="kw">let</span> <span class="ident">req_res</span> <span class="op">=</span> <span class="ident">Request::from_hyp</span>(<span class="self">self</span>, <span class="ident">h_method</span>, <span class="ident">h_headers</span>, <span class="ident">h_uri</span>, <span class="ident">h_addr</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">req</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">req_res</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">req</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">req</span>,
             <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;Bad incoming request: {}&quot;</span>, <span class="ident">e</span>);
+                <span class="macro">error!</span>(<span class="string">&quot;Bad incoming request: {}&quot;</span>, <span class="ident">e</span>);
                 <span class="comment">// TODO: We don&#39;t have a request to pass in, so we just</span>
                 <span class="comment">// fabricate one. This is weird. We should let the user know</span>
                 <span class="comment">// that we failed to parse a request (by invoking some special</span>
                 <span class="comment">// handler) instead of doing this.</span>
-                <span class="kw">let</span> <span class="ident">dummy</span> <span class="op">=</span> <span class="ident">Request</span>::<span class="ident">new</span>(<span class="self">self</span>, <span class="ident">Method</span>::<span class="ident">Get</span>, <span class="ident">Origin</span>::<span class="ident">dummy</span>());
-                <span class="kw">let</span> <span class="ident">r</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">handle_error</span>(<span class="ident">Status</span>::<span class="ident">BadRequest</span>, <span class="kw-2">&amp;</span><span class="ident">dummy</span>);
+                <span class="kw">let</span> <span class="ident">dummy</span> <span class="op">=</span> <span class="ident">Request::new</span>(<span class="self">self</span>, <span class="ident">Method::Get</span>, <span class="ident">Origin::dummy</span>());
+                <span class="kw">let</span> <span class="ident">r</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">handle_error</span>(<span class="ident">Status::BadRequest</span>, <span class="kw-2">&amp;</span><span class="ident">dummy</span>);
                 <span class="kw">return</span> <span class="self">self</span>.<span class="ident">issue_response</span>(<span class="ident">r</span>, <span class="ident">res</span>);
             }
         };
 
         <span class="comment">// Retrieve the data from the hyper body.</span>
-        <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">Data</span>::<span class="ident">from_hyp</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>, <span class="ident">h_body</span>) {
+        <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">Data::from_hyp</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>, <span class="ident">h_body</span>) {
             <span class="prelude-val">Ok</span>(<span class="ident">data</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">data</span>,
             <span class="prelude-val">Err</span>(<span class="ident">reason</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="macro">error_</span><span class="macro">!</span>(<span class="string">&quot;Bad data in request: {}&quot;</span>, <span class="ident">reason</span>);
-                <span class="kw">let</span> <span class="ident">r</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">handle_error</span>(<span class="ident">Status</span>::<span class="ident">InternalServerError</span>, <span class="kw-2">&amp;</span><span class="ident">req</span>);
+                <span class="macro">error_!</span>(<span class="string">&quot;Bad data in request: {}&quot;</span>, <span class="ident">reason</span>);
+                <span class="kw">let</span> <span class="ident">r</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">handle_error</span>(<span class="ident">Status::InternalServerError</span>, <span class="kw-2">&amp;</span><span class="ident">req</span>);
                 <span class="kw">return</span> <span class="self">self</span>.<span class="ident">issue_response</span>(<span class="ident">r</span>, <span class="ident">res</span>);
             }
         };
@@ -934,22 +933,22 @@
 <span class="comment">// regular function taking in a closure because the types of the inputs to the</span>
 <span class="comment">// closure would be different depending on whether TLS was enabled or not.</span>
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tls&quot;</span>))]</span>
-<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">serve</span> {
+<span class="macro">macro_rules!</span> <span class="ident">serve</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rocket</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">addr</span>:<span class="ident">expr</span>, <span class="op">|</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">server</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">proto</span>:<span class="ident">ident</span><span class="op">|</span> <span class="macro-nonterminal">$</span><span class="kw">continue</span>:<span class="macro-nonterminal">expr</span>) <span class="op">=</span><span class="op">&gt;</span> ({
-        <span class="kw">let</span> (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">proto</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">server</span>) <span class="op">=</span> (<span class="string">&quot;http://&quot;</span>, <span class="ident">hyper</span>::<span class="ident">Server</span>::<span class="ident">http</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">addr</span>));
+        <span class="kw">let</span> (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">proto</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">server</span>) <span class="op">=</span> (<span class="string">&quot;http://&quot;</span>, <span class="ident">hyper::Server::http</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">addr</span>));
         <span class="macro-nonterminal">$</span><span class="kw">continue</span>
     })
 }
 
 <span class="attribute">#[<span class="macro-nonterminal">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tls&quot;</span>)]</span>
-<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">serve</span> {
+<span class="macro">macro_rules!</span> <span class="ident">serve</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rocket</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">addr</span>:<span class="ident">expr</span>, <span class="op">|</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">server</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">proto</span>:<span class="ident">ident</span><span class="op">|</span> <span class="macro-nonterminal">$</span><span class="kw">continue</span>:<span class="macro-nonterminal">expr</span>) <span class="op">=</span><span class="op">&gt;</span> ({
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">tls</span>) <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">rocket</span>.<span class="ident">config</span>.<span class="ident">tls</span>.<span class="ident">clone</span>() {
-            <span class="kw">let</span> <span class="ident">tls</span> <span class="op">=</span> <span class="ident">TlsServer</span>::<span class="ident">new</span>(<span class="ident">tls</span>.<span class="ident">certs</span>, <span class="ident">tls</span>.<span class="ident">key</span>);
-            <span class="kw">let</span> (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">proto</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">server</span>) <span class="op">=</span> (<span class="string">&quot;https://&quot;</span>, <span class="ident">hyper</span>::<span class="ident">Server</span>::<span class="ident">https</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">addr</span>, <span class="ident">tls</span>));
+            <span class="kw">let</span> <span class="ident">tls</span> <span class="op">=</span> <span class="ident">TlsServer::new</span>(<span class="ident">tls</span>.<span class="ident">certs</span>, <span class="ident">tls</span>.<span class="ident">key</span>);
+            <span class="kw">let</span> (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">proto</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">server</span>) <span class="op">=</span> (<span class="string">&quot;https://&quot;</span>, <span class="ident">hyper::Server::https</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">addr</span>, <span class="ident">tls</span>));
             <span class="macro-nonterminal">$</span><span class="kw">continue</span>
         } <span class="kw">else</span> {
-            <span class="kw">let</span> (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">proto</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">server</span>) <span class="op">=</span> (<span class="string">&quot;http://&quot;</span>, <span class="ident">hyper</span>::<span class="ident">Server</span>::<span class="ident">http</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">addr</span>));
+            <span class="kw">let</span> (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">proto</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">server</span>) <span class="op">=</span> (<span class="string">&quot;http://&quot;</span>, <span class="ident">hyper::Server::http</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">addr</span>));
             <span class="macro-nonterminal">$</span><span class="kw">continue</span>
         }
     })
@@ -957,10 +956,10 @@
 
 <span class="kw">impl</span> <span class="macro-nonterminal">Rocket</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">issue_response</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">response</span>: <span class="ident">Response</span>, <span class="ident">hyp_res</span>: <span class="ident">hyper</span>::<span class="ident">FreshResponse</span>) {
+    <span class="kw">fn</span> <span class="ident">issue_response</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">response</span>: <span class="ident">Response</span>, <span class="ident">hyp_res</span>: <span class="ident">hyper::FreshResponse</span>) {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">write_response</span>(<span class="ident">response</span>, <span class="ident">hyp_res</span>) {
-            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">info_</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">Paint</span>::<span class="ident">green</span>(<span class="string">&quot;Response succeeded.&quot;</span>)),
-            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">error_</span><span class="macro">!</span>(<span class="string">&quot;Failed to write response: {:?}.&quot;</span>, <span class="ident">e</span>),
+            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">info_!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">Paint::green</span>(<span class="string">&quot;Response succeeded.&quot;</span>)),
+            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">error_!</span>(<span class="string">&quot;Failed to write response: {:?}.&quot;</span>, <span class="ident">e</span>),
         }
     }
 
@@ -968,37 +967,37 @@
     <span class="kw">fn</span> <span class="ident">write_response</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="kw-2">mut</span> <span class="ident">response</span>: <span class="ident">Response</span>,
-        <span class="kw-2">mut</span> <span class="ident">hyp_res</span>: <span class="ident">hyper</span>::<span class="ident">FreshResponse</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw-2">*</span><span class="ident">hyp_res</span>.<span class="ident">status_mut</span>() <span class="op">=</span> <span class="ident">hyper</span>::<span class="ident">StatusCode</span>::<span class="ident">from_u16</span>(<span class="ident">response</span>.<span class="ident">status</span>().<span class="ident">code</span>);
+        <span class="kw-2">mut</span> <span class="ident">hyp_res</span>: <span class="ident">hyper::FreshResponse</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io::Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="kw-2">*</span><span class="ident">hyp_res</span>.<span class="ident">status_mut</span>() <span class="op">=</span> <span class="ident">hyper::StatusCode::from_u16</span>(<span class="ident">response</span>.<span class="ident">status</span>().<span class="ident">code</span>);
 
         <span class="kw">for</span> <span class="ident">header</span> <span class="kw">in</span> <span class="ident">response</span>.<span class="ident">headers</span>().<span class="ident">iter</span>() {
             <span class="comment">// FIXME: Using hyper here requires two allocations.</span>
             <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="ident">header</span>.<span class="ident">name</span>.<span class="ident">into_string</span>();
-            <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">from</span>(<span class="ident">header</span>.<span class="ident">value</span>.<span class="ident">as_bytes</span>());
+            <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">Vec::from</span>(<span class="ident">header</span>.<span class="ident">value</span>.<span class="ident">as_bytes</span>());
             <span class="ident">hyp_res</span>.<span class="ident">headers_mut</span>().<span class="ident">append_raw</span>(<span class="ident">name</span>, <span class="ident">value</span>);
         }
 
         <span class="kw">match</span> <span class="ident">response</span>.<span class="ident">body</span>() {
             <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">hyp_res</span>.<span class="ident">headers_mut</span>().<span class="ident">set</span>(<span class="ident">header</span>::<span class="ident">ContentLength</span>(<span class="number">0</span>));
+                <span class="ident">hyp_res</span>.<span class="ident">headers_mut</span>().<span class="ident">set</span>(<span class="ident">header::ContentLength</span>(<span class="number">0</span>));
                 <span class="ident">hyp_res</span>.<span class="ident">start</span>()<span class="question-mark">?</span>.<span class="ident">end</span>()
             }
-            <span class="prelude-val">Some</span>(<span class="ident">Body</span>::<span class="ident">Sized</span>(<span class="ident">body</span>, <span class="ident">size</span>)) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">hyp_res</span>.<span class="ident">headers_mut</span>().<span class="ident">set</span>(<span class="ident">header</span>::<span class="ident">ContentLength</span>(<span class="ident">size</span>));
+            <span class="prelude-val">Some</span>(<span class="ident">Body::Sized</span>(<span class="ident">body</span>, <span class="ident">size</span>)) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">hyp_res</span>.<span class="ident">headers_mut</span>().<span class="ident">set</span>(<span class="ident">header::ContentLength</span>(<span class="ident">size</span>));
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">stream</span> <span class="op">=</span> <span class="ident">hyp_res</span>.<span class="ident">start</span>()<span class="question-mark">?</span>;
-                <span class="ident">io</span>::<span class="ident">copy</span>(<span class="ident">body</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">stream</span>)<span class="question-mark">?</span>;
+                <span class="ident">io::copy</span>(<span class="ident">body</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">stream</span>)<span class="question-mark">?</span>;
                 <span class="ident">stream</span>.<span class="ident">end</span>()
             }
-            <span class="prelude-val">Some</span>(<span class="ident">Body</span>::<span class="ident">Chunked</span>(<span class="kw-2">mut</span> <span class="ident">body</span>, <span class="ident">chunk_size</span>)) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="prelude-val">Some</span>(<span class="ident">Body::Chunked</span>(<span class="kw-2">mut</span> <span class="ident">body</span>, <span class="ident">chunk_size</span>)) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="comment">// This _might_ happen on a 32-bit machine!</span>
-                <span class="kw">if</span> <span class="ident">chunk_size</span> <span class="op">&gt;</span> (<span class="ident">usize</span>::<span class="ident">max_value</span>() <span class="kw">as</span> <span class="ident">u64</span>) {
+                <span class="kw">if</span> <span class="ident">chunk_size</span> <span class="op">&gt;</span> (<span class="ident">usize::max_value</span>() <span class="kw">as</span> <span class="ident">u64</span>) {
                     <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="string">&quot;chunk size exceeds limits of usize type&quot;</span>;
-                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">Other</span>, <span class="ident">msg</span>));
+                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">io::Error::new</span>(<span class="ident">io::ErrorKind::Other</span>, <span class="ident">msg</span>));
                 }
 
                 <span class="comment">// The buffer stores the current chunk being written out.</span>
-                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>; <span class="ident">chunk_size</span> <span class="kw">as</span> <span class="ident">usize</span>];
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="macro">vec!</span>[<span class="number">0</span>; <span class="ident">chunk_size</span> <span class="kw">as</span> <span class="ident">usize</span>];
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">stream</span> <span class="op">=</span> <span class="ident">hyp_res</span>.<span class="ident">start</span>()<span class="question-mark">?</span>;
                 <span class="kw">loop</span> {
                     <span class="kw">match</span> <span class="ident">body</span>.<span class="ident">read_max_wfs</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buffer</span>)<span class="question-mark">?</span> {
@@ -1027,9 +1026,9 @@
         <span class="kw">let</span> (<span class="ident">min_len</span>, <span class="ident">max_len</span>) <span class="op">=</span> (<span class="string">&quot;_method=get&quot;</span>.<span class="ident">len</span>(), <span class="string">&quot;_method=delete&quot;</span>.<span class="ident">len</span>());
         <span class="kw">let</span> <span class="ident">is_form</span> <span class="op">=</span> <span class="ident">req</span>.<span class="ident">content_type</span>().<span class="ident">map_or</span>(<span class="bool-val">false</span>, <span class="op">|</span><span class="ident">ct</span><span class="op">|</span> <span class="ident">ct</span>.<span class="ident">is_form</span>());
 
-        <span class="kw">if</span> <span class="ident">is_form</span> <span class="op">&amp;&amp;</span> <span class="ident">req</span>.<span class="ident">method</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">Method</span>::<span class="ident">Post</span> <span class="op">&amp;&amp;</span> <span class="ident">data_len</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">min_len</span> {
+        <span class="kw">if</span> <span class="ident">is_form</span> <span class="op">&amp;&amp;</span> <span class="ident">req</span>.<span class="ident">method</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">Method::Post</span> <span class="op">&amp;&amp;</span> <span class="ident">data_len</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">min_len</span> {
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">form</span>) <span class="op">=</span> <span class="ident">from_utf8</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>.<span class="ident">peek</span>()[..<span class="ident">min</span>(<span class="ident">data_len</span>, <span class="ident">max_len</span>)]) {
-                <span class="kw">let</span> <span class="ident">method</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Method</span>, <span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">FormItems</span>::<span class="ident">from</span>(<span class="ident">form</span>)
+                <span class="kw">let</span> <span class="ident">method</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Method</span>, <span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">FormItems::from</span>(<span class="ident">form</span>)
                     .<span class="ident">filter</span>(<span class="op">|</span><span class="ident">item</span><span class="op">|</span> <span class="ident">item</span>.<span class="ident">key</span>.<span class="ident">as_str</span>() <span class="op">=</span><span class="op">=</span> <span class="string">&quot;_method&quot;</span>)
                     .<span class="ident">map</span>(<span class="op">|</span><span class="ident">item</span><span class="op">|</span> <span class="ident">item</span>.<span class="ident">value</span>.<span class="ident">parse</span>())
                     .<span class="ident">next</span>();
@@ -1047,7 +1046,7 @@
         <span class="ident">request</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r</span> <span class="kw-2">mut</span> <span class="ident">Request</span><span class="op">&lt;</span><span class="lifetime">&#39;s</span><span class="op">&gt;</span>,
         <span class="ident">data</span>: <span class="ident">Data</span>
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Response</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span><span class="op">&gt;</span> {
-        <span class="macro">info</span><span class="macro">!</span>(<span class="string">&quot;{}:&quot;</span>, <span class="ident">request</span>);
+        <span class="macro">info!</span>(<span class="string">&quot;{}:&quot;</span>, <span class="ident">request</span>);
 
         <span class="comment">// Do a bit of preprocessing before routing.</span>
         <span class="self">self</span>.<span class="ident">preprocess_request</span>(<span class="ident">request</span>, <span class="kw-2">&amp;</span><span class="ident">data</span>);
@@ -1056,7 +1055,7 @@
         <span class="self">self</span>.<span class="ident">fairings</span>.<span class="ident">handle_request</span>(<span class="ident">request</span>, <span class="kw-2">&amp;</span><span class="ident">data</span>);
 
         <span class="comment">// Remember if the request is a `HEAD` request for later body stripping.</span>
-        <span class="kw">let</span> <span class="ident">was_head_request</span> <span class="op">=</span> <span class="ident">request</span>.<span class="ident">method</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">Method</span>::<span class="ident">Head</span>;
+        <span class="kw">let</span> <span class="ident">was_head_request</span> <span class="op">=</span> <span class="ident">request</span>.<span class="ident">method</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">Method::Head</span>;
 
         <span class="comment">// Route the request and run the user&#39;s handlers.</span>
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">response</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">route_and_process</span>(<span class="ident">request</span>, <span class="ident">data</span>);
@@ -1064,7 +1063,7 @@
         <span class="comment">// Add a default &#39;Server&#39; header if it isn&#39;t already there.</span>
         <span class="comment">// TODO: If removing Hyper, write out `Date` header too.</span>
         <span class="kw">if</span> <span class="op">!</span><span class="ident">response</span>.<span class="ident">headers</span>().<span class="ident">contains</span>(<span class="string">&quot;Server&quot;</span>) {
-            <span class="ident">response</span>.<span class="ident">set_header</span>(<span class="ident">Header</span>::<span class="ident">new</span>(<span class="string">&quot;Server&quot;</span>, <span class="string">&quot;Rocket&quot;</span>));
+            <span class="ident">response</span>.<span class="ident">set_header</span>(<span class="ident">Header::new</span>(<span class="string">&quot;Server&quot;</span>, <span class="string">&quot;Rocket&quot;</span>));
         }
 
         <span class="comment">// Run the response fairings.</span>
@@ -1085,23 +1084,23 @@
         <span class="ident">data</span>: <span class="ident">Data</span>
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Response</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">response</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">route</span>(<span class="ident">request</span>, <span class="ident">data</span>) {
-            <span class="ident">Outcome</span>::<span class="ident">Success</span>(<span class="ident">response</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">response</span>,
-            <span class="ident">Outcome</span>::<span class="ident">Forward</span>(<span class="ident">data</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">Outcome::Success</span>(<span class="ident">response</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">response</span>,
+            <span class="ident">Outcome::Forward</span>(<span class="ident">data</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="comment">// There was no matching route. Autohandle `HEAD` requests.</span>
-                <span class="kw">if</span> <span class="ident">request</span>.<span class="ident">method</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">Method</span>::<span class="ident">Head</span> {
-                    <span class="macro">info_</span><span class="macro">!</span>(<span class="string">&quot;Autohandling {} request.&quot;</span>, <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="string">&quot;HEAD&quot;</span>).<span class="ident">bold</span>());
+                <span class="kw">if</span> <span class="ident">request</span>.<span class="ident">method</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">Method::Head</span> {
+                    <span class="macro">info_!</span>(<span class="string">&quot;Autohandling {} request.&quot;</span>, <span class="ident">Paint::default</span>(<span class="string">&quot;HEAD&quot;</span>).<span class="ident">bold</span>());
 
                     <span class="comment">// Dispatch the request again with Method `GET`.</span>
-                    <span class="ident">request</span>.<span class="ident">_set_method</span>(<span class="ident">Method</span>::<span class="ident">Get</span>);
+                    <span class="ident">request</span>.<span class="ident">_set_method</span>(<span class="ident">Method::Get</span>);
 
                     <span class="comment">// Return early so we don&#39;t set cookies twice.</span>
                     <span class="kw">return</span> <span class="self">self</span>.<span class="ident">route_and_process</span>(<span class="ident">request</span>, <span class="ident">data</span>);
                 } <span class="kw">else</span> {
                     <span class="comment">// No match was found and it can&#39;t be autohandled. 404.</span>
-                    <span class="self">self</span>.<span class="ident">handle_error</span>(<span class="ident">Status</span>::<span class="ident">NotFound</span>, <span class="ident">request</span>)
+                    <span class="self">self</span>.<span class="ident">handle_error</span>(<span class="ident">Status::NotFound</span>, <span class="ident">request</span>)
                 }
             }
-            <span class="ident">Outcome</span>::<span class="ident">Failure</span>(<span class="ident">status</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">handle_error</span>(<span class="ident">status</span>, <span class="ident">request</span>),
+            <span class="ident">Outcome::Failure</span>(<span class="ident">status</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">handle_error</span>(<span class="ident">status</span>, <span class="ident">request</span>),
         };
 
         <span class="comment">// Set the cookies. Note that error responses will only include cookies</span>
@@ -1129,12 +1128,12 @@
         <span class="kw-2">&amp;</span><span class="lifetime">&#39;s</span> <span class="self">self</span>,
         <span class="ident">request</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r</span> <span class="ident">Request</span><span class="op">&lt;</span><span class="lifetime">&#39;s</span><span class="op">&gt;</span>,
         <span class="kw-2">mut</span> <span class="ident">data</span>: <span class="ident">Data</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">handler</span>::<span class="ident">Outcome</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span><span class="op">&gt;</span> {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">handler::Outcome</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span><span class="op">&gt;</span> {
         <span class="comment">// Go through the list of matching routes until we fail or succeed.</span>
         <span class="kw">let</span> <span class="ident">matches</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">router</span>.<span class="ident">route</span>(<span class="ident">request</span>);
         <span class="kw">for</span> <span class="ident">route</span> <span class="kw">in</span> <span class="ident">matches</span> {
             <span class="comment">// Retrieve and set the requests parameters.</span>
-            <span class="macro">info_</span><span class="macro">!</span>(<span class="string">&quot;Matched: {}&quot;</span>, <span class="ident">route</span>);
+            <span class="macro">info_!</span>(<span class="string">&quot;Matched: {}&quot;</span>, <span class="ident">route</span>);
             <span class="ident">request</span>.<span class="ident">set_route</span>(<span class="ident">route</span>);
 
             <span class="comment">// Dispatch the request to the handler.</span>
@@ -1142,15 +1141,15 @@
 
             <span class="comment">// Check if the request processing completed or if the request needs</span>
             <span class="comment">// to be forwarded. If it does, continue the loop to try again.</span>
-            <span class="macro">info_</span><span class="macro">!</span>(<span class="string">&quot;{} {}&quot;</span>, <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="string">&quot;Outcome:&quot;</span>).<span class="ident">bold</span>(), <span class="ident">outcome</span>);
+            <span class="macro">info_!</span>(<span class="string">&quot;{} {}&quot;</span>, <span class="ident">Paint::default</span>(<span class="string">&quot;Outcome:&quot;</span>).<span class="ident">bold</span>(), <span class="ident">outcome</span>);
             <span class="kw">match</span> <span class="ident">outcome</span> {
-                <span class="ident">o</span>@<span class="ident">Outcome</span>::<span class="ident">Success</span>(<span class="kw">_</span>) <span class="op">|</span> <span class="ident">o</span>@<span class="ident">Outcome</span>::<span class="ident">Failure</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="ident">o</span>,
-                <span class="ident">Outcome</span>::<span class="ident">Forward</span>(<span class="ident">unused_data</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">unused_data</span>,
+                <span class="ident">o</span>@<span class="ident">Outcome::Success</span>(<span class="kw">_</span>) <span class="op">|</span> <span class="ident">o</span>@<span class="ident">Outcome::Failure</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="ident">o</span>,
+                <span class="ident">Outcome::Forward</span>(<span class="ident">unused_data</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">unused_data</span>,
             };
         }
 
-        <span class="macro">error_</span><span class="macro">!</span>(<span class="string">&quot;No matching routes for {}.&quot;</span>, <span class="ident">request</span>);
-        <span class="ident">Outcome</span>::<span class="ident">Forward</span>(<span class="ident">data</span>)
+        <span class="macro">error_!</span>(<span class="string">&quot;No matching routes for {}.&quot;</span>, <span class="ident">request</span>);
+        <span class="ident">Outcome::Forward</span>(<span class="ident">data</span>)
     }
 
     <span class="comment">// Finds the error catcher for the status `status` and executes it for the</span>
@@ -1164,7 +1163,7 @@
         <span class="ident">status</span>: <span class="ident">Status</span>,
         <span class="ident">req</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r</span> <span class="ident">Request</span>
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Response</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span><span class="op">&gt;</span> {
-        <span class="macro">warn_</span><span class="macro">!</span>(<span class="string">&quot;Responding with {} catcher.&quot;</span>, <span class="ident">Paint</span>::<span class="ident">red</span>(<span class="kw-2">&amp;</span><span class="ident">status</span>));
+        <span class="macro">warn_!</span>(<span class="string">&quot;Responding with {} catcher.&quot;</span>, <span class="ident">Paint::red</span>(<span class="kw-2">&amp;</span><span class="ident">status</span>));
 
         <span class="comment">// For now, we reset the delta state to prevent any modifications from</span>
         <span class="comment">// earlier, unsuccessful paths from being reflected in error response.</span>
@@ -1173,14 +1172,14 @@
 
         <span class="comment">// Try to get the active catcher but fallback to user&#39;s 500 catcher.</span>
         <span class="kw">let</span> <span class="ident">catcher</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">catchers</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">status</span>.<span class="ident">code</span>).<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> {
-            <span class="macro">error_</span><span class="macro">!</span>(<span class="string">&quot;No catcher found for {}. Using 500 catcher.&quot;</span>, <span class="ident">status</span>);
+            <span class="macro">error_!</span>(<span class="string">&quot;No catcher found for {}. Using 500 catcher.&quot;</span>, <span class="ident">status</span>);
             <span class="self">self</span>.<span class="ident">catchers</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="number">500</span>).<span class="ident">expect</span>(<span class="string">&quot;500 catcher.&quot;</span>)
         });
 
         <span class="comment">// Dispatch to the user&#39;s catcher. If it fails, use the default 500.</span>
         <span class="ident">catcher</span>.<span class="ident">handle</span>(<span class="ident">req</span>).<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">err_status</span><span class="op">|</span> {
-            <span class="macro">error_</span><span class="macro">!</span>(<span class="string">&quot;Catcher failed with status: {}!&quot;</span>, <span class="ident">err_status</span>);
-            <span class="macro">warn_</span><span class="macro">!</span>(<span class="string">&quot;Using default 500 error catcher.&quot;</span>);
+            <span class="macro">error_!</span>(<span class="string">&quot;Catcher failed with status: {}!&quot;</span>, <span class="ident">err_status</span>);
+            <span class="macro">warn_!</span>(<span class="string">&quot;Using default 500 error catcher.&quot;</span>);
             <span class="kw">let</span> <span class="ident">default</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">default_catchers</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="number">500</span>).<span class="ident">expect</span>(<span class="string">&quot;Default 500&quot;</span>);
             <span class="ident">default</span>.<span class="ident">handle</span>(<span class="ident">req</span>).<span class="ident">expect</span>(<span class="string">&quot;Default 500 response.&quot;</span>)
         })
@@ -1209,7 +1208,7 @@
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ignite</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Rocket</span> {
         <span class="comment">// Note: init() will exit the process under config errors.</span>
-        <span class="ident">Rocket</span>::<span class="ident">configured</span>(<span class="ident">config</span>::<span class="ident">init</span>())
+        <span class="ident">Rocket::configured</span>(<span class="ident">config::init</span>())
     }
 
     <span class="doccomment">/// Creates a new `Rocket` application using the supplied custom</span>
@@ -1238,31 +1237,31 @@
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">custom</span>(<span class="ident">config</span>: <span class="ident">Config</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Rocket</span> {
-        <span class="ident">Rocket</span>::<span class="ident">configured</span>(<span class="ident">config</span>)
+        <span class="ident">Rocket::configured</span>(<span class="ident">config</span>)
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">configured</span>(<span class="ident">config</span>: <span class="ident">Config</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Rocket</span> {
-        <span class="kw">if</span> <span class="ident">logger</span>::<span class="ident">try_init</span>(<span class="ident">config</span>.<span class="ident">log_level</span>, <span class="bool-val">false</span>) {
+        <span class="kw">if</span> <span class="ident">logger::try_init</span>(<span class="ident">config</span>.<span class="ident">log_level</span>, <span class="bool-val">false</span>) {
             <span class="comment">// Temporary weaken log level for launch info.</span>
-            <span class="ident">logger</span>::<span class="ident">push_max_level</span>(<span class="ident">logger</span>::<span class="ident">LoggingLevel</span>::<span class="ident">Normal</span>);
+            <span class="ident">logger::push_max_level</span>(<span class="ident">logger::LoggingLevel::Normal</span>);
         }
 
-        <span class="macro">launch_info</span><span class="macro">!</span>(<span class="string">&quot;{}Configured for {}.&quot;</span>, <span class="ident">Paint</span>::<span class="ident">masked</span>(<span class="string">&quot;🔧 &quot;</span>), <span class="ident">config</span>.<span class="ident">environment</span>);
-        <span class="macro">launch_info_</span><span class="macro">!</span>(<span class="string">&quot;address: {}&quot;</span>, <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="kw-2">&amp;</span><span class="ident">config</span>.<span class="ident">address</span>).<span class="ident">bold</span>());
-        <span class="macro">launch_info_</span><span class="macro">!</span>(<span class="string">&quot;port: {}&quot;</span>, <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="kw-2">&amp;</span><span class="ident">config</span>.<span class="ident">port</span>).<span class="ident">bold</span>());
-        <span class="macro">launch_info_</span><span class="macro">!</span>(<span class="string">&quot;log: {}&quot;</span>, <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="ident">config</span>.<span class="ident">log_level</span>).<span class="ident">bold</span>());
-        <span class="macro">launch_info_</span><span class="macro">!</span>(<span class="string">&quot;workers: {}&quot;</span>, <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="ident">config</span>.<span class="ident">workers</span>).<span class="ident">bold</span>());
-        <span class="macro">launch_info_</span><span class="macro">!</span>(<span class="string">&quot;secret key: {}&quot;</span>, <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="kw-2">&amp;</span><span class="ident">config</span>.<span class="ident">secret_key</span>).<span class="ident">bold</span>());
-        <span class="macro">launch_info_</span><span class="macro">!</span>(<span class="string">&quot;limits: {}&quot;</span>, <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="kw-2">&amp;</span><span class="ident">config</span>.<span class="ident">limits</span>).<span class="ident">bold</span>());
+        <span class="macro">launch_info!</span>(<span class="string">&quot;{}Configured for {}.&quot;</span>, <span class="ident">Paint::masked</span>(<span class="string">&quot;🔧 &quot;</span>), <span class="ident">config</span>.<span class="ident">environment</span>);
+        <span class="macro">launch_info_!</span>(<span class="string">&quot;address: {}&quot;</span>, <span class="ident">Paint::default</span>(<span class="kw-2">&amp;</span><span class="ident">config</span>.<span class="ident">address</span>).<span class="ident">bold</span>());
+        <span class="macro">launch_info_!</span>(<span class="string">&quot;port: {}&quot;</span>, <span class="ident">Paint::default</span>(<span class="kw-2">&amp;</span><span class="ident">config</span>.<span class="ident">port</span>).<span class="ident">bold</span>());
+        <span class="macro">launch_info_!</span>(<span class="string">&quot;log: {}&quot;</span>, <span class="ident">Paint::default</span>(<span class="ident">config</span>.<span class="ident">log_level</span>).<span class="ident">bold</span>());
+        <span class="macro">launch_info_!</span>(<span class="string">&quot;workers: {}&quot;</span>, <span class="ident">Paint::default</span>(<span class="ident">config</span>.<span class="ident">workers</span>).<span class="ident">bold</span>());
+        <span class="macro">launch_info_!</span>(<span class="string">&quot;secret key: {}&quot;</span>, <span class="ident">Paint::default</span>(<span class="kw-2">&amp;</span><span class="ident">config</span>.<span class="ident">secret_key</span>).<span class="ident">bold</span>());
+        <span class="macro">launch_info_!</span>(<span class="string">&quot;limits: {}&quot;</span>, <span class="ident">Paint::default</span>(<span class="kw-2">&amp;</span><span class="ident">config</span>.<span class="ident">limits</span>).<span class="ident">bold</span>());
 
         <span class="kw">fn</span> <span class="ident">log_timeout</span>(<span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">value</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>) {
             <span class="kw">let</span> <span class="ident">painted</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">value</span> {
-                <span class="prelude-val">Some</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}s&quot;</span>, <span class="ident">v</span>)).<span class="ident">bold</span>(),
-                <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="string">&quot;disabled&quot;</span>.<span class="ident">into</span>()).<span class="ident">bold</span>()
+                <span class="prelude-val">Some</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Paint::default</span>(<span class="macro">format!</span>(<span class="string">&quot;{}s&quot;</span>, <span class="ident">v</span>)).<span class="ident">bold</span>(),
+                <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Paint::default</span>(<span class="string">&quot;disabled&quot;</span>.<span class="ident">into</span>()).<span class="ident">bold</span>()
             };
 
-            <span class="macro">launch_info_</span><span class="macro">!</span>(<span class="string">&quot;{}: {}&quot;</span>, <span class="ident">name</span>, <span class="ident">painted</span>);
+            <span class="macro">launch_info_!</span>(<span class="string">&quot;{}: {}&quot;</span>, <span class="ident">name</span>, <span class="ident">painted</span>);
         }
 
         <span class="ident">log_timeout</span>(<span class="string">&quot;keep-alive&quot;</span>, <span class="ident">config</span>.<span class="ident">keep_alive</span>);
@@ -1270,32 +1269,32 @@
         <span class="ident">log_timeout</span>(<span class="string">&quot;write timeout&quot;</span>, <span class="ident">config</span>.<span class="ident">write_timeout</span>);
 
         <span class="kw">let</span> <span class="ident">tls_configured</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">tls</span>.<span class="ident">is_some</span>();
-        <span class="kw">if</span> <span class="ident">tls_configured</span> <span class="op">&amp;&amp;</span> <span class="macro">cfg</span><span class="macro">!</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tls&quot;</span>) {
-            <span class="macro">launch_info_</span><span class="macro">!</span>(<span class="string">&quot;tls: {}&quot;</span>, <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="string">&quot;enabled&quot;</span>).<span class="ident">bold</span>());
+        <span class="kw">if</span> <span class="ident">tls_configured</span> <span class="op">&amp;&amp;</span> <span class="macro">cfg!</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tls&quot;</span>) {
+            <span class="macro">launch_info_!</span>(<span class="string">&quot;tls: {}&quot;</span>, <span class="ident">Paint::default</span>(<span class="string">&quot;enabled&quot;</span>).<span class="ident">bold</span>());
         } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">tls_configured</span> {
-            <span class="macro">error_</span><span class="macro">!</span>(<span class="string">&quot;tls: {}&quot;</span>, <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="string">&quot;disabled&quot;</span>).<span class="ident">bold</span>());
-            <span class="macro">error_</span><span class="macro">!</span>(<span class="string">&quot;tls is configured, but the tls feature is disabled&quot;</span>);
+            <span class="macro">error_!</span>(<span class="string">&quot;tls: {}&quot;</span>, <span class="ident">Paint::default</span>(<span class="string">&quot;disabled&quot;</span>).<span class="ident">bold</span>());
+            <span class="macro">error_!</span>(<span class="string">&quot;tls is configured, but the tls feature is disabled&quot;</span>);
         } <span class="kw">else</span> {
-            <span class="macro">launch_info_</span><span class="macro">!</span>(<span class="string">&quot;tls: {}&quot;</span>, <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="string">&quot;disabled&quot;</span>).<span class="ident">bold</span>());
+            <span class="macro">launch_info_!</span>(<span class="string">&quot;tls: {}&quot;</span>, <span class="ident">Paint::default</span>(<span class="string">&quot;disabled&quot;</span>).<span class="ident">bold</span>());
         }
 
         <span class="kw">if</span> <span class="ident">config</span>.<span class="ident">secret_key</span>.<span class="ident">is_generated</span>() <span class="op">&amp;&amp;</span> <span class="ident">config</span>.<span class="ident">environment</span>.<span class="ident">is_prod</span>() {
-            <span class="macro">warn</span><span class="macro">!</span>(<span class="string">&quot;environment is &#39;production&#39;, but no `secret_key` is configured&quot;</span>);
+            <span class="macro">warn!</span>(<span class="string">&quot;environment is &#39;production&#39;, but no `secret_key` is configured&quot;</span>);
         }
 
         <span class="kw">for</span> (<span class="ident">name</span>, <span class="ident">value</span>) <span class="kw">in</span> <span class="ident">config</span>.<span class="ident">extras</span>() {
-            <span class="macro">launch_info_</span><span class="macro">!</span>(<span class="string">&quot;{} {}: {}&quot;</span>,
-                          <span class="ident">Paint</span>::<span class="ident">yellow</span>(<span class="string">&quot;[extra]&quot;</span>), <span class="ident">name</span>,
-                          <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="ident">LoggedValue</span>(<span class="ident">value</span>)).<span class="ident">bold</span>());
+            <span class="macro">launch_info_!</span>(<span class="string">&quot;{} {}: {}&quot;</span>,
+                          <span class="ident">Paint::yellow</span>(<span class="string">&quot;[extra]&quot;</span>), <span class="ident">name</span>,
+                          <span class="ident">Paint::default</span>(<span class="ident">LoggedValue</span>(<span class="ident">value</span>)).<span class="ident">bold</span>());
         }
 
         <span class="ident">Rocket</span> {
             <span class="ident">config</span>,
-            <span class="ident">router</span>: <span class="ident">Router</span>::<span class="ident">new</span>(),
-            <span class="ident">default_catchers</span>: <span class="ident">catcher</span>::<span class="ident">defaults</span>::<span class="ident">get</span>(),
-            <span class="ident">catchers</span>: <span class="ident">catcher</span>::<span class="ident">defaults</span>::<span class="ident">get</span>(),
-            <span class="ident">state</span>: <span class="ident">Container</span>::<span class="ident">new</span>(),
-            <span class="ident">fairings</span>: <span class="ident">Fairings</span>::<span class="ident">new</span>(),
+            <span class="ident">router</span>: <span class="ident">Router::new</span>(),
+            <span class="ident">default_catchers</span>: <span class="ident">catcher::defaults::get</span>(),
+            <span class="ident">catchers</span>: <span class="ident">catcher::defaults::get</span>(),
+            <span class="ident">state</span>: <span class="ident">Container::new</span>(),
+            <span class="ident">fairings</span>: <span class="ident">Fairings::new</span>(),
         }
     }
 
@@ -1355,31 +1354,31 @@
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mount</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Route</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">base</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">routes</span>: <span class="ident">R</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="macro">info</span><span class="macro">!</span>(<span class="string">&quot;{}{} {}{}&quot;</span>,
-              <span class="ident">Paint</span>::<span class="ident">masked</span>(<span class="string">&quot;🛰  &quot;</span>),
-              <span class="ident">Paint</span>::<span class="ident">magenta</span>(<span class="string">&quot;Mounting&quot;</span>),
-              <span class="ident">Paint</span>::<span class="ident">blue</span>(<span class="ident">base</span>),
-              <span class="ident">Paint</span>::<span class="ident">magenta</span>(<span class="string">&quot;:&quot;</span>));
+        <span class="macro">info!</span>(<span class="string">&quot;{}{} {}{}&quot;</span>,
+              <span class="ident">Paint::masked</span>(<span class="string">&quot;🛰  &quot;</span>),
+              <span class="ident">Paint::magenta</span>(<span class="string">&quot;Mounting&quot;</span>),
+              <span class="ident">Paint::blue</span>(<span class="ident">base</span>),
+              <span class="ident">Paint::magenta</span>(<span class="string">&quot;:&quot;</span>));
 
-        <span class="kw">let</span> <span class="ident">base_uri</span> <span class="op">=</span> <span class="ident">Origin</span>::<span class="ident">parse</span>(<span class="ident">base</span>)
+        <span class="kw">let</span> <span class="ident">base_uri</span> <span class="op">=</span> <span class="ident">Origin::parse</span>(<span class="ident">base</span>)
             .<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="macro">error_</span><span class="macro">!</span>(<span class="string">&quot;Invalid origin URI &#39;{}&#39; used as mount point.&quot;</span>, <span class="ident">base</span>);
-                <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Error: {}&quot;</span>, <span class="ident">e</span>);
+                <span class="macro">error_!</span>(<span class="string">&quot;Invalid origin URI &#39;{}&#39; used as mount point.&quot;</span>, <span class="ident">base</span>);
+                <span class="macro">panic!</span>(<span class="string">&quot;Error: {}&quot;</span>, <span class="ident">e</span>);
             });
 
         <span class="kw">if</span> <span class="ident">base_uri</span>.<span class="ident">query</span>().<span class="ident">is_some</span>() {
-            <span class="macro">error_</span><span class="macro">!</span>(<span class="string">&quot;Mount point &#39;{}&#39; contains query string.&quot;</span>, <span class="ident">base</span>);
-            <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Invalid mount point.&quot;</span>);
+            <span class="macro">error_!</span>(<span class="string">&quot;Mount point &#39;{}&#39; contains query string.&quot;</span>, <span class="ident">base</span>);
+            <span class="macro">panic!</span>(<span class="string">&quot;Invalid mount point.&quot;</span>);
         }
 
         <span class="kw">for</span> <span class="kw-2">mut</span> <span class="ident">route</span> <span class="kw">in</span> <span class="ident">routes</span>.<span class="ident">into</span>() {
             <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">route</span>.<span class="ident">uri</span>.<span class="ident">clone</span>();
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span> <span class="ident">route</span>.<span class="ident">set_uri</span>(<span class="ident">base_uri</span>.<span class="ident">clone</span>(), <span class="ident">path</span>) {
-                <span class="macro">error_</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">e</span>);
-                <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Invalid route URI.&quot;</span>);
+                <span class="macro">error_!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">e</span>);
+                <span class="macro">panic!</span>(<span class="string">&quot;Invalid route URI.&quot;</span>);
             }
 
-            <span class="macro">info_</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">route</span>);
+            <span class="macro">info_!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">route</span>);
             <span class="self">self</span>.<span class="ident">router</span>.<span class="ident">add</span>(<span class="ident">route</span>);
         }
 
@@ -1415,12 +1414,12 @@
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">register</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">catchers</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Catcher</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="macro">info</span><span class="macro">!</span>(<span class="string">&quot;{}{}&quot;</span>, <span class="ident">Paint</span>::<span class="ident">masked</span>(<span class="string">&quot;👾 &quot;</span>), <span class="ident">Paint</span>::<span class="ident">magenta</span>(<span class="string">&quot;Catchers:&quot;</span>));
+        <span class="macro">info!</span>(<span class="string">&quot;{}{}&quot;</span>, <span class="ident">Paint::masked</span>(<span class="string">&quot;👾 &quot;</span>), <span class="ident">Paint::magenta</span>(<span class="string">&quot;Catchers:&quot;</span>));
         <span class="kw">for</span> <span class="ident">c</span> <span class="kw">in</span> <span class="ident">catchers</span> {
             <span class="kw">if</span> <span class="self">self</span>.<span class="ident">catchers</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">c</span>.<span class="ident">code</span>).<span class="ident">map_or</span>(<span class="bool-val">false</span>, <span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="op">!</span><span class="ident">e</span>.<span class="ident">is_default</span>) {
-                <span class="macro">info_</span><span class="macro">!</span>(<span class="string">&quot;{} {}&quot;</span>, <span class="ident">c</span>, <span class="ident">Paint</span>::<span class="ident">yellow</span>(<span class="string">&quot;(warning: duplicate catcher!)&quot;</span>));
+                <span class="macro">info_!</span>(<span class="string">&quot;{} {}&quot;</span>, <span class="ident">c</span>, <span class="ident">Paint::yellow</span>(<span class="string">&quot;(warning: duplicate catcher!)&quot;</span>));
             } <span class="kw">else</span> {
-                <span class="macro">info_</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">c</span>);
+                <span class="macro">info_!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">c</span>);
             }
 
             <span class="self">self</span>.<span class="ident">catchers</span>.<span class="ident">insert</span>(<span class="ident">c</span>.<span class="ident">code</span>, <span class="ident">c</span>);
@@ -1469,8 +1468,8 @@
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">manage</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">state</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">state</span>.<span class="ident">set</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">state</span>) {
-            <span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;State for this type is already being managed!&quot;</span>);
-            <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Aborting due to duplicately managed state.&quot;</span>);
+            <span class="macro">error!</span>(<span class="string">&quot;State for this type is already being managed!&quot;</span>);
+            <span class="macro">panic!</span>(<span class="string">&quot;Aborting due to duplicately managed state.&quot;</span>);
         }
 
         <span class="self">self</span>
@@ -1501,8 +1500,8 @@
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">attach</span><span class="op">&lt;</span><span class="ident">F</span>: <span class="ident">Fairing</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">fairing</span>: <span class="ident">F</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="comment">// Attach (and run attach) fairings, which requires us to move `self`.</span>
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">fairings</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">replace</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">fairings</span>, <span class="ident">Fairings</span>::<span class="ident">new</span>());
-        <span class="self">self</span> <span class="op">=</span> <span class="ident">fairings</span>.<span class="ident">attach</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">fairing</span>), <span class="self">self</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">fairings</span> <span class="op">=</span> <span class="ident">mem::replace</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">fairings</span>, <span class="ident">Fairings::new</span>());
+        <span class="self">self</span> <span class="op">=</span> <span class="ident">fairings</span>.<span class="ident">attach</span>(<span class="ident">Box::new</span>(<span class="ident">fairing</span>), <span class="self">self</span>);
 
         <span class="comment">// Make sure we keep all fairings around: the old and newly added ones!</span>
         <span class="ident">fairings</span>.<span class="ident">append</span>(<span class="self">self</span>.<span class="ident">fairings</span>);
@@ -1513,11 +1512,11 @@
     <span class="kw">crate</span> <span class="kw">fn</span> <span class="ident">prelaunch_check</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Rocket</span>, <span class="ident">LaunchError</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">router</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">router</span>.<span class="ident">collisions</span>() {
             <span class="prelude-val">Ok</span>(<span class="ident">router</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">router</span>,
-            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">LaunchError</span>::<span class="ident">new</span>(<span class="ident">LaunchErrorKind</span>::<span class="ident">Collision</span>(<span class="ident">e</span>)))
+            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">LaunchError::new</span>(<span class="ident">LaunchErrorKind::Collision</span>(<span class="ident">e</span>)))
         };
 
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">failures</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">fairings</span>.<span class="ident">failures</span>() {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">LaunchError</span>::<span class="ident">new</span>(<span class="ident">LaunchErrorKind</span>::<span class="ident">FailedFairings</span>(<span class="ident">failures</span>.<span class="ident">to_vec</span>())))
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">LaunchError::new</span>(<span class="ident">LaunchErrorKind::FailedFairings</span>(<span class="ident">failures</span>.<span class="ident">to_vec</span>())))
         }
 
         <span class="prelude-val">Ok</span>(<span class="self">self</span>)
@@ -1549,28 +1548,28 @@
 
         <span class="self">self</span>.<span class="ident">fairings</span>.<span class="ident">pretty_print_counts</span>();
 
-        <span class="kw">let</span> <span class="ident">full_addr</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}:{}&quot;</span>, <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">address</span>, <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">port</span>);
-        <span class="macro">serve</span><span class="macro">!</span>(<span class="self">self</span>, <span class="kw-2">&amp;</span><span class="ident">full_addr</span>, <span class="op">|</span><span class="ident">server</span>, <span class="ident">proto</span><span class="op">|</span> {
+        <span class="kw">let</span> <span class="ident">full_addr</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="string">&quot;{}:{}&quot;</span>, <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">address</span>, <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">port</span>);
+        <span class="macro">serve!</span>(<span class="self">self</span>, <span class="kw-2">&amp;</span><span class="ident">full_addr</span>, <span class="op">|</span><span class="ident">server</span>, <span class="ident">proto</span><span class="op">|</span> {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">server</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">server</span> {
                 <span class="prelude-val">Ok</span>(<span class="ident">server</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">server</span>,
-                <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="ident">LaunchError</span>::<span class="ident">new</span>(<span class="ident">LaunchErrorKind</span>::<span class="ident">Bind</span>(<span class="ident">e</span>)),
+                <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="ident">LaunchError::new</span>(<span class="ident">LaunchErrorKind::Bind</span>(<span class="ident">e</span>)),
             };
 
             <span class="comment">// Determine the address and port we actually binded to.</span>
             <span class="kw">match</span> <span class="ident">server</span>.<span class="ident">local_addr</span>() {
                 <span class="prelude-val">Ok</span>(<span class="ident">server_addr</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">port</span> <span class="op">=</span> <span class="ident">server_addr</span>.<span class="ident">port</span>(),
-                <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="ident">LaunchError</span>::<span class="ident">from</span>(<span class="ident">e</span>),
+                <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="ident">LaunchError::from</span>(<span class="ident">e</span>),
             }
 
             <span class="comment">// Set the keep-alive.</span>
-            <span class="kw">let</span> <span class="ident">timeout</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">keep_alive</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">Duration</span>::<span class="ident">from_secs</span>(<span class="ident">s</span> <span class="kw">as</span> <span class="ident">u64</span>));
+            <span class="kw">let</span> <span class="ident">timeout</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">keep_alive</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">Duration::from_secs</span>(<span class="ident">s</span> <span class="kw">as</span> <span class="ident">u64</span>));
             <span class="ident">server</span>.<span class="ident">keep_alive</span>(<span class="ident">timeout</span>);
 
             <span class="comment">// Set sane timeouts.</span>
-            <span class="kw">let</span> <span class="ident">read_timeout</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">read_timeout</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">Duration</span>::<span class="ident">from_secs</span>(<span class="ident">s</span> <span class="kw">as</span> <span class="ident">u64</span>));
+            <span class="kw">let</span> <span class="ident">read_timeout</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">read_timeout</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">Duration::from_secs</span>(<span class="ident">s</span> <span class="kw">as</span> <span class="ident">u64</span>));
             <span class="ident">server</span>.<span class="ident">set_read_timeout</span>(<span class="ident">read_timeout</span>);
 
-            <span class="kw">let</span> <span class="ident">write_timeout</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">write_timeout</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">Duration</span>::<span class="ident">from_secs</span>(<span class="ident">s</span> <span class="kw">as</span> <span class="ident">u64</span>));
+            <span class="kw">let</span> <span class="ident">write_timeout</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">write_timeout</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">Duration::from_secs</span>(<span class="ident">s</span> <span class="kw">as</span> <span class="ident">u64</span>));
             <span class="ident">server</span>.<span class="ident">set_write_timeout</span>(<span class="ident">write_timeout</span>);
 
             <span class="comment">// Freeze managed state for synchronization-free accesses later.</span>
@@ -1579,22 +1578,22 @@
             <span class="comment">// Run the launch fairings.</span>
             <span class="self">self</span>.<span class="ident">fairings</span>.<span class="ident">handle_launch</span>(<span class="kw-2">&amp;</span><span class="self">self</span>);
 
-            <span class="kw">let</span> <span class="ident">full_addr</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}:{}&quot;</span>, <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">address</span>, <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">port</span>);
-            <span class="macro">launch_info</span><span class="macro">!</span>(<span class="string">&quot;{}{} {}{}&quot;</span>,
-                         <span class="ident">Paint</span>::<span class="ident">masked</span>(<span class="string">&quot;🚀 &quot;</span>),
-                         <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="string">&quot;Rocket has launched from&quot;</span>).<span class="ident">bold</span>(),
-                         <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="ident">proto</span>).<span class="ident">bold</span>().<span class="ident">underline</span>(),
-                         <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="kw-2">&amp;</span><span class="ident">full_addr</span>).<span class="ident">bold</span>().<span class="ident">underline</span>());
+            <span class="kw">let</span> <span class="ident">full_addr</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="string">&quot;{}:{}&quot;</span>, <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">address</span>, <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">port</span>);
+            <span class="macro">launch_info!</span>(<span class="string">&quot;{}{} {}{}&quot;</span>,
+                         <span class="ident">Paint::masked</span>(<span class="string">&quot;🚀 &quot;</span>),
+                         <span class="ident">Paint::default</span>(<span class="string">&quot;Rocket has launched from&quot;</span>).<span class="ident">bold</span>(),
+                         <span class="ident">Paint::default</span>(<span class="ident">proto</span>).<span class="ident">bold</span>().<span class="ident">underline</span>(),
+                         <span class="ident">Paint::default</span>(<span class="kw-2">&amp;</span><span class="ident">full_addr</span>).<span class="ident">bold</span>().<span class="ident">underline</span>());
 
             <span class="comment">// Restore the log level back to what it originally was.</span>
-            <span class="ident">logger</span>::<span class="ident">pop_max_level</span>();
+            <span class="ident">logger::pop_max_level</span>();
 
             <span class="kw">let</span> <span class="ident">threads</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">workers</span> <span class="kw">as</span> <span class="ident">usize</span>;
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span> <span class="ident">server</span>.<span class="ident">handle_threads</span>(<span class="self">self</span>, <span class="ident">threads</span>) {
-                <span class="kw">return</span> <span class="ident">LaunchError</span>::<span class="ident">from</span>(<span class="ident">e</span>);
+                <span class="kw">return</span> <span class="ident">LaunchError::from</span>(<span class="ident">e</span>);
             }
 
-            <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;the call to `handle_threads` should block on success&quot;</span>)
+            <span class="macro">unreachable!</span>(<span class="string">&quot;the call to `handle_threads` should block on success&quot;</span>)
         })
     }
 
@@ -1681,4 +1680,6 @@
     }
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "rocket";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="rocket" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
+    <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script>
+</body></html>

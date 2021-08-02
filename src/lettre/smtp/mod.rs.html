@@ -1,7 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/lettre-0.9.5/src/smtp/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script id="default-settings"></script><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../../favicon.svg">
-<link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png">
-<link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../lettre/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
-                <a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `&#x2F;home&#x2F;runner&#x2F;.cargo&#x2F;registry&#x2F;src&#x2F;github.com-1ecc6299db9ec823&#x2F;lettre-0.9.6&#x2F;src&#x2F;smtp&#x2F;mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../lettre/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -480,7 +477,7 @@
 <span id="477">477</span>
 <span id="478">478</span>
 <span id="479">479</span>
-</pre><div class="example-wrap"><pre class="rust ">
+</pre><pre class="rust">
 <span class="doccomment">//! The SMTP transport sends emails using the SMTP protocol.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! This SMTP client follows [RFC</span>
@@ -496,18 +493,18 @@
 <span class="doccomment">//! * SMTPUTF8 ([RFC 6531](http://tools.ietf.org/html/rfc6531))</span>
 <span class="doccomment">//!</span>
 
-<span class="kw">use</span> <span class="ident">native_tls</span>::<span class="ident">TlsConnector</span>;
-<span class="kw">use</span> <span class="ident">smtp</span>::<span class="ident">authentication</span>::{
+<span class="kw">use</span> <span class="ident">native_tls::TlsConnector</span>;
+<span class="kw">use</span> <span class="ident">smtp::authentication</span>::{
     <span class="ident">Credentials</span>, <span class="ident">Mechanism</span>, <span class="ident">DEFAULT_ENCRYPTED_MECHANISMS</span>, <span class="ident">DEFAULT_UNENCRYPTED_MECHANISMS</span>,
 };
-<span class="kw">use</span> <span class="ident">smtp</span>::<span class="ident">client</span>::<span class="ident">net</span>::<span class="ident">ClientTlsParameters</span>;
-<span class="kw">use</span> <span class="ident">smtp</span>::<span class="ident">client</span>::<span class="ident">net</span>::<span class="ident">DEFAULT_TLS_PROTOCOLS</span>;
-<span class="kw">use</span> <span class="ident">smtp</span>::<span class="ident">client</span>::<span class="ident">InnerClient</span>;
-<span class="kw">use</span> <span class="ident">smtp</span>::<span class="ident">commands</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="ident">smtp</span>::<span class="ident">error</span>::{<span class="ident">Error</span>, <span class="ident">SmtpResult</span>};
-<span class="kw">use</span> <span class="ident">smtp</span>::<span class="ident">extension</span>::{<span class="ident">ClientId</span>, <span class="ident">Extension</span>, <span class="ident">MailBodyParameter</span>, <span class="ident">MailParameter</span>, <span class="ident">ServerInfo</span>};
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">net</span>::{<span class="ident">SocketAddr</span>, <span class="ident">ToSocketAddrs</span>};
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">time</span>::<span class="ident">Duration</span>;
+<span class="kw">use</span> <span class="ident">smtp::client::net::ClientTlsParameters</span>;
+<span class="kw">use</span> <span class="ident">smtp::client::net::DEFAULT_TLS_PROTOCOLS</span>;
+<span class="kw">use</span> <span class="ident">smtp::client::InnerClient</span>;
+<span class="kw">use</span> <span class="ident">smtp::commands</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="ident">smtp::error</span>::{<span class="ident">Error</span>, <span class="ident">SmtpResult</span>};
+<span class="kw">use</span> <span class="ident">smtp::extension</span>::{<span class="ident">ClientId</span>, <span class="ident">Extension</span>, <span class="ident">MailBodyParameter</span>, <span class="ident">MailParameter</span>, <span class="ident">ServerInfo</span>};
+<span class="kw">use</span> <span class="ident">std::net</span>::{<span class="ident">SocketAddr</span>, <span class="ident">ToSocketAddrs</span>};
+<span class="kw">use</span> <span class="ident">std::time::Duration</span>;
 <span class="kw">use</span> {<span class="ident">SendableEmail</span>, <span class="ident">Transport</span>};
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">authentication</span>;
@@ -601,12 +598,12 @@
                 <span class="ident">security</span>,
                 <span class="ident">smtp_utf8</span>: <span class="bool-val">false</span>,
                 <span class="ident">credentials</span>: <span class="prelude-val">None</span>,
-                <span class="ident">connection_reuse</span>: <span class="ident">ConnectionReuseParameters</span>::<span class="ident">NoReuse</span>,
-                <span class="ident">hello_name</span>: <span class="ident">ClientId</span>::<span class="ident">hostname</span>(),
+                <span class="ident">connection_reuse</span>: <span class="ident">ConnectionReuseParameters::NoReuse</span>,
+                <span class="ident">hello_name</span>: <span class="ident">ClientId::hostname</span>(),
                 <span class="ident">authentication_mechanism</span>: <span class="prelude-val">None</span>,
-                <span class="ident">timeout</span>: <span class="prelude-val">Some</span>(<span class="ident">Duration</span>::<span class="ident">new</span>(<span class="number">60</span>, <span class="number">0</span>)),
+                <span class="ident">timeout</span>: <span class="prelude-val">Some</span>(<span class="ident">Duration::new</span>(<span class="number">60</span>, <span class="number">0</span>)),
             }),
-            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">Resolution</span>),
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">Error::Resolution</span>),
         }
     }
 
@@ -614,21 +611,21 @@
     <span class="doccomment">/// Creates an encrypted transport over submissions port, using the provided domain</span>
     <span class="doccomment">/// to validate TLS certificates.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_simple</span>(<span class="ident">domain</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">SmtpClient</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">tls_builder</span> <span class="op">=</span> <span class="ident">TlsConnector</span>::<span class="ident">builder</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">tls_builder</span> <span class="op">=</span> <span class="ident">TlsConnector::builder</span>();
         <span class="ident">tls_builder</span>.<span class="ident">min_protocol_version</span>(<span class="prelude-val">Some</span>(<span class="ident">DEFAULT_TLS_PROTOCOLS</span>[<span class="number">0</span>]));
 
         <span class="kw">let</span> <span class="ident">tls_parameters</span> <span class="op">=</span>
-            <span class="ident">ClientTlsParameters</span>::<span class="ident">new</span>(<span class="ident">domain</span>.<span class="ident">to_string</span>(), <span class="ident">tls_builder</span>.<span class="ident">build</span>().<span class="ident">unwrap</span>());
+            <span class="ident">ClientTlsParameters::new</span>(<span class="ident">domain</span>.<span class="ident">to_string</span>(), <span class="ident">tls_builder</span>.<span class="ident">build</span>().<span class="ident">unwrap</span>());
 
-        <span class="ident">SmtpClient</span>::<span class="ident">new</span>(
+        <span class="ident">SmtpClient::new</span>(
             (<span class="ident">domain</span>, <span class="ident">SUBMISSIONS_PORT</span>),
-            <span class="ident">ClientSecurity</span>::<span class="ident">Wrapper</span>(<span class="ident">tls_parameters</span>),
+            <span class="ident">ClientSecurity::Wrapper</span>(<span class="ident">tls_parameters</span>),
         )
     }
 
     <span class="doccomment">/// Creates a new local SMTP client to port 25</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_unencrypted_localhost</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">SmtpClient</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
-        <span class="ident">SmtpClient</span>::<span class="ident">new</span>((<span class="string">&quot;localhost&quot;</span>, <span class="ident">SMTP_PORT</span>), <span class="ident">ClientSecurity</span>::<span class="prelude-val">None</span>)
+        <span class="ident">SmtpClient::new</span>((<span class="string">&quot;localhost&quot;</span>, <span class="ident">SMTP_PORT</span>), <span class="ident">ClientSecurity::None</span>)
     }
 
     <span class="doccomment">/// Enable SMTPUTF8 if the server supports it</span>
@@ -671,7 +668,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// It does not connect to the server, but only creates the `SmtpTransport`</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">transport</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SmtpTransport</span> {
-        <span class="ident">SmtpTransport</span>::<span class="ident">new</span>(<span class="self">self</span>)
+        <span class="ident">SmtpTransport::new</span>(<span class="self">self</span>)
     }
 }
 
@@ -698,7 +695,7 @@
     <span class="ident">client</span>: <span class="ident">InnerClient</span>,
 }
 
-<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">try_smtp</span> (
+<span class="macro">macro_rules!</span> <span class="ident">try_smtp</span> (
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">err</span>: <span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">client</span>: <span class="ident">ident</span>) <span class="op">=</span><span class="op">&gt;</span> ({
         <span class="kw">match</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">err</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">val</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">val</span>,
@@ -707,7 +704,7 @@
                     <span class="macro-nonterminal">$</span><span class="macro-nonterminal">client</span>.<span class="ident">state</span>.<span class="ident">panic</span> <span class="op">=</span> <span class="bool-val">true</span>;
                     <span class="macro-nonterminal">$</span><span class="macro-nonterminal">client</span>.<span class="ident">close</span>();
                 }
-                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">From</span>::<span class="ident">from</span>(<span class="ident">err</span>))
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">From::from</span>(<span class="ident">err</span>))
             },
         }
     })
@@ -718,7 +715,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// It does not connect to the server, but only creates the `SmtpTransport`</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">builder</span>: <span class="ident">SmtpClient</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SmtpTransport</span> {
-        <span class="kw">let</span> <span class="ident">client</span> <span class="op">=</span> <span class="ident">InnerClient</span>::<span class="ident">new</span>();
+        <span class="kw">let</span> <span class="ident">client</span> <span class="op">=</span> <span class="ident">InnerClient::new</span>();
 
         <span class="ident">SmtpTransport</span> {
             <span class="ident">client</span>,
@@ -738,7 +735,7 @@
         }
 
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">connection_reuse_count</span> <span class="op">&gt;</span> <span class="number">0</span> {
-            <span class="macro">info</span><span class="macro">!</span>(
+            <span class="macro">info!</span>(
                 <span class="string">&quot;connection already established to {}&quot;</span>,
                 <span class="self">self</span>.<span class="ident">client_info</span>.<span class="ident">server_addr</span>
             );
@@ -748,7 +745,7 @@
         <span class="self">self</span>.<span class="ident">client</span>.<span class="ident">connect</span>(
             <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">client_info</span>.<span class="ident">server_addr</span>,
             <span class="kw">match</span> <span class="self">self</span>.<span class="ident">client_info</span>.<span class="ident">security</span> {
-                <span class="ident">ClientSecurity</span>::<span class="ident">Wrapper</span>(<span class="kw-2">ref</span> <span class="ident">tls_parameters</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">tls_parameters</span>),
+                <span class="ident">ClientSecurity::Wrapper</span>(<span class="kw-2">ref</span> <span class="ident">tls_parameters</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">tls_parameters</span>),
                 <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
             },
         )<span class="question-mark">?</span>;
@@ -756,7 +753,7 @@
         <span class="self">self</span>.<span class="ident">client</span>.<span class="ident">set_timeout</span>(<span class="self">self</span>.<span class="ident">client_info</span>.<span class="ident">timeout</span>)<span class="question-mark">?</span>;
 
         <span class="comment">// Log the connection</span>
-        <span class="macro">info</span><span class="macro">!</span>(<span class="string">&quot;connection established to {}&quot;</span>, <span class="self">self</span>.<span class="ident">client_info</span>.<span class="ident">server_addr</span>);
+        <span class="macro">info!</span>(<span class="string">&quot;connection established to {}&quot;</span>, <span class="self">self</span>.<span class="ident">client_info</span>.<span class="ident">server_addr</span>);
 
         <span class="self">self</span>.<span class="ident">ehlo</span>()<span class="question-mark">?</span>;
 
@@ -765,20 +762,20 @@
             <span class="self">self</span>.<span class="ident">server_info</span>
                 .<span class="ident">as_ref</span>()
                 .<span class="ident">unwrap</span>()
-                .<span class="ident">supports_feature</span>(<span class="ident">Extension</span>::<span class="ident">StartTls</span>),
+                .<span class="ident">supports_feature</span>(<span class="ident">Extension::StartTls</span>),
         ) {
-            (<span class="kw-2">&amp;</span><span class="ident">ClientSecurity</span>::<span class="ident">Required</span>(<span class="kw">_</span>), <span class="bool-val">false</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">From</span>::<span class="ident">from</span>(<span class="string">&quot;Could not encrypt connection, aborting&quot;</span>));
+            (<span class="kw-2">&amp;</span><span class="ident">ClientSecurity::Required</span>(<span class="kw">_</span>), <span class="bool-val">false</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">From::from</span>(<span class="string">&quot;Could not encrypt connection, aborting&quot;</span>));
             }
-            (<span class="kw-2">&amp;</span><span class="ident">ClientSecurity</span>::<span class="ident">Opportunistic</span>(<span class="kw">_</span>), <span class="bool-val">false</span>) <span class="op">=</span><span class="op">&gt;</span> (),
-            (<span class="kw-2">&amp;</span><span class="ident">ClientSecurity</span>::<span class="prelude-val">None</span>, <span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> (),
-            (<span class="kw-2">&amp;</span><span class="ident">ClientSecurity</span>::<span class="ident">Wrapper</span>(<span class="kw">_</span>), <span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> (),
-            (<span class="kw-2">&amp;</span><span class="ident">ClientSecurity</span>::<span class="ident">Opportunistic</span>(<span class="kw-2">ref</span> <span class="ident">tls_parameters</span>), <span class="bool-val">true</span>)
-            <span class="op">|</span> (<span class="kw-2">&amp;</span><span class="ident">ClientSecurity</span>::<span class="ident">Required</span>(<span class="kw-2">ref</span> <span class="ident">tls_parameters</span>), <span class="bool-val">true</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="macro">try_smtp</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">client</span>.<span class="ident">command</span>(<span class="ident">StarttlsCommand</span>), <span class="self">self</span>);
-                <span class="macro">try_smtp</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">client</span>.<span class="ident">upgrade_tls_stream</span>(<span class="ident">tls_parameters</span>), <span class="self">self</span>);
+            (<span class="kw-2">&amp;</span><span class="ident">ClientSecurity::Opportunistic</span>(<span class="kw">_</span>), <span class="bool-val">false</span>) <span class="op">=</span><span class="op">&gt;</span> (),
+            (<span class="kw-2">&amp;</span><span class="ident">ClientSecurity::None</span>, <span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> (),
+            (<span class="kw-2">&amp;</span><span class="ident">ClientSecurity::Wrapper</span>(<span class="kw">_</span>), <span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> (),
+            (<span class="kw-2">&amp;</span><span class="ident">ClientSecurity::Opportunistic</span>(<span class="kw-2">ref</span> <span class="ident">tls_parameters</span>), <span class="bool-val">true</span>)
+            <span class="op">|</span> (<span class="kw-2">&amp;</span><span class="ident">ClientSecurity::Required</span>(<span class="kw-2">ref</span> <span class="ident">tls_parameters</span>), <span class="bool-val">true</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="macro">try_smtp!</span>(<span class="self">self</span>.<span class="ident">client</span>.<span class="ident">command</span>(<span class="ident">StarttlsCommand</span>), <span class="self">self</span>);
+                <span class="macro">try_smtp!</span>(<span class="self">self</span>.<span class="ident">client</span>.<span class="ident">upgrade_tls_stream</span>(<span class="ident">tls_parameters</span>), <span class="self">self</span>);
 
-                <span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;connection encrypted&quot;</span>);
+                <span class="macro">debug!</span>(<span class="string">&quot;connection encrypted&quot;</span>);
 
                 <span class="comment">// Send EHLO again</span>
                 <span class="self">self</span>.<span class="ident">ehlo</span>()<span class="question-mark">?</span>;
@@ -790,7 +787,7 @@
 
             <span class="comment">// Compute accepted mechanism</span>
             <span class="kw">let</span> <span class="ident">accepted_mechanisms</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">client_info</span>.<span class="ident">authentication_mechanism</span> {
-                <span class="prelude-val">Some</span>(<span class="ident">mechanism</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">mechanism</span>],
+                <span class="prelude-val">Some</span>(<span class="ident">mechanism</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">vec!</span>[<span class="ident">mechanism</span>],
                 <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> {
                     <span class="kw">if</span> <span class="self">self</span>.<span class="ident">client</span>.<span class="ident">is_encrypted</span>() {
                         <span class="ident">DEFAULT_ENCRYPTED_MECHANISMS</span>.<span class="ident">to_vec</span>()
@@ -808,7 +805,7 @@
                     .<span class="ident">supports_auth_mechanism</span>(<span class="ident">mechanism</span>)
                 {
                     <span class="ident">found</span> <span class="op">=</span> <span class="bool-val">true</span>;
-                    <span class="macro">try_smtp</span><span class="macro">!</span>(
+                    <span class="macro">try_smtp!</span>(
                         <span class="self">self</span>.<span class="ident">client</span>
                             .<span class="ident">auth</span>(<span class="ident">mechanism</span>, <span class="self">self</span>.<span class="ident">client_info</span>.<span class="ident">credentials</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>(),),
                         <span class="self">self</span>
@@ -818,7 +815,7 @@
             }
 
             <span class="kw">if</span> <span class="op">!</span><span class="ident">found</span> {
-                <span class="macro">info</span><span class="macro">!</span>(<span class="string">&quot;No supported authentication mechanisms available&quot;</span>);
+                <span class="macro">info!</span>(<span class="string">&quot;No supported authentication mechanisms available&quot;</span>);
             }
         }
         <span class="prelude-val">Ok</span>(())
@@ -827,17 +824,17 @@
     <span class="doccomment">/// Gets the EHLO response and updates server information</span>
     <span class="kw">fn</span> <span class="ident">ehlo</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SmtpResult</span> {
         <span class="comment">// Extended Hello</span>
-        <span class="kw">let</span> <span class="ident">ehlo_response</span> <span class="op">=</span> <span class="macro">try_smtp</span><span class="macro">!</span>(
-            <span class="self">self</span>.<span class="ident">client</span>.<span class="ident">command</span>(<span class="ident">EhloCommand</span>::<span class="ident">new</span>(<span class="ident">ClientId</span>::<span class="ident">new</span>(
+        <span class="kw">let</span> <span class="ident">ehlo_response</span> <span class="op">=</span> <span class="macro">try_smtp!</span>(
+            <span class="self">self</span>.<span class="ident">client</span>.<span class="ident">command</span>(<span class="ident">EhloCommand::new</span>(<span class="ident">ClientId::new</span>(
                 <span class="self">self</span>.<span class="ident">client_info</span>.<span class="ident">hello_name</span>.<span class="ident">to_string</span>()
             ),)),
             <span class="self">self</span>
         );
 
-        <span class="self">self</span>.<span class="ident">server_info</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="macro">try_smtp</span><span class="macro">!</span>(<span class="ident">ServerInfo</span>::<span class="ident">from_response</span>(<span class="kw-2">&amp;</span><span class="ident">ehlo_response</span>), <span class="self">self</span>));
+        <span class="self">self</span>.<span class="ident">server_info</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="macro">try_smtp!</span>(<span class="ident">ServerInfo::from_response</span>(<span class="kw-2">&amp;</span><span class="ident">ehlo_response</span>), <span class="self">self</span>));
 
         <span class="comment">// Print server information</span>
-        <span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;server {}&quot;</span>, <span class="self">self</span>.<span class="ident">server_info</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>());
+        <span class="macro">debug!</span>(<span class="string">&quot;server {}&quot;</span>, <span class="self">self</span>.<span class="ident">server_info</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>());
 
         <span class="prelude-val">Ok</span>(<span class="ident">ehlo_response</span>)
     }
@@ -860,7 +857,7 @@
     <span class="doccomment">/// Sends an email</span>
     <span class="attribute">#[<span class="ident">cfg_attr</span>(
         <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;cargo-clippy&quot;</span>,
-        <span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">match_same_arms</span>, <span class="ident">clippy</span>::<span class="ident">cyclomatic_complexity</span>)
+        <span class="ident">allow</span>(<span class="ident">clippy::match_same_arms</span>, <span class="ident">clippy::cyclomatic_complexity</span>)
     )]</span>
     <span class="kw">fn</span> <span class="ident">send</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">email</span>: <span class="ident">SendableEmail</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SmtpResult</span> {
         <span class="kw">let</span> <span class="ident">message_id</span> <span class="op">=</span> <span class="ident">email</span>.<span class="ident">message_id</span>().<span class="ident">to_string</span>();
@@ -870,29 +867,29 @@
         }
 
         <span class="comment">// Mail</span>
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mail_options</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mail_options</span> <span class="op">=</span> <span class="macro">vec!</span>[];
 
         <span class="kw">if</span> <span class="self">self</span>
             .<span class="ident">server_info</span>
             .<span class="ident">as_ref</span>()
             .<span class="ident">unwrap</span>()
-            .<span class="ident">supports_feature</span>(<span class="ident">Extension</span>::<span class="ident">EightBitMime</span>)
+            .<span class="ident">supports_feature</span>(<span class="ident">Extension::EightBitMime</span>)
         {
-            <span class="ident">mail_options</span>.<span class="ident">push</span>(<span class="ident">MailParameter</span>::<span class="ident">Body</span>(<span class="ident">MailBodyParameter</span>::<span class="ident">EightBitMime</span>));
+            <span class="ident">mail_options</span>.<span class="ident">push</span>(<span class="ident">MailParameter::Body</span>(<span class="ident">MailBodyParameter::EightBitMime</span>));
         }
 
         <span class="kw">if</span> <span class="self">self</span>
             .<span class="ident">server_info</span>
             .<span class="ident">as_ref</span>()
             .<span class="ident">unwrap</span>()
-            .<span class="ident">supports_feature</span>(<span class="ident">Extension</span>::<span class="ident">SmtpUtfEight</span>)
+            .<span class="ident">supports_feature</span>(<span class="ident">Extension::SmtpUtfEight</span>)
             <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">client_info</span>.<span class="ident">smtp_utf8</span>
         {
-            <span class="ident">mail_options</span>.<span class="ident">push</span>(<span class="ident">MailParameter</span>::<span class="ident">SmtpUtfEight</span>);
+            <span class="ident">mail_options</span>.<span class="ident">push</span>(<span class="ident">MailParameter::SmtpUtfEight</span>);
         }
 
-        <span class="macro">try_smtp</span><span class="macro">!</span>(
-            <span class="self">self</span>.<span class="ident">client</span>.<span class="ident">command</span>(<span class="ident">MailCommand</span>::<span class="ident">new</span>(
+        <span class="macro">try_smtp!</span>(
+            <span class="self">self</span>.<span class="ident">client</span>.<span class="ident">command</span>(<span class="ident">MailCommand::new</span>(
                 <span class="ident">email</span>.<span class="ident">envelope</span>().<span class="ident">from</span>().<span class="ident">cloned</span>(),
                 <span class="ident">mail_options</span>,
             )),
@@ -900,7 +897,7 @@
         );
 
         <span class="comment">// Log the mail command</span>
-        <span class="macro">info</span><span class="macro">!</span>(
+        <span class="macro">info!</span>(
             <span class="string">&quot;{}: from=&lt;{}&gt;&quot;</span>,
             <span class="ident">message_id</span>,
             <span class="kw">match</span> <span class="ident">email</span>.<span class="ident">envelope</span>().<span class="ident">from</span>() {
@@ -911,27 +908,27 @@
 
         <span class="comment">// Recipient</span>
         <span class="kw">for</span> <span class="ident">to_address</span> <span class="kw">in</span> <span class="ident">email</span>.<span class="ident">envelope</span>().<span class="ident">to</span>() {
-            <span class="macro">try_smtp</span><span class="macro">!</span>(
+            <span class="macro">try_smtp!</span>(
                 <span class="self">self</span>.<span class="ident">client</span>
-                    .<span class="ident">command</span>(<span class="ident">RcptCommand</span>::<span class="ident">new</span>(<span class="ident">to_address</span>.<span class="ident">clone</span>(), <span class="macro">vec</span><span class="macro">!</span>[])),
+                    .<span class="ident">command</span>(<span class="ident">RcptCommand::new</span>(<span class="ident">to_address</span>.<span class="ident">clone</span>(), <span class="macro">vec!</span>[])),
                 <span class="self">self</span>
             );
             <span class="comment">// Log the rcpt command</span>
-            <span class="macro">info</span><span class="macro">!</span>(<span class="string">&quot;{}: to=&lt;{}&gt;&quot;</span>, <span class="ident">message_id</span>, <span class="ident">to_address</span>);
+            <span class="macro">info!</span>(<span class="string">&quot;{}: to=&lt;{}&gt;&quot;</span>, <span class="ident">message_id</span>, <span class="ident">to_address</span>);
         }
 
         <span class="comment">// Data</span>
-        <span class="macro">try_smtp</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">client</span>.<span class="ident">command</span>(<span class="ident">DataCommand</span>), <span class="self">self</span>);
+        <span class="macro">try_smtp!</span>(<span class="self">self</span>.<span class="ident">client</span>.<span class="ident">command</span>(<span class="ident">DataCommand</span>), <span class="self">self</span>);
 
         <span class="comment">// Message content</span>
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">client</span>.<span class="ident">message</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">email</span>.<span class="ident">message</span>()));
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">client</span>.<span class="ident">message</span>(<span class="ident">Box::new</span>(<span class="ident">email</span>.<span class="ident">message</span>()));
 
         <span class="kw">if</span> <span class="ident">result</span>.<span class="ident">is_ok</span>() {
             <span class="comment">// Increment the connection reuse counter</span>
             <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">connection_reuse_count</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
 
             <span class="comment">// Log the message</span>
-            <span class="macro">info</span><span class="macro">!</span>(
+            <span class="macro">info!</span>(
                 <span class="string">&quot;{}: conn_use={}, status=sent ({})&quot;</span>,
                 <span class="ident">message_id</span>,
                 <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">connection_reuse_count</span>,
@@ -948,12 +945,12 @@
 
         <span class="comment">// Test if we can reuse the existing connection</span>
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">client_info</span>.<span class="ident">connection_reuse</span> {
-            <span class="ident">ConnectionReuseParameters</span>::<span class="ident">ReuseLimited</span>(<span class="ident">limit</span>)
+            <span class="ident">ConnectionReuseParameters::ReuseLimited</span>(<span class="ident">limit</span>)
                 <span class="kw">if</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">connection_reuse_count</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">limit</span> <span class="op">=</span><span class="op">&gt;</span>
             {
                 <span class="self">self</span>.<span class="ident">close</span>()
             }
-            <span class="ident">ConnectionReuseParameters</span>::<span class="ident">NoReuse</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">close</span>(),
+            <span class="ident">ConnectionReuseParameters::NoReuse</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">close</span>(),
             <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> (),
         }
 
@@ -961,4 +958,6 @@
     }
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "lettre";</script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="lettre" data-search-index-js="../../../search-index.js" data-search-js="../../../search.js"></div>
+    <script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script>
+</body></html>

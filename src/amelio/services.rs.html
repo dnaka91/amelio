@@ -1,7 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/services.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>services.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings"></script><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="alternate icon" type="image/png" href="../../favicon-16x16.png">
-<link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../amelio/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
-                <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src&#x2F;services.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>services.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg"><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../amelio/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -502,20 +499,20 @@
 <span id="499">499</span>
 <span id="500">500</span>
 <span id="501">501</span>
-</pre><div class="example-wrap"><pre class="rust ">
+</pre><pre class="rust">
 <span class="doccomment">//! Services of the application which contain the business logic.</span>
 
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">iter</span>;
+<span class="kw">use</span> <span class="ident">std::iter</span>;
 
 <span class="kw">use</span> <span class="ident">anyhow</span>::{<span class="ident">ensure</span>, <span class="prelude-ty">Result</span>};
-<span class="kw">use</span> <span class="ident">chrono</span>::<span class="ident">Utc</span>;
-<span class="kw">use</span> <span class="ident">rand</span>::<span class="ident">distributions</span>::<span class="ident">Alphanumeric</span>;
-<span class="kw">use</span> <span class="ident">rand</span>::<span class="ident">Rng</span>;
+<span class="kw">use</span> <span class="ident">chrono::Utc</span>;
+<span class="kw">use</span> <span class="ident">rand::distributions::Alphanumeric</span>;
+<span class="kw">use</span> <span class="ident">rand::Rng</span>;
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">db</span>::<span class="ident">repositories</span>::{<span class="ident">CourseRepository</span>, <span class="ident">TicketRepository</span>, <span class="ident">UserRepository</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">email</span>::{<span class="ident">CommentDetails</span>, <span class="ident">Mail</span>, <span class="ident">MailRenderer</span>, <span class="ident">MailSender</span>, <span class="ident">StatusDetails</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">hashing</span>::<span class="ident">Hasher</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">models</span>::{
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::db::repositories</span>::{<span class="ident">CourseRepository</span>, <span class="ident">TicketRepository</span>, <span class="ident">UserRepository</span>};
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::email</span>::{<span class="ident">CommentDetails</span>, <span class="ident">Mail</span>, <span class="ident">MailRenderer</span>, <span class="ident">MailSender</span>, <span class="ident">StatusDetails</span>};
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::hashing::Hasher</span>;
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::models</span>::{
     <span class="ident">Category</span>, <span class="ident">Course</span>, <span class="ident">CourseWithNames</span>, <span class="ident">EditCourse</span>, <span class="ident">EditTicket</span>, <span class="ident">EditUser</span>, <span class="ident">Id</span>, <span class="ident">NewComment</span>, <span class="ident">NewCourse</span>,
     <span class="ident">NewMedium</span>, <span class="ident">NewTicket</span>, <span class="ident">NewUser</span>, <span class="ident">Priority</span>, <span class="ident">Role</span>, <span class="ident">Status</span>, <span class="ident">Ticket</span>, <span class="ident">TicketSearch</span>, <span class="ident">TicketWithNames</span>,
     <span class="ident">TicketWithRels</span>, <span class="ident">User</span>,
@@ -546,7 +543,7 @@
         <span class="self">self</span>.<span class="ident">user_repo</span>
             .<span class="ident">find_by_username</span>(<span class="ident">cred</span>.<span class="ident">username</span>)
             .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">user</span><span class="op">|</span> {
-                <span class="macro">ensure</span><span class="macro">!</span>(
+                <span class="macro">ensure!</span>(
                     <span class="self">self</span>.<span class="ident">hasher</span>.<span class="ident">verify</span>(<span class="ident">cred</span>.<span class="ident">password</span>, <span class="kw-2">&amp;</span><span class="ident">user</span>.<span class="ident">password</span>)<span class="question-mark">?</span>,
                     <span class="string">&quot;Invalid username or password&quot;</span>
                 );
@@ -593,11 +590,11 @@
 {
     <span class="doccomment">/// Generate a new code for activating new user accounts.</span>
     <span class="kw">fn</span> <span class="ident">generate_code</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rng</span> <span class="op">=</span> <span class="ident">rand</span>::<span class="ident">thread_rng</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rng</span> <span class="op">=</span> <span class="ident">rand::thread_rng</span>();
 
-        <span class="ident">iter</span>::<span class="ident">repeat</span>(())
+        <span class="ident">iter::repeat</span>(())
             .<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">rng</span>.<span class="ident">sample</span>(<span class="ident">Alphanumeric</span>))
-            .<span class="ident">map</span>(<span class="ident">char</span>::<span class="ident">from</span>)
+            .<span class="ident">map</span>(<span class="ident">char::from</span>)
             .<span class="ident">take</span>(<span class="number">20</span>)
             .<span class="ident">collect</span>()
     }
@@ -624,7 +621,7 @@
     }
 
     <span class="kw">fn</span> <span class="ident">create</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">username</span>: <span class="ident">String</span>, <span class="ident">name</span>: <span class="ident">String</span>, <span class="ident">role</span>: <span class="ident">Role</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">code</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">generate_code</span>();
+        <span class="kw">let</span> <span class="ident">code</span> <span class="op">=</span> <span class="self">Self</span><span class="ident">::generate_code</span>();
         <span class="self">self</span>.<span class="ident">user_repo</span>.<span class="ident">create</span>(<span class="ident">NewUser</span> {
             <span class="ident">username</span>: <span class="ident">username</span>.<span class="ident">clone</span>(),
             <span class="ident">name</span>: <span class="ident">name</span>.<span class="ident">clone</span>(),
@@ -636,7 +633,7 @@
 
         <span class="self">self</span>.<span class="ident">mail_sender</span>.<span class="ident">send</span>(<span class="ident">Mail</span> {
             <span class="ident">from</span>: (<span class="string">&quot;amelio@dnaka91.rocks&quot;</span>, <span class="string">&quot;Amelio&quot;</span>),
-            <span class="ident">to</span>: (<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}@iubh-fernstudium.de&quot;</span>, <span class="ident">username</span>), <span class="kw-2">&amp;</span><span class="ident">name</span>),
+            <span class="ident">to</span>: (<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;{}@iubh-fernstudium.de&quot;</span>, <span class="ident">username</span>), <span class="kw-2">&amp;</span><span class="ident">name</span>),
             <span class="ident">subject</span>,
             <span class="ident">message</span>: <span class="kw-2">&amp;</span><span class="ident">message</span>,
         })<span class="question-mark">?</span>;
@@ -651,7 +648,7 @@
     }
 
     <span class="kw">fn</span> <span class="ident">enable</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">i32</span>, <span class="ident">enable</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">user_repo</span>.<span class="ident">enable</span>(<span class="ident">id</span>, <span class="ident">enable</span>).<span class="ident">map_err</span>(<span class="ident">Into</span>::<span class="ident">into</span>)
+        <span class="self">self</span>.<span class="ident">user_repo</span>.<span class="ident">enable</span>(<span class="ident">id</span>, <span class="ident">enable</span>).<span class="ident">map_err</span>(<span class="ident">Into::into</span>)
     }
 
     <span class="kw">fn</span> <span class="ident">update</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">Id</span>, <span class="ident">name</span>: <span class="ident">String</span>, <span class="ident">role</span>: <span class="ident">Role</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
@@ -709,8 +706,8 @@
 
     <span class="kw">fn</span> <span class="ident">list_authors_tutors</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">VecAuthorsTutors</span><span class="op">&gt;</span> {
         <span class="prelude-val">Ok</span>((
-            <span class="self">self</span>.<span class="ident">user_repo</span>.<span class="ident">list_names_by_role</span>(<span class="ident">Role</span>::<span class="ident">Author</span>)<span class="question-mark">?</span>,
-            <span class="self">self</span>.<span class="ident">user_repo</span>.<span class="ident">list_names_by_role</span>(<span class="ident">Role</span>::<span class="ident">Tutor</span>)<span class="question-mark">?</span>,
+            <span class="self">self</span>.<span class="ident">user_repo</span>.<span class="ident">list_names_by_role</span>(<span class="ident">Role::Author</span>)<span class="question-mark">?</span>,
+            <span class="self">self</span>.<span class="ident">user_repo</span>.<span class="ident">list_names_by_role</span>(<span class="ident">Role::Tutor</span>)<span class="question-mark">?</span>,
         ))
     }
 
@@ -728,7 +725,7 @@
     }
 
     <span class="kw">fn</span> <span class="ident">enable</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">i32</span>, <span class="ident">enable</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">course_repo</span>.<span class="ident">enable</span>(<span class="ident">id</span>, <span class="ident">enable</span>).<span class="ident">map_err</span>(<span class="ident">Into</span>::<span class="ident">into</span>)
+        <span class="self">self</span>.<span class="ident">course_repo</span>.<span class="ident">enable</span>(<span class="ident">id</span>, <span class="ident">enable</span>).<span class="ident">map_err</span>(<span class="ident">Into::into</span>)
     }
 
     <span class="kw">fn</span> <span class="ident">update</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">Id</span>, <span class="ident">title</span>: <span class="ident">String</span>, <span class="ident">author_id</span>: <span class="ident">Id</span>, <span class="ident">tutor_id</span>: <span class="ident">Id</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
@@ -810,9 +807,9 @@
     <span class="doccomment">/// Decide the priority of a ticket based on its category.</span>
     <span class="kw">fn</span> <span class="ident">map_priority</span>(<span class="ident">category</span>: <span class="ident">Category</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Priority</span> {
         <span class="kw">match</span> <span class="ident">category</span> {
-            <span class="ident">Category</span>::<span class="ident">Editorial</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Priority</span>::<span class="ident">Medium</span>,
-            <span class="ident">Category</span>::<span class="ident">Content</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Priority</span>::<span class="ident">High</span>,
-            <span class="ident">Category</span>::<span class="ident">Improvement</span> <span class="op">|</span> <span class="ident">Category</span>::<span class="ident">Addition</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Priority</span>::<span class="ident">Low</span>,
+            <span class="ident">Category::Editorial</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Priority::Medium</span>,
+            <span class="ident">Category::Content</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Priority::High</span>,
+            <span class="ident">Category::Improvement</span> <span class="op">|</span> <span class="ident">Category::Addition</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Priority::Low</span>,
         }
     }
 
@@ -837,7 +834,7 @@
         <span class="self">self</span>.<span class="ident">mail_sender</span>.<span class="ident">send</span>(<span class="ident">Mail</span> {
             <span class="ident">from</span>: (<span class="string">&quot;amelio@dnaka91.rocks&quot;</span>, <span class="string">&quot;Amelio&quot;</span>),
             <span class="ident">to</span>: (
-                <span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}@iubh-fernstudium.de&quot;</span>, <span class="ident">creator</span>.<span class="ident">username</span>),
+                <span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;{}@iubh-fernstudium.de&quot;</span>, <span class="ident">creator</span>.<span class="ident">username</span>),
                 <span class="kw-2">&amp;</span><span class="ident">creator</span>.<span class="ident">name</span>,
             ),
             <span class="ident">subject</span>,
@@ -866,7 +863,7 @@
         <span class="self">self</span>.<span class="ident">mail_sender</span>.<span class="ident">send</span>(<span class="ident">Mail</span> {
             <span class="ident">from</span>: (<span class="string">&quot;amelio@dnaka91.rocks&quot;</span>, <span class="string">&quot;Amelio&quot;</span>),
             <span class="ident">to</span>: (
-                <span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}@iubh-fernstudium.de&quot;</span>, <span class="ident">creator</span>.<span class="ident">username</span>),
+                <span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;{}@iubh-fernstudium.de&quot;</span>, <span class="ident">creator</span>.<span class="ident">username</span>),
                 <span class="kw-2">&amp;</span><span class="ident">creator</span>.<span class="ident">name</span>,
             ),
             <span class="ident">subject</span>,
@@ -892,10 +889,10 @@
     }
 
     <span class="kw">fn</span> <span class="ident">list_assigned</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">user_id</span>: <span class="ident">Id</span>, <span class="ident">role</span>: <span class="ident">Role</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">TicketWithNames</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="ident">role</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">Role</span>::<span class="ident">Tutor</span> {
+        <span class="kw">if</span> <span class="ident">role</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">Role::Tutor</span> {
             <span class="self">self</span>.<span class="ident">ticket_repo</span>.<span class="ident">list_by_assignee_id</span>(<span class="ident">user_id</span>)
         } <span class="kw">else</span> {
-            <span class="prelude-val">Ok</span>(<span class="ident">Vec</span>::<span class="ident">new</span>())
+            <span class="prelude-val">Ok</span>(<span class="ident">Vec::new</span>())
         }
     }
 
@@ -909,7 +906,7 @@
 
     <span class="kw">fn</span> <span class="ident">get_with_rels</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">Id</span>, <span class="ident">user_id</span>: <span class="ident">Id</span>, <span class="ident">role</span>: <span class="ident">Role</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">TicketWithRels</span><span class="op">&gt;</span> {
         <span class="comment">// If we open a ticket as tutor or author, update the status first.</span>
-        <span class="kw">let</span> <span class="ident">activated</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">role</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Role</span>::<span class="ident">Tutor</span> <span class="op">|</span><span class="op">|</span> <span class="ident">role</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Role</span>::<span class="ident">Author</span> {
+        <span class="kw">let</span> <span class="ident">activated</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">role</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Role::Tutor</span> <span class="op">|</span><span class="op">|</span> <span class="ident">role</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Role::Author</span> {
             <span class="self">self</span>.<span class="ident">ticket_repo</span>.<span class="ident">activate_ticket</span>(<span class="ident">id</span>, <span class="ident">user_id</span>)<span class="question-mark">?</span>
         } <span class="kw">else</span> {
             <span class="bool-val">false</span>
@@ -919,14 +916,14 @@
 
         <span class="kw">if</span> <span class="ident">activated</span> {
             <span class="kw">let</span> <span class="ident">creator</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">user_repo</span>.<span class="ident">find</span>(<span class="ident">ticket</span>.<span class="ident">ticket</span>.<span class="ident">creator_id</span>)<span class="question-mark">?</span>;
-            <span class="self">self</span>.<span class="ident">send_status_update</span>(<span class="kw-2">&amp;</span><span class="ident">ticket</span>.<span class="ident">ticket</span>, <span class="ident">creator</span>, <span class="ident">Status</span>::<span class="ident">Open</span>, <span class="ident">ticket</span>.<span class="ident">ticket</span>.<span class="ident">status</span>)<span class="question-mark">?</span>;
+            <span class="self">self</span>.<span class="ident">send_status_update</span>(<span class="kw-2">&amp;</span><span class="ident">ticket</span>.<span class="ident">ticket</span>, <span class="ident">creator</span>, <span class="ident">Status::Open</span>, <span class="ident">ticket</span>.<span class="ident">ticket</span>.<span class="ident">status</span>)<span class="question-mark">?</span>;
         }
 
         <span class="prelude-val">Ok</span>(<span class="ident">ticket</span>)
     }
 
     <span class="kw">fn</span> <span class="ident">create</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ticket</span>: <span class="ident">NewTicket</span>, <span class="ident">medium</span>: <span class="ident">NewMedium</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Id</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">priority</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">map_priority</span>(<span class="ident">ticket</span>.<span class="ident">category</span>);
+        <span class="kw">let</span> <span class="ident">priority</span> <span class="op">=</span> <span class="self">Self</span><span class="ident">::map_priority</span>(<span class="ident">ticket</span>.<span class="ident">category</span>);
 
         <span class="self">self</span>.<span class="ident">ticket_repo</span>.<span class="ident">create</span>(<span class="ident">ticket</span>, <span class="ident">priority</span>, <span class="ident">medium</span>)
     }
@@ -935,7 +932,7 @@
         <span class="self">self</span>.<span class="ident">ticket_repo</span>.<span class="ident">add_comment</span>(<span class="ident">NewComment</span> {
             <span class="ident">ticket_id</span>: <span class="ident">id</span>,
             <span class="ident">creator_id</span>: <span class="ident">writer_id</span>,
-            <span class="ident">timestamp</span>: <span class="ident">Utc</span>::<span class="ident">now</span>(),
+            <span class="ident">timestamp</span>: <span class="ident">Utc::now</span>(),
             <span class="ident">message</span>: <span class="ident">message</span>.<span class="ident">clone</span>(),
         })<span class="question-mark">?</span>;
 
@@ -962,7 +959,7 @@
 
     <span class="kw">fn</span> <span class="ident">change_status</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">Id</span>, <span class="ident">status</span>: <span class="ident">Status</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">ticket</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">ticket_repo</span>.<span class="ident">get</span>(<span class="ident">id</span>)<span class="question-mark">?</span>;
-        <span class="macro">ensure</span><span class="macro">!</span>(<span class="ident">ticket</span>.<span class="ident">status</span>.<span class="ident">can_change</span>(<span class="ident">status</span>), <span class="string">&quot;Status cannot be changed&quot;</span>);
+        <span class="macro">ensure!</span>(<span class="ident">ticket</span>.<span class="ident">status</span>.<span class="ident">can_change</span>(<span class="ident">status</span>), <span class="string">&quot;Status cannot be changed&quot;</span>);
 
         <span class="self">self</span>.<span class="ident">ticket_repo</span>.<span class="ident">set_status</span>(<span class="ident">id</span>, <span class="ident">status</span>)<span class="question-mark">?</span>;
 
@@ -971,7 +968,7 @@
     }
 
     <span class="kw">fn</span> <span class="ident">search</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">role</span>: <span class="ident">Role</span>, <span class="kw-2">mut</span> <span class="ident">search</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">TicketSearch</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">TicketWithNames</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="ident">role</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">Role</span>::<span class="ident">Student</span> {
+        <span class="kw">if</span> <span class="ident">role</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">Role::Student</span> {
             <span class="ident">search</span>.<span class="ident">priority</span> <span class="op">=</span> <span class="prelude-val">None</span>;
         }
 
@@ -980,7 +977,7 @@
 
     <span class="kw">fn</span> <span class="ident">can_open</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">Id</span>, <span class="ident">user_id</span>: <span class="ident">Id</span>, <span class="ident">role</span>: <span class="ident">Role</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span> {
         <span class="comment">// Everyone above a student can always see any ticket details</span>
-        <span class="kw">if</span> <span class="ident">role</span> <span class="op">&lt;</span> <span class="ident">Role</span>::<span class="ident">Student</span> {
+        <span class="kw">if</span> <span class="ident">role</span> <span class="op">&lt;</span> <span class="ident">Role::Student</span> {
             <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>);
         }
 
@@ -1005,4 +1002,6 @@
     }
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "amelio";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="amelio" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
+    <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script>
+</body></html>

@@ -1,5 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/rocket-0.4.6/src/config/error.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>error.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script id="default-settings"></script><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="https://rocket.rs/v0.4/images/favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../rocket/index.html'><div class='logo-container'><img src='https://rocket.rs/v0.4/images/logo-boxed.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
-                <a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `&#x2F;home&#x2F;runner&#x2F;.cargo&#x2F;registry&#x2F;src&#x2F;github.com-1ecc6299db9ec823&#x2F;rocket-0.4.10&#x2F;src&#x2F;config&#x2F;error.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>error.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="https:&#x2F;&#x2F;rocket.rs&#x2F;v0.4&#x2F;images&#x2F;favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../rocket/index.html'><div class='logo-container rust-logo'><img src='https:&#x2F;&#x2F;rocket.rs&#x2F;v0.4&#x2F;images&#x2F;logo-boxed.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -198,15 +197,15 @@
 <span id="197">197</span>
 <span id="198">198</span>
 <span id="199">199</span>
-</pre><div class="example-wrap"><pre class="rust ">
+</pre><pre class="rust">
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">io</span>, <span class="ident">fmt</span>};
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">path</span>::<span class="ident">PathBuf</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span>;
+<span class="kw">use</span> <span class="ident">std::path::PathBuf</span>;
+<span class="kw">use</span> <span class="ident">std::error::Error</span>;
 
-<span class="kw">use</span> <span class="ident">yansi</span>::<span class="ident">Paint</span>;
+<span class="kw">use</span> <span class="ident">yansi::Paint</span>;
 
-<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Environment</span>;
-<span class="kw">use</span> <span class="self">self</span>::<span class="ident">ConfigError</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="kw">super</span><span class="ident">::Environment</span>;
+<span class="kw">use</span> <span class="self">self</span><span class="ident">::ConfigError</span>::<span class="kw-2">*</span>;
 
 <span class="doccomment">/// The type of a configuration error.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
@@ -218,7 +217,7 @@
     <span class="doccomment">/// There was an I/O error while setting a configuration parameter.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Parameters: (io_error, config_param_name)</span>
-    <span class="ident">Io</span>(<span class="ident">io</span>::<span class="ident">Error</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>),
+    <span class="ident">Io</span>(<span class="ident">io::Error</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>),
     <span class="doccomment">/// The path at which the configuration file was found was invalid.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Parameters: (path, reason)</span>
@@ -256,58 +255,58 @@
 <span class="kw">impl</span> <span class="ident">ConfigError</span> {
     <span class="doccomment">/// Prints this configuration error with Rocket formatting.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">pretty_print</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {
-        <span class="kw">let</span> <span class="ident">valid_envs</span> <span class="op">=</span> <span class="ident">Environment</span>::<span class="ident">VALID</span>;
+        <span class="kw">let</span> <span class="ident">valid_envs</span> <span class="op">=</span> <span class="ident">Environment::VALID</span>;
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="ident">NotFound</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;config file was not found&quot;</span>),
-            <span class="ident">IoError</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;failed reading the config file: IO error&quot;</span>),
+            <span class="ident">NotFound</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">error!</span>(<span class="string">&quot;config file was not found&quot;</span>),
+            <span class="ident">IoError</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">error!</span>(<span class="string">&quot;failed reading the config file: IO error&quot;</span>),
             <span class="ident">Io</span>(<span class="kw-2">ref</span> <span class="ident">error</span>, <span class="ident">param</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;I/O error while setting {}:&quot;</span>, <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="ident">param</span>).<span class="ident">bold</span>());
-                <span class="macro">info_</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">error</span>);
+                <span class="macro">error!</span>(<span class="string">&quot;I/O error while setting {}:&quot;</span>, <span class="ident">Paint::default</span>(<span class="ident">param</span>).<span class="ident">bold</span>());
+                <span class="macro">info_!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">error</span>);
             }
             <span class="ident">BadFilePath</span>(<span class="kw-2">ref</span> <span class="ident">path</span>, <span class="ident">reason</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;configuration file path {} is invalid&quot;</span>, <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="ident">path</span>.<span class="ident">display</span>()).<span class="ident">bold</span>());
-                <span class="macro">info_</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">reason</span>);
+                <span class="macro">error!</span>(<span class="string">&quot;configuration file path {} is invalid&quot;</span>, <span class="ident">Paint::default</span>(<span class="ident">path</span>.<span class="ident">display</span>()).<span class="ident">bold</span>());
+                <span class="macro">info_!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">reason</span>);
             }
             <span class="ident">BadEntry</span>(<span class="kw-2">ref</span> <span class="ident">name</span>, <span class="kw-2">ref</span> <span class="ident">filename</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="kw">let</span> <span class="ident">valid_entries</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}, global&quot;</span>, <span class="ident">valid_envs</span>);
-                <span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;{} is not a known configuration environment&quot;</span>,
-                       <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;[{}]&quot;</span>, <span class="ident">name</span>)).<span class="ident">bold</span>());
-                <span class="macro">info_</span><span class="macro">!</span>(<span class="string">&quot;in {}&quot;</span>, <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="ident">filename</span>.<span class="ident">display</span>()).<span class="ident">bold</span>());
-                <span class="macro">info_</span><span class="macro">!</span>(<span class="string">&quot;valid environments are: {}&quot;</span>, <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="ident">valid_entries</span>).<span class="ident">bold</span>());
+                <span class="kw">let</span> <span class="ident">valid_entries</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="string">&quot;{}, global&quot;</span>, <span class="ident">valid_envs</span>);
+                <span class="macro">error!</span>(<span class="string">&quot;{} is not a known configuration environment&quot;</span>,
+                       <span class="ident">Paint::default</span>(<span class="macro">format!</span>(<span class="string">&quot;[{}]&quot;</span>, <span class="ident">name</span>)).<span class="ident">bold</span>());
+                <span class="macro">info_!</span>(<span class="string">&quot;in {}&quot;</span>, <span class="ident">Paint::default</span>(<span class="ident">filename</span>.<span class="ident">display</span>()).<span class="ident">bold</span>());
+                <span class="macro">info_!</span>(<span class="string">&quot;valid environments are: {}&quot;</span>, <span class="ident">Paint::default</span>(<span class="ident">valid_entries</span>).<span class="ident">bold</span>());
             }
             <span class="ident">BadEnv</span>(<span class="kw-2">ref</span> <span class="ident">name</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;{} is not a valid ROCKET_ENV value&quot;</span>, <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="ident">name</span>).<span class="ident">bold</span>());
-                <span class="macro">info_</span><span class="macro">!</span>(<span class="string">&quot;valid environments are: {}&quot;</span>, <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="ident">valid_envs</span>).<span class="ident">bold</span>());
+                <span class="macro">error!</span>(<span class="string">&quot;{} is not a valid ROCKET_ENV value&quot;</span>, <span class="ident">Paint::default</span>(<span class="ident">name</span>).<span class="ident">bold</span>());
+                <span class="macro">info_!</span>(<span class="string">&quot;valid environments are: {}&quot;</span>, <span class="ident">Paint::default</span>(<span class="ident">valid_envs</span>).<span class="ident">bold</span>());
             }
             <span class="ident">BadType</span>(<span class="kw-2">ref</span> <span class="ident">name</span>, <span class="ident">expected</span>, <span class="ident">actual</span>, <span class="kw-2">ref</span> <span class="ident">filename</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;{} key could not be parsed&quot;</span>, <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="ident">name</span>).<span class="ident">bold</span>());
+                <span class="macro">error!</span>(<span class="string">&quot;{} key could not be parsed&quot;</span>, <span class="ident">Paint::default</span>(<span class="ident">name</span>).<span class="ident">bold</span>());
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">filename</span>) <span class="op">=</span> <span class="ident">filename</span> {
-                    <span class="macro">info_</span><span class="macro">!</span>(<span class="string">&quot;in {}&quot;</span>, <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="ident">filename</span>.<span class="ident">display</span>()).<span class="ident">bold</span>());
+                    <span class="macro">info_!</span>(<span class="string">&quot;in {}&quot;</span>, <span class="ident">Paint::default</span>(<span class="ident">filename</span>.<span class="ident">display</span>()).<span class="ident">bold</span>());
                 }
 
-                <span class="macro">info_</span><span class="macro">!</span>(<span class="string">&quot;expected value to be {}, but found {}&quot;</span>,
-                       <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="ident">expected</span>).<span class="ident">bold</span>(), <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="ident">actual</span>).<span class="ident">bold</span>());
+                <span class="macro">info_!</span>(<span class="string">&quot;expected value to be {}, but found {}&quot;</span>,
+                       <span class="ident">Paint::default</span>(<span class="ident">expected</span>).<span class="ident">bold</span>(), <span class="ident">Paint::default</span>(<span class="ident">actual</span>).<span class="ident">bold</span>());
             }
             <span class="ident">ParseError</span>(<span class="kw">_</span>, <span class="kw-2">ref</span> <span class="ident">filename</span>, <span class="kw-2">ref</span> <span class="ident">desc</span>, <span class="ident">line_col</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;config file failed to parse due to invalid TOML&quot;</span>);
-                <span class="macro">info_</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">desc</span>);
-                <span class="macro">info_</span><span class="macro">!</span>(<span class="string">&quot;in {}&quot;</span>, <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="ident">filename</span>.<span class="ident">display</span>()).<span class="ident">bold</span>());
+                <span class="macro">error!</span>(<span class="string">&quot;config file failed to parse due to invalid TOML&quot;</span>);
+                <span class="macro">info_!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">desc</span>);
+                <span class="macro">info_!</span>(<span class="string">&quot;in {}&quot;</span>, <span class="ident">Paint::default</span>(<span class="ident">filename</span>.<span class="ident">display</span>()).<span class="ident">bold</span>());
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="ident">line</span>, <span class="ident">col</span>)) <span class="op">=</span> <span class="ident">line_col</span> {
-                    <span class="macro">info_</span><span class="macro">!</span>(<span class="string">&quot;at line {}, column {}&quot;</span>,
-                           <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="ident">line</span> <span class="op">+</span> <span class="number">1</span>).<span class="ident">bold</span>(), <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="ident">col</span> <span class="op">+</span> <span class="number">1</span>).<span class="ident">bold</span>());
+                    <span class="macro">info_!</span>(<span class="string">&quot;at line {}, column {}&quot;</span>,
+                           <span class="ident">Paint::default</span>(<span class="ident">line</span> <span class="op">+</span> <span class="number">1</span>).<span class="ident">bold</span>(), <span class="ident">Paint::default</span>(<span class="ident">col</span> <span class="op">+</span> <span class="number">1</span>).<span class="ident">bold</span>());
                 }
             }
             <span class="ident">BadEnvVal</span>(<span class="kw-2">ref</span> <span class="ident">key</span>, <span class="kw-2">ref</span> <span class="ident">value</span>, <span class="kw-2">ref</span> <span class="ident">error</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;environment variable {} could not be parsed&quot;</span>,
-                   <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;ROCKET_{}={}&quot;</span>, <span class="ident">key</span>.<span class="ident">to_uppercase</span>(), <span class="ident">value</span>)).<span class="ident">bold</span>());
-                <span class="macro">info_</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">error</span>);
+                <span class="macro">error!</span>(<span class="string">&quot;environment variable {} could not be parsed&quot;</span>,
+                   <span class="ident">Paint::default</span>(<span class="macro">format!</span>(<span class="string">&quot;ROCKET_{}={}&quot;</span>, <span class="ident">key</span>.<span class="ident">to_uppercase</span>(), <span class="ident">value</span>)).<span class="ident">bold</span>());
+                <span class="macro">info_!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">error</span>);
             }
             <span class="ident">UnknownKey</span>(<span class="kw-2">ref</span> <span class="ident">key</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;the configuration key {} is unknown and disallowed in \
-                       this position&quot;</span>, <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="ident">key</span>).<span class="ident">bold</span>());
+                <span class="macro">error!</span>(<span class="string">&quot;the configuration key {} is unknown and disallowed in \
+                       this position&quot;</span>, <span class="ident">Paint::default</span>(<span class="ident">key</span>).<span class="ident">bold</span>());
             }
             <span class="ident">Missing</span>(<span class="kw-2">ref</span> <span class="ident">key</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;missing configuration key: {}&quot;</span>, <span class="ident">Paint</span>::<span class="ident">default</span>(<span class="ident">key</span>).<span class="ident">bold</span>());
+                <span class="macro">error!</span>(<span class="string">&quot;missing configuration key: {}&quot;</span>, <span class="ident">Paint::default</span>(<span class="ident">key</span>).<span class="ident">bold</span>());
             }
         }
     }
@@ -331,25 +330,25 @@
     }
 }
 
-<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">ConfigError</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+<span class="kw">impl</span> <span class="ident">fmt::Display</span> <span class="kw">for</span> <span class="ident">ConfigError</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt::Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt::Result</span> {
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="ident">NotFound</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;config file was not found&quot;</span>),
-            <span class="ident">IoError</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;I/O error while reading the config file&quot;</span>),
-            <span class="ident">Io</span>(<span class="kw-2">ref</span> <span class="ident">e</span>, <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;I/O error while setting &#39;{}&#39;: {}&quot;</span>, <span class="ident">p</span>, <span class="ident">e</span>),
-            <span class="ident">BadFilePath</span>(<span class="kw-2">ref</span> <span class="ident">p</span>, <span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{:?} is not a valid config path&quot;</span>, <span class="ident">p</span>),
-            <span class="ident">BadEnv</span>(<span class="kw-2">ref</span> <span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{:?} is not a valid `ROCKET_ENV` value&quot;</span>, <span class="ident">e</span>),
-            <span class="ident">ParseError</span>(..) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;the config file contains invalid TOML&quot;</span>),
-            <span class="ident">UnknownKey</span>(<span class="kw-2">ref</span> <span class="ident">k</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;&#39;{}&#39; is an unknown key&quot;</span>, <span class="ident">k</span>),
-            <span class="ident">Missing</span>(<span class="kw-2">ref</span> <span class="ident">k</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;missing key: &#39;{}&#39;&quot;</span>, <span class="ident">k</span>),
+            <span class="ident">NotFound</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;config file was not found&quot;</span>),
+            <span class="ident">IoError</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;I/O error while reading the config file&quot;</span>),
+            <span class="ident">Io</span>(<span class="kw-2">ref</span> <span class="ident">e</span>, <span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;I/O error while setting &#39;{}&#39;: {}&quot;</span>, <span class="ident">p</span>, <span class="ident">e</span>),
+            <span class="ident">BadFilePath</span>(<span class="kw-2">ref</span> <span class="ident">p</span>, <span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;{:?} is not a valid config path&quot;</span>, <span class="ident">p</span>),
+            <span class="ident">BadEnv</span>(<span class="kw-2">ref</span> <span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;{:?} is not a valid `ROCKET_ENV` value&quot;</span>, <span class="ident">e</span>),
+            <span class="ident">ParseError</span>(..) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;the config file contains invalid TOML&quot;</span>),
+            <span class="ident">UnknownKey</span>(<span class="kw-2">ref</span> <span class="ident">k</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;&#39;{}&#39; is an unknown key&quot;</span>, <span class="ident">k</span>),
+            <span class="ident">Missing</span>(<span class="kw-2">ref</span> <span class="ident">k</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;missing key: &#39;{}&#39;&quot;</span>, <span class="ident">k</span>),
             <span class="ident">BadEntry</span>(<span class="kw-2">ref</span> <span class="ident">e</span>, <span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{:?} is not a valid `[environment]` entry&quot;</span>, <span class="ident">e</span>)
+                <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;{:?} is not a valid `[environment]` entry&quot;</span>, <span class="ident">e</span>)
             }
             <span class="ident">BadType</span>(<span class="kw-2">ref</span> <span class="ident">n</span>, <span class="ident">e</span>, <span class="ident">a</span>, <span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;type mismatch for &#39;{}&#39;. expected {}, found {}&quot;</span>, <span class="ident">n</span>, <span class="ident">e</span>, <span class="ident">a</span>)
+                <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;type mismatch for &#39;{}&#39;. expected {}, found {}&quot;</span>, <span class="ident">n</span>, <span class="ident">e</span>, <span class="ident">a</span>)
             }
             <span class="ident">BadEnvVal</span>(<span class="kw-2">ref</span> <span class="ident">k</span>, <span class="kw-2">ref</span> <span class="ident">v</span>, <span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;environment variable &#39;{}={}&#39; could not be parsed&quot;</span>, <span class="ident">k</span>, <span class="ident">v</span>)
+                <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;environment variable &#39;{}={}&#39; could not be parsed&quot;</span>, <span class="ident">k</span>, <span class="ident">v</span>)
             }
         }
     }
@@ -399,4 +398,6 @@
     }
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "rocket";</script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="rocket" data-search-index-js="../../../search-index.js" data-search-js="../../../search.js"></div>
+    <script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script>
+</body></html>

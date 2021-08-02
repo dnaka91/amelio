@@ -1,7 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/models.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>models.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings"></script><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="alternate icon" type="image/png" href="../../favicon-16x16.png">
-<link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../amelio/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
-                <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src&#x2F;models.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>models.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg"><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../amelio/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -329,12 +326,12 @@
 <span id="326">326</span>
 <span id="327">327</span>
 <span id="328">328</span>
-</pre><div class="example-wrap"><pre class="rust ">
+</pre><pre class="rust">
 <span class="doccomment">//! The base models of the system, that [`services`](crate::services) work on.</span>
 
 <span class="kw">use</span> <span class="ident">chrono</span>::{<span class="ident">DateTime</span>, <span class="ident">NaiveTime</span>, <span class="ident">Utc</span>};
 <span class="kw">use</span> <span class="ident">strum</span>::{<span class="ident">AsRefStr</span>, <span class="ident">Display</span>, <span class="ident">EnumString</span>};
-<span class="kw">use</span> <span class="ident">url</span>::<span class="ident">Url</span>;
+<span class="kw">use</span> <span class="ident">url::Url</span>;
 
 <span class="doccomment">/// The identifier type for all models.</span>
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Id</span> <span class="op">=</span> <span class="ident">i32</span>;
@@ -363,7 +360,7 @@
 <span class="kw">impl</span> <span class="ident">User</span> {
     <span class="doccomment">/// Check whether this user is the very first administrator.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_admin</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">id</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">role</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Role</span>::<span class="ident">Admin</span>
+        <span class="self">self</span>.<span class="ident">id</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">role</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Role::Admin</span>
     }
 }
 
@@ -434,11 +431,11 @@
 <span class="kw">impl</span> <span class="ident">TicketType</span> {
     <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">medium</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">MediumType</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="self">Self</span>::<span class="ident">CourseBook</span> <span class="op">|</span> <span class="self">Self</span>::<span class="ident">ReadingList</span> <span class="op">|</span> <span class="self">Self</span>::<span class="ident">Presentation</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">MediumType</span>::<span class="ident">Text</span>,
-            <span class="self">Self</span>::<span class="ident">Vodcast</span> <span class="op">|</span> <span class="self">Self</span>::<span class="ident">Podcast</span> <span class="op">|</span> <span class="self">Self</span>::<span class="ident">LiveTutorialRecording</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">MediumType</span>::<span class="ident">Recording</span>,
-            <span class="self">Self</span>::<span class="ident">InteractiveBook</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">MediumType</span>::<span class="ident">Interactive</span>,
-            <span class="self">Self</span>::<span class="ident">PracticeExam</span> <span class="op">|</span> <span class="self">Self</span>::<span class="ident">PracticeExamSolution</span> <span class="op">|</span> <span class="self">Self</span>::<span class="ident">OnlineTest</span> <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">MediumType</span>::<span class="ident">Questionaire</span>
+            <span class="self">Self</span><span class="ident">::CourseBook</span> <span class="op">|</span> <span class="self">Self</span><span class="ident">::ReadingList</span> <span class="op">|</span> <span class="self">Self</span><span class="ident">::Presentation</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">MediumType::Text</span>,
+            <span class="self">Self</span><span class="ident">::Vodcast</span> <span class="op">|</span> <span class="self">Self</span><span class="ident">::Podcast</span> <span class="op">|</span> <span class="self">Self</span><span class="ident">::LiveTutorialRecording</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">MediumType::Recording</span>,
+            <span class="self">Self</span><span class="ident">::InteractiveBook</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">MediumType::Interactive</span>,
+            <span class="self">Self</span><span class="ident">::PracticeExam</span> <span class="op">|</span> <span class="self">Self</span><span class="ident">::PracticeExamSolution</span> <span class="op">|</span> <span class="self">Self</span><span class="ident">::OnlineTest</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">MediumType::Questionaire</span>
             }
         }
     }
@@ -497,10 +494,10 @@
     <span class="doccomment">/// Determine whether the current status can be changed into the `other` status.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">can_change</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="self">Self</span>::<span class="ident">Open</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">other</span> <span class="op">=</span><span class="op">=</span> <span class="self">Self</span>::<span class="ident">InProgress</span>,
-            <span class="self">Self</span>::<span class="ident">InProgress</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">other</span> <span class="op">=</span><span class="op">=</span> <span class="self">Self</span>::<span class="ident">Accepted</span> <span class="op">|</span><span class="op">|</span> <span class="ident">other</span> <span class="op">=</span><span class="op">=</span> <span class="self">Self</span>::<span class="ident">Refused</span>,
-            <span class="self">Self</span>::<span class="ident">Accepted</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">other</span> <span class="op">=</span><span class="op">=</span> <span class="self">Self</span>::<span class="ident">Completed</span>,
-            <span class="self">Self</span>::<span class="ident">Refused</span> <span class="op">|</span> <span class="self">Self</span>::<span class="ident">Completed</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
+            <span class="self">Self</span><span class="ident">::Open</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">other</span> <span class="op">=</span><span class="op">=</span> <span class="self">Self</span><span class="ident">::InProgress</span>,
+            <span class="self">Self</span><span class="ident">::InProgress</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">other</span> <span class="op">=</span><span class="op">=</span> <span class="self">Self</span><span class="ident">::Accepted</span> <span class="op">|</span><span class="op">|</span> <span class="ident">other</span> <span class="op">=</span><span class="op">=</span> <span class="self">Self</span><span class="ident">::Refused</span>,
+            <span class="self">Self</span><span class="ident">::Accepted</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">other</span> <span class="op">=</span><span class="op">=</span> <span class="self">Self</span><span class="ident">::Completed</span>,
+            <span class="self">Self</span><span class="ident">::Refused</span> <span class="op">|</span> <span class="self">Self</span><span class="ident">::Completed</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
         }
     }
 }
@@ -522,24 +519,24 @@
 <span class="kw">impl</span> <span class="ident">Ticket</span> {
     <span class="doccomment">/// Check whether the ticket is editable, based on its status.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_editable</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">status</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Status</span>::<span class="ident">Open</span>
-            <span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">status</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Status</span>::<span class="ident">InProgress</span>
-            <span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">status</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Status</span>::<span class="ident">Accepted</span>
+        <span class="self">self</span>.<span class="ident">status</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Status::Open</span>
+            <span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">status</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Status::InProgress</span>
+            <span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">status</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Status::Accepted</span>
     }
 
     <span class="doccomment">/// Whether a ticket can be changed into [`Status::Accepted`].</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">can_accept</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">is_editable</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">status</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Status</span>::<span class="ident">Open</span> <span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">status</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Status</span>::<span class="ident">InProgress</span>
+        <span class="self">self</span>.<span class="ident">is_editable</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">status</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Status::Open</span> <span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">status</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Status::InProgress</span>
     }
 
     <span class="doccomment">/// Whether a ticket can be changed into [`Status::Refused`].</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">can_refuse</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">is_editable</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">status</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Status</span>::<span class="ident">Open</span> <span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">status</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Status</span>::<span class="ident">InProgress</span>
+        <span class="self">self</span>.<span class="ident">is_editable</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">status</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Status::Open</span> <span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">status</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Status::InProgress</span>
     }
 
     <span class="doccomment">/// Whether a ticket can be changed into [`Status::Completed`].</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">can_complete</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">is_editable</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">status</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Status</span>::<span class="ident">Accepted</span>
+        <span class="self">self</span>.<span class="ident">is_editable</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">status</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Status::Accepted</span>
     }
 
     <span class="doccomment">/// Whether a ticket can be forwarded to the course&#39;s author.</span>
@@ -659,4 +656,6 @@
     <span class="kw">pub</span> <span class="ident">status</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Status</span><span class="op">&gt;</span>,
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "amelio";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="amelio" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
+    <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script>
+</body></html>

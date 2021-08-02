@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["get_files",""]],"struct":[["FileEntry",""]]});
+initSidebarItems({"fn":[["get_files",""],["read_file_from_fs",""]],"struct":[["EmbeddedFile","A file embedded into the binary"],["FileEntry",""],["Metadata","Metadata about an embedded file"]]});

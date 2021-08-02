@@ -1,7 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/askama_shared-0.11.1/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings"></script><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="alternate icon" type="image/png" href="../../favicon-16x16.png">
-<link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../askama_shared/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
-                <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `&#x2F;home&#x2F;runner&#x2F;.cargo&#x2F;registry&#x2F;src&#x2F;github.com-1ecc6299db9ec823&#x2F;askama_shared-0.11.1&#x2F;src&#x2F;lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg"><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../askama_shared/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -520,21 +517,21 @@
 <span id="517">517</span>
 <span id="518">518</span>
 <span id="519">519</span>
-</pre><div class="example-wrap"><pre class="rust ">
+</pre><pre class="rust">
 <span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;cargo-clippy&quot;</span>, <span class="ident">allow</span>(<span class="ident">unused_parens</span>))]</span>
 
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::{<span class="ident">BTreeMap</span>, <span class="ident">HashSet</span>};
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">TryFrom</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">path</span>::{<span class="ident">Path</span>, <span class="ident">PathBuf</span>};
+<span class="kw">use</span> <span class="ident">std::collections</span>::{<span class="ident">BTreeMap</span>, <span class="ident">HashSet</span>};
+<span class="kw">use</span> <span class="ident">std::convert::TryFrom</span>;
+<span class="kw">use</span> <span class="ident">std::path</span>::{<span class="ident">Path</span>, <span class="ident">PathBuf</span>};
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">env</span>, <span class="ident">fmt</span>, <span class="ident">fs</span>};
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serde&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident">serde</span>::<span class="ident">Deserialize</span>;
+<span class="kw">use</span> <span class="ident">serde::Deserialize</span>;
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">askama_escape</span>::<span class="ident">MarkupDisplay</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">askama_escape::MarkupDisplay</span>;
 
 <span class="kw">mod</span> <span class="ident">error</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::{<span class="ident">Error</span>, <span class="prelude-ty">Result</span>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::error</span>::{<span class="ident">Error</span>, <span class="prelude-ty">Result</span>};
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">filters</span>;
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">generator</span>;
@@ -555,17 +552,17 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Config</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std</span>::<span class="ident">result</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Config</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">root</span> <span class="op">=</span> <span class="ident">PathBuf</span>::<span class="ident">from</span>(<span class="ident">env</span>::<span class="ident">var</span>(<span class="string">&quot;CARGO_MANIFEST_DIR&quot;</span>).<span class="ident">unwrap</span>());
-        <span class="kw">let</span> <span class="ident">default_dirs</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">root</span>.<span class="ident">join</span>(<span class="string">&quot;templates&quot;</span>)];
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std::result::Result</span><span class="op">&lt;</span><span class="ident">Config</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">root</span> <span class="op">=</span> <span class="ident">PathBuf::from</span>(<span class="ident">env::var</span>(<span class="string">&quot;CARGO_MANIFEST_DIR&quot;</span>).<span class="ident">unwrap</span>());
+        <span class="kw">let</span> <span class="ident">default_dirs</span> <span class="op">=</span> <span class="macro">vec!</span>[<span class="ident">root</span>.<span class="ident">join</span>(<span class="string">&quot;templates&quot;</span>)];
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">syntaxes</span> <span class="op">=</span> <span class="ident">BTreeMap</span>::<span class="ident">new</span>();
-        <span class="ident">syntaxes</span>.<span class="ident">insert</span>(<span class="ident">DEFAULT_SYNTAX_NAME</span>.<span class="ident">to_string</span>(), <span class="ident">Syntax</span>::<span class="ident">default</span>());
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">syntaxes</span> <span class="op">=</span> <span class="ident">BTreeMap::new</span>();
+        <span class="ident">syntaxes</span>.<span class="ident">insert</span>(<span class="ident">DEFAULT_SYNTAX_NAME</span>.<span class="ident">to_string</span>(), <span class="ident">Syntax::default</span>());
 
         <span class="kw">let</span> <span class="ident">raw</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">is_empty</span>() {
-            <span class="ident">RawConfig</span>::<span class="ident">default</span>()
+            <span class="ident">RawConfig::default</span>()
         } <span class="kw">else</span> {
-            <span class="ident">RawConfig</span>::<span class="ident">from_toml_str</span>(<span class="ident">s</span>)<span class="question-mark">?</span>
+            <span class="ident">RawConfig::from_toml_str</span>(<span class="ident">s</span>)<span class="question-mark">?</span>
         };
 
         <span class="kw">let</span> (<span class="ident">dirs</span>, <span class="ident">default_syntax</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">raw</span>.<span class="ident">general</span> {
@@ -586,19 +583,19 @@
                 <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="ident">raw_s</span>.<span class="ident">name</span>;
 
                 <span class="kw">if</span> <span class="ident">syntaxes</span>
-                    .<span class="ident">insert</span>(<span class="ident">name</span>.<span class="ident">to_string</span>(), <span class="ident">Syntax</span>::<span class="ident">try_from</span>(<span class="ident">raw_s</span>)<span class="question-mark">?</span>)
+                    .<span class="ident">insert</span>(<span class="ident">name</span>.<span class="ident">to_string</span>(), <span class="ident">Syntax::try_from</span>(<span class="ident">raw_s</span>)<span class="question-mark">?</span>)
                     .<span class="ident">is_some</span>()
                 {
-                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;syntax \&quot;{}\&quot; is already defined&quot;</span>, <span class="ident">name</span>).<span class="ident">into</span>());
+                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;syntax \&quot;{}\&quot; is already defined&quot;</span>, <span class="ident">name</span>).<span class="ident">into</span>());
                 }
             }
         }
 
         <span class="kw">if</span> <span class="op">!</span><span class="ident">syntaxes</span>.<span class="ident">contains_key</span>(<span class="ident">default_syntax</span>) {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;default syntax \&quot;{}\&quot; not found&quot;</span>, <span class="ident">default_syntax</span>).<span class="ident">into</span>());
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;default syntax \&quot;{}\&quot; not found&quot;</span>, <span class="ident">default_syntax</span>).<span class="ident">into</span>());
         }
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">escapers</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">escapers</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">configured</span>) <span class="op">=</span> <span class="ident">raw</span>.<span class="ident">escaper</span> {
             <span class="kw">for</span> <span class="ident">escaper</span> <span class="kw">in</span> <span class="ident">configured</span> {
                 <span class="ident">escapers</span>.<span class="ident">push</span>((
@@ -627,7 +624,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
         <span class="ident">start_at</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Path</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std</span>::<span class="ident">result</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">PathBuf</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std::result::Result</span><span class="op">&lt;</span><span class="ident">PathBuf</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">root</span>) <span class="op">=</span> <span class="ident">start_at</span> {
             <span class="kw">let</span> <span class="ident">relative</span> <span class="op">=</span> <span class="ident">root</span>.<span class="ident">with_file_name</span>(<span class="ident">path</span>);
             <span class="kw">if</span> <span class="ident">relative</span>.<span class="ident">exists</span>() {
@@ -642,7 +639,7 @@
             }
         }
 
-        <span class="prelude-val">Err</span>(<span class="macro">format</span><span class="macro">!</span>(
+        <span class="prelude-val">Err</span>(<span class="macro">format!</span>(
             <span class="string">&quot;template {:?} not found in directories {:?}&quot;</span>,
             <span class="ident">path</span>, <span class="self">self</span>.<span class="ident">dirs</span>
         )
@@ -676,8 +673,8 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">TryFrom</span><span class="op">&lt;</span><span class="ident">RawSyntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Syntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> <span class="ident">CompileError</span>;
 
-    <span class="kw">fn</span> <span class="ident">try_from</span>(<span class="ident">raw</span>: <span class="ident">RawSyntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std</span>::<span class="ident">result</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="self">Self</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">default</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">default</span>();
+    <span class="kw">fn</span> <span class="ident">try_from</span>(<span class="ident">raw</span>: <span class="ident">RawSyntax</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std::result::Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="self">Self</span><span class="ident">::Error</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">default</span> <span class="op">=</span> <span class="self">Self</span><span class="ident">::default</span>();
         <span class="kw">let</span> <span class="ident">syntax</span> <span class="op">=</span> <span class="self">Self</span> {
             <span class="ident">block_start</span>: <span class="ident">raw</span>.<span class="ident">block_start</span>.<span class="ident">unwrap_or</span>(<span class="ident">default</span>.<span class="ident">block_start</span>),
             <span class="ident">block_end</span>: <span class="ident">raw</span>.<span class="ident">block_end</span>.<span class="ident">unwrap_or</span>(<span class="ident">default</span>.<span class="ident">block_end</span>),
@@ -704,7 +701,7 @@
         <span class="kw">let</span> <span class="ident">es</span> <span class="op">=</span> <span class="ident">syntax</span>.<span class="ident">block_start</span>.<span class="ident">as_bytes</span>()[<span class="number">0</span>];
         <span class="kw">let</span> <span class="ident">ee</span> <span class="op">=</span> <span class="ident">syntax</span>.<span class="ident">block_start</span>.<span class="ident">as_bytes</span>()[<span class="number">1</span>];
         <span class="kw">if</span> <span class="op">!</span>((<span class="ident">bs</span> <span class="op">=</span><span class="op">=</span> <span class="ident">cs</span> <span class="op">&amp;&amp;</span> <span class="ident">bs</span> <span class="op">=</span><span class="op">=</span> <span class="ident">es</span>) <span class="op">|</span><span class="op">|</span> (<span class="ident">be</span> <span class="op">=</span><span class="op">=</span> <span class="ident">ce</span> <span class="op">&amp;&amp;</span> <span class="ident">be</span> <span class="op">=</span><span class="op">=</span> <span class="ident">ee</span>)) {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;bad delimiters block_start: {}, comment_start: {}, expr_start: {}, needs one of the two characters in common&quot;</span>, <span class="ident">syntax</span>.<span class="ident">block_start</span>, <span class="ident">syntax</span>.<span class="ident">comment_start</span>, <span class="ident">syntax</span>.<span class="ident">expr_start</span>).<span class="ident">into</span>());
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;bad delimiters block_start: {}, comment_start: {}, expr_start: {}, needs one of the two characters in common&quot;</span>, <span class="ident">syntax</span>.<span class="ident">block_start</span>, <span class="ident">syntax</span>.<span class="ident">comment_start</span>, <span class="ident">syntax</span>.<span class="ident">expr_start</span>).<span class="ident">into</span>());
         }
 
         <span class="prelude-val">Ok</span>(<span class="ident">syntax</span>)
@@ -722,14 +719,14 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;d</span><span class="op">&gt;</span> <span class="ident">RawConfig</span><span class="op">&lt;</span><span class="lifetime">&#39;d</span><span class="op">&gt;</span> {
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;config&quot;</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">from_toml_str</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std</span>::<span class="ident">result</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">RawConfig</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
-        <span class="ident">toml</span>::<span class="ident">from_str</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-            <span class="ident">CompileError</span>::<span class="ident">String</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;invalid TOML in {}: {}&quot;</span>, <span class="ident">CONFIG_FILE_NAME</span>, <span class="ident">e</span>))
+    <span class="kw">fn</span> <span class="ident">from_toml_str</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std::result::Result</span><span class="op">&lt;</span><span class="ident">RawConfig</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
+        <span class="ident">toml::from_str</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+            <span class="ident">CompileError::String</span>(<span class="macro">format!</span>(<span class="string">&quot;invalid TOML in {}: {}&quot;</span>, <span class="ident">CONFIG_FILE_NAME</span>, <span class="ident">e</span>))
         })
     }
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;config&quot;</span>))]</span>
-    <span class="kw">fn</span> <span class="ident">from_toml_str</span><span class="op">&lt;</span><span class="lifetime">&#39;n</span><span class="op">&gt;</span>(<span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;n</span> <span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std</span>::<span class="ident">result</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">RawConfig</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">from_toml_str</span><span class="op">&lt;</span><span class="lifetime">&#39;n</span><span class="op">&gt;</span>(<span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;n</span> <span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std::result::Result</span><span class="op">&lt;</span><span class="ident">RawConfig</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="prelude-val">Err</span>(<span class="string">&quot;TOML support not available&quot;</span>.<span class="ident">into</span>())
     }
 }
@@ -758,12 +755,12 @@
     <span class="ident">extensions</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span>,
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_config_file</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std</span>::<span class="ident">result</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">root</span> <span class="op">=</span> <span class="ident">PathBuf</span>::<span class="ident">from</span>(<span class="ident">env</span>::<span class="ident">var</span>(<span class="string">&quot;CARGO_MANIFEST_DIR&quot;</span>).<span class="ident">unwrap</span>());
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_config_file</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std::result::Result</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="ident">root</span> <span class="op">=</span> <span class="ident">PathBuf::from</span>(<span class="ident">env::var</span>(<span class="string">&quot;CARGO_MANIFEST_DIR&quot;</span>).<span class="ident">unwrap</span>());
     <span class="kw">let</span> <span class="ident">filename</span> <span class="op">=</span> <span class="ident">root</span>.<span class="ident">join</span>(<span class="ident">CONFIG_FILE_NAME</span>);
     <span class="kw">if</span> <span class="ident">filename</span>.<span class="ident">exists</span>() {
-        <span class="ident">fs</span>::<span class="ident">read_to_string</span>(<span class="kw-2">&amp;</span><span class="ident">filename</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
-            <span class="ident">CompileError</span>::<span class="ident">String</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;unable to read {}&quot;</span>, <span class="ident">filename</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>()))
+        <span class="ident">fs::read_to_string</span>(<span class="kw-2">&amp;</span><span class="ident">filename</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
+            <span class="ident">CompileError::String</span>(<span class="macro">format!</span>(<span class="string">&quot;unable to read {}&quot;</span>, <span class="ident">filename</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>()))
         })
     } <span class="kw">else</span> {
         <span class="prelude-val">Ok</span>(<span class="string">&quot;&quot;</span>.<span class="ident">to_string</span>())
@@ -777,10 +774,10 @@
     <span class="ident">vals</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">to_string</span>()).<span class="ident">collect</span>()
 }
 
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">match_wild_err_arm</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_template_source</span>(<span class="ident">tpl_path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std</span>::<span class="ident">result</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
-    <span class="kw">match</span> <span class="ident">fs</span>::<span class="ident">read_to_string</span>(<span class="ident">tpl_path</span>) {
-        <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">CompileError</span>::<span class="ident">String</span>(<span class="macro">format</span><span class="macro">!</span>(
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::match_wild_err_arm</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_template_source</span>(<span class="ident">tpl_path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std::result::Result</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    <span class="kw">match</span> <span class="ident">fs::read_to_string</span>(<span class="ident">tpl_path</span>) {
+        <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">CompileError::String</span>(<span class="macro">format!</span>(
             <span class="string">&quot;unable to open template file &#39;{}&#39;&quot;</span>,
             <span class="ident">tpl_path</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>()
         ))),
@@ -818,70 +815,70 @@
     <span class="ident">String</span>(<span class="ident">String</span>),
 }
 
-<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">CompileError</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+<span class="kw">impl</span> <span class="ident">fmt::Display</span> <span class="kw">for</span> <span class="ident">CompileError</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt::Result</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">CompileError</span>::<span class="ident">Static</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">s</span>),
-            <span class="ident">CompileError</span>::<span class="ident">String</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">s</span>),
+            <span class="ident">CompileError::Static</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write!</span>(<span class="ident">fmt</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">s</span>),
+            <span class="ident">CompileError::String</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write!</span>(<span class="ident">fmt</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">s</span>),
         }
     }
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">CompileError</span> {
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">CompileError</span>::<span class="ident">Static</span>(<span class="ident">s</span>)
+        <span class="ident">CompileError::Static</span>(<span class="ident">s</span>)
     }
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">CompileError</span> {
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">s</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">CompileError</span>::<span class="ident">String</span>(<span class="ident">s</span>)
+        <span class="ident">CompileError::String</span>(<span class="ident">s</span>)
     }
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">blacklisted_name</span>)]</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::blacklisted_name</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">env</span>;
-    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">path</span>::{<span class="ident">Path</span>, <span class="ident">PathBuf</span>};
+    <span class="kw">use</span> <span class="ident">std::env</span>;
+    <span class="kw">use</span> <span class="ident">std::path</span>::{<span class="ident">Path</span>, <span class="ident">PathBuf</span>};
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">get_source</span>() {
-        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">Config</span>::<span class="ident">new</span>(<span class="string">&quot;&quot;</span>)
+        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">Config::new</span>(<span class="string">&quot;&quot;</span>)
             .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">config</span><span class="op">|</span> <span class="ident">config</span>.<span class="ident">find_template</span>(<span class="string">&quot;b.html&quot;</span>, <span class="prelude-val">None</span>))
             .<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">get_template_source</span>(<span class="kw-2">&amp;</span><span class="ident">path</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;bar&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">get_template_source</span>(<span class="kw-2">&amp;</span><span class="ident">path</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;bar&quot;</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_default_config</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">root</span> <span class="op">=</span> <span class="ident">PathBuf</span>::<span class="ident">from</span>(<span class="ident">env</span>::<span class="ident">var</span>(<span class="string">&quot;CARGO_MANIFEST_DIR&quot;</span>).<span class="ident">unwrap</span>());
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">root</span> <span class="op">=</span> <span class="ident">PathBuf::from</span>(<span class="ident">env::var</span>(<span class="string">&quot;CARGO_MANIFEST_DIR&quot;</span>).<span class="ident">unwrap</span>());
         <span class="ident">root</span>.<span class="ident">push</span>(<span class="string">&quot;templates&quot;</span>);
-        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">Config</span>::<span class="ident">new</span>(<span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">config</span>.<span class="ident">dirs</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">root</span>]);
+        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">Config::new</span>(<span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq!</span>(<span class="ident">config</span>.<span class="ident">dirs</span>, <span class="macro">vec!</span>[<span class="ident">root</span>]);
     }
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;config&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_config_dirs</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">root</span> <span class="op">=</span> <span class="ident">PathBuf</span>::<span class="ident">from</span>(<span class="ident">env</span>::<span class="ident">var</span>(<span class="string">&quot;CARGO_MANIFEST_DIR&quot;</span>).<span class="ident">unwrap</span>());
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">root</span> <span class="op">=</span> <span class="ident">PathBuf::from</span>(<span class="ident">env::var</span>(<span class="string">&quot;CARGO_MANIFEST_DIR&quot;</span>).<span class="ident">unwrap</span>());
         <span class="ident">root</span>.<span class="ident">push</span>(<span class="string">&quot;tpl&quot;</span>);
-        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">Config</span>::<span class="ident">new</span>(<span class="string">&quot;[general]\ndirs = [\&quot;tpl\&quot;]&quot;</span>).<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">config</span>.<span class="ident">dirs</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">root</span>]);
+        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">Config::new</span>(<span class="string">&quot;[general]\ndirs = [\&quot;tpl\&quot;]&quot;</span>).<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq!</span>(<span class="ident">config</span>.<span class="ident">dirs</span>, <span class="macro">vec!</span>[<span class="ident">root</span>]);
     }
 
     <span class="kw">fn</span> <span class="ident">assert_eq_rooted</span>(<span class="ident">actual</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">expected</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">root</span> <span class="op">=</span> <span class="ident">PathBuf</span>::<span class="ident">from</span>(<span class="ident">env</span>::<span class="ident">var</span>(<span class="string">&quot;CARGO_MANIFEST_DIR&quot;</span>).<span class="ident">unwrap</span>());
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">root</span> <span class="op">=</span> <span class="ident">PathBuf::from</span>(<span class="ident">env::var</span>(<span class="string">&quot;CARGO_MANIFEST_DIR&quot;</span>).<span class="ident">unwrap</span>());
         <span class="ident">root</span>.<span class="ident">push</span>(<span class="string">&quot;templates&quot;</span>);
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">PathBuf</span>::<span class="ident">new</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">PathBuf::new</span>();
         <span class="ident">inner</span>.<span class="ident">push</span>(<span class="ident">expected</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">actual</span>.<span class="ident">strip_prefix</span>(<span class="ident">root</span>).<span class="ident">unwrap</span>(), <span class="ident">inner</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">actual</span>.<span class="ident">strip_prefix</span>(<span class="ident">root</span>).<span class="ident">unwrap</span>(), <span class="ident">inner</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">find_absolute</span>() {
-        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">Config</span>::<span class="ident">new</span>(<span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">Config::new</span>(<span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">root</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">find_template</span>(<span class="string">&quot;a.html&quot;</span>, <span class="prelude-val">None</span>).<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">find_template</span>(<span class="string">&quot;sub/b.html&quot;</span>, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">root</span>)).<span class="ident">unwrap</span>();
         <span class="ident">assert_eq_rooted</span>(<span class="kw-2">&amp;</span><span class="ident">path</span>, <span class="string">&quot;sub/b.html&quot;</span>);
@@ -890,14 +887,14 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="attribute">#[<span class="ident">should_panic</span>]</span>
     <span class="kw">fn</span> <span class="ident">find_relative_nonexistent</span>() {
-        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">Config</span>::<span class="ident">new</span>(<span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">Config::new</span>(<span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">root</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">find_template</span>(<span class="string">&quot;a.html&quot;</span>, <span class="prelude-val">None</span>).<span class="ident">unwrap</span>();
         <span class="ident">config</span>.<span class="ident">find_template</span>(<span class="string">&quot;c.html&quot;</span>, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">root</span>)).<span class="ident">unwrap</span>();
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">find_relative</span>() {
-        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">Config</span>::<span class="ident">new</span>(<span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">Config::new</span>(<span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">root</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">find_template</span>(<span class="string">&quot;sub/b.html&quot;</span>, <span class="prelude-val">None</span>).<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">find_template</span>(<span class="string">&quot;c.html&quot;</span>, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">root</span>)).<span class="ident">unwrap</span>();
         <span class="ident">assert_eq_rooted</span>(<span class="kw-2">&amp;</span><span class="ident">path</span>, <span class="string">&quot;sub/c.html&quot;</span>);
@@ -905,7 +902,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">find_relative_sub</span>() {
-        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">Config</span>::<span class="ident">new</span>(<span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">Config::new</span>(<span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">root</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">find_template</span>(<span class="string">&quot;sub/b.html&quot;</span>, <span class="prelude-val">None</span>).<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">find_template</span>(<span class="string">&quot;sub1/d.html&quot;</span>, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">root</span>)).<span class="ident">unwrap</span>();
         <span class="ident">assert_eq_rooted</span>(<span class="kw-2">&amp;</span><span class="ident">path</span>, <span class="string">&quot;sub/sub1/d.html&quot;</span>);
@@ -927,25 +924,25 @@
         expr_start = &quot;{!&quot;
         &quot;#</span>;
 
-        <span class="kw">let</span> <span class="ident">default_syntax</span> <span class="op">=</span> <span class="ident">Syntax</span>::<span class="ident">default</span>();
-        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">Config</span>::<span class="ident">new</span>(<span class="ident">raw_config</span>).<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">config</span>.<span class="ident">default_syntax</span>, <span class="string">&quot;foo&quot;</span>);
+        <span class="kw">let</span> <span class="ident">default_syntax</span> <span class="op">=</span> <span class="ident">Syntax::default</span>();
+        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">Config::new</span>(<span class="ident">raw_config</span>).<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq!</span>(<span class="ident">config</span>.<span class="ident">default_syntax</span>, <span class="string">&quot;foo&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">foo</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">syntaxes</span>.<span class="ident">get</span>(<span class="string">&quot;foo&quot;</span>).<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">foo</span>.<span class="ident">block_start</span>, <span class="string">&quot;{&lt;&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">foo</span>.<span class="ident">block_end</span>, <span class="ident">default_syntax</span>.<span class="ident">block_end</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">foo</span>.<span class="ident">expr_start</span>, <span class="ident">default_syntax</span>.<span class="ident">expr_start</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">foo</span>.<span class="ident">expr_end</span>, <span class="ident">default_syntax</span>.<span class="ident">expr_end</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">foo</span>.<span class="ident">comment_start</span>, <span class="ident">default_syntax</span>.<span class="ident">comment_start</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">foo</span>.<span class="ident">comment_end</span>, <span class="ident">default_syntax</span>.<span class="ident">comment_end</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">foo</span>.<span class="ident">block_start</span>, <span class="string">&quot;{&lt;&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">foo</span>.<span class="ident">block_end</span>, <span class="ident">default_syntax</span>.<span class="ident">block_end</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">foo</span>.<span class="ident">expr_start</span>, <span class="ident">default_syntax</span>.<span class="ident">expr_start</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">foo</span>.<span class="ident">expr_end</span>, <span class="ident">default_syntax</span>.<span class="ident">expr_end</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">foo</span>.<span class="ident">comment_start</span>, <span class="ident">default_syntax</span>.<span class="ident">comment_start</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">foo</span>.<span class="ident">comment_end</span>, <span class="ident">default_syntax</span>.<span class="ident">comment_end</span>);
 
         <span class="kw">let</span> <span class="ident">bar</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">syntaxes</span>.<span class="ident">get</span>(<span class="string">&quot;bar&quot;</span>).<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">bar</span>.<span class="ident">block_start</span>, <span class="ident">default_syntax</span>.<span class="ident">block_start</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">bar</span>.<span class="ident">block_end</span>, <span class="ident">default_syntax</span>.<span class="ident">block_end</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">bar</span>.<span class="ident">expr_start</span>, <span class="string">&quot;{!&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">bar</span>.<span class="ident">expr_end</span>, <span class="ident">default_syntax</span>.<span class="ident">expr_end</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">bar</span>.<span class="ident">comment_start</span>, <span class="ident">default_syntax</span>.<span class="ident">comment_start</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">bar</span>.<span class="ident">comment_end</span>, <span class="ident">default_syntax</span>.<span class="ident">comment_end</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">bar</span>.<span class="ident">block_start</span>, <span class="ident">default_syntax</span>.<span class="ident">block_start</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">bar</span>.<span class="ident">block_end</span>, <span class="ident">default_syntax</span>.<span class="ident">block_end</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">bar</span>.<span class="ident">expr_start</span>, <span class="string">&quot;{!&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">bar</span>.<span class="ident">expr_end</span>, <span class="ident">default_syntax</span>.<span class="ident">expr_end</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">bar</span>.<span class="ident">comment_start</span>, <span class="ident">default_syntax</span>.<span class="ident">comment_start</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">bar</span>.<span class="ident">comment_end</span>, <span class="ident">default_syntax</span>.<span class="ident">comment_end</span>);
     }
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;config&quot;</span>)]</span>
@@ -959,25 +956,25 @@
         default_syntax = &quot;foo&quot;
         &quot;#</span>;
 
-        <span class="kw">let</span> <span class="ident">default_syntax</span> <span class="op">=</span> <span class="ident">Syntax</span>::<span class="ident">default</span>();
-        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">Config</span>::<span class="ident">new</span>(<span class="ident">raw_config</span>).<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">config</span>.<span class="ident">default_syntax</span>, <span class="string">&quot;foo&quot;</span>);
+        <span class="kw">let</span> <span class="ident">default_syntax</span> <span class="op">=</span> <span class="ident">Syntax::default</span>();
+        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">Config::new</span>(<span class="ident">raw_config</span>).<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq!</span>(<span class="ident">config</span>.<span class="ident">default_syntax</span>, <span class="string">&quot;foo&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">foo</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">syntaxes</span>.<span class="ident">get</span>(<span class="string">&quot;foo&quot;</span>).<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">foo</span>.<span class="ident">block_start</span>, <span class="string">&quot;{&lt;&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">foo</span>.<span class="ident">block_end</span>, <span class="ident">default_syntax</span>.<span class="ident">block_end</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">foo</span>.<span class="ident">expr_start</span>, <span class="ident">default_syntax</span>.<span class="ident">expr_start</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">foo</span>.<span class="ident">expr_end</span>, <span class="ident">default_syntax</span>.<span class="ident">expr_end</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">foo</span>.<span class="ident">comment_start</span>, <span class="ident">default_syntax</span>.<span class="ident">comment_start</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">foo</span>.<span class="ident">comment_end</span>, <span class="ident">default_syntax</span>.<span class="ident">comment_end</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">foo</span>.<span class="ident">block_start</span>, <span class="string">&quot;{&lt;&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">foo</span>.<span class="ident">block_end</span>, <span class="ident">default_syntax</span>.<span class="ident">block_end</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">foo</span>.<span class="ident">expr_start</span>, <span class="ident">default_syntax</span>.<span class="ident">expr_start</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">foo</span>.<span class="ident">expr_end</span>, <span class="ident">default_syntax</span>.<span class="ident">expr_end</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">foo</span>.<span class="ident">comment_start</span>, <span class="ident">default_syntax</span>.<span class="ident">comment_start</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">foo</span>.<span class="ident">comment_end</span>, <span class="ident">default_syntax</span>.<span class="ident">comment_end</span>);
 
         <span class="kw">let</span> <span class="ident">bar</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">syntaxes</span>.<span class="ident">get</span>(<span class="string">&quot;bar&quot;</span>).<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">bar</span>.<span class="ident">block_start</span>, <span class="ident">default_syntax</span>.<span class="ident">block_start</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">bar</span>.<span class="ident">block_end</span>, <span class="ident">default_syntax</span>.<span class="ident">block_end</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">bar</span>.<span class="ident">expr_start</span>, <span class="string">&quot;{!&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">bar</span>.<span class="ident">expr_end</span>, <span class="ident">default_syntax</span>.<span class="ident">expr_end</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">bar</span>.<span class="ident">comment_start</span>, <span class="ident">default_syntax</span>.<span class="ident">comment_start</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">bar</span>.<span class="ident">comment_end</span>, <span class="ident">default_syntax</span>.<span class="ident">comment_end</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">bar</span>.<span class="ident">block_start</span>, <span class="ident">default_syntax</span>.<span class="ident">block_start</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">bar</span>.<span class="ident">block_end</span>, <span class="ident">default_syntax</span>.<span class="ident">block_end</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">bar</span>.<span class="ident">expr_start</span>, <span class="string">&quot;{!&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">bar</span>.<span class="ident">expr_end</span>, <span class="ident">default_syntax</span>.<span class="ident">expr_end</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">bar</span>.<span class="ident">comment_start</span>, <span class="ident">default_syntax</span>.<span class="ident">comment_start</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">bar</span>.<span class="ident">comment_end</span>, <span class="ident">default_syntax</span>.<span class="ident">comment_end</span>);
     }
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;toml&quot;</span>)]</span>
@@ -988,7 +985,7 @@
         syntax = [{ name = &quot;default&quot; }]
         &quot;#</span>;
 
-        <span class="kw">let</span> <span class="ident">_config</span> <span class="op">=</span> <span class="ident">Config</span>::<span class="ident">new</span>(<span class="ident">raw_config</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">_config</span> <span class="op">=</span> <span class="ident">Config::new</span>(<span class="ident">raw_config</span>).<span class="ident">unwrap</span>();
     }
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;toml&quot;</span>)]</span>
@@ -1000,7 +997,7 @@
                   { name = &quot;foo&quot;, block_start = &quot;%%&quot; } ]
         &quot;#</span>;
 
-        <span class="kw">let</span> <span class="ident">_config</span> <span class="op">=</span> <span class="ident">Config</span>::<span class="ident">new</span>(<span class="ident">raw_config</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">_config</span> <span class="op">=</span> <span class="ident">Config::new</span>(<span class="ident">raw_config</span>).<span class="ident">unwrap</span>();
     }
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;toml&quot;</span>)]</span>
@@ -1012,13 +1009,13 @@
         default_syntax = &quot;foo&quot;
         &quot;#</span>;
 
-        <span class="kw">let</span> <span class="ident">_config</span> <span class="op">=</span> <span class="ident">Config</span>::<span class="ident">new</span>(<span class="ident">raw_config</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">_config</span> <span class="op">=</span> <span class="ident">Config::new</span>(<span class="ident">raw_config</span>).<span class="ident">unwrap</span>();
     }
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;config&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">escape_modes</span>() {
-        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">Config</span>::<span class="ident">new</span>(
+        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">Config::new</span>(
             <span class="string">r#&quot;
             [[escaper]]
             path = &quot;::askama::Js&quot;
@@ -1026,9 +1023,9 @@
         &quot;#</span>,
         )
         .<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="ident">config</span>.<span class="ident">escapers</span>,
-            <span class="macro">vec</span><span class="macro">!</span>[
+            <span class="macro">vec!</span>[
                 (<span class="ident">str_set</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;js&quot;</span>]), <span class="string">&quot;::askama::Js&quot;</span>.<span class="ident">into</span>()),
                 (<span class="ident">str_set</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;html&quot;</span>, <span class="string">&quot;htm&quot;</span>, <span class="string">&quot;xml&quot;</span>]), <span class="string">&quot;::askama::Html&quot;</span>.<span class="ident">into</span>()),
                 (
@@ -1041,4 +1038,6 @@
     }
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "askama_shared";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="askama_shared" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
+    <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script>
+</body></html>
