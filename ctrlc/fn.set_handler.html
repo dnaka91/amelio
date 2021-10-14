@@ -5,7 +5,7 @@ typically at the start of your program.</p>
 <div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="ident">ctrlc::set_handler</span>(<span class="op">|</span><span class="op">|</span> <span class="macro">println!</span>(<span class="string">&quot;Hello world!&quot;</span>)).<span class="ident">expect</span>(<span class="string">&quot;Error setting Ctrl-C handler&quot;</span>);</pre></div>
 <h1 id="warning" class="section-header"><a href="#warning">Warning</a></h1>
-<p>On Unix, any existing <code>SIGINT</code>, <code>SIGTERM</code>(if termination feature is enabled) or <code>SA_SIGINFO</code>
+<p>On Unix, any existing <code>SIGINT</code>, <code>SIGTERM</code> and <code>SIGHUP</code> (if termination feature is enabled) or <code>SA_SIGINFO</code>
 posix signal handlers will be overwritten. On Windows, multiple handler routines are allowed,
 but they are called on a last-registered, first-called basis until the signal is handled.</p>
 <p>On Unix, signal dispositions and signal handlers are inherited by child processes created via
