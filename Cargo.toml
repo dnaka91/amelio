@@ -2,7 +2,7 @@
 name = "amelio"
 version = "1.0.0"
 authors = ["Dominik Nakamura <dnaka91@gmail.com>"]
-edition = "2018"
+edition = "2021"
 license = "GPL-3.0"
 description = "Amelio - A university project for the IUBH"
 homepage = "https://amelio.dnaka91.rocks"

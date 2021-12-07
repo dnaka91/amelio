@@ -28,20 +28,21 @@ mod filters {
     /// src="logo.png" srcset="logo.png, logo@1.5x.png 1.5x, logo@2x.png 2x, ..."
     /// ```
     pub fn srcset(base: &str) -> askama::Result<String> {
-        Ok(if let Some(pos) = base.rfind('.') {
-            format!(
-                "src=\"{0}\" srcset=\"{0}, \
-                {name}@1.5x{ext} 1.5x, \
-                {name}@2x{ext} 2x, \
-                {name}@3x{ext} 3x, \
-                {name}@4x{ext} 4x\"",
-                base,
-                name = &base[..pos],
-                ext = &base[pos..],
-            )
-        } else {
-            base.to_owned()
-        })
+        Ok(base.rfind('.').map_or_else(
+            || base.to_owned(),
+            |pos| {
+                format!(
+                    "src=\"{0}\" srcset=\"{0}, \
+                    {name}@1.5x{ext} 1.5x, \
+                    {name}@2x{ext} 2x, \
+                    {name}@3x{ext} 3x, \
+                    {name}@4x{ext} 4x\"",
+                    base,
+                    name = &base[..pos],
+                    ext = &base[pos..],
+                )
+            },
+        ))
     }
 
     /// Convert a UTC timestamp into German time zone and then print it in a custom format fitting

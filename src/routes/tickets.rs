@@ -177,6 +177,7 @@ pub fn post_new(
 }
 
 /// Response of the [`edit`] endpoint.
+#[allow(clippy::large_enum_variant)]
 #[derive(rocket::Responder)]
 pub enum EditResponse {
     Edit(templates::TicketDetail),
