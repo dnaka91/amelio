@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `&#x2F;home&#x2F;runner&#x2F;.cargo&#x2F;registry&#x2F;src&#x2F;github.com-1ecc6299db9ec823&#x2F;email-0.0.20&#x2F;src&#x2F;message.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>message.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg"><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../email/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `&#x2F;home&#x2F;runner&#x2F;.cargo&#x2F;registry&#x2F;src&#x2F;github.com-1ecc6299db9ec823&#x2F;email-0.0.20&#x2F;src&#x2F;message.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>message.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css"disabled><link rel="stylesheet" type="text/css" href="../../dark.css"disabled><link rel="stylesheet" type="text/css" href="../../light.css"id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
+    <noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../email/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -727,12 +728,11 @@
 <span id="727">727</span>
 <span id="728">728</span>
 <span id="729">729</span>
-</pre><pre class="rust">
-
-<span class="kw">use</span> <span class="kw">super</span><span class="ident">::header</span>::{<span class="ident">HeaderMap</span>, <span class="ident">Header</span>};
-<span class="kw">use</span> <span class="kw">super</span><span class="ident">::rfc5322</span>::{<span class="ident">Rfc5322Parser</span>, <span class="ident">Rfc5322Builder</span>};
-<span class="kw">use</span> <span class="kw">super</span><span class="ident">::results</span>::{<span class="ident">ParsingResult</span>,<span class="ident">ParsingError</span>};
-<span class="kw">use</span> <span class="kw">super</span><span class="ident">::mimeheaders</span>::{
+</pre><pre class="rust"><code>
+<span class="kw">use</span> <span class="ident"><span class="kw">super</span>::header</span>::{<span class="ident">HeaderMap</span>, <span class="ident">Header</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">super</span>::rfc5322</span>::{<span class="ident">Rfc5322Parser</span>, <span class="ident">Rfc5322Builder</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">super</span>::results</span>::{<span class="ident">ParsingResult</span>,<span class="ident">ParsingError</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">super</span>::mimeheaders</span>::{
     <span class="ident">MimeContentType</span>,
     <span class="ident">MimeContentTypeHeader</span>,
     <span class="ident">MimeContentTransferEncoding</span>
@@ -773,25 +773,25 @@
 
 <span class="kw">impl</span> <span class="ident">MimeMultipartType</span> {
     <span class="doccomment">/// Returns the appropriate `MimeMultipartType` for the given MimeContentType</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_content_type</span>(<span class="ident">ct</span>: <span class="ident">MimeContentType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">MimeMultipartType</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_content_type</span>(<span class="ident">ct</span>: <span class="ident">MimeContentType</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">MimeMultipartType</span><span class="op">&gt;</span> {
         <span class="kw">let</span> (<span class="ident">major</span>, <span class="ident">minor</span>) <span class="op">=</span> <span class="ident">ct</span>;
         <span class="kw">match</span> (<span class="kw-2">&amp;</span><span class="ident">major</span>[..], <span class="kw-2">&amp;</span><span class="ident">minor</span>[..]) {
-            (<span class="string">&quot;multipart&quot;</span>, <span class="string">&quot;alternative&quot;</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">MimeMultipartType::Alternative</span>),
-            (<span class="string">&quot;multipart&quot;</span>, <span class="string">&quot;digest&quot;</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">MimeMultipartType::Digest</span>),
-            (<span class="string">&quot;multipart&quot;</span>, <span class="string">&quot;parallel&quot;</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">MimeMultipartType::Parallel</span>),
-            (<span class="string">&quot;multipart&quot;</span>, <span class="string">&quot;mixed&quot;</span>) <span class="op">|</span> (<span class="string">&quot;multipart&quot;</span>, <span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">MimeMultipartType::Mixed</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+            (<span class="string">&quot;multipart&quot;</span>, <span class="string">&quot;alternative&quot;</span>) =&gt; <span class="prelude-val">Some</span>(<span class="ident">MimeMultipartType::Alternative</span>),
+            (<span class="string">&quot;multipart&quot;</span>, <span class="string">&quot;digest&quot;</span>) =&gt; <span class="prelude-val">Some</span>(<span class="ident">MimeMultipartType::Digest</span>),
+            (<span class="string">&quot;multipart&quot;</span>, <span class="string">&quot;parallel&quot;</span>) =&gt; <span class="prelude-val">Some</span>(<span class="ident">MimeMultipartType::Parallel</span>),
+            (<span class="string">&quot;multipart&quot;</span>, <span class="string">&quot;mixed&quot;</span>) <span class="op">|</span> (<span class="string">&quot;multipart&quot;</span>, <span class="kw">_</span>) =&gt; <span class="prelude-val">Some</span>(<span class="ident">MimeMultipartType::Mixed</span>),
+            <span class="kw">_</span> =&gt; <span class="prelude-val">None</span>,
         }
     }
 
     <span class="doccomment">/// Returns a MimeContentType that represents this multipart type.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_content_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">MimeContentType</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_content_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">MimeContentType</span> {
         <span class="kw">let</span> <span class="ident">multipart</span> <span class="op">=</span> <span class="string">&quot;multipart&quot;</span>.<span class="ident">to_string</span>();
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="ident">MimeMultipartType::Mixed</span> <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">multipart</span>, <span class="string">&quot;mixed&quot;</span>.<span class="ident">to_string</span>()),
-            <span class="ident">MimeMultipartType::Alternative</span> <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">multipart</span>, <span class="string">&quot;alternative&quot;</span>.<span class="ident">to_string</span>()),
-            <span class="ident">MimeMultipartType::Digest</span> <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">multipart</span>, <span class="string">&quot;digest&quot;</span>.<span class="ident">to_string</span>()),
-            <span class="ident">MimeMultipartType::Parallel</span> <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">multipart</span>, <span class="string">&quot;parallel&quot;</span>.<span class="ident">to_string</span>()),
+            <span class="ident">MimeMultipartType::Mixed</span> =&gt; (<span class="ident">multipart</span>, <span class="string">&quot;mixed&quot;</span>.<span class="ident">to_string</span>()),
+            <span class="ident">MimeMultipartType::Alternative</span> =&gt; (<span class="ident">multipart</span>, <span class="string">&quot;alternative&quot;</span>.<span class="ident">to_string</span>()),
+            <span class="ident">MimeMultipartType::Digest</span> =&gt; (<span class="ident">multipart</span>, <span class="string">&quot;digest&quot;</span>.<span class="ident">to_string</span>()),
+            <span class="ident">MimeMultipartType::Parallel</span> =&gt; (<span class="ident">multipart</span>, <span class="string">&quot;parallel&quot;</span>.<span class="ident">to_string</span>()),
         }
     }
 }
@@ -823,19 +823,19 @@
 }
 
 <span class="kw">impl</span> <span class="ident">MimeMessage</span> {
-    <span class="kw">fn</span> <span class="ident">random_boundary</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
+    <span class="kw">fn</span> <span class="ident">random_boundary</span>() -&gt; <span class="ident">String</span> {
         <span class="ident">thread_rng</span>().<span class="ident">gen_ascii_chars</span>().<span class="ident">take</span>(<span class="ident">BOUNDARY_LENGTH</span>).<span class="ident">collect</span>()
     }
 
     <span class="doccomment">/// [unstable]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">body</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">MimeMessage</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">body</span>: <span class="ident">String</span>) -&gt; <span class="ident">MimeMessage</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">message</span> <span class="op">=</span> <span class="ident">MimeMessage::new_blank_message</span>();
         <span class="ident">message</span>.<span class="ident">body</span> <span class="op">=</span> <span class="ident">body</span>;
         <span class="ident">message</span>.<span class="ident">update_headers</span>();
         <span class="ident">message</span>
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_with_children</span>(<span class="ident">body</span>: <span class="ident">String</span>, <span class="ident">message_type</span>: <span class="ident">MimeMultipartType</span>, <span class="ident">children</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">MimeMessage</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">MimeMessage</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_with_children</span>(<span class="ident">body</span>: <span class="ident">String</span>, <span class="ident">message_type</span>: <span class="ident">MimeMultipartType</span>, <span class="ident">children</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">MimeMessage</span><span class="op">&gt;</span>) -&gt; <span class="ident">MimeMessage</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">message</span> <span class="op">=</span> <span class="ident">MimeMessage::new_blank_message</span>();
         <span class="ident">message</span>.<span class="ident">body</span> <span class="op">=</span> <span class="ident">body</span>;
         <span class="ident">message</span>.<span class="ident">message_type</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">message_type</span>);
@@ -847,7 +847,7 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_with_boundary</span>(<span class="ident">body</span>: <span class="ident">String</span>,
                              <span class="ident">message_type</span>: <span class="ident">MimeMultipartType</span>,
                              <span class="ident">children</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">MimeMessage</span><span class="op">&gt;</span>,
-                             <span class="ident">boundary</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">MimeMessage</span> {
+                             <span class="ident">boundary</span>: <span class="ident">String</span>) -&gt; <span class="ident">MimeMessage</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">message</span> <span class="op">=</span> <span class="ident">MimeMessage::new_blank_message</span>();
         <span class="ident">message</span>.<span class="ident">body</span> <span class="op">=</span> <span class="ident">body</span>;
         <span class="ident">message</span>.<span class="ident">message_type</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">message_type</span>);
@@ -857,7 +857,7 @@
         <span class="ident">message</span>
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_blank_message</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">MimeMessage</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_blank_message</span>() -&gt; <span class="ident">MimeMessage</span> {
         <span class="ident">MimeMessage</span> {
             <span class="ident">headers</span>: <span class="ident">HeaderMap::new</span>(),
             <span class="ident">body</span>: <span class="string">&quot;&quot;</span>.<span class="ident">to_string</span>(),
@@ -873,7 +873,7 @@
     <span class="doccomment">/// When certain properties of the message are modified, the headers</span>
     <span class="doccomment">/// used to represent them are not automatically updated.</span>
     <span class="doccomment">/// Call this if these are changed.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">update_headers</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">update_headers</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">children</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">message_type</span>.<span class="ident">is_none</span>() {
             <span class="comment">// This should be a multipart message, so make it so!</span>
             <span class="self">self</span>.<span class="ident">message_type</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">MimeMultipartType::Mixed</span>);
@@ -902,15 +902,15 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// Be warned that each sub-message that fails to be parsed will be thrown away.</span>
     <span class="doccomment">/// [unstable]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">parse</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ParsingResult</span><span class="op">&lt;</span><span class="ident">MimeMessage</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">parse</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="ident">ParsingResult</span><span class="op">&lt;</span><span class="ident">MimeMessage</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">parser</span> <span class="op">=</span> <span class="ident">Rfc5322Parser::new</span>(<span class="ident">s</span>);
         <span class="kw">match</span> <span class="ident">parser</span>.<span class="ident">consume_message</span>() {
-            <span class="prelude-val">Some</span>((<span class="ident">headers</span>, <span class="ident">body</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">MimeMessage::from_headers</span>(<span class="ident">headers</span>, <span class="ident">body</span>),
-            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ParsingError::new</span>(<span class="string">&quot;Couldn&#39;t parse MIME message.&quot;</span>.<span class="ident">to_string</span>()))
+            <span class="prelude-val">Some</span>((<span class="ident">headers</span>, <span class="ident">body</span>)) =&gt; <span class="ident">MimeMessage::from_headers</span>(<span class="ident">headers</span>, <span class="ident">body</span>),
+            <span class="prelude-val">None</span> =&gt; <span class="prelude-val">Err</span>(<span class="ident">ParsingError::new</span>(<span class="string">&quot;Couldn&#39;t parse MIME message.&quot;</span>.<span class="ident">to_string</span>()))
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">String</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">builder</span> <span class="op">=</span> <span class="ident">Rfc5322Builder::new</span>();
 
         <span class="kw">for</span> <span class="ident">header</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">headers</span>.<span class="ident">iter</span>() {
@@ -922,13 +922,13 @@
         <span class="self">self</span>.<span class="ident">as_string_without_headers_internal</span>(<span class="ident">builder</span>)
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_string_without_headers</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_string_without_headers</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">String</span> {
         <span class="kw">let</span> <span class="ident">builder</span> <span class="op">=</span> <span class="ident">Rfc5322Builder::new</span>();
 
         <span class="self">self</span>.<span class="ident">as_string_without_headers_internal</span>(<span class="ident">builder</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">as_string_without_headers_internal</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">builder</span>: <span class="ident">Rfc5322Builder</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
+    <span class="kw">fn</span> <span class="ident">as_string_without_headers_internal</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">builder</span>: <span class="ident">Rfc5322Builder</span>) -&gt; <span class="ident">String</span> {
         <span class="ident">builder</span>.<span class="ident">emit_raw</span>(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;{}\r\n&quot;</span>, <span class="self">self</span>.<span class="ident">body</span>)[..]);
 
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">children</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="number">0</span> {
@@ -948,7 +948,7 @@
     }
 
     <span class="doccomment">/// Decode the body of this message, as a series of bytes</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">decoded_body_bytes</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">decoded_body_bytes</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">transfer_encoding</span>: <span class="ident">MimeContentTransferEncoding</span> <span class="op">=</span>
             <span class="self">self</span>.<span class="ident">headers</span>.<span class="ident">get_value</span>(<span class="string">&quot;Content-Transfer-Encoding&quot;</span>.<span class="ident">to_string</span>())
                         .<span class="ident">unwrap_or</span>(<span class="ident">MimeContentTransferEncoding::Identity</span>);
@@ -959,36 +959,36 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// This takes into account any charset as set on the `Content-Type` header,</span>
     <span class="doccomment">/// decoding the bytes with this character set.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">decoded_body_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ParsingResult</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">decoded_body_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">ParsingResult</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">decoded_body_bytes</span>() {  <span class="comment">// FIXME</span>
-            <span class="prelude-val">Some</span>(<span class="ident">x</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">x</span>,
-            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ParsingError::new</span>(<span class="string">&quot;Unable to get decoded body bytes.&quot;</span>.<span class="ident">to_string</span>()))
+            <span class="prelude-val">Some</span>(<span class="ident">x</span>) =&gt; <span class="ident">x</span>,
+            <span class="prelude-val">None</span> =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ParsingError::new</span>(<span class="string">&quot;Unable to get decoded body bytes.&quot;</span>.<span class="ident">to_string</span>()))
         };
 
         <span class="kw">let</span> <span class="ident">content_type</span>: <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">MimeContentTypeHeader</span>, <span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span>
             <span class="self">self</span>.<span class="ident">headers</span>.<span class="ident">get_value</span>(<span class="string">&quot;Content-Type&quot;</span>.<span class="ident">to_string</span>());
         <span class="kw">let</span> <span class="ident">charset</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">content_type</span> {
-            <span class="prelude-val">Ok</span>(<span class="ident">ct</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ct</span>.<span class="ident">params</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="string">&quot;charset&quot;</span>.<span class="ident">to_string</span>()).<span class="ident">cloned</span>(),
-            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+            <span class="prelude-val">Ok</span>(<span class="ident">ct</span>) =&gt; <span class="ident">ct</span>.<span class="ident">params</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="string">&quot;charset&quot;</span>.<span class="ident">to_string</span>()).<span class="ident">cloned</span>(),
+            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">None</span>,
         }.<span class="ident">unwrap_or</span>(<span class="string">&quot;us-ascii&quot;</span>.<span class="ident">to_string</span>());
 
         <span class="kw">match</span> <span class="ident">encoding_from_whatwg_label</span>(<span class="kw-2">&amp;</span><span class="ident">charset</span>[..]) {
-            <span class="prelude-val">Some</span>(<span class="ident">decoder</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">decoder</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="ident">bytes</span>, <span class="ident">DecoderTrap::Replace</span>) {
-                <span class="prelude-val">Ok</span>(<span class="ident">x</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">x</span>),
-                <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ParsingError::new</span>(<span class="macro">format!</span>(<span class="string">&quot;Unable to decode body: {}&quot;</span>, <span class="ident">e</span>)))
+            <span class="prelude-val">Some</span>(<span class="ident">decoder</span>) =&gt; <span class="kw">match</span> <span class="ident">decoder</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="ident">bytes</span>, <span class="ident">DecoderTrap::Replace</span>) {
+                <span class="prelude-val">Ok</span>(<span class="ident">x</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">x</span>),
+                <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">ParsingError::new</span>(<span class="macro">format!</span>(<span class="string">&quot;Unable to decode body: {}&quot;</span>, <span class="ident">e</span>)))
             },
-            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ParsingError::new</span>(<span class="macro">format!</span>(<span class="string">&quot;Invalid encoding: {}&quot;</span>, <span class="ident">charset</span>)))
+            <span class="prelude-val">None</span> =&gt; <span class="prelude-val">Err</span>(<span class="ident">ParsingError::new</span>(<span class="macro">format!</span>(<span class="string">&quot;Invalid encoding: {}&quot;</span>, <span class="ident">charset</span>)))
         }
     }
 
     <span class="comment">// Make a message from a header map and body, parsing out any multi-part</span>
     <span class="comment">// messages that are discovered by looking at the Content-Type header.</span>
-    <span class="kw">fn</span> <span class="ident">from_headers</span>(<span class="ident">headers</span>: <span class="ident">HeaderMap</span>, <span class="ident">body</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ParsingResult</span><span class="op">&lt;</span><span class="ident">MimeMessage</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">from_headers</span>(<span class="ident">headers</span>: <span class="ident">HeaderMap</span>, <span class="ident">body</span>: <span class="ident">String</span>) -&gt; <span class="ident">ParsingResult</span><span class="op">&lt;</span><span class="ident">MimeMessage</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">content_type</span> <span class="op">=</span> <span class="macro">try!</span>({
             <span class="kw">let</span> <span class="ident">header</span> <span class="op">=</span> <span class="ident">headers</span>.<span class="ident">get</span>(<span class="string">&quot;Content-Type&quot;</span>.<span class="ident">to_string</span>());
             <span class="kw">match</span> <span class="ident">header</span> {
-                <span class="prelude-val">Some</span>(<span class="ident">h</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">h</span>.<span class="ident">get_value</span>(),
-                <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">MimeContentTypeHeader</span> {
+                <span class="prelude-val">Some</span>(<span class="ident">h</span>) =&gt; <span class="ident">h</span>.<span class="ident">get_value</span>(),
+                <span class="prelude-val">None</span> =&gt; <span class="prelude-val">Ok</span>(<span class="ident">MimeContentTypeHeader</span> {
                     <span class="ident">content_type</span>: (<span class="string">&quot;text&quot;</span>.<span class="ident">to_string</span>(), <span class="string">&quot;plain&quot;</span>.<span class="ident">to_string</span>()),
                     <span class="ident">params</span>: <span class="ident">HashMap::new</span>(),
                 })
@@ -1002,7 +1002,7 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">message</span> <span class="op">=</span> <span class="kw">match</span> (<span class="kw-2">&amp;</span><span class="ident">mime_type</span>[..], <span class="ident">boundary</span>) {
             <span class="comment">// Only consider a multipart message if we have a boundary, otherwise don&#39;t</span>
             <span class="comment">// bother and just assume it&#39;s a single message.</span>
-            (<span class="string">&quot;multipart&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">boundary</span>)) <span class="op">=</span><span class="op">&gt;</span> {
+            (<span class="string">&quot;multipart&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">boundary</span>)) =&gt; {
                 <span class="comment">// Pull apart the message on the boundary.</span>
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">parts</span> <span class="op">=</span> <span class="ident">MimeMessage::split_boundary</span>(<span class="kw-2">&amp;</span><span class="ident">body</span>, <span class="ident">boundary</span>);
                 <span class="comment">// Pop off the first message, as it&#39;s part of the parent.</span>
@@ -1012,8 +1012,8 @@
                 <span class="kw">let</span> <span class="ident">message_parts</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">MimeMessage</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">parts</span>
                     .<span class="ident">iter</span>()
                     .<span class="ident">filter_map</span>(<span class="op">|</span><span class="ident">part</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">MimeMessage::parse</span>(<span class="kw-2">&amp;</span><span class="ident">part</span>[..]) {
-                        <span class="prelude-val">Ok</span>(<span class="ident">x</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">x</span>),
-                        <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>
+                        <span class="prelude-val">Ok</span>(<span class="ident">x</span>) =&gt; <span class="prelude-val">Some</span>(<span class="ident">x</span>),
+                        <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">None</span>
                     })
                     .<span class="ident">collect</span>();
                 <span class="comment">// It should be safe to unwrap the multipart type here because we know the main</span>
@@ -1022,7 +1022,7 @@
 
                 <span class="ident">MimeMessage::new_with_boundary</span>(<span class="ident">pre_body</span>, <span class="ident">multipart_type</span>, <span class="ident">message_parts</span>, <span class="ident">boundary</span>.<span class="ident">clone</span>())
             },
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">MimeMessage::new</span>(<span class="ident">body</span>),
+            <span class="kw">_</span> =&gt; <span class="ident">MimeMessage::new</span>(<span class="ident">body</span>),
         };
 
         <span class="ident">message</span>.<span class="ident">headers</span> <span class="op">=</span> <span class="ident">headers</span>;
@@ -1031,7 +1031,7 @@
 
 
     <span class="comment">// Split `body` up on the `boundary` string.</span>
-    <span class="kw">fn</span> <span class="ident">split_boundary</span>(<span class="ident">body</span>: <span class="kw-2">&amp;</span><span class="ident">String</span>, <span class="ident">boundary</span>: <span class="kw-2">&amp;</span><span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">split_boundary</span>(<span class="ident">body</span>: <span class="kw-2">&amp;</span><span class="ident">String</span>, <span class="ident">boundary</span>: <span class="kw-2">&amp;</span><span class="ident">String</span>) -&gt; <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
         <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
         <span class="kw">enum</span> <span class="ident">ParseState</span> {
             <span class="ident">Normal</span>,
@@ -1055,19 +1055,19 @@
 
         <span class="kw">for</span> (<span class="ident">pos</span>, <span class="ident">c</span>) <span class="kw">in</span> <span class="ident">body</span>.<span class="ident">char_indices</span>() {
             <span class="ident">state</span> <span class="op">=</span> <span class="kw">match</span> (<span class="ident">state</span>, <span class="ident">c</span>) {
-                (<span class="ident">ParseState::BoundaryEnd</span>, <span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                (<span class="ident">ParseState::BoundaryEnd</span>, <span class="kw">_</span>) =&gt; {
                     <span class="comment">// We&#39;re now out of a boundary, so remember where the end is,</span>
                     <span class="comment">// so we can slice from the end of this boundary to the start of the next.</span>
                     <span class="ident">boundary_end</span> <span class="op">=</span> <span class="ident">pos</span>;
-                    <span class="kw">if</span> <span class="ident">c</span> <span class="op">=</span><span class="op">=</span> <span class="string">&#39;\n&#39;</span> {
+                    <span class="kw">if</span> <span class="ident">c</span> <span class="op">==</span> <span class="string">&#39;\n&#39;</span> {
                         <span class="ident">ParseState::BoundaryEnd</span>
                     } <span class="kw">else</span> {
                         <span class="ident">ParseState::Normal</span>
                     }
                 },
-                (<span class="ident">ParseState::ReadBoundary</span>, <span class="string">&#39;\r&#39;</span>) <span class="op">|</span> (<span class="ident">ParseState::ReadBoundary</span>, <span class="string">&#39;\n&#39;</span>) <span class="op">=</span><span class="op">&gt;</span> { 
+                (<span class="ident">ParseState::ReadBoundary</span>, <span class="string">&#39;\r&#39;</span>) <span class="op">|</span> (<span class="ident">ParseState::ReadBoundary</span>, <span class="string">&#39;\n&#39;</span>) =&gt; { 
                     <span class="kw">let</span> <span class="ident">read_boundary</span> <span class="op">=</span> <span class="ident">body_slice</span>[(<span class="ident">boundary_start</span> <span class="op">+</span> <span class="number">1</span>)..<span class="ident">pos</span>].<span class="ident">trim</span>();
-                    <span class="kw">if</span> <span class="kw-2">&amp;</span><span class="ident">read_boundary</span>.<span class="ident">to_string</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">boundary</span> {
+                    <span class="kw">if</span> <span class="kw-2">&amp;</span><span class="ident">read_boundary</span>.<span class="ident">to_string</span>() <span class="op">==</span> <span class="ident">boundary</span> {
                         <span class="comment">// Boundary matches, push the part</span>
                         <span class="comment">// The part is from the last boundary&#39;s end to this boundary&#39;s beginning</span>
                         <span class="kw">let</span> <span class="ident">part</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">body_slice</span>[<span class="ident">boundary_end</span>..(<span class="ident">boundary_start</span> <span class="op">-</span> <span class="number">1</span>)];
@@ -1079,16 +1079,16 @@
                         <span class="ident">ParseState::Normal</span>
                     }
                 },
-                (<span class="ident">ParseState::ReadBoundary</span>, <span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ParseState::ReadBoundary</span>,
-                (<span class="kw">_</span>, <span class="string">&#39;\n&#39;</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ParseState::SeenLf</span>,
-                (<span class="kw">_</span>, <span class="string">&#39;\r&#39;</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ParseState::SeenCr</span>,
-                (<span class="ident">ParseState::SeenDash</span>, <span class="string">&#39;-&#39;</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                (<span class="ident">ParseState::ReadBoundary</span>, <span class="kw">_</span>) =&gt; <span class="ident">ParseState::ReadBoundary</span>,
+                (<span class="kw">_</span>, <span class="string">&#39;\n&#39;</span>) =&gt; <span class="ident">ParseState::SeenLf</span>,
+                (<span class="kw">_</span>, <span class="string">&#39;\r&#39;</span>) =&gt; <span class="ident">ParseState::SeenCr</span>,
+                (<span class="ident">ParseState::SeenDash</span>, <span class="string">&#39;-&#39;</span>) =&gt; {
                     <span class="ident">boundary_start</span> <span class="op">=</span> <span class="ident">pos</span>;
                     <span class="ident">ParseState::ReadBoundary</span>
                 },
-                (<span class="ident">ParseState::SeenLf</span>, <span class="string">&#39;-&#39;</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ParseState::SeenDash</span>,
-                (<span class="ident">ParseState::Normal</span>, <span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ParseState::Normal</span>,
-                (<span class="kw">_</span>, <span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ParseState::Normal</span>,
+                (<span class="ident">ParseState::SeenLf</span>, <span class="string">&#39;-&#39;</span>) =&gt; <span class="ident">ParseState::SeenDash</span>,
+                (<span class="ident">ParseState::Normal</span>, <span class="kw">_</span>) =&gt; <span class="ident">ParseState::Normal</span>,
+                (<span class="kw">_</span>, <span class="kw">_</span>) =&gt; <span class="ident">ParseState::Normal</span>,
             };
         }
 
@@ -1106,7 +1106,7 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw">super</span><span class="ident">::header</span>::{<span class="ident">Header</span>,<span class="ident">HeaderMap</span>};
+    <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::header</span>::{<span class="ident">Header</span>,<span class="ident">HeaderMap</span>};
 
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
     <span class="kw">struct</span> <span class="ident">MessageTestResult</span><span class="op">&lt;</span><span class="lifetime">&#39;s</span><span class="op">&gt;</span> {
@@ -1116,7 +1116,7 @@
     }
 
     <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;s</span><span class="op">&gt;</span> <span class="ident">MessageTestResult</span><span class="op">&lt;</span><span class="lifetime">&#39;s</span><span class="op">&gt;</span> {
-        <span class="kw">fn</span> <span class="ident">matches</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="ident">MimeMessage</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+        <span class="kw">fn</span> <span class="ident">matches</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="ident">MimeMessage</span>) -&gt; <span class="ident">bool</span> {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">headers</span> <span class="op">=</span> <span class="ident">HeaderMap::new</span>();
             <span class="kw">for</span> <span class="kw-2">&amp;</span>(<span class="ident">name</span>, <span class="ident">value</span>) <span class="kw">in</span> <span class="self">self</span>.<span class="ident">headers</span>.<span class="ident">iter</span>() {
                 <span class="kw">let</span> <span class="ident">header</span> <span class="op">=</span> <span class="ident">Header::new</span>(<span class="ident">name</span>.<span class="ident">to_string</span>(), <span class="ident">value</span>.<span class="ident">to_string</span>());
@@ -1124,10 +1124,10 @@
             }
 
 
-            <span class="kw">let</span> <span class="ident">header_match</span> <span class="op">=</span> <span class="ident">headers</span> <span class="op">=</span><span class="op">=</span> <span class="ident">other</span>.<span class="ident">headers</span>;
-            <span class="kw">let</span> <span class="ident">body_match</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">body</span>.<span class="ident">to_string</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">other</span>.<span class="ident">body</span>;
+            <span class="kw">let</span> <span class="ident">header_match</span> <span class="op">=</span> <span class="ident">headers</span> <span class="op">==</span> <span class="ident">other</span>.<span class="ident">headers</span>;
+            <span class="kw">let</span> <span class="ident">body_match</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">body</span>.<span class="ident">to_string</span>() <span class="op">==</span> <span class="ident">other</span>.<span class="ident">body</span>;
 
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">children_match</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">children</span>.<span class="ident">len</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">other</span>.<span class="ident">children</span>.<span class="ident">len</span>();
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">children_match</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">children</span>.<span class="ident">len</span>() <span class="op">==</span> <span class="ident">other</span>.<span class="ident">children</span>.<span class="ident">len</span>();
             <span class="kw">if</span> <span class="ident">children_match</span> {
                 <span class="kw">for</span> (<span class="ident">index</span>, <span class="ident">child</span>) <span class="kw">in</span> <span class="self">self</span>.<span class="ident">children</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
                     <span class="kw">if</span> <span class="op">!</span><span class="ident">child</span>.<span class="ident">matches</span>(<span class="kw-2">&amp;</span><span class="ident">other</span>.<span class="ident">children</span>[<span class="ident">index</span>]) {
@@ -1297,9 +1297,9 @@
             <span class="macro">println!</span>(<span class="string">&quot;--- Next test: {}&quot;</span>, <span class="ident">test</span>.<span class="ident">name</span>);
             <span class="kw">let</span> <span class="ident">message</span> <span class="op">=</span> <span class="ident">MimeMessage::parse</span>(<span class="ident">test</span>.<span class="ident">input</span>);
             <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">match</span> (<span class="ident">test</span>.<span class="ident">output</span>, <span class="ident">message</span>) {
-                (<span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">expected</span>), <span class="prelude-val">Ok</span>(<span class="kw-2">ref</span> <span class="ident">given</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">expected</span>.<span class="ident">matches</span>(<span class="ident">given</span>),
-                (<span class="prelude-val">None</span>, <span class="prelude-val">Err</span>(<span class="kw">_</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
-                (<span class="kw">_</span>, <span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
+                (<span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">expected</span>), <span class="prelude-val">Ok</span>(<span class="kw-2">ref</span> <span class="ident">given</span>)) =&gt; <span class="ident">expected</span>.<span class="ident">matches</span>(<span class="ident">given</span>),
+                (<span class="prelude-val">None</span>, <span class="prelude-val">Err</span>(<span class="kw">_</span>)) =&gt; <span class="bool-val">true</span>,
+                (<span class="kw">_</span>, <span class="kw">_</span>) =&gt; <span class="bool-val">false</span>,
             };
             <span class="macro">assert!</span>(<span class="ident">result</span>, <span class="ident">test</span>.<span class="ident">name</span>);
         }
@@ -1403,21 +1403,21 @@
     <span class="kw">fn</span> <span class="ident">test_boundary_generation</span>() {
         <span class="kw">let</span> <span class="ident">message</span> <span class="op">=</span> <span class="ident">MimeMessage::new</span>(<span class="string">&quot;Body&quot;</span>.<span class="ident">to_string</span>());
         <span class="comment">// This is random, so we can only really check that it&#39;s the expected length</span>
-        <span class="macro">assert_eq!</span>(<span class="ident">message</span>.<span class="ident">boundary</span>.<span class="ident">len</span>(), <span class="kw">super</span><span class="ident">::BOUNDARY_LENGTH</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">message</span>.<span class="ident">boundary</span>.<span class="ident">len</span>(), <span class="ident"><span class="kw">super</span>::BOUNDARY_LENGTH</span>);
     }
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;nightly&quot;</span>, <span class="ident">test</span>))]</span>
 <span class="kw">mod</span> <span class="ident">bench</span> {
     <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">test</span>;
-    <span class="kw">use</span> <span class="self">self</span><span class="ident">::test::Bencher</span>;
+    <span class="kw">use</span> <span class="ident"><span class="self">self</span>::test::Bencher</span>;
 
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
 
     <span class="macro">macro_rules!</span> <span class="ident">bench_parser</span> {
-        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">test</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> (
+        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">test</span>:<span class="ident">expr</span>) =&gt; (
             <span class="attribute">#[<span class="ident">bench</span>]</span>
-            <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>(<span class="ident">b</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Bencher</span>) {
+            <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>(<span class="ident">b</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Bencher</span>) {
                 <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">test</span>;
                 <span class="ident">b</span>.<span class="ident">iter</span>(<span class="op">|</span><span class="op">|</span> {
                     <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">MimeMessage::parse</span>(<span class="ident">s</span>);
@@ -1457,7 +1457,6 @@
          --foo\r\n&quot;</span>
     );
 }
-</pre></div>
-</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="email" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
-    <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script>
+</code></pre></div>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="email" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (207c80f10 2021-11-30)" ></div>
 </body></html>

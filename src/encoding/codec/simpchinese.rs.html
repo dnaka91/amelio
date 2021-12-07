@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `&#x2F;home&#x2F;runner&#x2F;.cargo&#x2F;registry&#x2F;src&#x2F;github.com-1ecc6299db9ec823&#x2F;encoding-0.2.33&#x2F;src&#x2F;codec&#x2F;simpchinese.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>simpchinese.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../encoding/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `&#x2F;home&#x2F;runner&#x2F;.cargo&#x2F;registry&#x2F;src&#x2F;github.com-1ecc6299db9ec823&#x2F;encoding-0.2.33&#x2F;src&#x2F;codec&#x2F;simpchinese.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>simpchinese.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css"disabled><link rel="stylesheet" type="text/css" href="../../../dark.css"disabled><link rel="stylesheet" type="text/css" href="../../../light.css"id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><script defer src="../../../main.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script>
+    <noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../encoding/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -778,8 +779,7 @@
 <span id="778">778</span>
 <span id="779">779</span>
 <span id="780">780</span>
-</pre><pre class="rust">
-<span class="comment">// This is a part of rust-encoding.</span>
+</pre><pre class="rust"><code><span class="comment">// This is a part of rust-encoding.</span>
 <span class="comment">// Copyright (c) 2013-2015, Kang Seonghoon.</span>
 <span class="comment">// See README.md and LICENSE.txt for details.</span>
 
@@ -809,21 +809,21 @@
 <span class="doccomment">/// An internal trait used to customize GBK and GB18030 implementations.</span>
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span> <span class="comment">// XXX never intended to be used publicly, should be gone later</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">GBType</span>: <span class="ident">Clone</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> {
-    <span class="kw">fn</span> <span class="ident">name</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>;
-    <span class="kw">fn</span> <span class="ident">whatwg_name</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span>;
-    <span class="kw">fn</span> <span class="ident">initial_gbk_flag</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span>;
+    <span class="kw">fn</span> <span class="ident">name</span>() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>;
+    <span class="kw">fn</span> <span class="ident">whatwg_name</span>() -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">initial_gbk_flag</span>() -&gt; <span class="ident">bool</span>;
 }
 
 <span class="kw">impl</span> <span class="ident">GBType</span> <span class="kw">for</span> <span class="ident">GBK</span> {
-    <span class="kw">fn</span> <span class="ident">name</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> { <span class="string">&quot;gbk&quot;</span> }
-    <span class="kw">fn</span> <span class="ident">whatwg_name</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span> { <span class="prelude-val">Some</span>(<span class="string">&quot;gbk&quot;</span>) }
-    <span class="kw">fn</span> <span class="ident">initial_gbk_flag</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> { <span class="bool-val">true</span> }
+    <span class="kw">fn</span> <span class="ident">name</span>() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> { <span class="string">&quot;gbk&quot;</span> }
+    <span class="kw">fn</span> <span class="ident">whatwg_name</span>() -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span> { <span class="prelude-val">Some</span>(<span class="string">&quot;gbk&quot;</span>) }
+    <span class="kw">fn</span> <span class="ident">initial_gbk_flag</span>() -&gt; <span class="ident">bool</span> { <span class="bool-val">true</span> }
 }
 
 <span class="kw">impl</span> <span class="ident">GBType</span> <span class="kw">for</span> <span class="ident">GB18030</span> {
-    <span class="kw">fn</span> <span class="ident">name</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> { <span class="string">&quot;gb18030&quot;</span> }
-    <span class="kw">fn</span> <span class="ident">whatwg_name</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span> { <span class="prelude-val">Some</span>(<span class="string">&quot;gb18030&quot;</span>) }
-    <span class="kw">fn</span> <span class="ident">initial_gbk_flag</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> { <span class="bool-val">false</span> }
+    <span class="kw">fn</span> <span class="ident">name</span>() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> { <span class="string">&quot;gb18030&quot;</span> }
+    <span class="kw">fn</span> <span class="ident">whatwg_name</span>() -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span> { <span class="prelude-val">Some</span>(<span class="string">&quot;gb18030&quot;</span>) }
+    <span class="kw">fn</span> <span class="ident">initial_gbk_flag</span>() -&gt; <span class="ident">bool</span> { <span class="bool-val">false</span> }
 }
 
 <span class="doccomment">/**
@@ -870,10 +870,10 @@
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">GB18030_ENCODING</span>: <span class="ident">GB18030Encoding</span> <span class="op">=</span> <span class="ident">GBEncoding</span> { <span class="ident">_marker</span>: <span class="ident">PhantomData</span> };
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">GBType</span><span class="op">&gt;</span> <span class="ident">Encoding</span> <span class="kw">for</span> <span class="ident">GBEncoding</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> { <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">GBType</span><span class="op">&gt;</span><span class="ident">::name</span>() }
-    <span class="kw">fn</span> <span class="ident">whatwg_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span> { <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">GBType</span><span class="op">&gt;</span><span class="ident">::whatwg_name</span>() }
-    <span class="kw">fn</span> <span class="ident">raw_encoder</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawEncoder</span><span class="op">&gt;</span> { <span class="ident">GBEncoder</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="ident">::new</span>() }
-    <span class="kw">fn</span> <span class="ident">raw_decoder</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawDecoder</span><span class="op">&gt;</span> { <span class="ident">GB18030Decoder::new</span>() }
+    <span class="kw">fn</span> <span class="ident">name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> { <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">GBType</span><span class="op">&gt;</span><span class="ident">::name</span>() }
+    <span class="kw">fn</span> <span class="ident">whatwg_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span> { <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">GBType</span><span class="op">&gt;</span><span class="ident">::whatwg_name</span>() }
+    <span class="kw">fn</span> <span class="ident">raw_encoder</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawEncoder</span><span class="op">&gt;</span> { <span class="ident">GBEncoder</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="ident">::new</span>() }
+    <span class="kw">fn</span> <span class="ident">raw_decoder</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawDecoder</span><span class="op">&gt;</span> { <span class="ident">GB18030Decoder::new</span>() }
 }
 
 <span class="doccomment">/**
@@ -890,27 +890,27 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">GBType</span><span class="op">&gt;</span> <span class="ident">GBEncoder</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawEncoder</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() -&gt; <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawEncoder</span><span class="op">&gt;</span> {
         <span class="ident">Box::new</span>(<span class="ident">GBEncoder</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> { <span class="ident">_marker</span>: <span class="ident">PhantomData</span> })
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">GBType</span><span class="op">&gt;</span> <span class="ident">RawEncoder</span> <span class="kw">for</span> <span class="ident">GBEncoder</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">from_self</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawEncoder</span><span class="op">&gt;</span> { <span class="ident">GBEncoder</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="ident">::new</span>() }
-    <span class="kw">fn</span> <span class="ident">is_ascii_compatible</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> { <span class="bool-val">true</span> }
+    <span class="kw">fn</span> <span class="ident">from_self</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawEncoder</span><span class="op">&gt;</span> { <span class="ident">GBEncoder</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="ident">::new</span>() }
+    <span class="kw">fn</span> <span class="ident">is_ascii_compatible</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> { <span class="bool-val">true</span> }
 
-    <span class="kw">fn</span> <span class="ident">raw_feed</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">output</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ByteWriter</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">usize</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">CodecError</span><span class="op">&gt;</span>) {
+    <span class="kw">fn</span> <span class="ident">raw_feed</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">output</span>: <span class="kw-2">&amp;mut</span> <span class="ident">ByteWriter</span>) -&gt; (<span class="ident">usize</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">CodecError</span><span class="op">&gt;</span>) {
         <span class="ident">output</span>.<span class="ident">writer_hint</span>(<span class="ident">input</span>.<span class="ident">len</span>());
 
         <span class="kw">let</span> <span class="ident">gbk_flag</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">GBType</span><span class="op">&gt;</span><span class="ident">::initial_gbk_flag</span>();
         <span class="kw">for</span> ((<span class="ident">i</span>, <span class="ident">j</span>), <span class="ident">ch</span>) <span class="kw">in</span> <span class="ident">input</span>.<span class="ident">index_iter</span>() {
             <span class="kw">if</span> <span class="ident">ch</span> <span class="op">&lt;</span> <span class="string">&#39;\u{80}&#39;</span> {
                 <span class="ident">output</span>.<span class="ident">write_byte</span>(<span class="ident">ch</span> <span class="kw">as</span> <span class="ident">u8</span>);
-            } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">gbk_flag</span> <span class="op">&amp;&amp;</span> <span class="ident">ch</span> <span class="op">=</span><span class="op">=</span> <span class="string">&#39;\u{20AC}&#39;</span> {
+            } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">gbk_flag</span> <span class="op">&amp;&amp;</span> <span class="ident">ch</span> <span class="op">==</span> <span class="string">&#39;\u{20AC}&#39;</span> {
                 <span class="ident">output</span>.<span class="ident">write_byte</span>(<span class="string">&#39;\u{80}&#39;</span> <span class="kw">as</span> <span class="ident">u8</span>)
             } <span class="kw">else</span> {
                 <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <span class="ident">index::gb18030::backward</span>(<span class="ident">ch</span> <span class="kw">as</span> <span class="ident">u32</span>);
-                <span class="kw">if</span> <span class="ident">ptr</span> <span class="op">=</span><span class="op">=</span> <span class="number">0xffff</span> {
+                <span class="kw">if</span> <span class="ident">ptr</span> <span class="op">==</span> <span class="number">0xffff</span> {
                     <span class="kw">if</span> <span class="ident">gbk_flag</span> {
                         <span class="kw">return</span> (<span class="ident">i</span>, <span class="prelude-val">Some</span>(<span class="ident">CodecError</span> {
                             <span class="ident">upto</span>: <span class="ident">j</span> <span class="kw">as</span> <span class="ident">isize</span>,
@@ -938,7 +938,7 @@
         (<span class="ident">input</span>.<span class="ident">len</span>(), <span class="prelude-val">None</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">raw_finish</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">_output</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ByteWriter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">CodecError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">raw_finish</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">_output</span>: <span class="kw-2">&amp;mut</span> <span class="ident">ByteWriter</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">CodecError</span><span class="op">&gt;</span> {
         <span class="prelude-val">None</span>
     }
 }
@@ -950,22 +950,22 @@
 }
 
 <span class="kw">impl</span> <span class="ident">GB18030Decoder</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawDecoder</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() -&gt; <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawDecoder</span><span class="op">&gt;</span> {
         <span class="ident">Box::new</span>(<span class="ident">GB18030Decoder</span> { <span class="ident">st</span>: <span class="ident">Default::default</span>() })
     }
 }
 
 <span class="kw">impl</span> <span class="ident">RawDecoder</span> <span class="kw">for</span> <span class="ident">GB18030Decoder</span> {
-    <span class="kw">fn</span> <span class="ident">from_self</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawDecoder</span><span class="op">&gt;</span> { <span class="ident">GB18030Decoder::new</span>() }
-    <span class="kw">fn</span> <span class="ident">is_ascii_compatible</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> { <span class="bool-val">true</span> }
+    <span class="kw">fn</span> <span class="ident">from_self</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawDecoder</span><span class="op">&gt;</span> { <span class="ident">GB18030Decoder::new</span>() }
+    <span class="kw">fn</span> <span class="ident">is_ascii_compatible</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> { <span class="bool-val">true</span> }
 
-    <span class="kw">fn</span> <span class="ident">raw_feed</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">output</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">StringWriter</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">usize</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">CodecError</span><span class="op">&gt;</span>) {
+    <span class="kw">fn</span> <span class="ident">raw_feed</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">output</span>: <span class="kw-2">&amp;mut</span> <span class="ident">StringWriter</span>) -&gt; (<span class="ident">usize</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">CodecError</span><span class="op">&gt;</span>) {
         <span class="kw">let</span> (<span class="ident">st</span>, <span class="ident">processed</span>, <span class="ident">err</span>) <span class="op">=</span> <span class="ident">gb18030::raw_feed</span>(<span class="self">self</span>.<span class="ident">st</span>, <span class="ident">input</span>, <span class="ident">output</span>, <span class="kw-2">&amp;</span>());
         <span class="self">self</span>.<span class="ident">st</span> <span class="op">=</span> <span class="ident">st</span>;
         (<span class="ident">processed</span>, <span class="ident">err</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">raw_finish</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">output</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">StringWriter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">CodecError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">raw_finish</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">output</span>: <span class="kw-2">&amp;mut</span> <span class="ident">StringWriter</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">CodecError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> (<span class="ident">st</span>, <span class="ident">err</span>) <span class="op">=</span> <span class="ident">gb18030::raw_finish</span>(<span class="self">self</span>.<span class="ident">st</span>, <span class="ident">output</span>, <span class="kw-2">&amp;</span>());
         <span class="self">self</span>.<span class="ident">st</span> <span class="op">=</span> <span class="ident">st</span>;
         <span class="ident">err</span>
@@ -975,22 +975,22 @@
 <span class="macro">stateful_decoder!</span> {
     <span class="ident">module</span> <span class="ident">gb18030</span>;
 
-    <span class="ident">internal</span> <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_two_bytes</span>(<span class="ident">lead</span>: <span class="ident">u8</span>, <span class="ident">trail</span>: <span class="ident">u8</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> {
+    <span class="ident">internal</span> <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_two_bytes</span>(<span class="ident">lead</span>: <span class="ident">u8</span>, <span class="ident">trail</span>: <span class="ident">u8</span>) -&gt; <span class="ident">u32</span> {
         <span class="kw">use</span> <span class="ident">index_simpchinese</span> <span class="kw">as</span> <span class="ident">index</span>;
 
         <span class="kw">let</span> <span class="ident">lead</span> <span class="op">=</span> <span class="ident">lead</span> <span class="kw">as</span> <span class="ident">u16</span>;
         <span class="kw">let</span> <span class="ident">trail</span> <span class="op">=</span> <span class="ident">trail</span> <span class="kw">as</span> <span class="ident">u16</span>;
         <span class="kw">let</span> <span class="ident">index</span> <span class="op">=</span> <span class="kw">match</span> (<span class="ident">lead</span>, <span class="ident">trail</span>) {
-            (<span class="number">0x81</span>...<span class="number">0xfe</span>, <span class="number">0x40</span>...<span class="number">0x7e</span>) <span class="op">|</span> (<span class="number">0x81</span>...<span class="number">0xfe</span>, <span class="number">0x80</span>...<span class="number">0xfe</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            (<span class="number">0x81</span>...<span class="number">0xfe</span>, <span class="number">0x40</span>...<span class="number">0x7e</span>) <span class="op">|</span> (<span class="number">0x81</span>...<span class="number">0xfe</span>, <span class="number">0x80</span>...<span class="number">0xfe</span>) =&gt; {
                 <span class="kw">let</span> <span class="ident">trailoffset</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">trail</span> <span class="op">&lt;</span> <span class="number">0x7f</span> {<span class="number">0x40</span>} <span class="kw">else</span> {<span class="number">0x41</span>};
                 (<span class="ident">lead</span> <span class="op">-</span> <span class="number">0x81</span>) <span class="op">*</span> <span class="number">190</span> <span class="op">+</span> <span class="ident">trail</span> <span class="op">-</span> <span class="ident">trailoffset</span>
             }
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0xffff</span>,
+            <span class="kw">_</span> =&gt; <span class="number">0xffff</span>,
         };
         <span class="ident">index::gb18030::forward</span>(<span class="ident">index</span>)
     }
 
-    <span class="ident">internal</span> <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_four_bytes</span>(<span class="ident">b1</span>: <span class="ident">u8</span>, <span class="ident">b2</span>: <span class="ident">u8</span>, <span class="ident">b3</span>: <span class="ident">u8</span>, <span class="ident">b4</span>: <span class="ident">u8</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> {
+    <span class="ident">internal</span> <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_four_bytes</span>(<span class="ident">b1</span>: <span class="ident">u8</span>, <span class="ident">b2</span>: <span class="ident">u8</span>, <span class="ident">b3</span>: <span class="ident">u8</span>, <span class="ident">b4</span>: <span class="ident">u8</span>) -&gt; <span class="ident">u32</span> {
         <span class="kw">use</span> <span class="ident">index_simpchinese</span> <span class="kw">as</span> <span class="ident">index</span>;
 
         <span class="comment">// no range check here, caller should have done all checks</span>
@@ -1002,42 +1002,42 @@
 <span class="ident">initial</span>:
     <span class="comment">// gb18030 first = 0x00, gb18030 second = 0x00, gb18030 third = 0x00</span>
     <span class="ident">state</span> <span class="ident">S0</span>(<span class="ident">ctx</span>: <span class="ident">Context</span>) {
-        <span class="ident">case</span> <span class="ident">b</span> @ <span class="number">0x00</span>...<span class="number">0x7f</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ctx</span>.<span class="ident">emit</span>(<span class="ident">b</span> <span class="kw">as</span> <span class="ident">u32</span>);
-        <span class="ident">case</span> <span class="number">0x80</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ctx</span>.<span class="ident">emit</span>(<span class="number">0x20ac</span>);
-        <span class="ident">case</span> <span class="ident">b</span> @ <span class="number">0x81</span>...<span class="number">0xfe</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">S1</span>(<span class="ident">ctx</span>, <span class="ident">b</span>);
-        <span class="ident">case</span> <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ctx</span>.<span class="ident">err</span>(<span class="string">&quot;invalid sequence&quot;</span>);
+        <span class="ident">case</span> <span class="ident">b</span> @ <span class="number">0x00</span>...<span class="number">0x7f</span> =&gt; <span class="ident">ctx</span>.<span class="ident">emit</span>(<span class="ident">b</span> <span class="kw">as</span> <span class="ident">u32</span>);
+        <span class="ident">case</span> <span class="number">0x80</span> =&gt; <span class="ident">ctx</span>.<span class="ident">emit</span>(<span class="number">0x20ac</span>);
+        <span class="ident">case</span> <span class="ident">b</span> @ <span class="number">0x81</span>...<span class="number">0xfe</span> =&gt; <span class="ident">S1</span>(<span class="ident">ctx</span>, <span class="ident">b</span>);
+        <span class="ident">case</span> <span class="kw">_</span> =&gt; <span class="ident">ctx</span>.<span class="ident">err</span>(<span class="string">&quot;invalid sequence&quot;</span>);
     }
 
 <span class="ident">transient</span>:
     <span class="comment">// gb18030 first != 0x00, gb18030 second = 0x00, gb18030 third = 0x00</span>
     <span class="ident">state</span> <span class="ident">S1</span>(<span class="ident">ctx</span>: <span class="ident">Context</span>, <span class="ident">first</span>: <span class="ident">u8</span>) {
-        <span class="ident">case</span> <span class="ident">b</span> @ <span class="number">0x30</span>...<span class="number">0x39</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">S2</span>(<span class="ident">ctx</span>, <span class="ident">first</span>, <span class="ident">b</span>);
-        <span class="ident">case</span> <span class="ident">b</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">map_two_bytes</span>(<span class="ident">first</span>, <span class="ident">b</span>) {
-            <span class="number">0xffff</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ctx</span>.<span class="ident">backup_and_err</span>(<span class="number">1</span>, <span class="string">&quot;invalid sequence&quot;</span>), <span class="comment">// unconditional</span>
-            <span class="ident">ch</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ctx</span>.<span class="ident">emit</span>(<span class="ident">ch</span>)
+        <span class="ident">case</span> <span class="ident">b</span> @ <span class="number">0x30</span>...<span class="number">0x39</span> =&gt; <span class="ident">S2</span>(<span class="ident">ctx</span>, <span class="ident">first</span>, <span class="ident">b</span>);
+        <span class="ident">case</span> <span class="ident">b</span> =&gt; <span class="kw">match</span> <span class="ident">map_two_bytes</span>(<span class="ident">first</span>, <span class="ident">b</span>) {
+            <span class="number">0xffff</span> =&gt; <span class="ident">ctx</span>.<span class="ident">backup_and_err</span>(<span class="number">1</span>, <span class="string">&quot;invalid sequence&quot;</span>), <span class="comment">// unconditional</span>
+            <span class="ident">ch</span> =&gt; <span class="ident">ctx</span>.<span class="ident">emit</span>(<span class="ident">ch</span>)
         };
     }
 
     <span class="comment">// gb18030 first != 0x00, gb18030 second != 0x00, gb18030 third = 0x00</span>
     <span class="ident">state</span> <span class="ident">S2</span>(<span class="ident">ctx</span>: <span class="ident">Context</span>, <span class="ident">first</span>: <span class="ident">u8</span>, <span class="ident">second</span>: <span class="ident">u8</span>) {
-        <span class="ident">case</span> <span class="ident">b</span> @ <span class="number">0x81</span>...<span class="number">0xfe</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">S3</span>(<span class="ident">ctx</span>, <span class="ident">first</span>, <span class="ident">second</span>, <span class="ident">b</span>);
-        <span class="ident">case</span> <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ctx</span>.<span class="ident">backup_and_err</span>(<span class="number">2</span>, <span class="string">&quot;invalid sequence&quot;</span>);
+        <span class="ident">case</span> <span class="ident">b</span> @ <span class="number">0x81</span>...<span class="number">0xfe</span> =&gt; <span class="ident">S3</span>(<span class="ident">ctx</span>, <span class="ident">first</span>, <span class="ident">second</span>, <span class="ident">b</span>);
+        <span class="ident">case</span> <span class="kw">_</span> =&gt; <span class="ident">ctx</span>.<span class="ident">backup_and_err</span>(<span class="number">2</span>, <span class="string">&quot;invalid sequence&quot;</span>);
     }
 
     <span class="comment">// gb18030 first != 0x00, gb18030 second != 0x00, gb18030 third != 0x00</span>
     <span class="ident">state</span> <span class="ident">S3</span>(<span class="ident">ctx</span>: <span class="ident">Context</span>, <span class="ident">first</span>: <span class="ident">u8</span>, <span class="ident">second</span>: <span class="ident">u8</span>, <span class="ident">third</span>: <span class="ident">u8</span>) {
-        <span class="ident">case</span> <span class="ident">b</span> @ <span class="number">0x30</span>...<span class="number">0x39</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">map_four_bytes</span>(<span class="ident">first</span>, <span class="ident">second</span>, <span class="ident">third</span>, <span class="ident">b</span>) {
-            <span class="number">0xffffffff</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ctx</span>.<span class="ident">backup_and_err</span>(<span class="number">3</span>, <span class="string">&quot;invalid sequence&quot;</span>), <span class="comment">// unconditional</span>
-            <span class="ident">ch</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ctx</span>.<span class="ident">emit</span>(<span class="ident">ch</span>)
+        <span class="ident">case</span> <span class="ident">b</span> @ <span class="number">0x30</span>...<span class="number">0x39</span> =&gt; <span class="kw">match</span> <span class="ident">map_four_bytes</span>(<span class="ident">first</span>, <span class="ident">second</span>, <span class="ident">third</span>, <span class="ident">b</span>) {
+            <span class="number">0xffffffff</span> =&gt; <span class="ident">ctx</span>.<span class="ident">backup_and_err</span>(<span class="number">3</span>, <span class="string">&quot;invalid sequence&quot;</span>), <span class="comment">// unconditional</span>
+            <span class="ident">ch</span> =&gt; <span class="ident">ctx</span>.<span class="ident">emit</span>(<span class="ident">ch</span>)
         };
-        <span class="ident">case</span> <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ctx</span>.<span class="ident">backup_and_err</span>(<span class="number">3</span>, <span class="string">&quot;invalid sequence&quot;</span>);
+        <span class="ident">case</span> <span class="kw">_</span> =&gt; <span class="ident">ctx</span>.<span class="ident">backup_and_err</span>(<span class="number">3</span>, <span class="string">&quot;invalid sequence&quot;</span>);
     }
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">gb18030_tests</span> {
     <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">test</span>;
-    <span class="kw">use</span> <span class="kw">super</span><span class="ident">::GB18030_ENCODING</span>;
+    <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::GB18030_ENCODING</span>;
     <span class="kw">use</span> <span class="ident">testutils</span>;
     <span class="kw">use</span> <span class="ident">types</span>::<span class="kw-2">*</span>;
 
@@ -1183,7 +1183,7 @@
     }
 
     <span class="attribute">#[<span class="ident">bench</span>]</span>
-    <span class="kw">fn</span> <span class="ident">bench_encode_short_text</span>(<span class="ident">bencher</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">test::Bencher</span>) {
+    <span class="kw">fn</span> <span class="ident">bench_encode_short_text</span>(<span class="ident">bencher</span>: <span class="kw-2">&amp;mut</span> <span class="ident">test::Bencher</span>) {
         <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">testutils::SIMPLIFIED_CHINESE_TEXT</span>;
         <span class="ident">bencher</span>.<span class="ident">bytes</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span>;
         <span class="ident">bencher</span>.<span class="ident">iter</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">test::black_box</span>({
@@ -1192,7 +1192,7 @@
     }
 
     <span class="attribute">#[<span class="ident">bench</span>]</span>
-    <span class="kw">fn</span> <span class="ident">bench_decode_short_text</span>(<span class="ident">bencher</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">test::Bencher</span>) {
+    <span class="kw">fn</span> <span class="ident">bench_decode_short_text</span>(<span class="ident">bencher</span>: <span class="kw-2">&amp;mut</span> <span class="ident">test::Bencher</span>) {
         <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">GB18030_ENCODING</span>.<span class="ident">encode</span>(<span class="ident">testutils::SIMPLIFIED_CHINESE_TEXT</span>,
                                        <span class="ident">EncoderTrap::Strict</span>).<span class="ident">ok</span>().<span class="ident">unwrap</span>();
         <span class="ident">bencher</span>.<span class="ident">bytes</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span>;
@@ -1205,7 +1205,7 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">gbk_tests</span> {
     <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">test</span>;
-    <span class="kw">use</span> <span class="kw">super</span><span class="ident">::GBK_ENCODING</span>;
+    <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::GBK_ENCODING</span>;
     <span class="kw">use</span> <span class="ident">testutils</span>;
     <span class="kw">use</span> <span class="ident">types</span>::<span class="kw-2">*</span>;
 
@@ -1234,7 +1234,7 @@
     }
 
     <span class="attribute">#[<span class="ident">bench</span>]</span>
-    <span class="kw">fn</span> <span class="ident">bench_encode_short_text</span>(<span class="ident">bencher</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">test::Bencher</span>) {
+    <span class="kw">fn</span> <span class="ident">bench_encode_short_text</span>(<span class="ident">bencher</span>: <span class="kw-2">&amp;mut</span> <span class="ident">test::Bencher</span>) {
         <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">testutils::SIMPLIFIED_CHINESE_TEXT</span>;
         <span class="ident">bencher</span>.<span class="ident">bytes</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span>;
         <span class="ident">bencher</span>.<span class="ident">iter</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">test::black_box</span>({
@@ -1256,10 +1256,10 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">HZEncoding</span>;
 
 <span class="kw">impl</span> <span class="ident">Encoding</span> <span class="kw">for</span> <span class="ident">HZEncoding</span> {
-    <span class="kw">fn</span> <span class="ident">name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> { <span class="string">&quot;hz&quot;</span> }
-    <span class="kw">fn</span> <span class="ident">whatwg_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span> { <span class="prelude-val">None</span> }
-    <span class="kw">fn</span> <span class="ident">raw_encoder</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawEncoder</span><span class="op">&gt;</span> { <span class="ident">HZEncoder::new</span>() }
-    <span class="kw">fn</span> <span class="ident">raw_decoder</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawDecoder</span><span class="op">&gt;</span> { <span class="ident">HZDecoder::new</span>() }
+    <span class="kw">fn</span> <span class="ident">name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> { <span class="string">&quot;hz&quot;</span> }
+    <span class="kw">fn</span> <span class="ident">whatwg_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span> { <span class="prelude-val">None</span> }
+    <span class="kw">fn</span> <span class="ident">raw_encoder</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawEncoder</span><span class="op">&gt;</span> { <span class="ident">HZEncoder::new</span>() }
+    <span class="kw">fn</span> <span class="ident">raw_decoder</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawDecoder</span><span class="op">&gt;</span> { <span class="ident">HZDecoder::new</span>() }
 }
 
 <span class="doccomment">/// An encoder for HZ.</span>
@@ -1269,32 +1269,32 @@
 }
 
 <span class="kw">impl</span> <span class="ident">HZEncoder</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawEncoder</span><span class="op">&gt;</span> { <span class="ident">Box::new</span>(<span class="ident">HZEncoder</span> { <span class="ident">escaped</span>: <span class="bool-val">false</span> }) }
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() -&gt; <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawEncoder</span><span class="op">&gt;</span> { <span class="ident">Box::new</span>(<span class="ident">HZEncoder</span> { <span class="ident">escaped</span>: <span class="bool-val">false</span> }) }
 }
 
 <span class="kw">impl</span> <span class="ident">RawEncoder</span> <span class="kw">for</span> <span class="ident">HZEncoder</span> {
-    <span class="kw">fn</span> <span class="ident">from_self</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawEncoder</span><span class="op">&gt;</span> { <span class="ident">HZEncoder::new</span>() }
-    <span class="kw">fn</span> <span class="ident">is_ascii_compatible</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> { <span class="bool-val">false</span> }
+    <span class="kw">fn</span> <span class="ident">from_self</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawEncoder</span><span class="op">&gt;</span> { <span class="ident">HZEncoder::new</span>() }
+    <span class="kw">fn</span> <span class="ident">is_ascii_compatible</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> { <span class="bool-val">false</span> }
 
-    <span class="kw">fn</span> <span class="ident">raw_feed</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">output</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ByteWriter</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">usize</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">CodecError</span><span class="op">&gt;</span>) {
+    <span class="kw">fn</span> <span class="ident">raw_feed</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">output</span>: <span class="kw-2">&amp;mut</span> <span class="ident">ByteWriter</span>) -&gt; (<span class="ident">usize</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">CodecError</span><span class="op">&gt;</span>) {
         <span class="ident">output</span>.<span class="ident">writer_hint</span>(<span class="ident">input</span>.<span class="ident">len</span>());
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">escaped</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">escaped</span>;
         <span class="macro">macro_rules!</span> <span class="ident">ensure_escaped</span>(
-            () <span class="op">=</span><span class="op">&gt;</span> (<span class="kw">if</span> <span class="op">!</span><span class="ident">escaped</span> { <span class="ident">output</span>.<span class="ident">write_bytes</span>(<span class="string">b&quot;~{&quot;</span>); <span class="ident">escaped</span> <span class="op">=</span> <span class="bool-val">true</span>; })
+            () =&gt; (<span class="kw">if</span> <span class="op">!</span><span class="ident">escaped</span> { <span class="ident">output</span>.<span class="ident">write_bytes</span>(<span class="string">b&quot;~{&quot;</span>); <span class="ident">escaped</span> <span class="op">=</span> <span class="bool-val">true</span>; })
         );
         <span class="macro">macro_rules!</span> <span class="ident">ensure_unescaped</span>(
-            () <span class="op">=</span><span class="op">&gt;</span> (<span class="kw">if</span> <span class="ident">escaped</span> { <span class="ident">output</span>.<span class="ident">write_bytes</span>(<span class="string">b&quot;~}&quot;</span>); <span class="ident">escaped</span> <span class="op">=</span> <span class="bool-val">false</span>; })
+            () =&gt; (<span class="kw">if</span> <span class="ident">escaped</span> { <span class="ident">output</span>.<span class="ident">write_bytes</span>(<span class="string">b&quot;~}&quot;</span>); <span class="ident">escaped</span> <span class="op">=</span> <span class="bool-val">false</span>; })
         );
 
         <span class="kw">for</span> ((<span class="ident">i</span>,<span class="ident">j</span>), <span class="ident">ch</span>) <span class="kw">in</span> <span class="ident">input</span>.<span class="ident">index_iter</span>() {
             <span class="kw">if</span> <span class="ident">ch</span> <span class="op">&lt;</span> <span class="string">&#39;\u{80}&#39;</span> {
                 <span class="macro">ensure_unescaped!</span>();
                 <span class="ident">output</span>.<span class="ident">write_byte</span>(<span class="ident">ch</span> <span class="kw">as</span> <span class="ident">u8</span>);
-                <span class="kw">if</span> <span class="ident">ch</span> <span class="op">=</span><span class="op">=</span> <span class="string">&#39;~&#39;</span> { <span class="ident">output</span>.<span class="ident">write_byte</span>(<span class="string">&#39;~&#39;</span> <span class="kw">as</span> <span class="ident">u8</span>); }
+                <span class="kw">if</span> <span class="ident">ch</span> <span class="op">==</span> <span class="string">&#39;~&#39;</span> { <span class="ident">output</span>.<span class="ident">write_byte</span>(<span class="string">&#39;~&#39;</span> <span class="kw">as</span> <span class="ident">u8</span>); }
             } <span class="kw">else</span> {
                 <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <span class="ident">index::gb18030::backward</span>(<span class="ident">ch</span> <span class="kw">as</span> <span class="ident">u32</span>);
-                <span class="kw">if</span> <span class="ident">ptr</span> <span class="op">=</span><span class="op">=</span> <span class="number">0xffff</span> {
+                <span class="kw">if</span> <span class="ident">ptr</span> <span class="op">==</span> <span class="number">0xffff</span> {
                     <span class="self">self</span>.<span class="ident">escaped</span> <span class="op">=</span> <span class="ident">escaped</span>; <span class="comment">// do NOT reset the state!</span>
                     <span class="kw">return</span> (<span class="ident">i</span>, <span class="prelude-val">Some</span>(<span class="ident">CodecError</span> {
                         <span class="ident">upto</span>: <span class="ident">j</span> <span class="kw">as</span> <span class="ident">isize</span>, <span class="ident">cause</span>: <span class="string">&quot;unrepresentable character&quot;</span>.<span class="ident">into</span>()
@@ -1320,7 +1320,7 @@
         (<span class="ident">input</span>.<span class="ident">len</span>(), <span class="prelude-val">None</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">raw_finish</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">_output</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ByteWriter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">CodecError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">raw_finish</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">_output</span>: <span class="kw-2">&amp;mut</span> <span class="ident">ByteWriter</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">CodecError</span><span class="op">&gt;</span> {
         <span class="prelude-val">None</span>
     }
 }
@@ -1332,22 +1332,22 @@
 }
 
 <span class="kw">impl</span> <span class="ident">HZDecoder</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawDecoder</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() -&gt; <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawDecoder</span><span class="op">&gt;</span> {
         <span class="ident">Box::new</span>(<span class="ident">HZDecoder</span> { <span class="ident">st</span>: <span class="ident">Default::default</span>() })
     }
 }
 
 <span class="kw">impl</span> <span class="ident">RawDecoder</span> <span class="kw">for</span> <span class="ident">HZDecoder</span> {
-    <span class="kw">fn</span> <span class="ident">from_self</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawDecoder</span><span class="op">&gt;</span> { <span class="ident">HZDecoder::new</span>() }
-    <span class="kw">fn</span> <span class="ident">is_ascii_compatible</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> { <span class="bool-val">true</span> }
+    <span class="kw">fn</span> <span class="ident">from_self</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawDecoder</span><span class="op">&gt;</span> { <span class="ident">HZDecoder::new</span>() }
+    <span class="kw">fn</span> <span class="ident">is_ascii_compatible</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> { <span class="bool-val">true</span> }
 
-    <span class="kw">fn</span> <span class="ident">raw_feed</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">output</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">StringWriter</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">usize</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">CodecError</span><span class="op">&gt;</span>) {
+    <span class="kw">fn</span> <span class="ident">raw_feed</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">output</span>: <span class="kw-2">&amp;mut</span> <span class="ident">StringWriter</span>) -&gt; (<span class="ident">usize</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">CodecError</span><span class="op">&gt;</span>) {
         <span class="kw">let</span> (<span class="ident">st</span>, <span class="ident">processed</span>, <span class="ident">err</span>) <span class="op">=</span> <span class="ident">hz::raw_feed</span>(<span class="self">self</span>.<span class="ident">st</span>, <span class="ident">input</span>, <span class="ident">output</span>, <span class="kw-2">&amp;</span>());
         <span class="self">self</span>.<span class="ident">st</span> <span class="op">=</span> <span class="ident">st</span>;
         (<span class="ident">processed</span>, <span class="ident">err</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">raw_finish</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">output</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">StringWriter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">CodecError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">raw_finish</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">output</span>: <span class="kw-2">&amp;mut</span> <span class="ident">StringWriter</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">CodecError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> (<span class="ident">st</span>, <span class="ident">err</span>) <span class="op">=</span> <span class="ident">hz::raw_finish</span>(<span class="self">self</span>.<span class="ident">st</span>, <span class="ident">output</span>, <span class="kw-2">&amp;</span>());
         <span class="self">self</span>.<span class="ident">st</span> <span class="op">=</span> <span class="ident">st</span>;
         <span class="ident">err</span>
@@ -1357,14 +1357,14 @@
 <span class="macro">stateful_decoder!</span> {
     <span class="ident">module</span> <span class="ident">hz</span>;
 
-    <span class="ident">internal</span> <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_two_bytes</span>(<span class="ident">lead</span>: <span class="ident">u8</span>, <span class="ident">trail</span>: <span class="ident">u8</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> {
+    <span class="ident">internal</span> <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_two_bytes</span>(<span class="ident">lead</span>: <span class="ident">u8</span>, <span class="ident">trail</span>: <span class="ident">u8</span>) -&gt; <span class="ident">u32</span> {
         <span class="kw">use</span> <span class="ident">index_simpchinese</span> <span class="kw">as</span> <span class="ident">index</span>;
 
         <span class="kw">let</span> <span class="ident">lead</span> <span class="op">=</span> <span class="ident">lead</span> <span class="kw">as</span> <span class="ident">u16</span>;
         <span class="kw">let</span> <span class="ident">trail</span> <span class="op">=</span> <span class="ident">trail</span> <span class="kw">as</span> <span class="ident">u16</span>;
         <span class="kw">let</span> <span class="ident">index</span> <span class="op">=</span> <span class="kw">match</span> (<span class="ident">lead</span>, <span class="ident">trail</span>) {
-            (<span class="number">0x20</span>...<span class="number">0x7f</span>, <span class="number">0x21</span>...<span class="number">0x7e</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">lead</span> <span class="op">-</span> <span class="number">1</span>) <span class="op">*</span> <span class="number">190</span> <span class="op">+</span> (<span class="ident">trail</span> <span class="op">+</span> <span class="number">0x3f</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0xffff</span>,
+            (<span class="number">0x20</span>...<span class="number">0x7f</span>, <span class="number">0x21</span>...<span class="number">0x7e</span>) =&gt; (<span class="ident">lead</span> <span class="op">-</span> <span class="number">1</span>) <span class="op">*</span> <span class="number">190</span> <span class="op">+</span> (<span class="ident">trail</span> <span class="op">+</span> <span class="number">0x3f</span>),
+            <span class="kw">_</span> =&gt; <span class="number">0xffff</span>,
         };
         <span class="ident">index::gb18030::forward</span>(<span class="ident">index</span>)
     }
@@ -1372,60 +1372,60 @@
 <span class="ident">initial</span>:
     <span class="comment">// hz-gb-2312 flag = unset, hz-gb-2312 lead = 0x00</span>
     <span class="ident">state</span> <span class="ident">A0</span>(<span class="ident">ctx</span>: <span class="ident">Context</span>) {
-        <span class="ident">case</span> <span class="number">0x7e</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">A1</span>(<span class="ident">ctx</span>);
-        <span class="ident">case</span> <span class="ident">b</span> @ <span class="number">0x00</span>...<span class="number">0x7f</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ctx</span>.<span class="ident">emit</span>(<span class="ident">b</span> <span class="kw">as</span> <span class="ident">u32</span>);
-        <span class="ident">case</span> <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ctx</span>.<span class="ident">err</span>(<span class="string">&quot;invalid sequence&quot;</span>);
-        <span class="kw">final</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ctx</span>.<span class="ident">reset</span>();
+        <span class="ident">case</span> <span class="number">0x7e</span> =&gt; <span class="ident">A1</span>(<span class="ident">ctx</span>);
+        <span class="ident">case</span> <span class="ident">b</span> @ <span class="number">0x00</span>...<span class="number">0x7f</span> =&gt; <span class="ident">ctx</span>.<span class="ident">emit</span>(<span class="ident">b</span> <span class="kw">as</span> <span class="ident">u32</span>);
+        <span class="ident">case</span> <span class="kw">_</span> =&gt; <span class="ident">ctx</span>.<span class="ident">err</span>(<span class="string">&quot;invalid sequence&quot;</span>);
+        <span class="kw">final</span> =&gt; <span class="ident">ctx</span>.<span class="ident">reset</span>();
     }
 
 <span class="ident">checkpoint</span>:
     <span class="comment">// hz-gb-2312 flag = set, hz-gb-2312 lead = 0x00</span>
     <span class="ident">state</span> <span class="ident">B0</span>(<span class="ident">ctx</span>: <span class="ident">Context</span>) {
-        <span class="ident">case</span> <span class="number">0x7e</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">B1</span>(<span class="ident">ctx</span>);
-        <span class="ident">case</span> <span class="ident">b</span> @ <span class="number">0x20</span>...<span class="number">0x7f</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">B2</span>(<span class="ident">ctx</span>, <span class="ident">b</span>);
-        <span class="ident">case</span> <span class="number">0x0a</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ctx</span>.<span class="ident">err</span>(<span class="string">&quot;invalid sequence&quot;</span>); <span class="comment">// error *and* reset</span>
-        <span class="ident">case</span> <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ctx</span>.<span class="ident">err</span>(<span class="string">&quot;invalid sequence&quot;</span>), <span class="ident">B0</span>(<span class="ident">ctx</span>);
-        <span class="kw">final</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ctx</span>.<span class="ident">reset</span>();
+        <span class="ident">case</span> <span class="number">0x7e</span> =&gt; <span class="ident">B1</span>(<span class="ident">ctx</span>);
+        <span class="ident">case</span> <span class="ident">b</span> @ <span class="number">0x20</span>...<span class="number">0x7f</span> =&gt; <span class="ident">B2</span>(<span class="ident">ctx</span>, <span class="ident">b</span>);
+        <span class="ident">case</span> <span class="number">0x0a</span> =&gt; <span class="ident">ctx</span>.<span class="ident">err</span>(<span class="string">&quot;invalid sequence&quot;</span>); <span class="comment">// error *and* reset</span>
+        <span class="ident">case</span> <span class="kw">_</span> =&gt; <span class="ident">ctx</span>.<span class="ident">err</span>(<span class="string">&quot;invalid sequence&quot;</span>), <span class="ident">B0</span>(<span class="ident">ctx</span>);
+        <span class="kw">final</span> =&gt; <span class="ident">ctx</span>.<span class="ident">reset</span>();
     }
 
 <span class="ident">transient</span>:
     <span class="comment">// hz-gb-2312 flag = unset, hz-gb-2312 lead = 0x7e</span>
     <span class="ident">state</span> <span class="ident">A1</span>(<span class="ident">ctx</span>: <span class="ident">Context</span>) {
-        <span class="ident">case</span> <span class="number">0x7b</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">B0</span>(<span class="ident">ctx</span>);
-        <span class="ident">case</span> <span class="number">0x7d</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">A0</span>(<span class="ident">ctx</span>);
-        <span class="ident">case</span> <span class="number">0x7e</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ctx</span>.<span class="ident">emit</span>(<span class="number">0x7e</span>), <span class="ident">A0</span>(<span class="ident">ctx</span>);
-        <span class="ident">case</span> <span class="number">0x0a</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">A0</span>(<span class="ident">ctx</span>);
-        <span class="ident">case</span> <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ctx</span>.<span class="ident">backup_and_err</span>(<span class="number">1</span>, <span class="string">&quot;invalid sequence&quot;</span>);
-        <span class="kw">final</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ctx</span>.<span class="ident">err</span>(<span class="string">&quot;incomplete sequence&quot;</span>);
+        <span class="ident">case</span> <span class="number">0x7b</span> =&gt; <span class="ident">B0</span>(<span class="ident">ctx</span>);
+        <span class="ident">case</span> <span class="number">0x7d</span> =&gt; <span class="ident">A0</span>(<span class="ident">ctx</span>);
+        <span class="ident">case</span> <span class="number">0x7e</span> =&gt; <span class="ident">ctx</span>.<span class="ident">emit</span>(<span class="number">0x7e</span>), <span class="ident">A0</span>(<span class="ident">ctx</span>);
+        <span class="ident">case</span> <span class="number">0x0a</span> =&gt; <span class="ident">A0</span>(<span class="ident">ctx</span>);
+        <span class="ident">case</span> <span class="kw">_</span> =&gt; <span class="ident">ctx</span>.<span class="ident">backup_and_err</span>(<span class="number">1</span>, <span class="string">&quot;invalid sequence&quot;</span>);
+        <span class="kw">final</span> =&gt; <span class="ident">ctx</span>.<span class="ident">err</span>(<span class="string">&quot;incomplete sequence&quot;</span>);
     }
 
     <span class="comment">// hz-gb-2312 flag = set, hz-gb-2312 lead = 0x7e</span>
     <span class="ident">state</span> <span class="ident">B1</span>(<span class="ident">ctx</span>: <span class="ident">Context</span>) {
-        <span class="ident">case</span> <span class="number">0x7b</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">B0</span>(<span class="ident">ctx</span>);
-        <span class="ident">case</span> <span class="number">0x7d</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">A0</span>(<span class="ident">ctx</span>);
-        <span class="ident">case</span> <span class="number">0x7e</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ctx</span>.<span class="ident">emit</span>(<span class="number">0x7e</span>), <span class="ident">B0</span>(<span class="ident">ctx</span>);
-        <span class="ident">case</span> <span class="number">0x0a</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">A0</span>(<span class="ident">ctx</span>);
-        <span class="ident">case</span> <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ctx</span>.<span class="ident">backup_and_err</span>(<span class="number">1</span>, <span class="string">&quot;invalid sequence&quot;</span>), <span class="ident">B0</span>(<span class="ident">ctx</span>);
-        <span class="kw">final</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ctx</span>.<span class="ident">err</span>(<span class="string">&quot;incomplete sequence&quot;</span>);
+        <span class="ident">case</span> <span class="number">0x7b</span> =&gt; <span class="ident">B0</span>(<span class="ident">ctx</span>);
+        <span class="ident">case</span> <span class="number">0x7d</span> =&gt; <span class="ident">A0</span>(<span class="ident">ctx</span>);
+        <span class="ident">case</span> <span class="number">0x7e</span> =&gt; <span class="ident">ctx</span>.<span class="ident">emit</span>(<span class="number">0x7e</span>), <span class="ident">B0</span>(<span class="ident">ctx</span>);
+        <span class="ident">case</span> <span class="number">0x0a</span> =&gt; <span class="ident">A0</span>(<span class="ident">ctx</span>);
+        <span class="ident">case</span> <span class="kw">_</span> =&gt; <span class="ident">ctx</span>.<span class="ident">backup_and_err</span>(<span class="number">1</span>, <span class="string">&quot;invalid sequence&quot;</span>), <span class="ident">B0</span>(<span class="ident">ctx</span>);
+        <span class="kw">final</span> =&gt; <span class="ident">ctx</span>.<span class="ident">err</span>(<span class="string">&quot;incomplete sequence&quot;</span>);
     }
 
     <span class="comment">// hz-gb-2312 flag = set, hz-gb-2312 lead != 0 &amp; != 0x7e</span>
     <span class="ident">state</span> <span class="ident">B2</span>(<span class="ident">ctx</span>: <span class="ident">Context</span>, <span class="ident">lead</span>: <span class="ident">u8</span>) {
-        <span class="ident">case</span> <span class="number">0x0a</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ctx</span>.<span class="ident">err</span>(<span class="string">&quot;invalid sequence&quot;</span>); <span class="comment">// should reset the state!</span>
-        <span class="ident">case</span> <span class="ident">b</span> <span class="op">=</span><span class="op">&gt;</span>
+        <span class="ident">case</span> <span class="number">0x0a</span> =&gt; <span class="ident">ctx</span>.<span class="ident">err</span>(<span class="string">&quot;invalid sequence&quot;</span>); <span class="comment">// should reset the state!</span>
+        <span class="ident">case</span> <span class="ident">b</span> =&gt;
             <span class="kw">match</span> <span class="ident">map_two_bytes</span>(<span class="ident">lead</span>, <span class="ident">b</span>) {
-                <span class="number">0xffff</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ctx</span>.<span class="ident">err</span>(<span class="string">&quot;invalid sequence&quot;</span>),
-                <span class="ident">ch</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ctx</span>.<span class="ident">emit</span>(<span class="ident">ch</span>)
+                <span class="number">0xffff</span> =&gt; <span class="ident">ctx</span>.<span class="ident">err</span>(<span class="string">&quot;invalid sequence&quot;</span>),
+                <span class="ident">ch</span> =&gt; <span class="ident">ctx</span>.<span class="ident">emit</span>(<span class="ident">ch</span>)
             },
             <span class="ident">B0</span>(<span class="ident">ctx</span>);
-        <span class="kw">final</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ctx</span>.<span class="ident">err</span>(<span class="string">&quot;incomplete sequence&quot;</span>);
+        <span class="kw">final</span> =&gt; <span class="ident">ctx</span>.<span class="ident">err</span>(<span class="string">&quot;incomplete sequence&quot;</span>);
     }
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">hz_tests</span> {
     <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">test</span>;
-    <span class="kw">use</span> <span class="kw">super</span><span class="ident">::HZEncoding</span>;
+    <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::HZEncoding</span>;
     <span class="kw">use</span> <span class="ident">testutils</span>;
     <span class="kw">use</span> <span class="ident">types</span>::<span class="kw-2">*</span>;
 
@@ -1540,7 +1540,7 @@
     }
 
     <span class="attribute">#[<span class="ident">bench</span>]</span>
-    <span class="kw">fn</span> <span class="ident">bench_encode_short_text</span>(<span class="ident">bencher</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">test::Bencher</span>) {
+    <span class="kw">fn</span> <span class="ident">bench_encode_short_text</span>(<span class="ident">bencher</span>: <span class="kw-2">&amp;mut</span> <span class="ident">test::Bencher</span>) {
         <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">testutils::SIMPLIFIED_CHINESE_TEXT</span>;
         <span class="ident">bencher</span>.<span class="ident">bytes</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span>;
         <span class="ident">bencher</span>.<span class="ident">iter</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">test::black_box</span>({
@@ -1549,7 +1549,7 @@
     }
 
     <span class="attribute">#[<span class="ident">bench</span>]</span>
-    <span class="kw">fn</span> <span class="ident">bench_decode_short_text</span>(<span class="ident">bencher</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">test::Bencher</span>) {
+    <span class="kw">fn</span> <span class="ident">bench_decode_short_text</span>(<span class="ident">bencher</span>: <span class="kw-2">&amp;mut</span> <span class="ident">test::Bencher</span>) {
         <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">HZEncoding</span>.<span class="ident">encode</span>(<span class="ident">testutils::SIMPLIFIED_CHINESE_TEXT</span>,
                                   <span class="ident">EncoderTrap::Strict</span>).<span class="ident">ok</span>().<span class="ident">unwrap</span>();
         <span class="ident">bencher</span>.<span class="ident">bytes</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span>;
@@ -1559,7 +1559,6 @@
     }
 }
 
-</pre></div>
-</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="encoding" data-search-index-js="../../../search-index.js" data-search-js="../../../search.js"></div>
-    <script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script>
+</code></pre></div>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="encoding" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (207c80f10 2021-11-30)" ></div>
 </body></html>

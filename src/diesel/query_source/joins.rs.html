@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `&#x2F;home&#x2F;runner&#x2F;.cargo&#x2F;registry&#x2F;src&#x2F;github.com-1ecc6299db9ec823&#x2F;diesel-1.4.8&#x2F;src&#x2F;query_source&#x2F;joins.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>joins.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../diesel/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `&#x2F;home&#x2F;runner&#x2F;.cargo&#x2F;registry&#x2F;src&#x2F;github.com-1ecc6299db9ec823&#x2F;diesel-1.4.8&#x2F;src&#x2F;query_source&#x2F;joins.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>joins.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css"disabled><link rel="stylesheet" type="text/css" href="../../../dark.css"disabled><link rel="stylesheet" type="text/css" href="../../../light.css"id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><script defer src="../../../main.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script>
+    <noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../diesel/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -300,8 +301,7 @@
 <span id="300">300</span>
 <span id="301">301</span>
 <span id="302">302</span>
-</pre><pre class="rust">
-<span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">AppearsInFromClause</span>, <span class="ident">Plus</span>, <span class="ident">QuerySource</span>};
+</pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">AppearsInFromClause</span>, <span class="ident">Plus</span>, <span class="ident">QuerySource</span>};
 <span class="kw">use</span> <span class="ident">backend::Backend</span>;
 <span class="kw">use</span> <span class="ident">expression::grouped::Grouped</span>;
 <span class="kw">use</span> <span class="ident">expression::nullable::Nullable</span>;
@@ -331,7 +331,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Left</span>, <span class="ident">Right</span>, <span class="ident">Kind</span><span class="op">&gt;</span> <span class="ident">Join</span><span class="op">&lt;</span><span class="ident">Left</span>, <span class="ident">Right</span>, <span class="ident">Kind</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">left</span>: <span class="ident">Left</span>, <span class="ident">right</span>: <span class="ident">Right</span>, <span class="ident">kind</span>: <span class="ident">Kind</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">left</span>: <span class="ident">Left</span>, <span class="ident">right</span>: <span class="ident">Right</span>, <span class="ident">kind</span>: <span class="ident">Kind</span>) -&gt; <span class="self">Self</span> {
         <span class="ident">Join</span> {
             <span class="ident">left</span>: <span class="ident">left</span>,
             <span class="ident">right</span>: <span class="ident">right</span>,
@@ -340,7 +340,7 @@
     }
 
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">on</span><span class="op">&lt;</span><span class="ident">On</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">on</span>: <span class="ident">On</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">JoinOn</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">On</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">on</span><span class="op">&lt;</span><span class="ident">On</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">on</span>: <span class="ident">On</span>) -&gt; <span class="ident">JoinOn</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">On</span><span class="op">&gt;</span> {
         <span class="ident">JoinOn</span> { <span class="ident">join</span>: <span class="self">self</span>, <span class="ident">on</span>: <span class="ident">on</span> }
     }
 }
@@ -355,11 +355,11 @@
     <span class="kw">type</span> <span class="ident">FromClause</span> <span class="op">=</span> <span class="self">Self</span>;
     <span class="kw">type</span> <span class="ident">DefaultSelection</span> <span class="op">=</span> <span class="ident">Left::Output</span>;
 
-    <span class="kw">fn</span> <span class="ident">from_clause</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::FromClause</span> {
+    <span class="kw">fn</span> <span class="ident">from_clause</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::FromClause</span> {
         <span class="self">self</span>.<span class="ident">clone</span>()
     }
 
-    <span class="kw">fn</span> <span class="ident">default_selection</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::DefaultSelection</span> {
+    <span class="kw">fn</span> <span class="ident">default_selection</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::DefaultSelection</span> {
         <span class="self">self</span>.<span class="ident">left</span>.<span class="ident">append_selection</span>(<span class="self">self</span>.<span class="ident">right</span>.<span class="ident">default_selection</span>())
     }
 }
@@ -374,11 +374,11 @@
     <span class="kw">type</span> <span class="ident">FromClause</span> <span class="op">=</span> <span class="self">Self</span>;
     <span class="kw">type</span> <span class="ident">DefaultSelection</span> <span class="op">=</span> <span class="ident">Left::Output</span>;
 
-    <span class="kw">fn</span> <span class="ident">from_clause</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::FromClause</span> {
+    <span class="kw">fn</span> <span class="ident">from_clause</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::FromClause</span> {
         <span class="self">self</span>.<span class="ident">clone</span>()
     }
 
-    <span class="kw">fn</span> <span class="ident">default_selection</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::DefaultSelection</span> {
+    <span class="kw">fn</span> <span class="ident">default_selection</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::DefaultSelection</span> {
         <span class="self">self</span>.<span class="ident">left</span>
             .<span class="ident">append_selection</span>(<span class="self">self</span>.<span class="ident">right</span>.<span class="ident">default_selection</span>().<span class="ident">nullable</span>())
     }
@@ -393,7 +393,7 @@
     <span class="kw">type</span> <span class="ident">FromClause</span> <span class="op">=</span> <span class="ident">Grouped</span><span class="op">&lt;</span><span class="ident">nodes::InfixNode</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">Join::FromClause</span>, <span class="ident">On</span><span class="op">&gt;</span><span class="op">&gt;</span>;
     <span class="kw">type</span> <span class="ident">DefaultSelection</span> <span class="op">=</span> <span class="ident">Join::DefaultSelection</span>;
 
-    <span class="kw">fn</span> <span class="ident">from_clause</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::FromClause</span> {
+    <span class="kw">fn</span> <span class="ident">from_clause</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::FromClause</span> {
         <span class="ident">Grouped</span>(<span class="ident">nodes::InfixNode::new</span>(
             <span class="self">self</span>.<span class="ident">join</span>.<span class="ident">from_clause</span>(),
             <span class="self">self</span>.<span class="ident">on</span>.<span class="ident">clone</span>(),
@@ -401,7 +401,7 @@
         ))
     }
 
-    <span class="kw">fn</span> <span class="ident">default_selection</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::DefaultSelection</span> {
+    <span class="kw">fn</span> <span class="ident">default_selection</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::DefaultSelection</span> {
         <span class="self">self</span>.<span class="ident">join</span>.<span class="ident">default_selection</span>()
     }
 }
@@ -415,7 +415,7 @@
     <span class="ident">Right::FromClause</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
     <span class="ident">Kind</span>: <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">left</span>.<span class="ident">from_clause</span>().<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
         <span class="self">self</span>.<span class="ident">kind</span>.<span class="ident">walk_ast</span>(<span class="ident">out</span>.<span class="ident">reborrow</span>())<span class="question-mark">?</span>;
         <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="string">&quot; JOIN &quot;</span>);
@@ -472,7 +472,7 @@
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
     <span class="kw">type</span> <span class="ident">OnClause</span>;
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">join_target</span>(<span class="ident">rhs</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="self">Self</span><span class="ident">::FromClause</span>, <span class="self">Self</span><span class="ident">::OnClause</span>);
+    <span class="kw">fn</span> <span class="ident">join_target</span>(<span class="ident">rhs</span>: <span class="ident">T</span>) -&gt; (<span class="ident"><span class="self">Self</span>::FromClause</span>, <span class="ident"><span class="self">Self</span>::OnClause</span>);
 }
 
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
@@ -483,13 +483,13 @@
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">AppendSelection</span><span class="op">&lt;</span><span class="ident">Selection</span><span class="op">&gt;</span> {
     <span class="kw">type</span> <span class="ident">Output</span>;
 
-    <span class="kw">fn</span> <span class="ident">append_selection</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">selection</span>: <span class="ident">Selection</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::Output</span>;
+    <span class="kw">fn</span> <span class="ident">append_selection</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">selection</span>: <span class="ident">Selection</span>) -&gt; <span class="ident"><span class="self">Self</span>::Output</span>;
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Table</span>, <span class="ident">Selection</span><span class="op">&gt;</span> <span class="ident">AppendSelection</span><span class="op">&lt;</span><span class="ident">Selection</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">T</span> {
     <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> (<span class="ident">T::AllColumns</span>, <span class="ident">Selection</span>);
 
-    <span class="kw">fn</span> <span class="ident">append_selection</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">selection</span>: <span class="ident">Selection</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::Output</span> {
+    <span class="kw">fn</span> <span class="ident">append_selection</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">selection</span>: <span class="ident">Selection</span>) -&gt; <span class="ident"><span class="self">Self</span>::Output</span> {
         (<span class="ident">T::all_columns</span>(), <span class="ident">selection</span>)
     }
 }
@@ -501,7 +501,7 @@
 {
     <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="op">&lt;</span><span class="op">&lt;</span><span class="self">Self</span> <span class="kw">as</span> <span class="ident">QuerySource</span><span class="op">&gt;</span><span class="ident">::DefaultSelection</span> <span class="kw">as</span> <span class="ident">TupleAppend</span><span class="op">&lt;</span><span class="ident">Selection</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Output</span>;
 
-    <span class="kw">fn</span> <span class="ident">append_selection</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">selection</span>: <span class="ident">Selection</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::Output</span> {
+    <span class="kw">fn</span> <span class="ident">append_selection</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">selection</span>: <span class="ident">Selection</span>) -&gt; <span class="ident"><span class="self">Self</span>::Output</span> {
         <span class="self">self</span>.<span class="ident">default_selection</span>().<span class="ident">tuple_append</span>(<span class="ident">selection</span>)
     }
 }
@@ -512,7 +512,7 @@
 {
     <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">Join::Output</span>;
 
-    <span class="kw">fn</span> <span class="ident">append_selection</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">selection</span>: <span class="ident">Selection</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::Output</span> {
+    <span class="kw">fn</span> <span class="ident">append_selection</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">selection</span>: <span class="ident">Selection</span>) -&gt; <span class="ident"><span class="self">Self</span>::Output</span> {
         <span class="self">self</span>.<span class="ident">join</span>.<span class="ident">append_selection</span>(<span class="ident">selection</span>)
     }
 }
@@ -522,7 +522,7 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Inner</span>;
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">DB</span>: <span class="ident">Backend</span><span class="op">&gt;</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Inner</span> {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="string">&quot; INNER&quot;</span>);
         <span class="prelude-val">Ok</span>(())
     }
@@ -533,7 +533,7 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LeftOuter</span>;
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">DB</span>: <span class="ident">Backend</span><span class="op">&gt;</span> <span class="ident">QueryFragment</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">LeftOuter</span> {
-    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">walk_ast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="ident">AstPass</span><span class="op">&lt;</span><span class="ident">DB</span><span class="op">&gt;</span>) -&gt; <span class="ident">QueryResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="ident">out</span>.<span class="ident">push_sql</span>(<span class="string">&quot; LEFT OUTER&quot;</span>);
         <span class="prelude-val">Ok</span>(())
     }
@@ -546,7 +546,7 @@
     <span class="kw">type</span> <span class="ident">FromClause</span> <span class="op">=</span> <span class="ident">Left::FromClause</span>;
     <span class="kw">type</span> <span class="ident">OnClause</span> <span class="op">=</span> <span class="ident">Left::OnClause</span>;
 
-    <span class="kw">fn</span> <span class="ident">join_target</span>(<span class="ident">rhs</span>: <span class="ident">Right</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="self">Self</span><span class="ident">::FromClause</span>, <span class="self">Self</span><span class="ident">::OnClause</span>) {
+    <span class="kw">fn</span> <span class="ident">join_target</span>(<span class="ident">rhs</span>: <span class="ident">Right</span>) -&gt; (<span class="ident"><span class="self">Self</span>::FromClause</span>, <span class="ident"><span class="self">Self</span>::OnClause</span>) {
         <span class="ident">Left::join_target</span>(<span class="ident">rhs</span>)
     }
 }
@@ -558,7 +558,7 @@
     <span class="kw">type</span> <span class="ident">FromClause</span> <span class="op">=</span> <span class="ident">Join::FromClause</span>;
     <span class="kw">type</span> <span class="ident">OnClause</span> <span class="op">=</span> <span class="ident">Join::OnClause</span>;
 
-    <span class="kw">fn</span> <span class="ident">join_target</span>(<span class="ident">rhs</span>: <span class="ident">Right</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="self">Self</span><span class="ident">::FromClause</span>, <span class="self">Self</span><span class="ident">::OnClause</span>) {
+    <span class="kw">fn</span> <span class="ident">join_target</span>(<span class="ident">rhs</span>: <span class="ident">Right</span>) -&gt; (<span class="ident"><span class="self">Self</span>::FromClause</span>, <span class="ident"><span class="self">Self</span>::OnClause</span>) {
         <span class="ident">Join::join_target</span>(<span class="ident">rhs</span>)
     }
 }
@@ -587,7 +587,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Source</span>, <span class="ident">On</span><span class="op">&gt;</span> <span class="ident">OnClauseWrapper</span><span class="op">&lt;</span><span class="ident">Source</span>, <span class="ident">On</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">source</span>: <span class="ident">Source</span>, <span class="ident">on</span>: <span class="ident">On</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">source</span>: <span class="ident">Source</span>, <span class="ident">on</span>: <span class="ident">On</span>) -&gt; <span class="self">Self</span> {
         <span class="ident">OnClauseWrapper</span> { <span class="ident">source</span>, <span class="ident">on</span> }
     }
 }
@@ -599,11 +599,10 @@
     <span class="kw">type</span> <span class="ident">FromClause</span> <span class="op">=</span> <span class="ident">Rhs</span>;
     <span class="kw">type</span> <span class="ident">OnClause</span> <span class="op">=</span> <span class="ident">On</span>;
 
-    <span class="kw">fn</span> <span class="ident">join_target</span>(<span class="ident">rhs</span>: <span class="ident">OnClauseWrapper</span><span class="op">&lt;</span><span class="ident">Rhs</span>, <span class="ident">On</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="self">Self</span><span class="ident">::FromClause</span>, <span class="self">Self</span><span class="ident">::OnClause</span>) {
+    <span class="kw">fn</span> <span class="ident">join_target</span>(<span class="ident">rhs</span>: <span class="ident">OnClauseWrapper</span><span class="op">&lt;</span><span class="ident">Rhs</span>, <span class="ident">On</span><span class="op">&gt;</span>) -&gt; (<span class="ident"><span class="self">Self</span>::FromClause</span>, <span class="ident"><span class="self">Self</span>::OnClause</span>) {
         (<span class="ident">rhs</span>.<span class="ident">source</span>, <span class="ident">rhs</span>.<span class="ident">on</span>)
     }
 }
-</pre></div>
-</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="diesel" data-search-index-js="../../../search-index.js" data-search-js="../../../search.js"></div>
-    <script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script>
+</code></pre></div>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="diesel" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (207c80f10 2021-11-30)" ></div>
 </body></html>

@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src&#x2F;routes&#x2F;mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../amelio/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src&#x2F;routes&#x2F;mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css"disabled><link rel="stylesheet" type="text/css" href="../../../dark.css"disabled><link rel="stylesheet" type="text/css" href="../../../light.css"id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><script defer src="../../../main.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script>
+    <noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../amelio/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -278,8 +279,7 @@
 <span id="278">278</span>
 <span id="279">279</span>
 <span id="280">280</span>
-</pre><pre class="rust">
-<span class="doccomment">//! All routes for the server.</span>
+</pre><pre class="rust"><code><span class="doccomment">//! All routes for the server.</span>
 
 <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">clippy::map_err_ignore</span>, <span class="ident">clippy::missing_const_for_fn</span>)]</span>
 <span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">doc</span>, <span class="ident">allow</span>(<span class="ident">unused_braces</span>))]</span>
@@ -296,14 +296,14 @@
 <span class="kw">use</span> <span class="ident">rocket</span>::{<span class="ident">get</span>, <span class="ident">uri</span>, <span class="ident">Request</span>, <span class="ident">State</span>, <span class="ident">UriDisplayPath</span>};
 <span class="kw">use</span> <span class="ident">url::Url</span>;
 
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::config::Config</span>;
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::db::connection::DbConn</span>;
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::db::repositories</span>;
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::email</span>;
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::models::Id</span>;
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::roles::AuthUser</span>;
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::services</span>::{<span class="self">self</span>, <span class="ident">TicketService</span>};
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::templates</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::config::Config</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::db::connection::DbConn</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::db::repositories</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::email</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::models::Id</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::roles::AuthUser</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::services</span>::{<span class="self">self</span>, <span class="ident">TicketService</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::templates</span>;
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">assets</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">auth</span>;
@@ -319,7 +319,7 @@
     <span class="ident">user</span>: <span class="kw-2">&amp;</span><span class="ident">AuthUser</span>,
     <span class="ident">conn</span>: <span class="ident">DbConn</span>,
     <span class="ident">config</span>: <span class="ident">State</span><span class="op">&lt;</span><span class="ident">Config</span><span class="op">&gt;</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">templates::Index</span>, <span class="ident">ServerError</span><span class="op">&gt;</span> {
+) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">templates::Index</span>, <span class="ident">ServerError</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">service</span> <span class="op">=</span> <span class="ident">services::ticket_service</span>(
         <span class="ident">repositories::ticket_repo</span>(<span class="kw-2">&amp;</span><span class="ident">conn</span>),
         <span class="ident">repositories::course_repo</span>(<span class="kw-2">&amp;</span><span class="ident">conn</span>),
@@ -341,19 +341,19 @@
 
 <span class="doccomment">/// Index page for non-authenticated users, redirecting to the login page.</span>
 <span class="attribute">#[<span class="ident">get</span>(<span class="string">&quot;/&quot;</span>, <span class="ident">rank</span> <span class="op">=</span> <span class="number">2</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">index</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Redirect</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">index</span>() -&gt; <span class="ident">Redirect</span> {
     <span class="ident">Redirect::to</span>(<span class="macro">uri!</span>(<span class="ident">auth::login</span>))
 }
 
 <span class="doccomment">/// FAQ page for authenticated users.</span>
 <span class="attribute">#[<span class="ident">get</span>(<span class="string">&quot;/faq&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">faq_user</span>(<span class="ident">user</span>: <span class="kw-2">&amp;</span><span class="ident">AuthUser</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">templates::Faq</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">faq_user</span>(<span class="ident">user</span>: <span class="kw-2">&amp;</span><span class="ident">AuthUser</span>) -&gt; <span class="ident">templates::Faq</span> {
     <span class="ident">templates::Faq</span> { <span class="ident">role</span>: <span class="ident">user</span>.<span class="number">0</span>.<span class="ident">role</span> }
 }
 
 <span class="doccomment">/// FAQ page for non-authenticated users, redirecting to the login page.</span>
 <span class="attribute">#[<span class="ident">get</span>(<span class="string">&quot;/faq&quot;</span>, <span class="ident">rank</span> <span class="op">=</span> <span class="number">2</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">faq</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Redirect</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">faq</span>() -&gt; <span class="ident">Redirect</span> {
     <span class="ident">Redirect::to</span>(<span class="macro">uri!</span>(<span class="ident">auth::login</span>))
 }
 
@@ -363,24 +363,24 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ServerError</span>(<span class="ident">anyhow::Error</span>);
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">anyhow::Error</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ServerError</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">value</span>: <span class="ident">anyhow::Error</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">value</span>: <span class="ident">anyhow::Error</span>) -&gt; <span class="self">Self</span> {
         <span class="self">Self</span>(<span class="ident">value</span>)
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span><span class="op">&gt;</span> <span class="ident">Responder</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ServerError</span> {
-    <span class="kw">fn</span> <span class="ident">respond_to</span>(<span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Request</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">response::Result</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">respond_to</span>(<span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Request</span>) -&gt; <span class="ident">response::Result</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span><span class="op">&gt;</span> {
         <span class="macro">error!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="self">self</span>.<span class="number">0</span>);
         <span class="prelude-val">Err</span>(<span class="ident">Status::InternalServerError</span>)
     }
 }
 
 <span class="macro">macro_rules!</span> <span class="ident">from_request</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">ty</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">ty</span>) =&gt; {
         <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;v</span><span class="op">&gt;</span> <span class="ident">FromFormValue</span><span class="op">&lt;</span><span class="lifetime">&#39;v</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> {
             <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;v</span> <span class="ident">RawStr</span>;
 
-            <span class="kw">fn</span> <span class="ident">from_form_value</span>(<span class="ident">form_value</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;v</span> <span class="ident">RawStr</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="self">Self</span><span class="ident">::Error</span><span class="op">&gt;</span> {
+            <span class="kw">fn</span> <span class="ident">from_form_value</span>(<span class="ident">form_value</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;v</span> <span class="ident">RawStr</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident"><span class="self">Self</span>::Error</span><span class="op">&gt;</span> {
                 <span class="ident">form_value</span>.<span class="ident">try_into</span>()
             }
         }
@@ -388,7 +388,7 @@
         <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">FromParam</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> {
             <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawStr</span>;
 
-            <span class="kw">fn</span> <span class="ident">from_param</span>(<span class="ident">param</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawStr</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="self">Self</span><span class="ident">::Error</span><span class="op">&gt;</span> {
+            <span class="kw">fn</span> <span class="ident">from_param</span>(<span class="ident">param</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawStr</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident"><span class="self">Self</span>::Error</span><span class="op">&gt;</span> {
                 <span class="ident">param</span>.<span class="ident">try_into</span>()
             }
         }
@@ -396,11 +396,11 @@
 }
 
 <span class="macro">macro_rules!</span> <span class="ident">enum_from_request</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">ty</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">ty</span>) =&gt; {
         <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">TryFrom</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawStr</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> {
             <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawStr</span>;
 
-            <span class="kw">fn</span> <span class="ident">try_from</span>(<span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawStr</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="self">Self</span><span class="ident">::Error</span><span class="op">&gt;</span> {
+            <span class="kw">fn</span> <span class="ident">try_from</span>(<span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawStr</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident"><span class="self">Self</span>::Error</span><span class="op">&gt;</span> {
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">v</span>) <span class="op">=</span> <span class="ident">value</span>.<span class="ident">url_decode</span>() {
                     <span class="ident">v</span>.<span class="ident">parse</span>().<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">value</span>)
                 } <span class="kw">else</span> {
@@ -412,13 +412,13 @@
         <span class="macro">from_request!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>);
 
         <span class="kw">impl</span> <span class="ident">UriDisplay</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> {
-            <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Formatter</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std::fmt::Result</span> {
+            <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Formatter</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span>) -&gt; <span class="ident">std::fmt::Result</span> {
                 <span class="ident">f</span>.<span class="ident">write_value</span>(<span class="self">self</span>.<span class="ident">as_ref</span>())
             }
         }
 
         <span class="kw">impl</span> <span class="ident">UriDisplay</span><span class="op">&lt;</span><span class="ident">Query</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> {
-            <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Formatter</span><span class="op">&lt;</span><span class="ident">Query</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std::fmt::Result</span> {
+            <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Formatter</span><span class="op">&lt;</span><span class="ident">Query</span><span class="op">&gt;</span>) -&gt; <span class="ident">std::fmt::Result</span> {
                 <span class="ident">f</span>.<span class="ident">write_value</span>(<span class="self">self</span>.<span class="ident">as_ref</span>())
             }
         }
@@ -428,11 +428,11 @@
     };
 }
 
-<span class="macro">enum_from_request!</span>(<span class="kw">crate</span><span class="ident">::models::Role</span>);
-<span class="macro">enum_from_request!</span>(<span class="kw">crate</span><span class="ident">::models::TicketType</span>);
-<span class="macro">enum_from_request!</span>(<span class="kw">crate</span><span class="ident">::models::Category</span>);
-<span class="macro">enum_from_request!</span>(<span class="kw">crate</span><span class="ident">::models::Priority</span>);
-<span class="macro">enum_from_request!</span>(<span class="kw">crate</span><span class="ident">::models::Status</span>);
+<span class="macro">enum_from_request!</span>(<span class="ident"><span class="kw">crate</span>::models::Role</span>);
+<span class="macro">enum_from_request!</span>(<span class="ident"><span class="kw">crate</span>::models::TicketType</span>);
+<span class="macro">enum_from_request!</span>(<span class="ident"><span class="kw">crate</span>::models::Category</span>);
+<span class="macro">enum_from_request!</span>(<span class="ident"><span class="kw">crate</span>::models::Priority</span>);
+<span class="macro">enum_from_request!</span>(<span class="ident"><span class="kw">crate</span>::models::Status</span>);
 
 <span class="doccomment">/// A string that is guaranteed to not be empty when parsed from a request param or form value.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">NonEmptyString</span>(<span class="ident">String</span>);
@@ -440,7 +440,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">TryFrom</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawStr</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">NonEmptyString</span> {
     <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawStr</span>;
 
-    <span class="kw">fn</span> <span class="ident">try_from</span>(<span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawStr</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="self">Self</span><span class="ident">::Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">try_from</span>(<span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawStr</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident"><span class="self">Self</span>::Error</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">parsed</span> <span class="op">=</span> <span class="ident">value</span>.<span class="ident">url_decode</span>().<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">value</span>)<span class="question-mark">?</span>;
 
         <span class="kw">if</span> <span class="ident">parsed</span>.<span class="ident">is_empty</span>() {
@@ -465,7 +465,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">N</span>: <span class="ident">PrimInt</span> <span class="op">+</span> <span class="ident">FromStr</span><span class="op">&gt;</span> <span class="ident">TryFrom</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawStr</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">PositiveNum</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span> {
     <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawStr</span>;
 
-    <span class="kw">fn</span> <span class="ident">try_from</span>(<span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawStr</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="self">Self</span><span class="ident">::Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">try_from</span>(<span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawStr</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident"><span class="self">Self</span>::Error</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">parsed</span> <span class="op">=</span> <span class="ident">value</span>
             .<span class="ident">url_decode</span>()
             .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">value</span>)
@@ -482,7 +482,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;v</span>, <span class="ident">N</span>: <span class="ident">PrimInt</span> <span class="op">+</span> <span class="ident">FromStr</span><span class="op">&gt;</span> <span class="ident">FromFormValue</span><span class="op">&lt;</span><span class="lifetime">&#39;v</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">PositiveNum</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span> {
     <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;v</span> <span class="ident">RawStr</span>;
 
-    <span class="kw">fn</span> <span class="ident">from_form_value</span>(<span class="ident">form_value</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;v</span> <span class="ident">RawStr</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="self">Self</span><span class="ident">::Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">from_form_value</span>(<span class="ident">form_value</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;v</span> <span class="ident">RawStr</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident"><span class="self">Self</span>::Error</span><span class="op">&gt;</span> {
         <span class="ident">form_value</span>.<span class="ident">try_into</span>()
     }
 }
@@ -490,7 +490,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">N</span>: <span class="ident">PrimInt</span> <span class="op">+</span> <span class="ident">FromStr</span><span class="op">&gt;</span> <span class="ident">FromParam</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">PositiveNum</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span> {
     <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawStr</span>;
 
-    <span class="kw">fn</span> <span class="ident">from_param</span>(<span class="ident">param</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawStr</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="self">Self</span><span class="ident">::Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">from_param</span>(<span class="ident">param</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawStr</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident"><span class="self">Self</span>::Error</span><span class="op">&gt;</span> {
         <span class="ident">param</span>.<span class="ident">try_into</span>()
     }
 }
@@ -501,7 +501,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">TryFrom</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawStr</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Hour</span> {
     <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawStr</span>;
 
-    <span class="kw">fn</span> <span class="ident">try_from</span>(<span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawStr</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="self">Self</span><span class="ident">::Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">try_from</span>(<span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawStr</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident"><span class="self">Self</span>::Error</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">parsed</span> <span class="op">=</span> <span class="ident">value</span>
             .<span class="ident">url_decode</span>()
             .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">value</span>)
@@ -523,7 +523,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">TryFrom</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawStr</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Minute</span> {
     <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawStr</span>;
 
-    <span class="kw">fn</span> <span class="ident">try_from</span>(<span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawStr</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="self">Self</span><span class="ident">::Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">try_from</span>(<span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawStr</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident"><span class="self">Self</span>::Error</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">parsed</span> <span class="op">=</span> <span class="ident">value</span>
             .<span class="ident">url_decode</span>()
             .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">value</span>)
@@ -548,7 +548,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">TryFrom</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawStr</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ValidUrl</span> {
     <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawStr</span>;
 
-    <span class="kw">fn</span> <span class="ident">try_from</span>(<span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawStr</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="self">Self</span><span class="ident">::Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">try_from</span>(<span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawStr</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident"><span class="self">Self</span>::Error</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">parsed</span> <span class="op">=</span> <span class="ident">value</span>
             .<span class="ident">url_decode</span>()
             .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">value</span>)
@@ -559,7 +559,6 @@
 }
 
 <span class="macro">from_request!</span>(<span class="ident">ValidUrl</span>);
-</pre></div>
-</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="amelio" data-search-index-js="../../../search-index.js" data-search-js="../../../search.js"></div>
-    <script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script>
+</code></pre></div>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="amelio" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (207c80f10 2021-11-30)" ></div>
 </body></html>

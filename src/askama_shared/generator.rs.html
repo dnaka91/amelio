@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `&#x2F;home&#x2F;runner&#x2F;.cargo&#x2F;registry&#x2F;src&#x2F;github.com-1ecc6299db9ec823&#x2F;askama_shared-0.11.1&#x2F;src&#x2F;generator.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>generator.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg"><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../askama_shared/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `&#x2F;home&#x2F;runner&#x2F;.cargo&#x2F;registry&#x2F;src&#x2F;github.com-1ecc6299db9ec823&#x2F;askama_shared-0.11.1&#x2F;src&#x2F;generator.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>generator.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css"disabled><link rel="stylesheet" type="text/css" href="../../dark.css"disabled><link rel="stylesheet" type="text/css" href="../../light.css"id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
+    <noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../askama_shared/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -1598,12 +1599,11 @@
 <span id="1598">1598</span>
 <span id="1599">1599</span>
 <span id="1600">1600</span>
-</pre><pre class="rust">
-<span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">get_template_source</span>, <span class="ident">CompileError</span>, <span class="ident">Integrations</span>};
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::filters</span>;
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::heritage</span>::{<span class="ident">Context</span>, <span class="ident">Heritage</span>};
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::input</span>::{<span class="ident">Source</span>, <span class="ident">TemplateInput</span>};
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::parser</span>::{
+</pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">get_template_source</span>, <span class="ident">CompileError</span>, <span class="ident">Integrations</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::filters</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::heritage</span>::{<span class="ident">Context</span>, <span class="ident">Heritage</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::input</span>::{<span class="ident">Source</span>, <span class="ident">TemplateInput</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::parser</span>::{
     <span class="ident">parse</span>, <span class="ident">Cond</span>, <span class="ident">Expr</span>, <span class="ident">MatchParameter</span>, <span class="ident">MatchParameters</span>, <span class="ident">MatchVariant</span>, <span class="ident">Node</span>, <span class="ident">Target</span>, <span class="ident">When</span>, <span class="ident">WS</span>,
 };
 
@@ -1620,7 +1620,7 @@
     <span class="ident">contexts</span>: <span class="kw-2">&amp;</span><span class="ident">HashMap</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PathBuf</span>, <span class="ident">Context</span>, <span class="ident">S</span><span class="op">&gt;</span>,
     <span class="ident">heritage</span>: <span class="kw-2">&amp;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Heritage</span><span class="op">&gt;</span>,
     <span class="ident">integrations</span>: <span class="ident">Integrations</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
+) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
     <span class="ident">Generator::new</span>(<span class="ident">input</span>, <span class="ident">contexts</span>, <span class="ident">heritage</span>, <span class="ident">integrations</span>, <span class="ident">SetChain::new</span>())
         .<span class="ident">build</span>(<span class="kw-2">&amp;</span><span class="ident">contexts</span>[<span class="kw-2">&amp;</span><span class="ident">input</span>.<span class="ident">path</span>])
 }
@@ -1658,7 +1658,7 @@
         <span class="ident">heritage</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;n</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Heritage</span><span class="op">&gt;</span>,
         <span class="ident">integrations</span>: <span class="ident">Integrations</span>,
         <span class="ident">locals</span>: <span class="ident">SetChain</span><span class="op">&lt;</span><span class="lifetime">&#39;n</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;n</span> <span class="ident">str</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Generator</span><span class="op">&lt;</span><span class="lifetime">&#39;n</span>, <span class="ident">S</span><span class="op">&gt;</span> {
+    ) -&gt; <span class="ident">Generator</span><span class="op">&lt;</span><span class="lifetime">&#39;n</span>, <span class="ident">S</span><span class="op">&gt;</span> {
         <span class="ident">Generator</span> {
             <span class="ident">input</span>,
             <span class="ident">contexts</span>,
@@ -1673,9 +1673,9 @@
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">child</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Generator</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">S</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">child</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">Generator</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">S</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">locals</span> <span class="op">=</span> <span class="ident">SetChain::with_parent</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">locals</span>);
-        <span class="self">Self</span><span class="ident">::new</span>(
+        <span class="ident"><span class="self">Self</span>::new</span>(
             <span class="self">self</span>.<span class="ident">input</span>,
             <span class="self">self</span>.<span class="ident">contexts</span>,
             <span class="self">self</span>.<span class="ident">heritage</span>,
@@ -1685,43 +1685,43 @@
     }
 
     <span class="comment">// Takes a Context and generates the relevant implementations.</span>
-    <span class="kw">fn</span> <span class="ident">build</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ctx</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Context</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">build</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ctx</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Context</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">Buffer::new</span>(<span class="number">0</span>);
         <span class="kw">if</span> <span class="op">!</span><span class="ident">ctx</span>.<span class="ident">blocks</span>.<span class="ident">is_empty</span>() {
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">parent</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">input</span>.<span class="ident">parent</span> {
-                <span class="self">self</span>.<span class="ident">deref_to_parent</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>, <span class="ident">parent</span>)<span class="question-mark">?</span>;
+                <span class="self">self</span>.<span class="ident">deref_to_parent</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buf</span>, <span class="ident">parent</span>)<span class="question-mark">?</span>;
             }
         };
 
-        <span class="self">self</span>.<span class="ident">impl_template</span>(<span class="ident">ctx</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>)<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">impl_display</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>)<span class="question-mark">?</span>;
+        <span class="self">self</span>.<span class="ident">impl_template</span>(<span class="ident">ctx</span>, <span class="kw-2">&amp;mut</span> <span class="ident">buf</span>)<span class="question-mark">?</span>;
+        <span class="self">self</span>.<span class="ident">impl_display</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buf</span>)<span class="question-mark">?</span>;
 
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">integrations</span>.<span class="ident">actix</span> {
-            <span class="self">self</span>.<span class="ident">impl_actix_web_responder</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>)<span class="question-mark">?</span>;
+            <span class="self">self</span>.<span class="ident">impl_actix_web_responder</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buf</span>)<span class="question-mark">?</span>;
         }
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">integrations</span>.<span class="ident">gotham</span> {
-            <span class="self">self</span>.<span class="ident">impl_gotham_into_response</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>)<span class="question-mark">?</span>;
+            <span class="self">self</span>.<span class="ident">impl_gotham_into_response</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buf</span>)<span class="question-mark">?</span>;
         }
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">integrations</span>.<span class="ident">iron</span> {
-            <span class="self">self</span>.<span class="ident">impl_iron_modifier_response</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>)<span class="question-mark">?</span>;
+            <span class="self">self</span>.<span class="ident">impl_iron_modifier_response</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buf</span>)<span class="question-mark">?</span>;
         }
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">integrations</span>.<span class="ident">mendes</span> {
-            <span class="self">self</span>.<span class="ident">impl_mendes_responder</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>)<span class="question-mark">?</span>;
+            <span class="self">self</span>.<span class="ident">impl_mendes_responder</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buf</span>)<span class="question-mark">?</span>;
         }
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">integrations</span>.<span class="ident">rocket</span> {
-            <span class="self">self</span>.<span class="ident">impl_rocket_responder</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>)<span class="question-mark">?</span>;
+            <span class="self">self</span>.<span class="ident">impl_rocket_responder</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buf</span>)<span class="question-mark">?</span>;
         }
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">integrations</span>.<span class="ident">tide</span> {
-            <span class="self">self</span>.<span class="ident">impl_tide_integrations</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>)<span class="question-mark">?</span>;
+            <span class="self">self</span>.<span class="ident">impl_tide_integrations</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buf</span>)<span class="question-mark">?</span>;
         }
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">integrations</span>.<span class="ident">warp</span> {
-            <span class="self">self</span>.<span class="ident">impl_warp_reply</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>)<span class="question-mark">?</span>;
+            <span class="self">self</span>.<span class="ident">impl_warp_reply</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buf</span>)<span class="question-mark">?</span>;
         }
         <span class="prelude-val">Ok</span>(<span class="ident">buf</span>.<span class="ident">buf</span>)
     }
 
     <span class="comment">// Implement `Template` for the given context struct.</span>
-    <span class="kw">fn</span> <span class="ident">impl_template</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ctx</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Context</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">impl_template</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">ctx</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Context</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">write_header</span>(<span class="ident">buf</span>, <span class="string">&quot;::askama::Template&quot;</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
         <span class="ident">buf</span>.<span class="ident">writeln</span>(
             <span class="string">&quot;fn render_into(&amp;self, writer: &amp;mut dyn ::std::fmt::Write) -&gt; \
@@ -1732,8 +1732,8 @@
         <span class="kw">for</span> <span class="ident">path</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">contexts</span>.<span class="ident">keys</span>() {
             <span class="comment">// Skip the fake path of templates defined in rust source.</span>
             <span class="kw">let</span> <span class="ident">path_is_valid</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">input</span>.<span class="ident">source</span> {
-                <span class="ident">Source::Path</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
-                <span class="ident">Source::Source</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="ident">path</span> <span class="op">!</span><span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">input</span>.<span class="ident">path</span>,
+                <span class="ident">Source::Path</span>(<span class="kw">_</span>) =&gt; <span class="bool-val">true</span>,
+                <span class="ident">Source::Source</span>(<span class="kw">_</span>) =&gt; <span class="kw-2">*</span><span class="ident">path</span> <span class="op">!</span><span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">input</span>.<span class="ident">path</span>,
             };
             <span class="kw">if</span> <span class="ident">path_is_valid</span> {
                 <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">path</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>();
@@ -1788,10 +1788,10 @@
 
     <span class="comment">// Implement `Deref&lt;Parent&gt;` for an inheriting context struct.</span>
     <span class="kw">fn</span> <span class="ident">deref_to_parent</span>(
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>,
+        <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+        <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>,
         <span class="ident">parent_type</span>: <span class="kw-2">&amp;</span><span class="ident">syn::Type</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">write_header</span>(<span class="ident">buf</span>, <span class="string">&quot;::std::ops::Deref&quot;</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
         <span class="ident">buf</span>.<span class="ident">writeln</span>(<span class="kw-2">&amp;</span><span class="macro">format!</span>(
             <span class="string">&quot;type Target = {};&quot;</span>,
@@ -1804,7 +1804,7 @@
     }
 
     <span class="comment">// Implement `Display` for the given context struct.</span>
-    <span class="kw">fn</span> <span class="ident">impl_display</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">impl_display</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">write_header</span>(<span class="ident">buf</span>, <span class="string">&quot;::std::fmt::Display&quot;</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
         <span class="ident">buf</span>.<span class="ident">writeln</span>(<span class="string">&quot;fn fmt(&amp;self, f: &amp;mut ::std::fmt::Formatter) -&gt; ::std::fmt::Result {&quot;</span>)<span class="question-mark">?</span>;
         <span class="ident">buf</span>.<span class="ident">writeln</span>(<span class="string">&quot;::askama::Template::render_into(self, f).map_err(|_| ::std::fmt::Error {})&quot;</span>)<span class="question-mark">?</span>;
@@ -1813,7 +1813,7 @@
     }
 
     <span class="comment">// Implement Actix-web&#39;s `Responder`.</span>
-    <span class="kw">fn</span> <span class="ident">impl_actix_web_responder</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">impl_actix_web_responder</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">write_header</span>(<span class="ident">buf</span>, <span class="string">&quot;::actix_web::Responder&quot;</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
         <span class="ident">buf</span>.<span class="ident">writeln</span>(<span class="string">&quot;type Future = ::askama_actix::futures::Ready&lt;::std::result::Result&lt;::actix_web::HttpResponse, Self::Error&gt;&gt;;&quot;</span>)<span class="question-mark">?</span>;
         <span class="ident">buf</span>.<span class="ident">writeln</span>(<span class="string">&quot;type Error = ::actix_web::Error;&quot;</span>)<span class="question-mark">?</span>;
@@ -1830,15 +1830,15 @@
     }
 
     <span class="comment">// Implement gotham&#39;s `IntoResponse`.</span>
-    <span class="kw">fn</span> <span class="ident">impl_gotham_into_response</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">impl_gotham_into_response</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">write_header</span>(<span class="ident">buf</span>, <span class="string">&quot;::askama_gotham::IntoResponse&quot;</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
         <span class="ident">buf</span>.<span class="ident">writeln</span>(
             <span class="string">&quot;fn into_response(self, _state: &amp;::askama_gotham::State)\
              -&gt; ::askama_gotham::Response&lt;::askama_gotham::Body&gt; {&quot;</span>,
         )<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">ext</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">input</span>.<span class="ident">path</span>.<span class="ident">extension</span>() {
-            <span class="prelude-val">Some</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">s</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>(),
-            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;txt&quot;</span>,
+            <span class="prelude-val">Some</span>(<span class="ident">s</span>) =&gt; <span class="ident">s</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>(),
+            <span class="prelude-val">None</span> =&gt; <span class="string">&quot;txt&quot;</span>,
         };
         <span class="ident">buf</span>.<span class="ident">writeln</span>(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;::askama_gotham::respond(&amp;self, {:?})&quot;</span>, <span class="ident">ext</span>))<span class="question-mark">?</span>;
         <span class="ident">buf</span>.<span class="ident">writeln</span>(<span class="string">&quot;}&quot;</span>)<span class="question-mark">?</span>;
@@ -1846,7 +1846,7 @@
     }
 
     <span class="comment">// Implement iron&#39;s Modifier&lt;Response&gt; if enabled</span>
-    <span class="kw">fn</span> <span class="ident">impl_iron_modifier_response</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">impl_iron_modifier_response</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">write_header</span>(
             <span class="ident">buf</span>,
             <span class="string">&quot;::askama_iron::Modifier&lt;::askama_iron::Response&gt;&quot;</span>,
@@ -1863,10 +1863,10 @@
             .<span class="ident">extension</span>()
             .<span class="ident">map_or</span>(<span class="string">&quot;&quot;</span>, <span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">to_str</span>().<span class="ident">unwrap_or</span>(<span class="string">&quot;&quot;</span>));
         <span class="kw">match</span> <span class="ident">ext</span> {
-            <span class="string">&quot;html&quot;</span> <span class="op">|</span> <span class="string">&quot;htm&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="string">&quot;html&quot;</span> <span class="op">|</span> <span class="string">&quot;htm&quot;</span> =&gt; {
                 <span class="ident">buf</span>.<span class="ident">writeln</span>(<span class="string">&quot;::askama_iron::ContentType::html().0.modify(res);&quot;</span>)<span class="question-mark">?</span>;
             }
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> (),
+            <span class="kw">_</span> =&gt; (),
         };
 
         <span class="ident">buf</span>.<span class="ident">writeln</span>(<span class="string">&quot;}&quot;</span>)<span class="question-mark">?</span>;
@@ -1874,7 +1874,7 @@
     }
 
     <span class="comment">// Implement mendes&#39; `Responder`.</span>
-    <span class="kw">fn</span> <span class="ident">impl_mendes_responder</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">impl_mendes_responder</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">param</span> <span class="op">=</span> <span class="ident">syn::parse_str</span>(<span class="string">&quot;A: ::mendes::Application&quot;</span>).<span class="ident">unwrap</span>();
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">generics</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">input</span>.<span class="ident">ast</span>.<span class="ident">generics</span>.<span class="ident">clone</span>();
@@ -1883,8 +1883,8 @@
         <span class="kw">let</span> (<span class="ident">impl_generics</span>, <span class="kw">_</span>, <span class="ident">where_clause</span>) <span class="op">=</span> <span class="ident">generics</span>.<span class="ident">split_for_impl</span>();
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">where_clause</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">where_clause</span> {
-            <span class="prelude-val">Some</span>(<span class="ident">clause</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">clause</span>.<span class="ident">clone</span>(),
-            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">syn::WhereClause</span> {
+            <span class="prelude-val">Some</span>(<span class="ident">clause</span>) =&gt; <span class="ident">clause</span>.<span class="ident">clone</span>(),
+            <span class="prelude-val">None</span> =&gt; <span class="ident">syn::WhereClause</span> {
                 <span class="ident">where_token</span>: <span class="macro">syn::Token!</span>[<span class="kw">where</span>](<span class="ident">Span::call_site</span>()),
                 <span class="ident">predicates</span>: <span class="ident">syn::punctuated::Punctuated::new</span>(),
             },
@@ -1923,7 +1923,7 @@
     }
 
     <span class="comment">// Implement Rocket&#39;s `Responder`.</span>
-    <span class="kw">fn</span> <span class="ident">impl_rocket_responder</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">impl_rocket_responder</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">lifetime</span> <span class="op">=</span> <span class="ident">syn::Lifetime::new</span>(<span class="string">&quot;&#39;askama&quot;</span>, <span class="ident">Span::call_site</span>());
         <span class="kw">let</span> <span class="ident">param</span> <span class="op">=</span> <span class="ident">syn::GenericParam::Lifetime</span>(<span class="ident">syn::LifetimeDef::new</span>(<span class="ident">lifetime</span>));
         <span class="self">self</span>.<span class="ident">write_header</span>(
@@ -1937,8 +1937,8 @@
         )<span class="question-mark">?</span>;
 
         <span class="kw">let</span> <span class="ident">ext</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">input</span>.<span class="ident">path</span>.<span class="ident">extension</span>() {
-            <span class="prelude-val">Some</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">s</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>(),
-            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;txt&quot;</span>,
+            <span class="prelude-val">Some</span>(<span class="ident">s</span>) =&gt; <span class="ident">s</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>(),
+            <span class="prelude-val">None</span> =&gt; <span class="string">&quot;txt&quot;</span>,
         };
         <span class="ident">buf</span>.<span class="ident">writeln</span>(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;::askama_rocket::respond(&amp;self, {:?})&quot;</span>, <span class="ident">ext</span>))<span class="question-mark">?</span>;
 
@@ -1947,7 +1947,7 @@
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn</span> <span class="ident">impl_tide_integrations</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">impl_tide_integrations</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">ext</span> <span class="op">=</span> <span class="self">self</span>
             .<span class="ident">input</span>
             .<span class="ident">path</span>
@@ -1973,7 +1973,7 @@
         <span class="ident">buf</span>.<span class="ident">writeln</span>(<span class="string">&quot;}\n}&quot;</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">impl_warp_reply</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">impl_warp_reply</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">write_header</span>(<span class="ident">buf</span>, <span class="string">&quot;::askama_warp::warp::reply::Reply&quot;</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
         <span class="ident">buf</span>.<span class="ident">writeln</span>(<span class="string">&quot;fn into_response(self) -&gt; ::askama_warp::warp::reply::Response {&quot;</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">ext</span> <span class="op">=</span> <span class="self">self</span>
@@ -1990,11 +1990,11 @@
     <span class="comment">// Writes header for the `impl` for `TraitFromPathName` or `Template`</span>
     <span class="comment">// for the given context struct.</span>
     <span class="kw">fn</span> <span class="ident">write_header</span>(
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>,
+        <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+        <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>,
         <span class="ident">target</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
         <span class="ident">params</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">syn::GenericParam</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">generics</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">input</span>.<span class="ident">ast</span>.<span class="ident">generics</span>.<span class="ident">clone</span>();
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">params</span>) <span class="op">=</span> <span class="ident">params</span> {
             <span class="kw">for</span> <span class="ident">param</span> <span class="kw">in</span> <span class="ident">params</span> {
@@ -2018,67 +2018,67 @@
     <span class="comment">/* Helper methods for handling node types */</span>
 
     <span class="kw">fn</span> <span class="ident">handle</span>(
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+        <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
         <span class="ident">ctx</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Context</span>,
         <span class="ident">nodes</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">Node</span>],
-        <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>,
+        <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>,
         <span class="ident">level</span>: <span class="ident">AstLevel</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">size_hint</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">for</span> <span class="ident">n</span> <span class="kw">in</span> <span class="ident">nodes</span> {
             <span class="kw">match</span> <span class="kw-2">*</span><span class="ident">n</span> {
-                <span class="ident">Node::Lit</span>(<span class="ident">lws</span>, <span class="ident">val</span>, <span class="ident">rws</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Node::Lit</span>(<span class="ident">lws</span>, <span class="ident">val</span>, <span class="ident">rws</span>) =&gt; {
                     <span class="self">self</span>.<span class="ident">visit_lit</span>(<span class="ident">lws</span>, <span class="ident">val</span>, <span class="ident">rws</span>);
                 }
-                <span class="ident">Node::Comment</span>(<span class="ident">ws</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Node::Comment</span>(<span class="ident">ws</span>) =&gt; {
                     <span class="self">self</span>.<span class="ident">write_comment</span>(<span class="ident">ws</span>);
                 }
-                <span class="ident">Node::Expr</span>(<span class="ident">ws</span>, <span class="kw-2">ref</span> <span class="ident">val</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Node::Expr</span>(<span class="ident">ws</span>, <span class="kw-2">ref</span> <span class="ident">val</span>) =&gt; {
                     <span class="self">self</span>.<span class="ident">write_expr</span>(<span class="ident">ws</span>, <span class="ident">val</span>);
                 }
-                <span class="ident">Node::LetDecl</span>(<span class="ident">ws</span>, <span class="kw-2">ref</span> <span class="ident">var</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Node::LetDecl</span>(<span class="ident">ws</span>, <span class="kw-2">ref</span> <span class="ident">var</span>) =&gt; {
                     <span class="self">self</span>.<span class="ident">write_let_decl</span>(<span class="ident">buf</span>, <span class="ident">ws</span>, <span class="ident">var</span>)<span class="question-mark">?</span>;
                 }
-                <span class="ident">Node::Let</span>(<span class="ident">ws</span>, <span class="kw-2">ref</span> <span class="ident">var</span>, <span class="kw-2">ref</span> <span class="ident">val</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Node::Let</span>(<span class="ident">ws</span>, <span class="kw-2">ref</span> <span class="ident">var</span>, <span class="kw-2">ref</span> <span class="ident">val</span>) =&gt; {
                     <span class="self">self</span>.<span class="ident">write_let</span>(<span class="ident">buf</span>, <span class="ident">ws</span>, <span class="ident">var</span>, <span class="ident">val</span>)<span class="question-mark">?</span>;
                 }
-                <span class="ident">Node::Cond</span>(<span class="kw-2">ref</span> <span class="ident">conds</span>, <span class="ident">ws</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Node::Cond</span>(<span class="kw-2">ref</span> <span class="ident">conds</span>, <span class="ident">ws</span>) =&gt; {
                     <span class="self">self</span>.<span class="ident">write_cond</span>(<span class="ident">ctx</span>, <span class="ident">buf</span>, <span class="ident">conds</span>, <span class="ident">ws</span>)<span class="question-mark">?</span>;
                 }
-                <span class="ident">Node::Match</span>(<span class="ident">ws1</span>, <span class="kw-2">ref</span> <span class="ident">expr</span>, <span class="ident">inter</span>, <span class="kw-2">ref</span> <span class="ident">arms</span>, <span class="ident">ws2</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Node::Match</span>(<span class="ident">ws1</span>, <span class="kw-2">ref</span> <span class="ident">expr</span>, <span class="ident">inter</span>, <span class="kw-2">ref</span> <span class="ident">arms</span>, <span class="ident">ws2</span>) =&gt; {
                     <span class="self">self</span>.<span class="ident">write_match</span>(<span class="ident">ctx</span>, <span class="ident">buf</span>, <span class="ident">ws1</span>, <span class="ident">expr</span>, <span class="ident">inter</span>, <span class="ident">arms</span>, <span class="ident">ws2</span>)<span class="question-mark">?</span>;
                 }
-                <span class="ident">Node::Loop</span>(<span class="ident">ws1</span>, <span class="kw-2">ref</span> <span class="ident">var</span>, <span class="kw-2">ref</span> <span class="ident">iter</span>, <span class="kw-2">ref</span> <span class="ident">body</span>, <span class="ident">ws2</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Node::Loop</span>(<span class="ident">ws1</span>, <span class="kw-2">ref</span> <span class="ident">var</span>, <span class="kw-2">ref</span> <span class="ident">iter</span>, <span class="kw-2">ref</span> <span class="ident">body</span>, <span class="ident">ws2</span>) =&gt; {
                     <span class="self">self</span>.<span class="ident">write_loop</span>(<span class="ident">ctx</span>, <span class="ident">buf</span>, <span class="ident">ws1</span>, <span class="ident">var</span>, <span class="ident">iter</span>, <span class="ident">body</span>, <span class="ident">ws2</span>)<span class="question-mark">?</span>;
                 }
-                <span class="ident">Node::BlockDef</span>(<span class="ident">ws1</span>, <span class="ident">name</span>, <span class="kw">_</span>, <span class="ident">ws2</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Node::BlockDef</span>(<span class="ident">ws1</span>, <span class="ident">name</span>, <span class="kw">_</span>, <span class="ident">ws2</span>) =&gt; {
                     <span class="self">self</span>.<span class="ident">write_block</span>(<span class="ident">buf</span>, <span class="prelude-val">Some</span>(<span class="ident">name</span>), <span class="ident">WS</span>(<span class="ident">ws1</span>.<span class="number">0</span>, <span class="ident">ws2</span>.<span class="number">1</span>))<span class="question-mark">?</span>;
                 }
-                <span class="ident">Node::Include</span>(<span class="ident">ws</span>, <span class="ident">path</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Node::Include</span>(<span class="ident">ws</span>, <span class="ident">path</span>) =&gt; {
                     <span class="ident">size_hint</span> <span class="op">+</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">handle_include</span>(<span class="ident">ctx</span>, <span class="ident">buf</span>, <span class="ident">ws</span>, <span class="ident">path</span>)<span class="question-mark">?</span>;
                 }
-                <span class="ident">Node::Call</span>(<span class="ident">ws</span>, <span class="ident">scope</span>, <span class="ident">name</span>, <span class="kw-2">ref</span> <span class="ident">args</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Node::Call</span>(<span class="ident">ws</span>, <span class="ident">scope</span>, <span class="ident">name</span>, <span class="kw-2">ref</span> <span class="ident">args</span>) =&gt; {
                     <span class="ident">size_hint</span> <span class="op">+</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">write_call</span>(<span class="ident">ctx</span>, <span class="ident">buf</span>, <span class="ident">ws</span>, <span class="ident">scope</span>, <span class="ident">name</span>, <span class="ident">args</span>)<span class="question-mark">?</span>;
                 }
-                <span class="ident">Node::Macro</span>(<span class="kw">_</span>, <span class="kw-2">ref</span> <span class="ident">m</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Node::Macro</span>(<span class="kw">_</span>, <span class="kw-2">ref</span> <span class="ident">m</span>) =&gt; {
                     <span class="kw">if</span> <span class="ident">level</span> <span class="op">!</span><span class="op">=</span> <span class="ident">AstLevel::Top</span> {
                         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="string">&quot;macro blocks only allowed at the top level&quot;</span>.<span class="ident">into</span>());
                     }
                     <span class="self">self</span>.<span class="ident">flush_ws</span>(<span class="ident">m</span>.<span class="ident">ws1</span>);
                     <span class="self">self</span>.<span class="ident">prepare_ws</span>(<span class="ident">m</span>.<span class="ident">ws2</span>);
                 }
-                <span class="ident">Node::Raw</span>(<span class="ident">ws1</span>, <span class="ident">contents</span>, <span class="ident">ws2</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Node::Raw</span>(<span class="ident">ws1</span>, <span class="ident">contents</span>, <span class="ident">ws2</span>) =&gt; {
                     <span class="self">self</span>.<span class="ident">handle_ws</span>(<span class="ident">ws1</span>);
                     <span class="self">self</span>.<span class="ident">buf_writable</span>.<span class="ident">push</span>(<span class="ident">Writable::Lit</span>(<span class="ident">contents</span>));
                     <span class="self">self</span>.<span class="ident">handle_ws</span>(<span class="ident">ws2</span>);
                 }
-                <span class="ident">Node::Import</span>(<span class="ident">ws</span>, <span class="kw">_</span>, <span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Node::Import</span>(<span class="ident">ws</span>, <span class="kw">_</span>, <span class="kw">_</span>) =&gt; {
                     <span class="kw">if</span> <span class="ident">level</span> <span class="op">!</span><span class="op">=</span> <span class="ident">AstLevel::Top</span> {
                         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="string">&quot;import blocks only allowed at the top level&quot;</span>.<span class="ident">into</span>());
                     }
                     <span class="self">self</span>.<span class="ident">handle_ws</span>(<span class="ident">ws</span>);
                 }
-                <span class="ident">Node::Extends</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Node::Extends</span>(<span class="kw">_</span>) =&gt; {
                     <span class="kw">if</span> <span class="ident">level</span> <span class="op">!</span><span class="op">=</span> <span class="ident">AstLevel::Top</span> {
                         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="string">&quot;extend blocks only allowed at the top level&quot;</span>.<span class="ident">into</span>());
                     }
@@ -2088,19 +2088,19 @@
             }
         }
 
-        <span class="kw">if</span> <span class="ident">AstLevel::Top</span> <span class="op">=</span><span class="op">=</span> <span class="ident">level</span> {
+        <span class="kw">if</span> <span class="ident">AstLevel::Top</span> <span class="op">==</span> <span class="ident">level</span> {
             <span class="ident">size_hint</span> <span class="op">+</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">write_buf_writable</span>(<span class="ident">buf</span>)<span class="question-mark">?</span>;
         }
         <span class="prelude-val">Ok</span>(<span class="ident">size_hint</span>)
     }
 
     <span class="kw">fn</span> <span class="ident">write_cond</span>(
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+        <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
         <span class="ident">ctx</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Context</span>,
-        <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>,
+        <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>,
         <span class="ident">conds</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">Cond</span>],
         <span class="ident">ws</span>: <span class="ident">WS</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">flushed</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">arm_sizes</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">has_else</span> <span class="op">=</span> <span class="bool-val">false</span>;
@@ -2112,8 +2112,8 @@
 
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">arm_size</span> <span class="op">=</span> <span class="number">0</span>;
             <span class="kw">match</span> <span class="kw-2">*</span><span class="ident">cond</span> {
-                <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                    <span class="kw">if</span> <span class="ident">i</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+                <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">expr</span>) =&gt; {
+                    <span class="kw">if</span> <span class="ident">i</span> <span class="op">==</span> <span class="number">0</span> {
                         <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;if &quot;</span>);
                     } <span class="kw">else</span> {
                         <span class="ident">buf</span>.<span class="ident">dedent</span>()<span class="question-mark">?</span>;
@@ -2122,7 +2122,7 @@
                     <span class="kw">let</span> <span class="ident">expr_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">visit_expr_root</span>(<span class="ident">expr</span>)<span class="question-mark">?</span>;
                     <span class="ident">buf</span>.<span class="ident">write</span>(<span class="kw-2">&amp;</span><span class="ident">expr_code</span>);
                 }
-                <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="prelude-val">None</span> =&gt; {
                     <span class="ident">buf</span>.<span class="ident">dedent</span>()<span class="question-mark">?</span>;
                     <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;} else&quot;</span>);
                     <span class="ident">has_else</span> <span class="op">=</span> <span class="bool-val">true</span>;
@@ -2144,20 +2144,20 @@
         <span class="kw">if</span> <span class="op">!</span><span class="ident">has_else</span> {
             <span class="ident">arm_sizes</span>.<span class="ident">push</span>(<span class="number">0</span>);
         }
-        <span class="prelude-val">Ok</span>(<span class="ident">flushed</span> <span class="op">+</span> <span class="ident">median</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">arm_sizes</span>))
+        <span class="prelude-val">Ok</span>(<span class="ident">flushed</span> <span class="op">+</span> <span class="ident">median</span>(<span class="kw-2">&amp;mut</span> <span class="ident">arm_sizes</span>))
     }
 
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::too_many_arguments</span>)]</span>
     <span class="kw">fn</span> <span class="ident">write_match</span>(
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+        <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
         <span class="ident">ctx</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Context</span>,
-        <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>,
+        <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>,
         <span class="ident">ws1</span>: <span class="ident">WS</span>,
         <span class="ident">expr</span>: <span class="kw-2">&amp;</span><span class="ident">Expr</span>,
         <span class="ident">inter</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span>,
         <span class="ident">arms</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">When</span>],
         <span class="ident">ws2</span>: <span class="ident">WS</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">flush_ws</span>(<span class="ident">ws1</span>);
         <span class="kw">let</span> <span class="ident">flushed</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">write_buf_writable</span>(<span class="ident">buf</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">arm_sizes</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
@@ -2173,14 +2173,14 @@
             <span class="kw">let</span> <span class="kw-2">&amp;</span>(<span class="ident">ws</span>, <span class="kw-2">ref</span> <span class="ident">variant</span>, <span class="kw-2">ref</span> <span class="ident">params</span>, <span class="kw-2">ref</span> <span class="ident">body</span>) <span class="op">=</span> <span class="ident">arm</span>;
             <span class="self">self</span>.<span class="ident">locals</span>.<span class="ident">push</span>();
             <span class="kw">match</span> <span class="kw-2">*</span><span class="ident">variant</span> {
-                <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">param</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">param</span>) =&gt; {
                     <span class="self">self</span>.<span class="ident">visit_match_variant</span>(<span class="ident">buf</span>, <span class="ident">param</span>);
                 }
-                <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;_&quot;</span>),
+                <span class="prelude-val">None</span> =&gt; <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;_&quot;</span>),
             };
 
             <span class="kw">match</span> <span class="ident">params</span> {
-                <span class="ident">MatchParameters::Simple</span>(<span class="ident">params</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">MatchParameters::Simple</span>(<span class="ident">params</span>) =&gt; {
                     <span class="kw">if</span> <span class="op">!</span><span class="ident">params</span>.<span class="ident">is_empty</span>() {
                         <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;(&quot;</span>);
                         <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">param</span>) <span class="kw">in</span> <span class="ident">params</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
@@ -2195,7 +2195,7 @@
                         <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;)&quot;</span>);
                     }
                 }
-                <span class="ident">MatchParameters::Named</span>(<span class="ident">params</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">MatchParameters::Named</span>(<span class="ident">params</span>) =&gt; {
                     <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;{&quot;</span>);
                     <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">param</span>) <span class="kw">in</span> <span class="ident">params</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
                         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">MatchParameter::Name</span>(<span class="ident">p</span>)) <span class="op">=</span> <span class="ident">param</span>.<span class="number">1</span> {
@@ -2226,20 +2226,20 @@
 
         <span class="ident">buf</span>.<span class="ident">writeln</span>(<span class="string">&quot;}&quot;</span>)<span class="question-mark">?</span>;
         <span class="self">self</span>.<span class="ident">handle_ws</span>(<span class="ident">ws2</span>);
-        <span class="prelude-val">Ok</span>(<span class="ident">flushed</span> <span class="op">+</span> <span class="ident">median</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">arm_sizes</span>))
+        <span class="prelude-val">Ok</span>(<span class="ident">flushed</span> <span class="op">+</span> <span class="ident">median</span>(<span class="kw-2">&amp;mut</span> <span class="ident">arm_sizes</span>))
     }
 
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::too_many_arguments</span>)]</span>
     <span class="kw">fn</span> <span class="ident">write_loop</span>(
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+        <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
         <span class="ident">ctx</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Context</span>,
-        <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>,
+        <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>,
         <span class="ident">ws1</span>: <span class="ident">WS</span>,
         <span class="ident">var</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Target</span>,
         <span class="ident">iter</span>: <span class="kw-2">&amp;</span><span class="ident">Expr</span>,
         <span class="ident">body</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">Node</span>],
         <span class="ident">ws2</span>: <span class="ident">WS</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">handle_ws</span>(<span class="ident">ws1</span>);
         <span class="self">self</span>.<span class="ident">locals</span>.<span class="ident">push</span>();
 
@@ -2249,11 +2249,11 @@
         <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;for (&quot;</span>);
         <span class="self">self</span>.<span class="ident">visit_target</span>(<span class="ident">buf</span>, <span class="ident">var</span>);
         <span class="kw">match</span> <span class="ident">iter</span> {
-            <span class="ident">Expr::Range</span>(<span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">buf</span>.<span class="ident">writeln</span>(<span class="kw-2">&amp;</span><span class="macro">format!</span>(
+            <span class="ident">Expr::Range</span>(<span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>) =&gt; <span class="ident">buf</span>.<span class="ident">writeln</span>(<span class="kw-2">&amp;</span><span class="macro">format!</span>(
                 <span class="string">&quot;, _loop_item) in ::askama::helpers::TemplateLoop::new({}) {{&quot;</span>,
                 <span class="ident">expr_code</span>
             )),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">buf</span>.<span class="ident">writeln</span>(<span class="kw-2">&amp;</span><span class="macro">format!</span>(
+            <span class="kw">_</span> =&gt; <span class="ident">buf</span>.<span class="ident">writeln</span>(<span class="kw-2">&amp;</span><span class="macro">format!</span>(
                 <span class="string">&quot;, _loop_item) in ::askama::helpers::TemplateLoop::new((&amp;{}).into_iter()) {{&quot;</span>,
                 <span class="ident">expr_code</span>
             )),
@@ -2269,15 +2269,15 @@
     }
 
     <span class="kw">fn</span> <span class="ident">write_call</span>(
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+        <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
         <span class="ident">ctx</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Context</span>,
-        <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>,
+        <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>,
         <span class="ident">ws</span>: <span class="ident">WS</span>,
         <span class="ident">scope</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>,
         <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
         <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">Expr</span>],
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;super&quot;</span> {
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="ident">name</span> <span class="op">==</span> <span class="string">&quot;super&quot;</span> {
             <span class="kw">return</span> <span class="self">self</span>.<span class="ident">write_block</span>(<span class="ident">buf</span>, <span class="prelude-val">None</span>, <span class="ident">ws</span>);
         }
 
@@ -2337,12 +2337,12 @@
     }
 
     <span class="kw">fn</span> <span class="ident">handle_include</span>(
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+        <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
         <span class="ident">ctx</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Context</span>,
-        <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>,
+        <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>,
         <span class="ident">ws</span>: <span class="ident">WS</span>,
         <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">flush_ws</span>(<span class="ident">ws</span>);
         <span class="self">self</span>.<span class="ident">write_buf_writable</span>(<span class="ident">buf</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="self">self</span>
@@ -2376,20 +2376,20 @@
     }
 
     <span class="kw">fn</span> <span class="ident">write_let_decl</span>(
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>,
+        <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+        <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>,
         <span class="ident">ws</span>: <span class="ident">WS</span>,
         <span class="ident">var</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Target</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">handle_ws</span>(<span class="ident">ws</span>);
         <span class="self">self</span>.<span class="ident">write_buf_writable</span>(<span class="ident">buf</span>)<span class="question-mark">?</span>;
         <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;let &quot;</span>);
         <span class="kw">match</span> <span class="kw-2">*</span><span class="ident">var</span> {
-            <span class="ident">Target::Name</span>(<span class="ident">name</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">Target::Name</span>(<span class="ident">name</span>) =&gt; {
                 <span class="self">self</span>.<span class="ident">locals</span>.<span class="ident">insert</span>(<span class="ident">name</span>);
                 <span class="ident">buf</span>.<span class="ident">write</span>(<span class="ident">name</span>);
             }
-            <span class="ident">Target::Tuple</span>(<span class="kw-2">ref</span> <span class="ident">targets</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">Target::Tuple</span>(<span class="kw-2">ref</span> <span class="ident">targets</span>) =&gt; {
                 <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;(&quot;</span>);
                 <span class="kw">for</span> <span class="ident">name</span> <span class="kw">in</span> <span class="ident">targets</span> {
                     <span class="self">self</span>.<span class="ident">locals</span>.<span class="ident">insert</span>(<span class="ident">name</span>);
@@ -2403,25 +2403,25 @@
     }
 
     <span class="kw">fn</span> <span class="ident">write_let</span>(
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>,
+        <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+        <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>,
         <span class="ident">ws</span>: <span class="ident">WS</span>,
         <span class="ident">var</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Target</span>,
         <span class="ident">val</span>: <span class="kw-2">&amp;</span><span class="ident">Expr</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">handle_ws</span>(<span class="ident">ws</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">expr_buf</span> <span class="op">=</span> <span class="ident">Buffer::new</span>(<span class="number">0</span>);
-        <span class="self">self</span>.<span class="ident">visit_expr</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">expr_buf</span>, <span class="ident">val</span>)<span class="question-mark">?</span>;
+        <span class="self">self</span>.<span class="ident">visit_expr</span>(<span class="kw-2">&amp;mut</span> <span class="ident">expr_buf</span>, <span class="ident">val</span>)<span class="question-mark">?</span>;
 
         <span class="kw">match</span> <span class="kw-2">*</span><span class="ident">var</span> {
-            <span class="ident">Target::Name</span>(<span class="ident">name</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">Target::Name</span>(<span class="ident">name</span>) =&gt; {
                 <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">locals</span>.<span class="ident">contains</span>(<span class="ident">name</span>) {
                     <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;let &quot;</span>);
                     <span class="self">self</span>.<span class="ident">locals</span>.<span class="ident">insert</span>(<span class="ident">name</span>);
                 }
                 <span class="ident">buf</span>.<span class="ident">write</span>(<span class="ident">name</span>);
             }
-            <span class="ident">Target::Tuple</span>(<span class="kw-2">ref</span> <span class="ident">targets</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">Target::Tuple</span>(<span class="kw-2">ref</span> <span class="ident">targets</span>) =&gt; {
                 <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;let (&quot;</span>);
                 <span class="kw">for</span> <span class="ident">name</span> <span class="kw">in</span> <span class="ident">targets</span> {
                     <span class="self">self</span>.<span class="ident">locals</span>.<span class="ident">insert</span>(<span class="ident">name</span>);
@@ -2438,28 +2438,28 @@
     <span class="comment">// the first block for that name from the ancestry chain. If name is `None`, this</span>
     <span class="comment">// is from a `super()` call, and we can get the name from `self.super_block`.</span>
     <span class="kw">fn</span> <span class="ident">write_block</span>(
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>,
+        <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+        <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>,
         <span class="ident">name</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span>,
         <span class="ident">outer</span>: <span class="ident">WS</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="comment">// Flush preceding whitespace according to the outer WS spec</span>
         <span class="self">self</span>.<span class="ident">flush_ws</span>(<span class="ident">outer</span>);
 
         <span class="kw">let</span> <span class="ident">prev_block</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">super_block</span>;
         <span class="kw">let</span> <span class="ident">cur</span> <span class="op">=</span> <span class="kw">match</span> (<span class="ident">name</span>, <span class="ident">prev_block</span>) {
             <span class="comment">// The top-level context contains a block definition</span>
-            (<span class="prelude-val">Some</span>(<span class="ident">cur_name</span>), <span class="prelude-val">None</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">cur_name</span>, <span class="number">0</span>),
+            (<span class="prelude-val">Some</span>(<span class="ident">cur_name</span>), <span class="prelude-val">None</span>) =&gt; (<span class="ident">cur_name</span>, <span class="number">0</span>),
             <span class="comment">// A block definition contains a block definition of the same name</span>
-            (<span class="prelude-val">Some</span>(<span class="ident">cur_name</span>), <span class="prelude-val">Some</span>((<span class="ident">prev_name</span>, <span class="kw">_</span>))) <span class="kw">if</span> <span class="ident">cur_name</span> <span class="op">=</span><span class="op">=</span> <span class="ident">prev_name</span> <span class="op">=</span><span class="op">&gt;</span> {
+            (<span class="prelude-val">Some</span>(<span class="ident">cur_name</span>), <span class="prelude-val">Some</span>((<span class="ident">prev_name</span>, <span class="kw">_</span>))) <span class="kw">if</span> <span class="ident">cur_name</span> <span class="op">==</span> <span class="ident">prev_name</span> =&gt; {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;cannot define recursive blocks ({})&quot;</span>, <span class="ident">cur_name</span>).<span class="ident">into</span>());
             }
             <span class="comment">// A block definition contains a definition of another block</span>
-            (<span class="prelude-val">Some</span>(<span class="ident">cur_name</span>), <span class="prelude-val">Some</span>((<span class="kw">_</span>, <span class="kw">_</span>))) <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">cur_name</span>, <span class="number">0</span>),
+            (<span class="prelude-val">Some</span>(<span class="ident">cur_name</span>), <span class="prelude-val">Some</span>((<span class="kw">_</span>, <span class="kw">_</span>))) =&gt; (<span class="ident">cur_name</span>, <span class="number">0</span>),
             <span class="comment">// `super()` was called inside a block</span>
-            (<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>((<span class="ident">prev_name</span>, <span class="ident">gen</span>))) <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">prev_name</span>, <span class="ident">gen</span> <span class="op">+</span> <span class="number">1</span>),
+            (<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>((<span class="ident">prev_name</span>, <span class="ident">gen</span>))) =&gt; (<span class="ident">prev_name</span>, <span class="ident">gen</span> <span class="op">+</span> <span class="number">1</span>),
             <span class="comment">// `super()` is called from outside a block</span>
-            (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="string">&quot;cannot call &#39;super()&#39; outside block&quot;</span>.<span class="ident">into</span>()),
+            (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>) =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="string">&quot;cannot call &#39;super()&#39; outside block&quot;</span>.<span class="ident">into</span>()),
         };
         <span class="self">self</span>.<span class="ident">super_block</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">cur</span>);
 
@@ -2470,8 +2470,8 @@
             .<span class="ident">ok_or</span>(<span class="ident">CompileError::Static</span>(<span class="string">&quot;no block ancestors available&quot;</span>))<span class="question-mark">?</span>;
         <span class="kw">let</span> (<span class="ident">ctx</span>, <span class="ident">def</span>) <span class="op">=</span> <span class="ident">heritage</span>.<span class="ident">blocks</span>[<span class="ident">cur</span>.<span class="number">0</span>].<span class="ident">get</span>(<span class="ident">cur</span>.<span class="number">1</span>).<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> {
             <span class="ident">CompileError::from</span>(<span class="kw">match</span> <span class="ident">name</span> {
-                <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">format!</span>(<span class="string">&quot;no super() block found for block &#39;{}&#39;&quot;</span>, <span class="ident">cur</span>.<span class="number">0</span>),
-                <span class="prelude-val">Some</span>(<span class="ident">name</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">format!</span>(<span class="string">&quot;no block found for name &#39;{}&#39;&quot;</span>, <span class="ident">name</span>),
+                <span class="prelude-val">None</span> =&gt; <span class="macro">format!</span>(<span class="string">&quot;no super() block found for block &#39;{}&#39;&quot;</span>, <span class="ident">cur</span>.<span class="number">0</span>),
+                <span class="prelude-val">Some</span>(<span class="ident">name</span>) =&gt; <span class="macro">format!</span>(<span class="string">&quot;no block found for name &#39;{}&#39;&quot;</span>, <span class="ident">name</span>),
             })
         })<span class="question-mark">?</span>;
 
@@ -2502,13 +2502,13 @@
         <span class="prelude-val">Ok</span>(<span class="ident">size_hint</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">write_expr</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ws</span>: <span class="ident">WS</span>, <span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Expr</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>) {
+    <span class="kw">fn</span> <span class="ident">write_expr</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">ws</span>: <span class="ident">WS</span>, <span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Expr</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>) {
         <span class="self">self</span>.<span class="ident">handle_ws</span>(<span class="ident">ws</span>);
         <span class="self">self</span>.<span class="ident">buf_writable</span>.<span class="ident">push</span>(<span class="ident">Writable::Expr</span>(<span class="ident">s</span>));
     }
 
     <span class="comment">// Write expression buffer and empty</span>
-    <span class="kw">fn</span> <span class="ident">write_buf_writable</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">write_buf_writable</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">buf_writable</span>.<span class="ident">is_empty</span>() {
             <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="number">0</span>);
         }
@@ -2519,7 +2519,7 @@
             .<span class="ident">all</span>(<span class="op">|</span><span class="ident">w</span><span class="op">|</span> <span class="macro">matches!</span>(<span class="ident">w</span>, <span class="ident">Writable::Lit</span>(<span class="kw">_</span>)))
         {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf_lit</span> <span class="op">=</span> <span class="ident">Buffer::new</span>(<span class="number">0</span>);
-            <span class="kw">for</span> <span class="ident">s</span> <span class="kw">in</span> <span class="ident">mem::replace</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">buf_writable</span>, <span class="macro">vec!</span>[]) {
+            <span class="kw">for</span> <span class="ident">s</span> <span class="kw">in</span> <span class="ident">mem::replace</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">buf_writable</span>, <span class="macro">vec!</span>[]) {
                 <span class="kw">if</span> <span class="kw">let</span> <span class="ident">Writable::Lit</span>(<span class="ident">s</span>) <span class="op">=</span> <span class="ident">s</span> {
                     <span class="ident">buf_lit</span>.<span class="ident">write</span>(<span class="ident">s</span>);
                 };
@@ -2532,19 +2532,19 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf_format</span> <span class="op">=</span> <span class="ident">Buffer::new</span>(<span class="number">0</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf_expr</span> <span class="op">=</span> <span class="ident">Buffer::new</span>(<span class="ident">buf</span>.<span class="ident">indent</span> <span class="op">+</span> <span class="number">1</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">expr_cache</span> <span class="op">=</span> <span class="ident">HashMap::with_capacity</span>(<span class="self">self</span>.<span class="ident">buf_writable</span>.<span class="ident">len</span>());
-        <span class="kw">for</span> <span class="ident">s</span> <span class="kw">in</span> <span class="ident">mem::replace</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">buf_writable</span>, <span class="macro">vec!</span>[]) {
+        <span class="kw">for</span> <span class="ident">s</span> <span class="kw">in</span> <span class="ident">mem::replace</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">buf_writable</span>, <span class="macro">vec!</span>[]) {
             <span class="kw">match</span> <span class="ident">s</span> {
-                <span class="ident">Writable::Lit</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Writable::Lit</span>(<span class="ident">s</span>) =&gt; {
                     <span class="ident">buf_format</span>.<span class="ident">write</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>.<span class="ident">replace</span>(<span class="string">&quot;{&quot;</span>, <span class="string">&quot;{{&quot;</span>).<span class="ident">replace</span>(<span class="string">&quot;}&quot;</span>, <span class="string">&quot;}}&quot;</span>));
                     <span class="ident">size_hint</span> <span class="op">+</span><span class="op">=</span> <span class="ident">s</span>.<span class="ident">len</span>();
                 }
-                <span class="ident">Writable::Expr</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                    <span class="kw">use</span> <span class="self">self</span><span class="ident">::DisplayWrap</span>::<span class="kw-2">*</span>;
+                <span class="ident">Writable::Expr</span>(<span class="ident">s</span>) =&gt; {
+                    <span class="kw">use</span> <span class="ident"><span class="self">self</span>::DisplayWrap</span>::<span class="kw-2">*</span>;
                     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">expr_buf</span> <span class="op">=</span> <span class="ident">Buffer::new</span>(<span class="number">0</span>);
-                    <span class="kw">let</span> <span class="ident">wrapped</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">visit_expr</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">expr_buf</span>, <span class="ident">s</span>)<span class="question-mark">?</span>;
+                    <span class="kw">let</span> <span class="ident">wrapped</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">visit_expr</span>(<span class="kw-2">&amp;mut</span> <span class="ident">expr_buf</span>, <span class="ident">s</span>)<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">expression</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">wrapped</span> {
-                        <span class="ident">Wrapped</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">expr_buf</span>.<span class="ident">buf</span>,
-                        <span class="ident">Unwrapped</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">format!</span>(
+                        <span class="ident">Wrapped</span> =&gt; <span class="ident">expr_buf</span>.<span class="ident">buf</span>,
+                        <span class="ident">Unwrapped</span> =&gt; <span class="macro">format!</span>(
                             <span class="string">&quot;::askama::MarkupDisplay::new_unsafe(&amp;{}, {})&quot;</span>,
                             <span class="ident">expr_buf</span>.<span class="ident">buf</span>, <span class="self">self</span>.<span class="ident">input</span>.<span class="ident">escaper</span>
                         ),
@@ -2552,8 +2552,8 @@
 
                     <span class="kw">use</span> <span class="ident">std::collections::hash_map::Entry</span>;
                     <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">expr_cache</span>.<span class="ident">entry</span>(<span class="ident">expression</span>.<span class="ident">clone</span>()) {
-                        <span class="ident">Entry::Occupied</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="ident">e</span>.<span class="ident">get</span>(),
-                        <span class="ident">Entry::Vacant</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                        <span class="ident">Entry::Occupied</span>(<span class="ident">e</span>) =&gt; <span class="kw-2">*</span><span class="ident">e</span>.<span class="ident">get</span>(),
+                        <span class="ident">Entry::Vacant</span>(<span class="ident">e</span>) =&gt; {
                             <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">named</span>;
                             <span class="self">self</span>.<span class="ident">named</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
 
@@ -2583,7 +2583,7 @@
         <span class="prelude-val">Ok</span>(<span class="ident">size_hint</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">visit_lit</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">lws</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>, <span class="ident">val</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>, <span class="ident">rws</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>) {
+    <span class="kw">fn</span> <span class="ident">visit_lit</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">lws</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>, <span class="ident">val</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>, <span class="ident">rws</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>) {
         <span class="macro">assert!</span>(<span class="self">self</span>.<span class="ident">next_ws</span>.<span class="ident">is_none</span>());
         <span class="kw">if</span> <span class="op">!</span><span class="ident">lws</span>.<span class="ident">is_empty</span>() {
             <span class="kw">if</span> <span class="self">self</span>.<span class="ident">skip_ws</span> {
@@ -2605,44 +2605,44 @@
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">write_comment</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ws</span>: <span class="ident">WS</span>) {
+    <span class="kw">fn</span> <span class="ident">write_comment</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">ws</span>: <span class="ident">WS</span>) {
         <span class="self">self</span>.<span class="ident">handle_ws</span>(<span class="ident">ws</span>);
     }
 
     <span class="comment">/* Visitor methods for expression types */</span>
 
-    <span class="kw">fn</span> <span class="ident">visit_expr_root</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">expr</span>: <span class="kw-2">&amp;</span><span class="ident">Expr</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">visit_expr_root</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">expr</span>: <span class="kw-2">&amp;</span><span class="ident">Expr</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">Buffer::new</span>(<span class="number">0</span>);
-        <span class="self">self</span>.<span class="ident">visit_expr</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>, <span class="ident">expr</span>)<span class="question-mark">?</span>;
+        <span class="self">self</span>.<span class="ident">visit_expr</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buf</span>, <span class="ident">expr</span>)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="ident">buf</span>.<span class="ident">buf</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">visit_expr</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>, <span class="ident">expr</span>: <span class="kw-2">&amp;</span><span class="ident">Expr</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">DisplayWrap</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">visit_expr</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>, <span class="ident">expr</span>: <span class="kw-2">&amp;</span><span class="ident">Expr</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">DisplayWrap</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="prelude-val">Ok</span>(<span class="kw">match</span> <span class="kw-2">*</span><span class="ident">expr</span> {
-            <span class="ident">Expr::BoolLit</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">visit_bool_lit</span>(<span class="ident">buf</span>, <span class="ident">s</span>),
-            <span class="ident">Expr::NumLit</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">visit_num_lit</span>(<span class="ident">buf</span>, <span class="ident">s</span>),
-            <span class="ident">Expr::StrLit</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">visit_str_lit</span>(<span class="ident">buf</span>, <span class="ident">s</span>),
-            <span class="ident">Expr::CharLit</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">visit_char_lit</span>(<span class="ident">buf</span>, <span class="ident">s</span>),
-            <span class="ident">Expr::Var</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">visit_var</span>(<span class="ident">buf</span>, <span class="ident">s</span>),
-            <span class="ident">Expr::VarCall</span>(<span class="ident">var</span>, <span class="kw-2">ref</span> <span class="ident">args</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">visit_var_call</span>(<span class="ident">buf</span>, <span class="ident">var</span>, <span class="ident">args</span>)<span class="question-mark">?</span>,
-            <span class="ident">Expr::Path</span>(<span class="kw-2">ref</span> <span class="ident">path</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">visit_path</span>(<span class="ident">buf</span>, <span class="ident">path</span>),
-            <span class="ident">Expr::PathCall</span>(<span class="kw-2">ref</span> <span class="ident">path</span>, <span class="kw-2">ref</span> <span class="ident">args</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">visit_path_call</span>(<span class="ident">buf</span>, <span class="ident">path</span>, <span class="ident">args</span>)<span class="question-mark">?</span>,
-            <span class="ident">Expr::Array</span>(<span class="kw-2">ref</span> <span class="ident">elements</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">visit_array</span>(<span class="ident">buf</span>, <span class="ident">elements</span>)<span class="question-mark">?</span>,
-            <span class="ident">Expr::Attr</span>(<span class="kw-2">ref</span> <span class="ident">obj</span>, <span class="ident">name</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">visit_attr</span>(<span class="ident">buf</span>, <span class="ident">obj</span>, <span class="ident">name</span>)<span class="question-mark">?</span>,
-            <span class="ident">Expr::Index</span>(<span class="kw-2">ref</span> <span class="ident">obj</span>, <span class="kw-2">ref</span> <span class="ident">key</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">visit_index</span>(<span class="ident">buf</span>, <span class="ident">obj</span>, <span class="ident">key</span>)<span class="question-mark">?</span>,
-            <span class="ident">Expr::Filter</span>(<span class="ident">name</span>, <span class="kw-2">ref</span> <span class="ident">args</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">visit_filter</span>(<span class="ident">buf</span>, <span class="ident">name</span>, <span class="ident">args</span>)<span class="question-mark">?</span>,
-            <span class="ident">Expr::Unary</span>(<span class="ident">op</span>, <span class="kw-2">ref</span> <span class="ident">inner</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">visit_unary</span>(<span class="ident">buf</span>, <span class="ident">op</span>, <span class="ident">inner</span>)<span class="question-mark">?</span>,
-            <span class="ident">Expr::BinOp</span>(<span class="ident">op</span>, <span class="kw-2">ref</span> <span class="ident">left</span>, <span class="kw-2">ref</span> <span class="ident">right</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">visit_binop</span>(<span class="ident">buf</span>, <span class="ident">op</span>, <span class="ident">left</span>, <span class="ident">right</span>)<span class="question-mark">?</span>,
-            <span class="ident">Expr::Range</span>(<span class="ident">op</span>, <span class="kw-2">ref</span> <span class="ident">left</span>, <span class="kw-2">ref</span> <span class="ident">right</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">visit_range</span>(<span class="ident">buf</span>, <span class="ident">op</span>, <span class="ident">left</span>, <span class="ident">right</span>)<span class="question-mark">?</span>,
-            <span class="ident">Expr::Group</span>(<span class="kw-2">ref</span> <span class="ident">inner</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">visit_group</span>(<span class="ident">buf</span>, <span class="ident">inner</span>)<span class="question-mark">?</span>,
-            <span class="ident">Expr::MethodCall</span>(<span class="kw-2">ref</span> <span class="ident">obj</span>, <span class="ident">method</span>, <span class="kw-2">ref</span> <span class="ident">args</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">Expr::BoolLit</span>(<span class="ident">s</span>) =&gt; <span class="self">self</span>.<span class="ident">visit_bool_lit</span>(<span class="ident">buf</span>, <span class="ident">s</span>),
+            <span class="ident">Expr::NumLit</span>(<span class="ident">s</span>) =&gt; <span class="self">self</span>.<span class="ident">visit_num_lit</span>(<span class="ident">buf</span>, <span class="ident">s</span>),
+            <span class="ident">Expr::StrLit</span>(<span class="ident">s</span>) =&gt; <span class="self">self</span>.<span class="ident">visit_str_lit</span>(<span class="ident">buf</span>, <span class="ident">s</span>),
+            <span class="ident">Expr::CharLit</span>(<span class="ident">s</span>) =&gt; <span class="self">self</span>.<span class="ident">visit_char_lit</span>(<span class="ident">buf</span>, <span class="ident">s</span>),
+            <span class="ident">Expr::Var</span>(<span class="ident">s</span>) =&gt; <span class="self">self</span>.<span class="ident">visit_var</span>(<span class="ident">buf</span>, <span class="ident">s</span>),
+            <span class="ident">Expr::VarCall</span>(<span class="ident">var</span>, <span class="kw-2">ref</span> <span class="ident">args</span>) =&gt; <span class="self">self</span>.<span class="ident">visit_var_call</span>(<span class="ident">buf</span>, <span class="ident">var</span>, <span class="ident">args</span>)<span class="question-mark">?</span>,
+            <span class="ident">Expr::Path</span>(<span class="kw-2">ref</span> <span class="ident">path</span>) =&gt; <span class="self">self</span>.<span class="ident">visit_path</span>(<span class="ident">buf</span>, <span class="ident">path</span>),
+            <span class="ident">Expr::PathCall</span>(<span class="kw-2">ref</span> <span class="ident">path</span>, <span class="kw-2">ref</span> <span class="ident">args</span>) =&gt; <span class="self">self</span>.<span class="ident">visit_path_call</span>(<span class="ident">buf</span>, <span class="ident">path</span>, <span class="ident">args</span>)<span class="question-mark">?</span>,
+            <span class="ident">Expr::Array</span>(<span class="kw-2">ref</span> <span class="ident">elements</span>) =&gt; <span class="self">self</span>.<span class="ident">visit_array</span>(<span class="ident">buf</span>, <span class="ident">elements</span>)<span class="question-mark">?</span>,
+            <span class="ident">Expr::Attr</span>(<span class="kw-2">ref</span> <span class="ident">obj</span>, <span class="ident">name</span>) =&gt; <span class="self">self</span>.<span class="ident">visit_attr</span>(<span class="ident">buf</span>, <span class="ident">obj</span>, <span class="ident">name</span>)<span class="question-mark">?</span>,
+            <span class="ident">Expr::Index</span>(<span class="kw-2">ref</span> <span class="ident">obj</span>, <span class="kw-2">ref</span> <span class="ident">key</span>) =&gt; <span class="self">self</span>.<span class="ident">visit_index</span>(<span class="ident">buf</span>, <span class="ident">obj</span>, <span class="ident">key</span>)<span class="question-mark">?</span>,
+            <span class="ident">Expr::Filter</span>(<span class="ident">name</span>, <span class="kw-2">ref</span> <span class="ident">args</span>) =&gt; <span class="self">self</span>.<span class="ident">visit_filter</span>(<span class="ident">buf</span>, <span class="ident">name</span>, <span class="ident">args</span>)<span class="question-mark">?</span>,
+            <span class="ident">Expr::Unary</span>(<span class="ident">op</span>, <span class="kw-2">ref</span> <span class="ident">inner</span>) =&gt; <span class="self">self</span>.<span class="ident">visit_unary</span>(<span class="ident">buf</span>, <span class="ident">op</span>, <span class="ident">inner</span>)<span class="question-mark">?</span>,
+            <span class="ident">Expr::BinOp</span>(<span class="ident">op</span>, <span class="kw-2">ref</span> <span class="ident">left</span>, <span class="kw-2">ref</span> <span class="ident">right</span>) =&gt; <span class="self">self</span>.<span class="ident">visit_binop</span>(<span class="ident">buf</span>, <span class="ident">op</span>, <span class="ident">left</span>, <span class="ident">right</span>)<span class="question-mark">?</span>,
+            <span class="ident">Expr::Range</span>(<span class="ident">op</span>, <span class="kw-2">ref</span> <span class="ident">left</span>, <span class="kw-2">ref</span> <span class="ident">right</span>) =&gt; <span class="self">self</span>.<span class="ident">visit_range</span>(<span class="ident">buf</span>, <span class="ident">op</span>, <span class="ident">left</span>, <span class="ident">right</span>)<span class="question-mark">?</span>,
+            <span class="ident">Expr::Group</span>(<span class="kw-2">ref</span> <span class="ident">inner</span>) =&gt; <span class="self">self</span>.<span class="ident">visit_group</span>(<span class="ident">buf</span>, <span class="ident">inner</span>)<span class="question-mark">?</span>,
+            <span class="ident">Expr::MethodCall</span>(<span class="kw-2">ref</span> <span class="ident">obj</span>, <span class="ident">method</span>, <span class="kw-2">ref</span> <span class="ident">args</span>) =&gt; {
                 <span class="self">self</span>.<span class="ident">visit_method_call</span>(<span class="ident">buf</span>, <span class="ident">obj</span>, <span class="ident">method</span>, <span class="ident">args</span>)<span class="question-mark">?</span>
             }
-            <span class="ident">Expr::RustMacro</span>(<span class="ident">name</span>, <span class="ident">args</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">visit_rust_macro</span>(<span class="ident">buf</span>, <span class="ident">name</span>, <span class="ident">args</span>),
+            <span class="ident">Expr::RustMacro</span>(<span class="ident">name</span>, <span class="ident">args</span>) =&gt; <span class="self">self</span>.<span class="ident">visit_rust_macro</span>(<span class="ident">buf</span>, <span class="ident">name</span>, <span class="ident">args</span>),
         })
     }
 
-    <span class="kw">fn</span> <span class="ident">visit_rust_macro</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DisplayWrap</span> {
+    <span class="kw">fn</span> <span class="ident">visit_rust_macro</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="ident">DisplayWrap</span> {
         <span class="ident">buf</span>.<span class="ident">write</span>(<span class="ident">name</span>);
         <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;!(&quot;</span>);
         <span class="ident">buf</span>.<span class="ident">write</span>(<span class="ident">args</span>);
@@ -2651,20 +2651,20 @@
         <span class="ident">DisplayWrap::Unwrapped</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">visit_match_variant</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>, <span class="ident">param</span>: <span class="kw-2">&amp;</span><span class="ident">MatchVariant</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DisplayWrap</span> {
+    <span class="kw">fn</span> <span class="ident">visit_match_variant</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>, <span class="ident">param</span>: <span class="kw-2">&amp;</span><span class="ident">MatchVariant</span>) -&gt; <span class="ident">DisplayWrap</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">expr_buf</span> <span class="op">=</span> <span class="ident">Buffer::new</span>(<span class="number">0</span>);
         <span class="kw">let</span> <span class="ident">wrapped</span> <span class="op">=</span> <span class="kw">match</span> <span class="kw-2">*</span><span class="ident">param</span> {
-            <span class="ident">MatchVariant::StrLit</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">MatchVariant::StrLit</span>(<span class="ident">s</span>) =&gt; {
                 <span class="ident">expr_buf</span>.<span class="ident">write</span>(<span class="string">&quot;&amp;&quot;</span>);
-                <span class="self">self</span>.<span class="ident">visit_str_lit</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">expr_buf</span>, <span class="ident">s</span>)
+                <span class="self">self</span>.<span class="ident">visit_str_lit</span>(<span class="kw-2">&amp;mut</span> <span class="ident">expr_buf</span>, <span class="ident">s</span>)
             }
-            <span class="ident">MatchVariant::CharLit</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">visit_char_lit</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">expr_buf</span>, <span class="ident">s</span>),
-            <span class="ident">MatchVariant::NumLit</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">visit_num_lit</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">expr_buf</span>, <span class="ident">s</span>),
-            <span class="ident">MatchVariant::Name</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">MatchVariant::CharLit</span>(<span class="ident">s</span>) =&gt; <span class="self">self</span>.<span class="ident">visit_char_lit</span>(<span class="kw-2">&amp;mut</span> <span class="ident">expr_buf</span>, <span class="ident">s</span>),
+            <span class="ident">MatchVariant::NumLit</span>(<span class="ident">s</span>) =&gt; <span class="self">self</span>.<span class="ident">visit_num_lit</span>(<span class="kw-2">&amp;mut</span> <span class="ident">expr_buf</span>, <span class="ident">s</span>),
+            <span class="ident">MatchVariant::Name</span>(<span class="ident">s</span>) =&gt; {
                 <span class="ident">expr_buf</span>.<span class="ident">write</span>(<span class="ident">s</span>);
                 <span class="ident">DisplayWrap::Unwrapped</span>
             }
-            <span class="ident">MatchVariant::Path</span>(<span class="kw-2">ref</span> <span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">MatchVariant::Path</span>(<span class="kw-2">ref</span> <span class="ident">s</span>) =&gt; {
                 <span class="ident">expr_buf</span>.<span class="ident">write</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>.<span class="ident">join</span>(<span class="string">&quot;::&quot;</span>));
                 <span class="ident">DisplayWrap::Unwrapped</span>
             }
@@ -2673,13 +2673,13 @@
         <span class="ident">wrapped</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">visit_match_param</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>, <span class="ident">param</span>: <span class="kw-2">&amp;</span><span class="ident">MatchParameter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DisplayWrap</span> {
+    <span class="kw">fn</span> <span class="ident">visit_match_param</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>, <span class="ident">param</span>: <span class="kw-2">&amp;</span><span class="ident">MatchParameter</span>) -&gt; <span class="ident">DisplayWrap</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">expr_buf</span> <span class="op">=</span> <span class="ident">Buffer::new</span>(<span class="number">0</span>);
         <span class="kw">let</span> <span class="ident">wrapped</span> <span class="op">=</span> <span class="kw">match</span> <span class="kw-2">*</span><span class="ident">param</span> {
-            <span class="ident">MatchParameter::NumLit</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">visit_num_lit</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">expr_buf</span>, <span class="ident">s</span>),
-            <span class="ident">MatchParameter::StrLit</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">visit_str_lit</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">expr_buf</span>, <span class="ident">s</span>),
-            <span class="ident">MatchParameter::CharLit</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">visit_char_lit</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">expr_buf</span>, <span class="ident">s</span>),
-            <span class="ident">MatchParameter::Name</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">MatchParameter::NumLit</span>(<span class="ident">s</span>) =&gt; <span class="self">self</span>.<span class="ident">visit_num_lit</span>(<span class="kw-2">&amp;mut</span> <span class="ident">expr_buf</span>, <span class="ident">s</span>),
+            <span class="ident">MatchParameter::StrLit</span>(<span class="ident">s</span>) =&gt; <span class="self">self</span>.<span class="ident">visit_str_lit</span>(<span class="kw-2">&amp;mut</span> <span class="ident">expr_buf</span>, <span class="ident">s</span>),
+            <span class="ident">MatchParameter::CharLit</span>(<span class="ident">s</span>) =&gt; <span class="self">self</span>.<span class="ident">visit_char_lit</span>(<span class="kw-2">&amp;mut</span> <span class="ident">expr_buf</span>, <span class="ident">s</span>),
+            <span class="ident">MatchParameter::Name</span>(<span class="ident">s</span>) =&gt; {
                 <span class="ident">expr_buf</span>.<span class="ident">write</span>(<span class="ident">s</span>);
                 <span class="ident">DisplayWrap::Unwrapped</span>
             }
@@ -2689,23 +2689,23 @@
     }
 
     <span class="kw">fn</span> <span class="ident">visit_filter</span>(
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>,
+        <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+        <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>,
         <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
         <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">Expr</span>],
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">DisplayWrap</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;format&quot;</span> {
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">DisplayWrap</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="ident">name</span> <span class="op">==</span> <span class="string">&quot;format&quot;</span> {
             <span class="self">self</span>.<span class="ident">_visit_format_filter</span>(<span class="ident">buf</span>, <span class="ident">args</span>)<span class="question-mark">?</span>;
             <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">DisplayWrap::Unwrapped</span>);
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;fmt&quot;</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">name</span> <span class="op">==</span> <span class="string">&quot;fmt&quot;</span> {
             <span class="self">self</span>.<span class="ident">_visit_fmt_filter</span>(<span class="ident">buf</span>, <span class="ident">args</span>)<span class="question-mark">?</span>;
             <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">DisplayWrap::Unwrapped</span>);
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;join&quot;</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">name</span> <span class="op">==</span> <span class="string">&quot;join&quot;</span> {
             <span class="self">self</span>.<span class="ident">_visit_join_filter</span>(<span class="ident">buf</span>, <span class="ident">args</span>)<span class="question-mark">?</span>;
             <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">DisplayWrap::Unwrapped</span>);
         }
 
-        <span class="kw">if</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;escape&quot;</span> <span class="op">|</span><span class="op">|</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;safe&quot;</span> <span class="op">|</span><span class="op">|</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;e&quot;</span> <span class="op">|</span><span class="op">|</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;json&quot;</span> {
+        <span class="kw">if</span> <span class="ident">name</span> <span class="op">==</span> <span class="string">&quot;escape&quot;</span> <span class="op">|</span><span class="op">|</span> <span class="ident">name</span> <span class="op">==</span> <span class="string">&quot;safe&quot;</span> <span class="op">|</span><span class="op">|</span> <span class="ident">name</span> <span class="op">==</span> <span class="string">&quot;e&quot;</span> <span class="op">|</span><span class="op">|</span> <span class="ident">name</span> <span class="op">==</span> <span class="string">&quot;json&quot;</span> {
             <span class="ident">buf</span>.<span class="ident">write</span>(<span class="kw-2">&amp;</span><span class="macro">format!</span>(
                 <span class="string">&quot;::askama::filters::{}({}, &quot;</span>,
                 <span class="ident">name</span>, <span class="self">self</span>.<span class="ident">input</span>.<span class="ident">escaper</span>
@@ -2719,7 +2719,7 @@
         <span class="self">self</span>.<span class="ident">_visit_args</span>(<span class="ident">buf</span>, <span class="ident">args</span>)<span class="question-mark">?</span>;
         <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;)?&quot;</span>);
         <span class="prelude-val">Ok</span>(
-            <span class="kw">if</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;safe&quot;</span> <span class="op">|</span><span class="op">|</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;escape&quot;</span> <span class="op">|</span><span class="op">|</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;e&quot;</span> <span class="op">|</span><span class="op">|</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;json&quot;</span> {
+            <span class="kw">if</span> <span class="ident">name</span> <span class="op">==</span> <span class="string">&quot;safe&quot;</span> <span class="op">|</span><span class="op">|</span> <span class="ident">name</span> <span class="op">==</span> <span class="string">&quot;escape&quot;</span> <span class="op">|</span><span class="op">|</span> <span class="ident">name</span> <span class="op">==</span> <span class="string">&quot;e&quot;</span> <span class="op">|</span><span class="op">|</span> <span class="ident">name</span> <span class="op">==</span> <span class="string">&quot;json&quot;</span> {
                 <span class="ident">DisplayWrap::Wrapped</span>
             } <span class="kw">else</span> {
                 <span class="ident">DisplayWrap::Unwrapped</span>
@@ -2728,10 +2728,10 @@
     }
 
     <span class="kw">fn</span> <span class="ident">_visit_format_filter</span>(
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>,
+        <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+        <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>,
         <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">Expr</span>],
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;format!(&quot;</span>);
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">Expr::StrLit</span>(<span class="ident">v</span>)) <span class="op">=</span> <span class="ident">args</span>.<span class="ident">first</span>() {
             <span class="self">self</span>.<span class="ident">visit_str_lit</span>(<span class="ident">buf</span>, <span class="ident">v</span>);
@@ -2746,7 +2746,7 @@
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn</span> <span class="ident">_visit_fmt_filter</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">Expr</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">_visit_fmt_filter</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">Expr</span>]) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;format!(&quot;</span>);
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">Expr::StrLit</span>(<span class="ident">v</span>)) <span class="op">=</span> <span class="ident">args</span>.<span class="ident">get</span>(<span class="number">1</span>) {
             <span class="self">self</span>.<span class="ident">visit_str_lit</span>(<span class="ident">buf</span>, <span class="ident">v</span>);
@@ -2763,14 +2763,14 @@
     }
 
     <span class="comment">// Force type coercion on first argument to `join` filter (see #39).</span>
-    <span class="kw">fn</span> <span class="ident">_visit_join_filter</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">Expr</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">_visit_join_filter</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">Expr</span>]) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;::askama::filters::join((&amp;&quot;</span>);
         <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">arg</span>) <span class="kw">in</span> <span class="ident">args</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
             <span class="kw">if</span> <span class="ident">i</span> <span class="op">&gt;</span> <span class="number">0</span> {
                 <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;, &amp;&quot;</span>);
             }
             <span class="self">self</span>.<span class="ident">visit_expr</span>(<span class="ident">buf</span>, <span class="ident">arg</span>)<span class="question-mark">?</span>;
-            <span class="kw">if</span> <span class="ident">i</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="ident">i</span> <span class="op">==</span> <span class="number">0</span> {
                 <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;).into_iter()&quot;</span>);
             }
         }
@@ -2778,7 +2778,7 @@
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn</span> <span class="ident">_visit_args</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">Expr</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">_visit_args</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">Expr</span>]) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="ident">args</span>.<span class="ident">is_empty</span>() {
             <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
         }
@@ -2808,23 +2808,23 @@
     }
 
     <span class="kw">fn</span> <span class="ident">visit_attr</span>(
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>,
+        <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+        <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>,
         <span class="ident">obj</span>: <span class="kw-2">&amp;</span><span class="ident">Expr</span>,
         <span class="ident">attr</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">DisplayWrap</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">DisplayWrap</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="kw">let</span> <span class="ident">Expr::Var</span>(<span class="ident">name</span>) <span class="op">=</span> <span class="kw-2">*</span><span class="ident">obj</span> {
-            <span class="kw">if</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;loop&quot;</span> {
-                <span class="kw">if</span> <span class="ident">attr</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;index&quot;</span> {
+            <span class="kw">if</span> <span class="ident">name</span> <span class="op">==</span> <span class="string">&quot;loop&quot;</span> {
+                <span class="kw">if</span> <span class="ident">attr</span> <span class="op">==</span> <span class="string">&quot;index&quot;</span> {
                     <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;(_loop_item.index + 1)&quot;</span>);
                     <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">DisplayWrap::Unwrapped</span>);
-                } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">attr</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;index0&quot;</span> {
+                } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">attr</span> <span class="op">==</span> <span class="string">&quot;index0&quot;</span> {
                     <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;_loop_item.index&quot;</span>);
                     <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">DisplayWrap::Unwrapped</span>);
-                } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">attr</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;first&quot;</span> {
+                } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">attr</span> <span class="op">==</span> <span class="string">&quot;first&quot;</span> {
                     <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;_loop_item.first&quot;</span>);
                     <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">DisplayWrap::Unwrapped</span>);
-                } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">attr</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;last&quot;</span> {
+                } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">attr</span> <span class="op">==</span> <span class="string">&quot;last&quot;</span> {
                     <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;_loop_item.last&quot;</span>);
                     <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">DisplayWrap::Unwrapped</span>);
                 } <span class="kw">else</span> {
@@ -2838,11 +2838,11 @@
     }
 
     <span class="kw">fn</span> <span class="ident">visit_index</span>(
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>,
+        <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+        <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>,
         <span class="ident">obj</span>: <span class="kw-2">&amp;</span><span class="ident">Expr</span>,
         <span class="ident">key</span>: <span class="kw-2">&amp;</span><span class="ident">Expr</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">DisplayWrap</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">DisplayWrap</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;&amp;&quot;</span>);
         <span class="self">self</span>.<span class="ident">visit_expr</span>(<span class="ident">buf</span>, <span class="ident">obj</span>)<span class="question-mark">?</span>;
         <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;[&quot;</span>);
@@ -2852,12 +2852,12 @@
     }
 
     <span class="kw">fn</span> <span class="ident">visit_method_call</span>(
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>,
+        <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+        <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>,
         <span class="ident">obj</span>: <span class="kw-2">&amp;</span><span class="ident">Expr</span>,
         <span class="ident">method</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
         <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">Expr</span>],
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">DisplayWrap</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">DisplayWrap</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="kw">let</span> <span class="ident">Expr::Var</span>(<span class="string">&quot;self&quot;</span>) <span class="op">=</span> <span class="ident">obj</span> {
             <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;self&quot;</span>);
         } <span class="kw">else</span> {
@@ -2871,23 +2871,23 @@
     }
 
     <span class="kw">fn</span> <span class="ident">visit_unary</span>(
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>,
+        <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+        <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>,
         <span class="ident">op</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
         <span class="ident">inner</span>: <span class="kw-2">&amp;</span><span class="ident">Expr</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">DisplayWrap</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">DisplayWrap</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="ident">buf</span>.<span class="ident">write</span>(<span class="ident">op</span>);
         <span class="self">self</span>.<span class="ident">visit_expr</span>(<span class="ident">buf</span>, <span class="ident">inner</span>)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="ident">DisplayWrap::Unwrapped</span>)
     }
 
     <span class="kw">fn</span> <span class="ident">visit_range</span>(
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>,
+        <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+        <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>,
         <span class="ident">op</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
         <span class="ident">left</span>: <span class="kw-2">&amp;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">Expr</span><span class="op">&gt;</span><span class="op">&gt;</span>,
         <span class="ident">right</span>: <span class="kw-2">&amp;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">Expr</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">DisplayWrap</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">DisplayWrap</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">left</span>) <span class="op">=</span> <span class="ident">left</span> {
             <span class="self">self</span>.<span class="ident">visit_expr</span>(<span class="ident">buf</span>, <span class="ident">left</span>)<span class="question-mark">?</span>;
         }
@@ -2899,19 +2899,19 @@
     }
 
     <span class="kw">fn</span> <span class="ident">visit_binop</span>(
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>,
+        <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+        <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>,
         <span class="ident">op</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
         <span class="ident">left</span>: <span class="kw-2">&amp;</span><span class="ident">Expr</span>,
         <span class="ident">right</span>: <span class="kw-2">&amp;</span><span class="ident">Expr</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">DisplayWrap</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">DisplayWrap</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">visit_expr</span>(<span class="ident">buf</span>, <span class="ident">left</span>)<span class="question-mark">?</span>;
         <span class="ident">buf</span>.<span class="ident">write</span>(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot; {} &quot;</span>, <span class="ident">op</span>));
         <span class="self">self</span>.<span class="ident">visit_expr</span>(<span class="ident">buf</span>, <span class="ident">right</span>)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="ident">DisplayWrap::Unwrapped</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">visit_group</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>, <span class="ident">inner</span>: <span class="kw-2">&amp;</span><span class="ident">Expr</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">DisplayWrap</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">visit_group</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>, <span class="ident">inner</span>: <span class="kw-2">&amp;</span><span class="ident">Expr</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">DisplayWrap</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;(&quot;</span>);
         <span class="self">self</span>.<span class="ident">visit_expr</span>(<span class="ident">buf</span>, <span class="ident">inner</span>)<span class="question-mark">?</span>;
         <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;)&quot;</span>);
@@ -2919,10 +2919,10 @@
     }
 
     <span class="kw">fn</span> <span class="ident">visit_array</span>(
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>,
+        <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+        <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>,
         <span class="ident">elements</span>: <span class="kw-2">&amp;</span>[<span class="ident">Expr</span>],
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">DisplayWrap</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">DisplayWrap</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;[&quot;</span>);
         <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">el</span>) <span class="kw">in</span> <span class="ident">elements</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
             <span class="kw">if</span> <span class="ident">i</span> <span class="op">&gt;</span> <span class="number">0</span> {
@@ -2934,7 +2934,7 @@
         <span class="prelude-val">Ok</span>(<span class="ident">DisplayWrap::Unwrapped</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">visit_path</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">str</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DisplayWrap</span> {
+    <span class="kw">fn</span> <span class="ident">visit_path</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">str</span>]) -&gt; <span class="ident">DisplayWrap</span> {
         <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">part</span>) <span class="kw">in</span> <span class="ident">path</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
             <span class="kw">if</span> <span class="ident">i</span> <span class="op">&gt;</span> <span class="number">0</span> {
                 <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;::&quot;</span>);
@@ -2945,11 +2945,11 @@
     }
 
     <span class="kw">fn</span> <span class="ident">visit_path_call</span>(
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>,
+        <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+        <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>,
         <span class="ident">path</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">str</span>],
         <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">Expr</span>],
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">DisplayWrap</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">DisplayWrap</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">part</span>) <span class="kw">in</span> <span class="ident">path</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
             <span class="kw">if</span> <span class="ident">i</span> <span class="op">&gt;</span> <span class="number">0</span> {
                 <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;::&quot;</span>);
@@ -2962,8 +2962,8 @@
         <span class="prelude-val">Ok</span>(<span class="ident">DisplayWrap::Unwrapped</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">visit_var</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>, <span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DisplayWrap</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">locals</span>.<span class="ident">contains</span>(<span class="ident">s</span>) <span class="op">|</span><span class="op">|</span> <span class="ident">s</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;self&quot;</span> {
+    <span class="kw">fn</span> <span class="ident">visit_var</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>, <span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="ident">DisplayWrap</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">locals</span>.<span class="ident">contains</span>(<span class="ident">s</span>) <span class="op">|</span><span class="op">|</span> <span class="ident">s</span> <span class="op">==</span> <span class="string">&quot;self&quot;</span> {
             <span class="ident">buf</span>.<span class="ident">write</span>(<span class="ident">s</span>);
         } <span class="kw">else</span> {
             <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;self.&quot;</span>);
@@ -2973,13 +2973,13 @@
     }
 
     <span class="kw">fn</span> <span class="ident">visit_var_call</span>(
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>,
+        <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+        <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>,
         <span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
         <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">Expr</span>],
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">DisplayWrap</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">DisplayWrap</span>, <span class="ident">CompileError</span><span class="op">&gt;</span> {
         <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;(&quot;</span>);
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">locals</span>.<span class="ident">contains</span>(<span class="ident">s</span>) <span class="op">|</span><span class="op">|</span> <span class="ident">s</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;self&quot;</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">locals</span>.<span class="ident">contains</span>(<span class="ident">s</span>) <span class="op">|</span><span class="op">|</span> <span class="ident">s</span> <span class="op">==</span> <span class="string">&quot;self&quot;</span> {
             <span class="ident">buf</span>.<span class="ident">write</span>(<span class="ident">s</span>);
         } <span class="kw">else</span> {
             <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;self.&quot;</span>);
@@ -2991,33 +2991,33 @@
         <span class="prelude-val">Ok</span>(<span class="ident">DisplayWrap::Unwrapped</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">visit_bool_lit</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>, <span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DisplayWrap</span> {
+    <span class="kw">fn</span> <span class="ident">visit_bool_lit</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>, <span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="ident">DisplayWrap</span> {
         <span class="ident">buf</span>.<span class="ident">write</span>(<span class="ident">s</span>);
         <span class="ident">DisplayWrap::Unwrapped</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">visit_str_lit</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>, <span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DisplayWrap</span> {
+    <span class="kw">fn</span> <span class="ident">visit_str_lit</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>, <span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="ident">DisplayWrap</span> {
         <span class="ident">buf</span>.<span class="ident">write</span>(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;\&quot;{}\&quot;&quot;</span>, <span class="ident">s</span>));
         <span class="ident">DisplayWrap::Unwrapped</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">visit_char_lit</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>, <span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DisplayWrap</span> {
+    <span class="kw">fn</span> <span class="ident">visit_char_lit</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>, <span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="ident">DisplayWrap</span> {
         <span class="ident">buf</span>.<span class="ident">write</span>(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;&#39;{}&#39;&quot;</span>, <span class="ident">s</span>));
         <span class="ident">DisplayWrap::Unwrapped</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">visit_num_lit</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>, <span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DisplayWrap</span> {
+    <span class="kw">fn</span> <span class="ident">visit_num_lit</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>, <span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="ident">DisplayWrap</span> {
         <span class="ident">buf</span>.<span class="ident">write</span>(<span class="ident">s</span>);
         <span class="ident">DisplayWrap::Unwrapped</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">visit_target</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>, <span class="ident">target</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Target</span>) {
+    <span class="kw">fn</span> <span class="ident">visit_target</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>, <span class="ident">target</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Target</span>) {
         <span class="kw">match</span> <span class="kw-2">*</span><span class="ident">target</span> {
-            <span class="ident">Target::Name</span>(<span class="ident">name</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">Target::Name</span>(<span class="ident">name</span>) =&gt; {
                 <span class="self">self</span>.<span class="ident">locals</span>.<span class="ident">insert</span>(<span class="ident">name</span>);
                 <span class="ident">buf</span>.<span class="ident">write</span>(<span class="ident">name</span>);
             }
-            <span class="ident">Target::Tuple</span>(<span class="kw-2">ref</span> <span class="ident">targets</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">Target::Tuple</span>(<span class="kw-2">ref</span> <span class="ident">targets</span>) =&gt; {
                 <span class="ident">buf</span>.<span class="ident">write</span>(<span class="string">&quot;(&quot;</span>);
                 <span class="kw">for</span> <span class="ident">name</span> <span class="kw">in</span> <span class="ident">targets</span> {
                     <span class="self">self</span>.<span class="ident">locals</span>.<span class="ident">insert</span>(<span class="ident">name</span>);
@@ -3033,7 +3033,7 @@
 
     <span class="comment">// Combines `flush_ws()` and `prepare_ws()` to handle both trailing whitespace from the</span>
     <span class="comment">// preceding literal and leading whitespace from the succeeding literal.</span>
-    <span class="kw">fn</span> <span class="ident">handle_ws</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ws</span>: <span class="ident">WS</span>) {
+    <span class="kw">fn</span> <span class="ident">handle_ws</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">ws</span>: <span class="ident">WS</span>) {
         <span class="self">self</span>.<span class="ident">flush_ws</span>(<span class="ident">ws</span>);
         <span class="self">self</span>.<span class="ident">prepare_ws</span>(<span class="ident">ws</span>);
     }
@@ -3041,7 +3041,7 @@
     <span class="comment">// If the previous literal left some trailing whitespace in `next_ws` and the</span>
     <span class="comment">// prefix whitespace suppressor from the given argument, flush that whitespace.</span>
     <span class="comment">// In either case, `next_ws` is reset to `None` (no trailing whitespace).</span>
-    <span class="kw">fn</span> <span class="ident">flush_ws</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ws</span>: <span class="ident">WS</span>) {
+    <span class="kw">fn</span> <span class="ident">flush_ws</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">ws</span>: <span class="ident">WS</span>) {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">next_ws</span>.<span class="ident">is_some</span>() <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">ws</span>.<span class="number">0</span> {
             <span class="kw">let</span> <span class="ident">val</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next_ws</span>.<span class="ident">unwrap</span>();
             <span class="kw">if</span> <span class="op">!</span><span class="ident">val</span>.<span class="ident">is_empty</span>() {
@@ -3054,7 +3054,7 @@
     <span class="comment">// Sets `skip_ws` to match the suffix whitespace suppressor from the given</span>
     <span class="comment">// argument, to determine whether to suppress leading whitespace from the</span>
     <span class="comment">// next literal.</span>
-    <span class="kw">fn</span> <span class="ident">prepare_ws</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ws</span>: <span class="ident">WS</span>) {
+    <span class="kw">fn</span> <span class="ident">prepare_ws</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">ws</span>: <span class="ident">WS</span>) {
         <span class="self">self</span>.<span class="ident">skip_ws</span> <span class="op">=</span> <span class="ident">ws</span>.<span class="number">1</span>;
     }
 }
@@ -3069,7 +3069,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Buffer</span> {
-    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">indent</span>: <span class="ident">u8</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">indent</span>: <span class="ident">u8</span>) -&gt; <span class="self">Self</span> {
         <span class="self">Self</span> {
             <span class="ident">buf</span>: <span class="ident">String::new</span>(),
             <span class="ident">indent</span>,
@@ -3077,8 +3077,8 @@
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">writeln</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="ident">s</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;}&quot;</span> {
+    <span class="kw">fn</span> <span class="ident">writeln</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="ident">s</span> <span class="op">==</span> <span class="string">&quot;}&quot;</span> {
             <span class="self">self</span>.<span class="ident">dedent</span>()<span class="question-mark">?</span>;
         }
         <span class="kw">if</span> <span class="op">!</span><span class="ident">s</span>.<span class="ident">is_empty</span>() {
@@ -3092,7 +3092,7 @@
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn</span> <span class="ident">write</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
+    <span class="kw">fn</span> <span class="ident">write</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">start</span> {
             <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..(<span class="self">self</span>.<span class="ident">indent</span> <span class="op">*</span> <span class="number">4</span>) {
                 <span class="self">self</span>.<span class="ident">buf</span>.<span class="ident">push</span>(<span class="string">&#39; &#39;</span>);
@@ -3102,12 +3102,12 @@
         <span class="self">self</span>.<span class="ident">buf</span>.<span class="ident">push_str</span>(<span class="ident">s</span>);
     }
 
-    <span class="kw">fn</span> <span class="ident">indent</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
+    <span class="kw">fn</span> <span class="ident">indent</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) {
         <span class="self">self</span>.<span class="ident">indent</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
     }
 
-    <span class="kw">fn</span> <span class="ident">dedent</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">indent</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+    <span class="kw">fn</span> <span class="ident">dedent</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CompileError</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">indent</span> <span class="op">==</span> <span class="number">0</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="string">&quot;dedent() called while indentation == 0&quot;</span>.<span class="ident">into</span>());
         }
         <span class="self">self</span>.<span class="ident">indent</span> <span class="op">-</span><span class="op">=</span> <span class="number">1</span>;
@@ -3128,49 +3128,49 @@
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">cmp::Eq</span> <span class="op">+</span> <span class="ident">hash::Hash</span>,
 {
-    <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SetChain</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">new</span>() -&gt; <span class="ident">SetChain</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span> {
         <span class="ident">SetChain</span> {
             <span class="ident">parent</span>: <span class="prelude-val">None</span>,
             <span class="ident">scopes</span>: <span class="macro">vec!</span>[<span class="ident">HashSet::new</span>()],
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">with_parent</span><span class="op">&lt;</span><span class="lifetime">&#39;p</span><span class="op">&gt;</span>(<span class="ident">parent</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;p</span> <span class="ident">SetChain</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SetChain</span><span class="op">&lt;</span><span class="lifetime">&#39;p</span>, <span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">with_parent</span><span class="op">&lt;</span><span class="lifetime">&#39;p</span><span class="op">&gt;</span>(<span class="ident">parent</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;p</span> <span class="ident">SetChain</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) -&gt; <span class="ident">SetChain</span><span class="op">&lt;</span><span class="lifetime">&#39;p</span>, <span class="ident">T</span><span class="op">&gt;</span> {
         <span class="ident">SetChain</span> {
             <span class="ident">parent</span>: <span class="prelude-val">Some</span>(<span class="ident">parent</span>),
             <span class="ident">scopes</span>: <span class="macro">vec!</span>[<span class="ident">HashSet::new</span>()],
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">val</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">val</span>: <span class="ident">T</span>) -&gt; <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">scopes</span>.<span class="ident">iter</span>().<span class="ident">rev</span>().<span class="ident">any</span>(<span class="op">|</span><span class="ident">set</span><span class="op">|</span> <span class="ident">set</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">val</span>))
             <span class="op">|</span><span class="op">|</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">parent</span> {
-                <span class="prelude-val">Some</span>(<span class="ident">set</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">set</span>.<span class="ident">contains</span>(<span class="ident">val</span>),
-                <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
+                <span class="prelude-val">Some</span>(<span class="ident">set</span>) =&gt; <span class="ident">set</span>.<span class="ident">contains</span>(<span class="ident">val</span>),
+                <span class="prelude-val">None</span> =&gt; <span class="bool-val">false</span>,
             }
     }
 
-    <span class="kw">fn</span> <span class="ident">is_current_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">is_current_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">scopes</span>.<span class="ident">last</span>().<span class="ident">unwrap</span>().<span class="ident">is_empty</span>()
     }
 
-    <span class="kw">fn</span> <span class="ident">insert</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">val</span>: <span class="ident">T</span>) {
+    <span class="kw">fn</span> <span class="ident">insert</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">val</span>: <span class="ident">T</span>) {
         <span class="self">self</span>.<span class="ident">scopes</span>.<span class="ident">last_mut</span>().<span class="ident">unwrap</span>().<span class="ident">insert</span>(<span class="ident">val</span>);
     }
 
-    <span class="kw">fn</span> <span class="ident">push</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
+    <span class="kw">fn</span> <span class="ident">push</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) {
         <span class="self">self</span>.<span class="ident">scopes</span>.<span class="ident">push</span>(<span class="ident">HashSet::new</span>());
     }
 
-    <span class="kw">fn</span> <span class="ident">pop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
+    <span class="kw">fn</span> <span class="ident">pop</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) {
         <span class="self">self</span>.<span class="ident">scopes</span>.<span class="ident">pop</span>().<span class="ident">unwrap</span>();
         <span class="macro">assert!</span>(<span class="op">!</span><span class="self">self</span>.<span class="ident">scopes</span>.<span class="ident">is_empty</span>());
     }
 }
 
-<span class="kw">fn</span> <span class="ident">median</span>(<span class="ident">sizes</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">usize</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+<span class="kw">fn</span> <span class="ident">median</span>(<span class="ident">sizes</span>: <span class="kw-2">&amp;mut</span> [<span class="ident">usize</span>]) -&gt; <span class="ident">usize</span> {
     <span class="ident">sizes</span>.<span class="ident">sort_unstable</span>();
-    <span class="kw">if</span> <span class="ident">sizes</span>.<span class="ident">len</span>() <span class="op">%</span> <span class="number">2</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> {
+    <span class="kw">if</span> <span class="ident">sizes</span>.<span class="ident">len</span>() <span class="op">%</span> <span class="number">2</span> <span class="op">==</span> <span class="number">1</span> {
         <span class="ident">sizes</span>[<span class="ident">sizes</span>.<span class="ident">len</span>() <span class="op">/</span> <span class="number">2</span>]
     } <span class="kw">else</span> {
         (<span class="ident">sizes</span>[<span class="ident">sizes</span>.<span class="ident">len</span>() <span class="op">/</span> <span class="number">2</span> <span class="op">-</span> <span class="number">1</span>] <span class="op">+</span> <span class="ident">sizes</span>[<span class="ident">sizes</span>.<span class="ident">len</span>() <span class="op">/</span> <span class="number">2</span>]) <span class="op">/</span> <span class="number">2</span>
@@ -3199,7 +3199,6 @@
     <span class="ident">Lit</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>),
     <span class="ident">Expr</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Expr</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>),
 }
-</pre></div>
-</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="askama_shared" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
-    <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script>
+</code></pre></div>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="askama_shared" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (207c80f10 2021-11-30)" ></div>
 </body></html>

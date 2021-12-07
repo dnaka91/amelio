@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src&#x2F;routes&#x2F;tickets.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>tickets.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../amelio/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src&#x2F;routes&#x2F;tickets.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>tickets.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css"disabled><link rel="stylesheet" type="text/css" href="../../../dark.css"disabled><link rel="stylesheet" type="text/css" href="../../../light.css"id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><script defer src="../../../main.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script>
+    <noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../amelio/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -439,8 +440,8 @@
 <span id="439">439</span>
 <span id="440">440</span>
 <span id="441">441</span>
-</pre><pre class="rust">
-<span class="doccomment">//! Ticket related routes.</span>
+<span id="442">442</span>
+</pre><pre class="rust"><code><span class="doccomment">//! Ticket related routes.</span>
 
 <span class="kw">use</span> <span class="ident">anyhow::Result</span>;
 <span class="kw">use</span> <span class="ident">log::error</span>;
@@ -451,14 +452,14 @@
 <span class="kw">use</span> <span class="ident">url::Url</span>;
 
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">Hour</span>, <span class="ident">Minute</span>, <span class="ident">NonEmptyString</span>, <span class="ident">PositiveId</span>, <span class="ident">PositiveNum</span>, <span class="ident">Second</span>, <span class="ident">ServerError</span>, <span class="ident">ValidUrl</span>};
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::config::Config</span>;
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::db::connection::DbConn</span>;
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::db::repositories</span>;
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::email</span>;
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::models</span>::{<span class="ident">Category</span>, <span class="ident">Id</span>, <span class="ident">Priority</span>, <span class="ident">Status</span>, <span class="ident">TicketSearch</span>, <span class="ident">TicketType</span>};
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::roles</span>::{<span class="ident">StudentUser</span>, <span class="ident">TutorUser</span>};
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::services</span>::{<span class="self">self</span>, <span class="ident">TicketService</span>};
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::templates</span>::{<span class="self">self</span>, <span class="ident">MessageCode</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::config::Config</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::db::connection::DbConn</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::db::repositories</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::email</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::models</span>::{<span class="ident">Category</span>, <span class="ident">Id</span>, <span class="ident">Priority</span>, <span class="ident">Status</span>, <span class="ident">TicketSearch</span>, <span class="ident">TicketType</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::roles</span>::{<span class="ident">StudentUser</span>, <span class="ident">TutorUser</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::services</span>::{<span class="self">self</span>, <span class="ident">TicketService</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::templates</span>::{<span class="self">self</span>, <span class="ident">MessageCode</span>};
 
 <span class="doccomment">/// Ticket creation form for students or higher ranked users.</span>
 <span class="attribute">#[<span class="ident">get</span>(<span class="string">&quot;/new/&lt;ty&gt;&quot;</span>)]</span>
@@ -467,7 +468,7 @@
     <span class="ident">ty</span>: <span class="ident">TicketType</span>,
     <span class="ident">conn</span>: <span class="ident">DbConn</span>,
     <span class="ident">config</span>: <span class="ident">State</span><span class="op">&lt;</span><span class="ident">Config</span><span class="op">&gt;</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">templates::NewTicket</span>, <span class="ident">ServerError</span><span class="op">&gt;</span> {
+) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">templates::NewTicket</span>, <span class="ident">ServerError</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">service</span> <span class="op">=</span> <span class="ident">services::ticket_service</span>(
         <span class="ident">repositories::ticket_repo</span>(<span class="kw-2">&amp;</span><span class="ident">conn</span>),
         <span class="ident">repositories::course_repo</span>(<span class="kw-2">&amp;</span><span class="ident">conn</span>),
@@ -524,27 +525,27 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span><span class="op">&gt;</span> <span class="ident">FromForm</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">NewTicket</span> {
     <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> <span class="ident">rocket::request::FormParseError</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span><span class="op">&gt;</span>;
 
-    <span class="kw">fn</span> <span class="ident">from_form</span>(<span class="ident">it</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">FormItems</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span><span class="op">&gt;</span>, <span class="ident">strict</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="self">Self</span><span class="ident">::Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">from_form</span>(<span class="ident">it</span>: <span class="kw-2">&amp;mut</span> <span class="ident">FormItems</span><span class="op">&lt;</span><span class="lifetime">&#39;f</span><span class="op">&gt;</span>, <span class="ident">strict</span>: <span class="ident">bool</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident"><span class="self">Self</span>::Error</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">missing</span> <span class="op">=</span> <span class="op">|</span><span class="ident">name</span><span class="op">|</span> <span class="ident">FormParseError::Missing</span>(<span class="ident">RawStr::from_str</span>(<span class="ident">name</span>));
 
         <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">NewTicketData::from_form</span>(<span class="ident">it</span>, <span class="ident">strict</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">medium</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">data</span>.<span class="ident">ty</span> {
-            <span class="ident">TicketType::CourseBook</span> <span class="op">|</span> <span class="ident">TicketType::ReadingList</span> <span class="op">|</span> <span class="ident">TicketType::Presentation</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">TicketType::CourseBook</span> <span class="op">|</span> <span class="ident">TicketType::ReadingList</span> <span class="op">|</span> <span class="ident">TicketType::Presentation</span> =&gt; {
                 <span class="ident">Medium::Text</span> {
                     <span class="ident">page</span>: <span class="ident">data</span>.<span class="ident">page</span>.<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">missing</span>(<span class="string">&quot;page&quot;</span>))<span class="question-mark">?</span>.<span class="number">0</span>,
                     <span class="ident">line</span>: <span class="ident">data</span>.<span class="ident">line</span>.<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">missing</span>(<span class="string">&quot;line&quot;</span>))<span class="question-mark">?</span>.<span class="number">0</span>,
                 }
             }
-            <span class="ident">TicketType::InteractiveBook</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Medium::Interactive</span> {
+            <span class="ident">TicketType::InteractiveBook</span> =&gt; <span class="ident">Medium::Interactive</span> {
                 <span class="ident">url</span>: <span class="ident">data</span>.<span class="ident">url</span>.<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">missing</span>(<span class="string">&quot;url&quot;</span>))<span class="question-mark">?</span>.<span class="number">0</span>,
             },
             <span class="ident">TicketType::PracticeExam</span>
             <span class="op">|</span> <span class="ident">TicketType::PracticeExamSolution</span>
-            <span class="op">|</span> <span class="ident">TicketType::OnlineTest</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Medium::Questionaire</span> {
+            <span class="op">|</span> <span class="ident">TicketType::OnlineTest</span> =&gt; <span class="ident">Medium::Questionaire</span> {
                 <span class="ident">question</span>: <span class="ident">data</span>.<span class="ident">question</span>.<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">missing</span>(<span class="string">&quot;question&quot;</span>))<span class="question-mark">?</span>.<span class="number">0</span>,
                 <span class="ident">answer</span>: <span class="ident">data</span>.<span class="ident">answer</span>.<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">missing</span>(<span class="string">&quot;answer&quot;</span>))<span class="question-mark">?</span>.<span class="number">0</span>,
             },
-            <span class="ident">TicketType::Vodcast</span> <span class="op">|</span> <span class="ident">TicketType::Podcast</span> <span class="op">|</span> <span class="ident">TicketType::LiveTutorialRecording</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">TicketType::Vodcast</span> <span class="op">|</span> <span class="ident">TicketType::Podcast</span> <span class="op">|</span> <span class="ident">TicketType::LiveTutorialRecording</span> =&gt; {
                 <span class="ident">Medium::Recording</span> {
                     <span class="ident">hour</span>: <span class="ident">data</span>.<span class="ident">hour</span>.<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">missing</span>(<span class="string">&quot;hour&quot;</span>))<span class="question-mark">?</span>.<span class="number">0</span>,
                     <span class="ident">minute</span>: <span class="ident">data</span>.<span class="ident">minute</span>.<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">missing</span>(<span class="string">&quot;minute&quot;</span>))<span class="question-mark">?</span>.<span class="number">0</span>,
@@ -571,7 +572,7 @@
     <span class="ident">data</span>: <span class="ident">Form</span><span class="op">&lt;</span><span class="ident">NewTicket</span><span class="op">&gt;</span>,
     <span class="ident">conn</span>: <span class="ident">DbConn</span>,
     <span class="ident">config</span>: <span class="ident">State</span><span class="op">&lt;</span><span class="ident">Config</span><span class="op">&gt;</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Flash</span><span class="op">&lt;</span><span class="ident">Redirect</span><span class="op">&gt;</span> {
+) -&gt; <span class="ident">Flash</span><span class="op">&lt;</span><span class="ident">Redirect</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">service</span> <span class="op">=</span> <span class="ident">services::ticket_service</span>(
         <span class="ident">repositories::ticket_repo</span>(<span class="kw-2">&amp;</span><span class="ident">conn</span>),
         <span class="ident">repositories::course_repo</span>(<span class="kw-2">&amp;</span><span class="ident">conn</span>),
@@ -581,7 +582,7 @@
     );
 
     <span class="kw">match</span> <span class="ident">service</span>.<span class="ident">create</span>(
-        <span class="kw">crate</span><span class="ident">::models::NewTicket</span> {
+        <span class="ident"><span class="kw">crate</span>::models::NewTicket</span> {
             <span class="ident">type_</span>: <span class="ident">data</span>.<span class="ident">ty</span>,
             <span class="ident">title</span>: <span class="ident">data</span>.<span class="number">0</span>.<span class="ident">title</span>,
             <span class="ident">description</span>: <span class="ident">data</span>.<span class="number">0</span>.<span class="ident">description</span>,
@@ -590,25 +591,25 @@
             <span class="ident">creator_id</span>: <span class="ident">user</span>.<span class="number">0</span>.<span class="ident">id</span>,
         },
         <span class="kw">match</span> <span class="ident">data</span>.<span class="number">0</span>.<span class="ident">medium</span> {
-            <span class="ident">Medium::Text</span> { <span class="ident">page</span>, <span class="ident">line</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="kw">crate</span><span class="ident">::models::NewMedium::Text</span> { <span class="ident">page</span>, <span class="ident">line</span> },
+            <span class="ident">Medium::Text</span> { <span class="ident">page</span>, <span class="ident">line</span> } =&gt; <span class="ident"><span class="kw">crate</span>::models::NewMedium::Text</span> { <span class="ident">page</span>, <span class="ident">line</span> },
             <span class="ident">Medium::Recording</span> {
                 <span class="ident">hour</span>,
                 <span class="ident">minute</span>,
                 <span class="ident">second</span>,
-            } <span class="op">=</span><span class="op">&gt;</span> <span class="kw">crate</span><span class="ident">::models::NewMedium::Recording</span> {
+            } =&gt; <span class="ident"><span class="kw">crate</span>::models::NewMedium::Recording</span> {
                 <span class="ident">time</span>: <span class="ident">chrono::NaiveTime::from_hms</span>(<span class="ident">hour</span>.<span class="ident">into</span>(), <span class="ident">minute</span>.<span class="ident">into</span>(), <span class="ident">second</span>.<span class="ident">into</span>()),
             },
-            <span class="ident">Medium::Interactive</span> { <span class="ident">url</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="kw">crate</span><span class="ident">::models::NewMedium::Interactive</span> { <span class="ident">url</span> },
-            <span class="ident">Medium::Questionaire</span> { <span class="ident">question</span>, <span class="ident">answer</span> } <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="kw">crate</span><span class="ident">::models::NewMedium::Questionaire</span> { <span class="ident">question</span>, <span class="ident">answer</span> }
+            <span class="ident">Medium::Interactive</span> { <span class="ident">url</span> } =&gt; <span class="ident"><span class="kw">crate</span>::models::NewMedium::Interactive</span> { <span class="ident">url</span> },
+            <span class="ident">Medium::Questionaire</span> { <span class="ident">question</span>, <span class="ident">answer</span> } =&gt; {
+                <span class="ident"><span class="kw">crate</span>::models::NewMedium::Questionaire</span> { <span class="ident">question</span>, <span class="ident">answer</span> }
             }
         },
     ) {
-        <span class="prelude-val">Ok</span>(<span class="ident">id</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Flash::success</span>(
+        <span class="prelude-val">Ok</span>(<span class="ident">id</span>) =&gt; <span class="ident">Flash::success</span>(
             <span class="ident">Redirect::to</span>(<span class="macro">uri!</span>(<span class="string">&quot;/tickets&quot;</span>, <span class="ident">edit</span>: <span class="ident">PositiveNum</span>(<span class="ident">id</span>))),
             <span class="ident">MessageCode::TicketCreated</span>,
         ),
-        <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; {
             <span class="macro">error!</span>(<span class="string">&quot;error during ticket creation: {:?}&quot;</span>, <span class="ident">e</span>);
             <span class="ident">Flash::error</span>(
                 <span class="ident">Redirect::to</span>(<span class="macro">uri!</span>(<span class="string">&quot;/tickets&quot;</span>, <span class="ident">new</span>: <span class="ident">data</span>.<span class="number">0</span>.<span class="ident">ty</span>)),
@@ -619,6 +620,7 @@
 }
 
 <span class="doccomment">/// Response of the [`edit`] endpoint.</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::large_enum_variant</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">rocket::Responder</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">EditResponse</span> {
     <span class="ident">Edit</span>(<span class="ident">templates::TicketDetail</span>),
@@ -633,7 +635,7 @@
     <span class="ident">conn</span>: <span class="ident">DbConn</span>,
     <span class="ident">config</span>: <span class="ident">State</span><span class="op">&lt;</span><span class="ident">Config</span><span class="op">&gt;</span>,
     <span class="ident">flash</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">FlashMessage</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;_</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">EditResponse</span>, <span class="ident">ServerError</span><span class="op">&gt;</span> {
+) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">EditResponse</span>, <span class="ident">ServerError</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">service</span> <span class="op">=</span> <span class="ident">services::ticket_service</span>(
         <span class="ident">repositories::ticket_repo</span>(<span class="kw-2">&amp;</span><span class="ident">conn</span>),
         <span class="ident">repositories::course_repo</span>(<span class="kw-2">&amp;</span><span class="ident">conn</span>),
@@ -669,7 +671,7 @@
     <span class="ident">data</span>: <span class="ident">Form</span><span class="op">&lt;</span><span class="ident">EditTicket</span><span class="op">&gt;</span>,
     <span class="ident">conn</span>: <span class="ident">DbConn</span>,
     <span class="ident">config</span>: <span class="ident">State</span><span class="op">&lt;</span><span class="ident">Config</span><span class="op">&gt;</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Flash</span><span class="op">&lt;</span><span class="ident">Redirect</span><span class="op">&gt;</span> {
+) -&gt; <span class="ident">Flash</span><span class="op">&lt;</span><span class="ident">Redirect</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">service</span> <span class="op">=</span> <span class="ident">services::ticket_service</span>(
         <span class="ident">repositories::ticket_repo</span>(<span class="kw-2">&amp;</span><span class="ident">conn</span>),
         <span class="ident">repositories::course_repo</span>(<span class="kw-2">&amp;</span><span class="ident">conn</span>),
@@ -679,11 +681,11 @@
     );
 
     <span class="kw">match</span> <span class="ident">service</span>.<span class="ident">update</span>(<span class="ident">id</span>.<span class="number">0</span>, <span class="ident">data</span>.<span class="ident">priority</span>) {
-        <span class="prelude-val">Ok</span>(()) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Flash::success</span>(
+        <span class="prelude-val">Ok</span>(()) =&gt; <span class="ident">Flash::success</span>(
             <span class="ident">Redirect::to</span>(<span class="macro">uri!</span>(<span class="string">&quot;/tickets&quot;</span>, <span class="ident">edit</span>: <span class="ident">id</span>)),
             <span class="ident">MessageCode::TicketUpdated</span>,
         ),
-        <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; {
             <span class="macro">error!</span>(<span class="string">&quot;error during ticket update: {:?}&quot;</span>, <span class="ident">e</span>);
             <span class="ident">Flash::error</span>(
                 <span class="ident">Redirect::to</span>(<span class="macro">uri!</span>(<span class="string">&quot;/tickets&quot;</span>, <span class="ident">edit</span>: <span class="ident">id</span>)),
@@ -707,7 +709,7 @@
     <span class="ident">data</span>: <span class="ident">Form</span><span class="op">&lt;</span><span class="ident">NewComment</span><span class="op">&gt;</span>,
     <span class="ident">conn</span>: <span class="ident">DbConn</span>,
     <span class="ident">config</span>: <span class="ident">State</span><span class="op">&lt;</span><span class="ident">Config</span><span class="op">&gt;</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Flash</span><span class="op">&lt;</span><span class="ident">Redirect</span><span class="op">&gt;</span> {
+) -&gt; <span class="ident">Flash</span><span class="op">&lt;</span><span class="ident">Redirect</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">service</span> <span class="op">=</span> <span class="ident">services::ticket_service</span>(
         <span class="ident">repositories::ticket_repo</span>(<span class="kw-2">&amp;</span><span class="ident">conn</span>),
         <span class="ident">repositories::course_repo</span>(<span class="kw-2">&amp;</span><span class="ident">conn</span>),
@@ -717,11 +719,11 @@
     );
 
     <span class="kw">match</span> <span class="ident">service</span>.<span class="ident">add_comment</span>(<span class="ident">id</span>.<span class="number">0</span>, <span class="ident">user</span>.<span class="number">0</span>.<span class="ident">id</span>, <span class="ident">data</span>.<span class="number">0</span>.<span class="ident">comment</span>.<span class="number">0</span>) {
-        <span class="prelude-val">Ok</span>(()) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Flash::success</span>(
+        <span class="prelude-val">Ok</span>(()) =&gt; <span class="ident">Flash::success</span>(
             <span class="ident">Redirect::to</span>(<span class="macro">uri!</span>(<span class="string">&quot;/tickets&quot;</span>, <span class="ident">edit</span>: <span class="ident">id</span>)),
             <span class="ident">MessageCode::CommentCreated</span>,
         ),
-        <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; {
             <span class="macro">error!</span>(<span class="string">&quot;error during comment creation: {:?}&quot;</span>, <span class="ident">e</span>);
             <span class="ident">Flash::error</span>(
                 <span class="ident">Redirect::to</span>(<span class="macro">uri!</span>(<span class="string">&quot;/tickets&quot;</span>, <span class="ident">edit</span>: <span class="ident">id</span>)),
@@ -738,7 +740,7 @@
     <span class="ident">id</span>: <span class="ident">PositiveId</span>,
     <span class="ident">conn</span>: <span class="ident">DbConn</span>,
     <span class="ident">config</span>: <span class="ident">State</span><span class="op">&lt;</span><span class="ident">Config</span><span class="op">&gt;</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Flash</span><span class="op">&lt;</span><span class="ident">Redirect</span><span class="op">&gt;</span> {
+) -&gt; <span class="ident">Flash</span><span class="op">&lt;</span><span class="ident">Redirect</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">service</span> <span class="op">=</span> <span class="ident">services::ticket_service</span>(
         <span class="ident">repositories::ticket_repo</span>(<span class="kw-2">&amp;</span><span class="ident">conn</span>),
         <span class="ident">repositories::course_repo</span>(<span class="kw-2">&amp;</span><span class="ident">conn</span>),
@@ -748,11 +750,11 @@
     );
 
     <span class="kw">match</span> <span class="ident">service</span>.<span class="ident">forward</span>(<span class="ident">id</span>.<span class="number">0</span>) {
-        <span class="prelude-val">Ok</span>(()) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Flash::success</span>(
+        <span class="prelude-val">Ok</span>(()) =&gt; <span class="ident">Flash::success</span>(
             <span class="ident">Redirect::to</span>(<span class="macro">uri!</span>(<span class="string">&quot;/tickets&quot;</span>, <span class="ident">edit</span>: <span class="ident">id</span>)),
             <span class="ident">MessageCode::TicketUpdated</span>,
         ),
-        <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; {
             <span class="macro">error!</span>(<span class="string">&quot;error during ticket forwarding: {:?}&quot;</span>, <span class="ident">e</span>);
             <span class="ident">Flash::error</span>(
                 <span class="ident">Redirect::to</span>(<span class="macro">uri!</span>(<span class="string">&quot;/tickets&quot;</span>, <span class="ident">edit</span>: <span class="ident">id</span>)),
@@ -770,7 +772,7 @@
     <span class="ident">status</span>: <span class="ident">Status</span>,
     <span class="ident">conn</span>: <span class="ident">DbConn</span>,
     <span class="ident">config</span>: <span class="ident">State</span><span class="op">&lt;</span><span class="ident">Config</span><span class="op">&gt;</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Flash</span><span class="op">&lt;</span><span class="ident">Redirect</span><span class="op">&gt;</span> {
+) -&gt; <span class="ident">Flash</span><span class="op">&lt;</span><span class="ident">Redirect</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">service</span> <span class="op">=</span> <span class="ident">services::ticket_service</span>(
         <span class="ident">repositories::ticket_repo</span>(<span class="kw-2">&amp;</span><span class="ident">conn</span>),
         <span class="ident">repositories::course_repo</span>(<span class="kw-2">&amp;</span><span class="ident">conn</span>),
@@ -780,11 +782,11 @@
     );
 
     <span class="kw">match</span> <span class="ident">service</span>.<span class="ident">change_status</span>(<span class="ident">id</span>.<span class="number">0</span>, <span class="ident">status</span>) {
-        <span class="prelude-val">Ok</span>(()) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Flash::success</span>(
+        <span class="prelude-val">Ok</span>(()) =&gt; <span class="ident">Flash::success</span>(
             <span class="ident">Redirect::to</span>(<span class="macro">uri!</span>(<span class="string">&quot;/tickets&quot;</span>, <span class="ident">edit</span>: <span class="ident">id</span>)),
             <span class="ident">MessageCode::TicketUpdated</span>,
         ),
-        <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; {
             <span class="macro">error!</span>(<span class="string">&quot;error during ticket status change: {:?}&quot;</span>, <span class="ident">e</span>);
             <span class="ident">Flash::error</span>(
                 <span class="ident">Redirect::to</span>(<span class="macro">uri!</span>(<span class="string">&quot;/tickets&quot;</span>, <span class="ident">edit</span>: <span class="ident">id</span>)),
@@ -811,7 +813,7 @@
     <span class="ident">data</span>: <span class="ident">Form</span><span class="op">&lt;</span><span class="ident">SearchOptions</span><span class="op">&gt;</span>,
     <span class="ident">conn</span>: <span class="ident">DbConn</span>,
     <span class="ident">config</span>: <span class="ident">State</span><span class="op">&lt;</span><span class="ident">Config</span><span class="op">&gt;</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">templates::SearchTickets</span>, <span class="ident">ServerError</span><span class="op">&gt;</span> {
+) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">templates::SearchTickets</span>, <span class="ident">ServerError</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">service</span> <span class="op">=</span> <span class="ident">services::ticket_service</span>(
         <span class="ident">repositories::ticket_repo</span>(<span class="kw-2">&amp;</span><span class="ident">conn</span>),
         <span class="ident">repositories::course_repo</span>(<span class="kw-2">&amp;</span><span class="ident">conn</span>),
@@ -828,7 +830,7 @@
         <span class="ident">status</span>: <span class="ident">data</span>.<span class="number">0</span>.<span class="ident">status</span>,
     };
 
-    <span class="kw">let</span> <span class="ident">tickets</span> <span class="op">=</span> <span class="ident">service</span>.<span class="ident">search</span>(<span class="ident">user</span>.<span class="number">0</span>.<span class="ident">role</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">search</span>)<span class="question-mark">?</span>;
+    <span class="kw">let</span> <span class="ident">tickets</span> <span class="op">=</span> <span class="ident">service</span>.<span class="ident">search</span>(<span class="ident">user</span>.<span class="number">0</span>.<span class="ident">role</span>, <span class="kw-2">&amp;mut</span> <span class="ident">search</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">courses</span> <span class="op">=</span> <span class="ident">service</span>.<span class="ident">list_course_names</span>()<span class="question-mark">?</span>;
 
@@ -847,12 +849,12 @@
     <span class="kw">use</span> <span class="ident">rocket::http::Status</span>;
     <span class="kw">use</span> <span class="ident">rocket::uri</span>;
 
-    <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::tests</span>::{<span class="ident">check_form</span>, <span class="ident">prepare_logged_in_client</span>};
+    <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::tests</span>::{<span class="ident">check_form</span>, <span class="ident">prepare_logged_in_client</span>};
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">invalid_post_new_ticket</span>() {
         <span class="kw">let</span> <span class="ident">client</span> <span class="op">=</span> <span class="ident">prepare_logged_in_client</span>(<span class="string">&quot;admin&quot;</span>, <span class="string">&quot;admin&quot;</span>);
-        <span class="kw">let</span> <span class="ident">uri</span> <span class="op">=</span> <span class="macro">uri!</span>(<span class="string">&quot;/tickets&quot;</span>, <span class="kw">super</span><span class="ident">::post_new</span>).<span class="ident">to_string</span>();
+        <span class="kw">let</span> <span class="ident">uri</span> <span class="op">=</span> <span class="macro">uri!</span>(<span class="string">&quot;/tickets&quot;</span>, <span class="ident"><span class="kw">super</span>::post_new</span>).<span class="ident">to_string</span>();
 
         <span class="kw">let</span> <span class="ident">data_list</span> <span class="op">=</span> <span class="kw-2">&amp;</span>[
             <span class="string">&quot;ty=&amp;category=content&amp;title=a&amp;description=a&amp;course=1&amp;page=1&amp;line=1&quot;</span>,
@@ -881,7 +883,6 @@
         }
     }
 }
-</pre></div>
-</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="amelio" data-search-index-js="../../../search-index.js" data-search-js="../../../search.js"></div>
-    <script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script>
+</code></pre></div>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="amelio" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (207c80f10 2021-11-30)" ></div>
 </body></html>

@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src&#x2F;templates.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>templates.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg"><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../amelio/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src&#x2F;templates.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>templates.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css"disabled><link rel="stylesheet" type="text/css" href="../../dark.css"disabled><link rel="stylesheet" type="text/css" href="../../light.css"id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
+    <noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../amelio/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -312,15 +313,15 @@
 <span id="312">312</span>
 <span id="313">313</span>
 <span id="314">314</span>
-</pre><pre class="rust">
-<span class="doccomment">//! All templates that are used to render the web pages of this service.</span>
+<span id="315">315</span>
+</pre><pre class="rust"><code><span class="doccomment">//! All templates that are used to render the web pages of this service.</span>
 
 <span class="kw">use</span> <span class="ident">askama::Template</span>;
 <span class="kw">use</span> <span class="ident">chrono::Timelike</span>;
 <span class="kw">use</span> <span class="ident">strum</span>::{<span class="ident">AsRefStr</span>, <span class="ident">EnumString</span>};
 
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::language::Translate</span>;
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::models</span>::{
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::language::Translate</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::models</span>::{
     <span class="ident">Category</span>, <span class="ident">Course</span>, <span class="ident">CourseWithNames</span>, <span class="ident">Id</span>, <span class="ident">Medium</span>, <span class="ident">MediumType</span>, <span class="ident">Priority</span>, <span class="ident">Role</span>, <span class="ident">Status</span>,
     <span class="ident">TicketSearch</span>, <span class="ident">TicketType</span>, <span class="ident">TicketWithNames</span>, <span class="ident">TicketWithRels</span>, <span class="ident">User</span>,
 };
@@ -342,26 +343,27 @@
     <span class="doccomment">/// ```text</span>
     <span class="doccomment">/// src=&quot;logo.png&quot; srcset=&quot;logo.png, logo@1.5x.png 1.5x, logo@2x.png 2x, ...&quot;</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">srcset</span>(<span class="ident">base</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">askama::Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
-        <span class="prelude-val">Ok</span>(<span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">pos</span>) <span class="op">=</span> <span class="ident">base</span>.<span class="ident">rfind</span>(<span class="string">&#39;.&#39;</span>) {
-            <span class="macro">format!</span>(
-                <span class="string">&quot;src=\&quot;{0}\&quot; srcset=\&quot;{0}, \
-                {name}@1.5x{ext} 1.5x, \
-                {name}@2x{ext} 2x, \
-                {name}@3x{ext} 3x, \
-                {name}@4x{ext} 4x\&quot;&quot;</span>,
-                <span class="ident">base</span>,
-                <span class="ident">name</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">base</span>[..<span class="ident">pos</span>],
-                <span class="ident">ext</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">base</span>[<span class="ident">pos</span>..],
-            )
-        } <span class="kw">else</span> {
-            <span class="ident">base</span>.<span class="ident">to_owned</span>()
-        })
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">srcset</span>(<span class="ident">base</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="ident">askama::Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Ok</span>(<span class="ident">base</span>.<span class="ident">rfind</span>(<span class="string">&#39;.&#39;</span>).<span class="ident">map_or_else</span>(
+            <span class="op">|</span><span class="op">|</span> <span class="ident">base</span>.<span class="ident">to_owned</span>(),
+            <span class="op">|</span><span class="ident">pos</span><span class="op">|</span> {
+                <span class="macro">format!</span>(
+                    <span class="string">&quot;src=\&quot;{0}\&quot; srcset=\&quot;{0}, \
+                    {name}@1.5x{ext} 1.5x, \
+                    {name}@2x{ext} 2x, \
+                    {name}@3x{ext} 3x, \
+                    {name}@4x{ext} 4x\&quot;&quot;</span>,
+                    <span class="ident">base</span>,
+                    <span class="ident">name</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">base</span>[..<span class="ident">pos</span>],
+                    <span class="ident">ext</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">base</span>[<span class="ident">pos</span>..],
+                )
+            },
+        ))
     }
 
     <span class="doccomment">/// Convert a UTC timestamp into German time zone and then print it in a custom format fitting</span>
     <span class="doccomment">/// for comments.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">timestamp</span>(<span class="ident">ts</span>: <span class="kw-2">&amp;</span><span class="ident">DateTime</span><span class="op">&lt;</span><span class="ident">Utc</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">askama::Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">timestamp</span>(<span class="ident">ts</span>: <span class="kw-2">&amp;</span><span class="ident">DateTime</span><span class="op">&lt;</span><span class="ident">Utc</span><span class="op">&gt;</span>) -&gt; <span class="ident">askama::Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
         <span class="prelude-val">Ok</span>(<span class="ident">ts</span>
             .<span class="ident">with_timezone</span>(<span class="kw-2">&amp;</span><span class="ident">Berlin</span>)
             .<span class="ident">format</span>(<span class="string">&quot;um %H:%M am %d.%m.%Y&quot;</span>)
@@ -370,19 +372,19 @@
 
     <span class="doccomment">/// Return the string representation of a value if it exists or an empty string if it&#39;s</span>
     <span class="doccomment">/// [`None`].</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">opt_str</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">opt</span>: <span class="kw-2">&amp;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">askama::Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">opt_str</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">opt</span>: <span class="kw-2">&amp;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) -&gt; <span class="ident">askama::Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span> {
         <span class="prelude-val">Ok</span>(<span class="ident">opt</span>.<span class="ident">as_ref</span>().<span class="ident">map_or</span>(<span class="string">&quot;&quot;</span>, <span class="ident">AsRef::as_ref</span>))
     }
 
     <span class="doccomment">/// Compare two values and return ` selected` if they match, an empty string otherwise. This is</span>
     <span class="doccomment">/// helpful in pre-selecting a value in HTML `&lt;select&gt;` elements.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">select</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Eq</span><span class="op">&gt;</span>(<span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">askama::Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span> {
-        <span class="prelude-val">Ok</span>(<span class="kw">if</span> <span class="ident">value</span> <span class="op">=</span><span class="op">=</span> <span class="ident">other</span> { <span class="string">&quot; selected&quot;</span> } <span class="kw">else</span> { <span class="string">&quot;&quot;</span> })
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">select</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Eq</span><span class="op">&gt;</span>(<span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>) -&gt; <span class="ident">askama::Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Ok</span>(<span class="kw">if</span> <span class="ident">value</span> <span class="op">==</span> <span class="ident">other</span> { <span class="string">&quot; selected&quot;</span> } <span class="kw">else</span> { <span class="string">&quot;&quot;</span> })
     }
 
     <span class="doccomment">/// Compare two values exactly as [`select`] but with the first value being optional.</span>
     <span class="doccomment">/// If the first value is [`None`], an empty string is returned.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">opt_select</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Eq</span><span class="op">&gt;</span>(<span class="ident">opt</span>: <span class="kw-2">&amp;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">askama::Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">opt_select</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Eq</span><span class="op">&gt;</span>(<span class="ident">opt</span>: <span class="kw-2">&amp;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>) -&gt; <span class="ident">askama::Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span> {
         <span class="ident">opt</span>.<span class="ident">as_ref</span>().<span class="ident">map_or</span>(<span class="prelude-val">Ok</span>(<span class="string">&quot;&quot;</span>), <span class="op">|</span><span class="ident">value</span><span class="op">|</span> <span class="ident">select</span>(<span class="ident">value</span>, <span class="ident">other</span>))
     }
 }
@@ -393,17 +395,17 @@
 <span class="doccomment">/// The color values are CSS classes and bound to the used framework.</span>
 <span class="kw">trait</span> <span class="ident">Color</span> {
     <span class="doccomment">/// The color to be used within a tag element.</span>
-    <span class="kw">fn</span> <span class="ident">tag</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>;
+    <span class="kw">fn</span> <span class="ident">tag</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>;
 }
 
 <span class="kw">impl</span> <span class="ident">Color</span> <span class="kw">for</span> <span class="ident">Status</span> {
-    <span class="kw">fn</span> <span class="ident">tag</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> {
+    <span class="kw">fn</span> <span class="ident">tag</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="self">Self</span><span class="ident">::Open</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;is-primary&quot;</span>,
-            <span class="self">Self</span><span class="ident">::InProgress</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;is-info&quot;</span>,
-            <span class="self">Self</span><span class="ident">::Accepted</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;is-success&quot;</span>,
-            <span class="self">Self</span><span class="ident">::Refused</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;is-danger&quot;</span>,
-            <span class="self">Self</span><span class="ident">::Completed</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;is-light&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::Open</span> =&gt; <span class="string">&quot;is-primary&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::InProgress</span> =&gt; <span class="string">&quot;is-info&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::Accepted</span> =&gt; <span class="string">&quot;is-success&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::Refused</span> =&gt; <span class="string">&quot;is-danger&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::Completed</span> =&gt; <span class="string">&quot;is-light&quot;</span>,
         }
     }
 }
@@ -415,17 +417,17 @@
 <span class="doccomment">/// different icons. The values are CSS classes and bound tot the used icon font.</span>
 <span class="kw">trait</span> <span class="ident">Icon</span> {
     <span class="doccomment">/// The icon to be shown.</span>
-    <span class="kw">fn</span> <span class="ident">icon</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>;
+    <span class="kw">fn</span> <span class="ident">icon</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>;
 }
 
 <span class="kw">impl</span> <span class="ident">Icon</span> <span class="kw">for</span> <span class="ident">Status</span> {
-    <span class="kw">fn</span> <span class="ident">icon</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> {
+    <span class="kw">fn</span> <span class="ident">icon</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="self">Self</span><span class="ident">::Open</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;fa-envelope&quot;</span>,
-            <span class="self">Self</span><span class="ident">::InProgress</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;fa-cogs&quot;</span>,
-            <span class="self">Self</span><span class="ident">::Accepted</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;fa-check&quot;</span>,
-            <span class="self">Self</span><span class="ident">::Refused</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;fa-times&quot;</span>,
-            <span class="self">Self</span><span class="ident">::Completed</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;fa-archive&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::Open</span> =&gt; <span class="string">&quot;fa-envelope&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::InProgress</span> =&gt; <span class="string">&quot;fa-cogs&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::Accepted</span> =&gt; <span class="string">&quot;fa-check&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::Refused</span> =&gt; <span class="string">&quot;fa-times&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::Completed</span> =&gt; <span class="string">&quot;fa-archive&quot;</span>,
         }
     }
 }
@@ -460,36 +462,36 @@
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">MessageCode</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="self">Self</span> {
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">v</span>) <span class="op">=</span> <span class="ident">value</span>.<span class="ident">parse</span>() {
             <span class="ident">v</span>
         } <span class="kw">else</span> {
-            <span class="self">Self</span><span class="ident">::Unknown</span>
+            <span class="ident"><span class="self">Self</span>::Unknown</span>
         }
     }
 }
 
 <span class="kw">impl</span> <span class="ident">Translate</span> <span class="kw">for</span> <span class="ident">MessageCode</span> {
-    <span class="kw">fn</span> <span class="ident">german</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> {
+    <span class="kw">fn</span> <span class="ident">german</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="self">Self</span><span class="ident">::InvalidCredentials</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;Ung\u{00fc}ltiger Nutzername oder Passwort&quot;</span>,
-            <span class="self">Self</span><span class="ident">::FailedUserCreation</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;Benutzererstellung fehlgeschlagen&quot;</span>,
-            <span class="self">Self</span><span class="ident">::FailedUserUpdate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;Benutzerbearbeitung fehlgeschlagen&quot;</span>,
-            <span class="self">Self</span><span class="ident">::InvalidCodeOrError</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot; Ung\u{00fc}ltiger Aktivierungscode oder anderer Fehler&quot;</span>,
-            <span class="self">Self</span><span class="ident">::FailedCourseCreation</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;Kurserstellung fehlgeschlagen&quot;</span>,
-            <span class="self">Self</span><span class="ident">::FailedCourseUpdate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;Kursbearbeitung fehlgeschlagen&quot;</span>,
-            <span class="self">Self</span><span class="ident">::FailedTicketCreation</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;Ticketerstellung fehlgeschlagen&quot;</span>,
-            <span class="self">Self</span><span class="ident">::FailedTicketUpdate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;Ticketbearbeitung fehlgeschlagen&quot;</span>,
-            <span class="self">Self</span><span class="ident">::FailedCommentCreation</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;Kommentarerstellung fehlgeschlagen&quot;</span>,
-            <span class="self">Self</span><span class="ident">::UserCreated</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;Account erfolgreich erstellt&quot;</span>,
-            <span class="self">Self</span><span class="ident">::UserUpdated</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;Account erfolgreich bearbeitet&quot;</span>,
-            <span class="self">Self</span><span class="ident">::UserActivated</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;Account erfolgreich aktiviert&quot;</span>,
-            <span class="self">Self</span><span class="ident">::CourseCreated</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;Kurs erfolgreich erstellt&quot;</span>,
-            <span class="self">Self</span><span class="ident">::CourseUpdated</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;Kurs erfolgreich bearbeitet&quot;</span>,
-            <span class="self">Self</span><span class="ident">::TicketCreated</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;Ticket erfolgreich erstellt&quot;</span>,
-            <span class="self">Self</span><span class="ident">::TicketUpdated</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;Ticket erfolgreich bearbeitet&quot;</span>,
-            <span class="self">Self</span><span class="ident">::CommentCreated</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;Kommentar erfolgreich erstellt&quot;</span>,
-            <span class="self">Self</span><span class="ident">::Unknown</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;Unbekannter Fehler&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::InvalidCredentials</span> =&gt; <span class="string">&quot;Ung\u{00fc}ltiger Nutzername oder Passwort&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::FailedUserCreation</span> =&gt; <span class="string">&quot;Benutzererstellung fehlgeschlagen&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::FailedUserUpdate</span> =&gt; <span class="string">&quot;Benutzerbearbeitung fehlgeschlagen&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::InvalidCodeOrError</span> =&gt; <span class="string">&quot; Ung\u{00fc}ltiger Aktivierungscode oder anderer Fehler&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::FailedCourseCreation</span> =&gt; <span class="string">&quot;Kurserstellung fehlgeschlagen&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::FailedCourseUpdate</span> =&gt; <span class="string">&quot;Kursbearbeitung fehlgeschlagen&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::FailedTicketCreation</span> =&gt; <span class="string">&quot;Ticketerstellung fehlgeschlagen&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::FailedTicketUpdate</span> =&gt; <span class="string">&quot;Ticketbearbeitung fehlgeschlagen&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::FailedCommentCreation</span> =&gt; <span class="string">&quot;Kommentarerstellung fehlgeschlagen&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::UserCreated</span> =&gt; <span class="string">&quot;Account erfolgreich erstellt&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::UserUpdated</span> =&gt; <span class="string">&quot;Account erfolgreich bearbeitet&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::UserActivated</span> =&gt; <span class="string">&quot;Account erfolgreich aktiviert&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::CourseCreated</span> =&gt; <span class="string">&quot;Kurs erfolgreich erstellt&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::CourseUpdated</span> =&gt; <span class="string">&quot;Kurs erfolgreich bearbeitet&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::TicketCreated</span> =&gt; <span class="string">&quot;Ticket erfolgreich erstellt&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::TicketUpdated</span> =&gt; <span class="string">&quot;Ticket erfolgreich bearbeitet&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::CommentCreated</span> =&gt; <span class="string">&quot;Kommentar erfolgreich erstellt&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::Unknown</span> =&gt; <span class="string">&quot;Unbekannter Fehler&quot;</span>,
         }
     }
 }
@@ -627,7 +629,6 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Template</span>)]</span>
 <span class="attribute">#[<span class="ident">template</span>(<span class="ident">path</span> <span class="op">=</span> <span class="string">&quot;errors/500.html&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Error500</span>;
-</pre></div>
-</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="amelio" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
-    <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script>
+</code></pre></div>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="amelio" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (207c80f10 2021-11-30)" ></div>
 </body></html>
