@@ -2,7 +2,7 @@ FROM rust:1.58-alpine as builder
 
 WORKDIR /volume
 
-RUN apk add --no-cache build-base=~0.5 musl-dev=~1.2 perl=~5.32
+RUN apk add --no-cache build-base=~0.5 musl-dev=~1.2 perl=~5.34
 
 COPY assets/ assets/
 COPY migrations/ migrations/
@@ -15,7 +15,7 @@ RUN cargo build --release && \
 
 FROM alpine:3.15
 
-RUN apk add --no-cache ca-certificates=20191127-r7 && \
+RUN apk add --no-cache ca-certificates=~20211220 && \
     addgroup -g 1000 amelio && \
     adduser -u 1000 -G amelio -D -g '' -H -h /dev/null -s /sbin/nologin amelio
 
