@@ -67,9 +67,15 @@ pub fn load() -> Result<(RocketConfig, Config)> {
 fn load_file() -> Result<Config> {
     use std::{env, fs};
 
-    const DEFAULT_CONFIG_FILE: &str = concat!("/etc/", env!("CARGO_PKG_NAME"), "/config.toml");
+    use unidirs::Utf8Path;
 
-    let path = env::var("CONFIG_FILE").unwrap_or_else(|_| String::from(DEFAULT_CONFIG_FILE));
+    use crate::dirs::DIRS;
+
+    let path = env::var("CONFIG_FILE");
+    let path = path
+        .as_deref()
+        .map_or_else(|_| DIRS.config_file(), Utf8Path::new);
+
     let file = fs::read(path)?;
 
     toml::from_slice::<Config>(&file).map_err(Into::into)

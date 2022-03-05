@@ -27,6 +27,7 @@ use crate::db::DbMigrations;
 
 mod config;
 mod db;
+mod dirs;
 mod email;
 mod fairings;
 mod hashing;
@@ -108,8 +109,6 @@ fn rocket() -> Result<Rocket> {
 }
 
 fn main() {
-    dotenv::dotenv().ok();
-
     ctrlc::set_handler(|| {
         info!("Shutting down");
         std::process::exit(1);

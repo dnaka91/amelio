@@ -12,8 +12,7 @@ use rocket::http::Status;
 use rocket::request::{self, FromRequest};
 use rocket::{Outcome, Request, State};
 
-const STATE_DIR: &str = concat!("/var/lib/", env!("CARGO_PKG_NAME"));
-const DB_FILE: &str = concat!("/var/lib/", env!("CARGO_PKG_NAME"), "/data.db");
+use crate::dirs::DIRS;
 
 /// Customizer to run specific commands for every newly created connection.
 #[derive(Copy, Clone, Debug)]
@@ -54,11 +53,11 @@ impl DbConn {
             let url = if cfg!(test) {
                 ":memory:"
             } else {
-                if let Err(e) = fs::create_dir_all(STATE_DIR) {
+                if let Err(e) = fs::create_dir_all(DIRS.db_dir()) {
                     rocket::logger::error(&format!("Failed creating database file\n{:?}", e));
                 }
 
-                DB_FILE
+                DIRS.db_file().as_str()
             };
             let manager = ConnectionManager::<SqliteConnection>::new(url);
 

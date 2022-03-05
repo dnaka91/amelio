@@ -1,5 +1,2 @@
+/.local
 /target
-
-.env
-amelio.toml
-data.db*
