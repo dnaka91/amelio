@@ -49,7 +49,7 @@
                     <select name="course">
                       <option></option>
                       {% for (id, name) in courses %}
-                      <option value="{{ id }}" {{- search.course_id|opt_select(id) }}>{{ name }}</option>
+                      <option value="{{ id }}" {{- search.course_id|opt_select_ref(id) }}>{{ name }}</option>
                       {% endfor %}
                     </select>
                   </span>

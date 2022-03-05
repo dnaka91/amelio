@@ -9,47 +9,48 @@ homepage = "https://amelio.dnaka91.rocks"
 repository = "https://github.com/dnaka91/amelio"
 documentation = "https://dnaka91.github.io/amelio"
 build = "build.rs"
+publish = false
 
 [dependencies]
-anyhow = "1.0.44"
-askama = { version = "0.10.5", default-features = false, features = ["with-rocket"] }
-askama_rocket = "0.10.0"
-bcrypt = "0.10.1"
+anyhow = "1.0.55"
+askama = { version = "0.11.1", default-features = false, features = ["with-rocket"] }
+askama_rocket = "0.11.0"
+bcrypt = "0.12.0"
 chrono = "0.4.19"
-chrono-tz = "0.6.0"
+chrono-tz = "0.6.1"
 ctrlc = { version = "3.2.1", features = ["termination"] }
 diesel = { version = "1.4.8", features = ["r2d2", "sqlite"] }
 diesel_migrations = "1.4.0"
 dotenv = "0.15.0"
 fnv = "1.0.7"
-lettre_email = "0.9.4"
-libsqlite3-sys = { version = "0.20.1", features = ["bundled"] }
+libsqlite3-sys = { version = "0.22.2", features = ["bundled"] }
 log = { version = "0.4.14", features = ["release_max_level_info"] }
 native-tls = { version = "0.2.8", features = ["vendored"] }
 num-traits = "0.2.14"
-phf = "0.10.0"
-rand = "0.8.4"
+phf = "0.10.1"
+rand = "0.8.5"
 rocket = "0.4.10"
-rust-embed = "6.2.0"
-serde = { version = "1.0.130", features = ["derive"] }
-serde_json = "1.0.68"
-strum = { version = "0.22.0", features = ["derive"] }
+rust-embed = "6.3.0"
+serde = { version = "1.0.136", features = ["derive"] }
+serde_json = "1.0.79"
+strum = { version = "0.24.0", features = ["derive"] }
 toml = "0.5.8"
 url = "2.2.2"
 
 [dependencies.lettre]
-version = "0.9.6"
+version = "0.10.0-rc.4"
 default-features = false
-features = ["smtp-transport"]
+features = ["builder", "rustls-tls", "smtp-transport"]
 
 [dev-dependencies]
-pretty_assertions = "1.0.0"
+pretty_assertions = "1.1.0"
 
 [build-dependencies]
 hex = "0.4.3"
 ignore = "0.4.18"
 phf_codegen = "0.10.0"
-sha-1 = "0.9.8"
+sha-1 = "0.10.0"
 
 [profile.release]
 lto = true
+strip = true

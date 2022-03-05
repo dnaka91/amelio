@@ -62,14 +62,27 @@ mod filters {
 
     /// Compare two values and return ` selected` if they match, an empty string otherwise. This is
     /// helpful in pre-selecting a value in HTML `<select>` elements.
-    pub fn select<T: Eq>(value: &T, other: &T) -> askama::Result<&'static str> {
-        Ok(if value == other { " selected" } else { "" })
+    pub fn select<T: Copy + Eq>(value: &T, other: T) -> askama::Result<&'static str> {
+        Ok(if *value == other { " selected" } else { "" })
+    }
+
+    /// Same as [`select`], but takes `other` as a reference.
+    pub fn select_ref<T: Copy + Eq>(value: &T, other: &T) -> askama::Result<&'static str> {
+        select(value, *other)
     }
 
     /// Compare two values exactly as [`select`] but with the first value being optional.
     /// If the first value is [`None`], an empty string is returned.
-    pub fn opt_select<T: Eq>(opt: &Option<T>, other: &T) -> askama::Result<&'static str> {
+    pub fn opt_select<T: Copy + Eq>(opt: &Option<T>, other: T) -> askama::Result<&'static str> {
         opt.as_ref().map_or(Ok(""), |value| select(value, other))
+    }
+
+    /// Same as [`opt_select`], but takes `other` as a reference.
+    pub fn opt_select_ref<T: Copy + Eq>(
+        opt: &Option<T>,
+        other: &T,
+    ) -> askama::Result<&'static str> {
+        opt_select(opt, *other)
     }
 }
 
@@ -142,17 +155,6 @@ pub enum MessageCode {
     CommentCreated,
     // Unknown
     Unknown,
-}
-
-impl From<&str> for MessageCode {
-    #[inline]
-    fn from(value: &str) -> Self {
-        if let Ok(v) = value.parse() {
-            v
-        } else {
-            Self::Unknown
-        }
-    }
 }
 
 impl Translate for MessageCode {

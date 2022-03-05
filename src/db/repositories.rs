@@ -794,8 +794,9 @@ impl<'a> TicketRepository for TicketRepositoryImpl<'a> {
     }
 
     fn is_creator(&self, id: i32, user_id: i32) -> Result<bool> {
-        use super::schema::tickets;
         use diesel::dsl::count;
+
+        use super::schema::tickets;
 
         let res = tickets::table
             .find(id)

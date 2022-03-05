@@ -209,7 +209,12 @@ pub fn edit(
 
     Ok(EditResponse::Edit(templates::TicketDetail {
         role: user.0.role,
-        flash: flash.map(|f| (f.name().to_owned(), f.msg().into())),
+        flash: flash.map(|f| {
+            (
+                f.name().to_owned(),
+                f.msg().parse().unwrap_or(MessageCode::Unknown),
+            )
+        }),
         ticket,
     }))
 }

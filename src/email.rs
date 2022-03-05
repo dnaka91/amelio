@@ -1,11 +1,11 @@
 //! Functions for sending emails.
 
 use anyhow::Result;
-use lettre::smtp::authentication::Credentials;
-use lettre::{ClientSecurity, ClientTlsParameters, SmtpClient, Transport};
-use lettre_email::EmailBuilder;
+use lettre::message::header::ContentType;
+use lettre::message::Mailbox;
+use lettre::transport::smtp::authentication::Credentials;
+use lettre::{Message, SmtpTransport, Transport};
 use log::error;
-use native_tls::{Protocol, TlsConnector};
 
 use crate::config::SmtpConfig;
 use crate::language::Translate;
@@ -30,44 +30,32 @@ struct SmtpSender<'a> {
     config: &'a SmtpConfig,
 }
 
-impl<'a> SmtpSender<'a> {
-    /// Create and configure a SMTP client.
-    ///
-    /// Currently the SMTP client builder of [`lettre`] doesn't allow to set a port for connecting.
-    /// The unreleased version `0.10` of [`lettre`] already includes that feature and once released
-    /// this function can be removed.
-    fn create_client(domain: &str, port: u16) -> Result<SmtpClient> {
-        let mut tls_builder = TlsConnector::builder();
-        tls_builder.min_protocol_version(Some(Protocol::Tlsv12));
-
-        let params = ClientTlsParameters::new(domain.to_owned(), tls_builder.build()?);
-
-        SmtpClient::new((domain, port), ClientSecurity::Required(params)).map_err(Into::into)
-    }
-}
-
 impl<'a> MailSender for SmtpSender<'a> {
     fn send(&self, mail: Mail) -> Result<()> {
-        let mut sender = Self::create_client(&self.config.domain, self.config.port)?
+        let sender = SmtpTransport::starttls_relay(&self.config.domain)?
+            .port(self.config.port)
             .credentials(Credentials::new(
                 self.config.username.clone(),
                 self.config.password.clone(),
             ))
-            .transport();
+            .build();
 
-        let email_message = EmailBuilder::new()
+        let email_message = Message::builder()
+            .header(ContentType::TEXT_PLAIN)
             // Usually SMTP servers refuse to send emails when the **From** field doesn't match with
             // the actual user account. Therefore, we just ignore the username from [`Mail`] and use
             // the configuration's username instead.
-            .from((&self.config.username, "Amelio"))
-            .to(mail.to)
+            .from(Mailbox::new(
+                Some(mail.from.1.to_owned()),
+                self.config.username.parse()?,
+            ))
+            .to(Mailbox::new(Some(mail.to.1.to_owned()), mail.to.0.parse()?))
             .subject(mail.subject)
-            .text(mail.message)
-            .build()?;
+            .body(mail.message.to_owned())?;
 
         #[allow(clippy::match_wildcard_for_single_variants)]
-        std::thread::spawn(move || match sender.send(email_message.into()) {
-            Ok(r) if !r.is_positive() => error!("Failed sending email: {}", r.code),
+        std::thread::spawn(move || match sender.send(&email_message) {
+            Ok(r) if !r.is_positive() => error!("Failed sending email: {}", r.code()),
             Err(e) => error!("Failed sending email: {:?}", e),
             _ => (),
         });

@@ -6,7 +6,6 @@ use chrono::{DateTime, NaiveTime};
 use serde::Deserialize;
 
 use super::schema::*;
-
 use crate::models::*;
 
 /// A special new user that is used during first initialization of the database.

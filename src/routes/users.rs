@@ -10,12 +10,11 @@ use super::{NonEmptyString, PositiveId, ServerError};
 use crate::config::Config;
 use crate::db::connection::DbConn;
 use crate::db::repositories;
-use crate::email;
-use crate::hashing;
 use crate::models::Role;
 use crate::roles::{AdminUser, NoUser};
 use crate::services::{self, UserService};
 use crate::templates::{self, MessageCode};
+use crate::{email, hashing};
 
 /// User management page for administrators.
 #[get("/")]
@@ -35,7 +34,12 @@ pub fn list(
 
     Ok(templates::Users {
         role: user.0.role,
-        flash: flash.map(|f| (f.name().to_owned(), f.msg().into())),
+        flash: flash.map(|f| {
+            (
+                f.name().to_owned(),
+                f.msg().parse().unwrap_or(MessageCode::Unknown),
+            )
+        }),
         active,
         inactive,
     })
@@ -46,7 +50,7 @@ pub fn list(
 pub fn new(user: AdminUser, flash: Option<FlashMessage<'_, '_>>) -> templates::NewUser {
     templates::NewUser {
         role: user.0.role,
-        flash: flash.map(|f| f.msg().into()),
+        flash: flash.map(|f| f.msg().parse().unwrap_or(MessageCode::Unknown)),
     }
 }
 
@@ -93,7 +97,7 @@ pub fn activate(
     flash: Option<FlashMessage<'_, '_>>,
 ) -> templates::ActivateUser {
     templates::ActivateUser {
-        flash: flash.map(|f| f.msg().into()),
+        flash: flash.map(|f| f.msg().parse().unwrap_or(MessageCode::Unknown)),
         code,
     }
 }
@@ -174,7 +178,7 @@ pub fn edit(
 
     Ok(templates::EditUser {
         role: user.0.role,
-        flash: flash.map(|f| f.msg().into()),
+        flash: flash.map(|f| f.msg().parse().unwrap_or(MessageCode::Unknown)),
         user: user_data,
     })
 }

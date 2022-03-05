@@ -16,7 +16,12 @@ use crate::templates::{self, MessageCode};
 #[get("/login")]
 pub fn login(flash: Option<FlashMessage<'_, '_>>) -> templates::Login {
     templates::Login {
-        flash: flash.map(|f| (f.name().to_owned(), f.msg().into())),
+        flash: flash.map(|f| {
+            (
+                f.name().to_owned(),
+                f.msg().parse().unwrap_or(MessageCode::Unknown),
+            )
+        }),
     }
 }
 

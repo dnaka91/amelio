@@ -1,4 +1,4 @@
-FROM rust:1.58-alpine as builder
+FROM rust:1.59-alpine as builder
 
 WORKDIR /volume
 
@@ -10,16 +10,17 @@ COPY src/ src/
 COPY templates/ templates/
 COPY build.rs Cargo.lock Cargo.toml rust-toolchain ./
 
-RUN cargo build --release && \
-    strip --strip-all target/release/amelio
+RUN cargo build --release
 
-FROM alpine:3.15
+FROM alpine:3.15 as newuser
 
-RUN apk add --no-cache ca-certificates=~20211220 && \
-    addgroup -g 1000 amelio && \
-    adduser -u 1000 -G amelio -D -g '' -H -h /dev/null -s /sbin/nologin amelio
+RUN echo "amelio:x:1000:" > /tmp/group && \
+    echo "amelio:x:1000:1000::/dev/null:/sbin/nologin" > /tmp/passwd
+
+FROM scratch
 
 COPY --from=builder /volume/target/release/amelio /bin/
+COPY --from=newuser /tmp/group /tmp/passwd /etc/
 
 EXPOSE 8080
 USER amelio

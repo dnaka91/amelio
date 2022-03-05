@@ -13,7 +13,6 @@ use diesel::query_builder::QueryFragment;
 use diesel::result::Error as DieselError;
 use diesel::sqlite::Sqlite;
 use diesel::SqliteConnection;
-
 use rand::distributions::Alphanumeric;
 use rand::Rng;
 use rocket::fairing::{AdHoc, Fairing};

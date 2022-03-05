@@ -1,0 +1,38 @@
+[advisories]
+ignore = [
+    "RUSTSEC-2020-0027",
+    "RUSTSEC-2020-0071",
+    "RUSTSEC-2020-0159",
+    "RUSTSEC-2021-0059",
+    "RUSTSEC-2021-0060",
+    "RUSTSEC-2021-0064",
+    "RUSTSEC-2021-0078",
+    "RUSTSEC-2021-0079",
+]
+
+[licenses]
+allow = [
+    "0BSD",
+    "MPL-2.0",
+    "OpenSSL",
+]
+allow-osi-fsf-free = "both"
+
+[[licenses.clarify]]
+name = "ring"
+version = "*"
+expression = "MIT AND ISC AND OpenSSL"
+license-files = [
+    { path = "LICENSE", hash = 0xbd0eed23 },
+]
+
+[licenses.private]
+ignore = true
+
+[bans]
+skip = [
+    { name = "version_check", version = "=0.1.5" },
+]
+skip-tree = [
+    { name = "rocket", version = "0.4", depth = 20 },
+]

@@ -1,6 +1,6 @@
 //! All routes for the server.
 
-#![allow(clippy::map_err_ignore, clippy::missing_const_for_fn)]
+#![allow(clippy::map_err_ignore, clippy::missing_const_for_fn, clippy::use_self)]
 #![cfg_attr(doc, allow(unused_braces))]
 
 use std::convert::{TryFrom, TryInto};
@@ -18,11 +18,10 @@ use url::Url;
 use crate::config::Config;
 use crate::db::connection::DbConn;
 use crate::db::repositories;
-use crate::email;
 use crate::models::Id;
 use crate::roles::AuthUser;
 use crate::services::{self, TicketService};
-use crate::templates;
+use crate::{email, templates};
 
 pub mod assets;
 pub mod auth;

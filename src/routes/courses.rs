@@ -28,7 +28,12 @@ pub fn list(
 
     Ok(templates::Courses {
         role: user.0.role,
-        flash: flash.map(|f| (f.name().to_owned(), f.msg().into())),
+        flash: flash.map(|f| {
+            (
+                f.name().to_owned(),
+                f.msg().parse().unwrap_or(MessageCode::Unknown),
+            )
+        }),
         courses,
     })
 }
@@ -48,7 +53,7 @@ pub fn new(
 
     Ok(templates::NewCourse {
         role: user.0.role,
-        flash: flash.map(|f| f.msg().into()),
+        flash: flash.map(|f| f.msg().parse().unwrap_or(MessageCode::Unknown)),
         authors,
         tutors,
     })
@@ -125,7 +130,7 @@ pub fn edit(
 
     Ok(templates::EditCourse {
         role: user.0.role,
-        flash: flash.map(|f| f.msg().into()),
+        flash: flash.map(|f| f.msg().parse().unwrap_or(MessageCode::Unknown)),
         authors,
         tutors,
         course,
