@@ -1,5 +1,10 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="state - safe and effortless state management"><meta name="keywords" content="rust, rustlang, rust-lang, state"><title>state - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../ayu.css"disabled><link rel="stylesheet" type="text/css" href="../dark.css"disabled><link rel="stylesheet" type="text/css" href="../light.css"id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script src="../crates.js"></script><script defer src="../main.js"></script>
-    <noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../favicon.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../state/index.html'><div class='logo-container rust-logo'><img src='../rust-logo.png' alt='logo'></div></a><h2 class="location">Crate state</h2><div class="block version"><div class="narrow-helper"></div><p>Version 0.4.2</p></div><div class="sidebar-elems"><a id="all-types" href="all.html"><p>See all state's items</p></a><div class="block items"><ul><li><a href="#structs">Structs</a></li></ul></div><div id="sidebar-vars" data-name="state" data-ty="mod" data-relpath=""></div><script defer src="sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../wheel.svg"></a></div></form></nav><section id="main" class="content"><h1 class="fqn"><span class="in-band">Crate <a class="mod" href="#">state</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span><span class="out-of-band"><span id="render-detail"><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span><a class="srclink" href="../src/state/lib.rs.html#1-219" title="goto source code">[src]</a></span></h1><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><h2 id="state---safe-and-effortless-state-management" class="section-header"><a href="#state---safe-and-effortless-state-management">state - safe and effortless state management</a></h2>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="state - safe and effortless state management"><meta name="keywords" content="rust, rustlang, rust-lang, state"><title>state - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../dark.css" disabled><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script src="../crates.js"></script><script defer src="../main.js"></script>
+    <noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../favicon.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../state/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div>
+        </a><h2 class="location"></h2>
+    </nav>
+    <nav class="sidebar"><a class="sidebar-logo" href="../state/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div>
+        </a><h2 class="location"><a href="#">Crate state</a></h2><div class="sidebar-elems"><div class="block"><ul><li class="version">Version 0.4.2</li><li><a id="all-types" href="all.html">All Items</a></li></div></ul><section><div class="block"><ul><li><a href="#structs">Structs</a></li></ul></div></section><div id="sidebar-vars" data-name="state" data-ty="mod" data-relpath=""></div><script defer src="sidebar-items.js"></script></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../state/index.html"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></a><nav class="sub"><div class="theme-picker hidden"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="22" height="22" alt="Pick another theme!" src="../brush.svg"></button><div id="theme-choices" role="menu"></div></div><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></form></nav></div><section id="main-content" class="content"><div class="main-heading">
+    <h1 class="fqn"><span class="in-band">Crate <a class="mod" href="#">state</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/state/lib.rs.html#1-219">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><h2 id="state---safe-and-effortless-state-management"><a href="#state---safe-and-effortless-state-management">state - safe and effortless state management</a></h2>
 <p>This crate allows you to safely and effortlessly manage global and/or
 thread-local state. Three primitives are provided for state management:</p>
 <ul>
@@ -9,14 +14,14 @@ thread-local storage for many values.</li>
 <li><strong><a href="struct.LocalStorage.html">LocalStorage</a>:</strong> Thread-local storage for a
 single instance.</li>
 </ul>
-<h3 id="usage" class="section-header"><a href="#usage">Usage</a></h3>
+<h3 id="usage"><a href="#usage">Usage</a></h3>
 <p>Include <code>state</code> in your <code>Cargo.toml</code> <code>[dependencies]</code>:</p>
 <div class="example-wrap"><pre class="language-toml"><code>[dependencies]
 state = &quot;0.4&quot;</code></pre></div>
 <p>Thread-local state management is not enabled by default. You can enable it
 via the <code>tls</code> feature:</p>
 <div class="example-wrap"><pre class="language-toml"><code>[dependencies]
-state = { version = &quot;0.4&quot;, features = [&quot;tls&quot;] }</code></pre></div><h3 id="use-cases" class="section-header"><a href="#use-cases">Use Cases</a></h3><h4 id="read-only-singleton" class="section-header"><a href="#read-only-singleton">Read-Only Singleton</a></h4>
+state = { version = &quot;0.4&quot;, features = [&quot;tls&quot;] }</code></pre></div><h3 id="use-cases"><a href="#use-cases">Use Cases</a></h3><h4 id="read-only-singleton"><a href="#read-only-singleton">Read-Only Singleton</a></h4>
 <p>Suppose you have the following structure which is initialized in <code>main</code>
 after receiving input from the user:</p>
 
@@ -54,7 +59,7 @@ checking for <code>Some</code>, paying the cost of synchronization.</li>
     <span class="comment">/* at any point later in the program, in any thread */</span>
     <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">CONFIG</span>.<span class="ident">get</span>();
 }</code></pre></div>
-<h4 id="readwrite-singleton" class="section-header"><a href="#readwrite-singleton">Read/Write Singleton</a></h4>
+<h4 id="readwrite-singleton"><a href="#readwrite-singleton">Read/Write Singleton</a></h4>
 <p>Following from the previous example, let’s now say that we want to be able
 to modify our singleton <code>Configuration</code> structure as the program evolves. We
 have two options:</p>
@@ -84,7 +89,7 @@ the <code>Configuration</code> type with a <code>RwLock</code>:</p>
     <span class="comment">/* at any point later in the program, in any thread */</span>
     <span class="kw">let</span> <span class="ident">mut_config</span> <span class="op">=</span> <span class="ident">CONFIG</span>.<span class="ident">get</span>().<span class="ident">write</span>();
 }</code></pre></div>
-<h4 id="mutable-thread-local-data" class="section-header"><a href="#mutable-thread-local-data">Mutable, thread-local data</a></h4>
+<h4 id="mutable-thread-local-data"><a href="#mutable-thread-local-data">Mutable, thread-local data</a></h4>
 <p>Imagine you want to count the number of invocations to a function per
 thread. You’d like to store the count in a <code>Cell&lt;usize&gt;</code> and use
 <code>count.set(count.get() + 1)</code> to increment the count. Prior to <code>state</code>, your
@@ -121,7 +126,7 @@ is implemented in the folloiwng:</p>
 
     <span class="macro">assert_eq!</span>(<span class="ident">total</span>, <span class="number">10</span>);
 }</code></pre></div>
-<h3 id="performance" class="section-header"><a href="#performance">Performance</a></h3>
+<h3 id="performance"><a href="#performance">Performance</a></h3>
 <p><code>state</code> is heavily tuned to perform optimally. <code>get{_local}</code> and
 <code>set{_local}</code> calls to a <code>Container</code> incur overhead due to type lookup.
 <code>Storage</code>, on the other hand, is optimal for global storage retrieval; it is
@@ -134,11 +139,11 @@ through <code>Storage</code> across many threads.</p>
 program. Other solutions, such as <code>lazy_static!</code> and <code>thread_local!</code> allow
 initialization <em>only</em> a priori. In other words, <code>state</code>’s abilities are a
 superset of those provided by <code>lazy_static!</code> and <code>thread_local!</code>.</p>
-<h3 id="when-to-use" class="section-header"><a href="#when-to-use">When To Use</a></h3>
+<h3 id="when-to-use"><a href="#when-to-use">When To Use</a></h3>
 <p>You should avoid using <code>state</code> as much as possible. Instead, thread state
 manually throughout your program when feasible.</p>
-</div></details><h2 id="structs" class="section-header"><a href="#structs">Structs</a></h2>
+</div></details><h2 id="structs" class="small-section-header"><a href="#structs">Structs</a></h2>
 <div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Container.html" title="state::Container struct">Container</a></div><div class="item-right docblock-short"><p>A container for global type-based state.</p>
 </div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Storage.html" title="state::Storage struct">Storage</a></div><div class="item-right docblock-short"><p>A single storage location for global access to a value.</p>
-</div></div></div></section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../" data-current-crate="state" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (207c80f10 2021-11-30)" ></div>
+</div></div></div></section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="state" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.61.0-nightly (4ce374923 2022-02-28)" ></div>
 </body></html>

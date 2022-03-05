@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["Error","An enum of all error kinds."]],"type":[["SmtpResult","SMTP result type"]]});

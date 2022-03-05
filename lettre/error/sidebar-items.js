@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["Error","Error type for email content"]],"type":[["EmailResult","Email result type"]]});
+initSidebarItems({"enum":[["Error","Error type for email content"]]});

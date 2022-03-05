@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["XText","Encode a string as xtext"]]});

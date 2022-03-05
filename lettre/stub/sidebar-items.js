@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["StubTransport","This transport logs the message envelope and returns the given response"]],"type":[["StubResult","SMTP result type"]]});

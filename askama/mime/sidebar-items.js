@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["extension_to_mime_type",""]]});
+initSidebarItems({});

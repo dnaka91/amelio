@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["Rfc822DateParser","Parser for RFC822 style dates, as defined by Section 5."]]});
