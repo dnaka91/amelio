@@ -161,7 +161,6 @@
 <span id="156">156</span>
 <span id="157">157</span>
 <span id="158">158</span>
-<span id="159">159</span>
 </pre><pre class="rust"><code><span class="doccomment">//! # Amelio - A university project for the IUBH</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! Amelio is a group project for the IUBH in Germany. It is a ticket system that helps to report</span>
@@ -191,6 +190,7 @@
 
 <span class="kw">mod</span> <span class="ident">config</span>;
 <span class="kw">mod</span> <span class="ident">db</span>;
+<span class="kw">mod</span> <span class="ident">dirs</span>;
 <span class="kw">mod</span> <span class="ident">email</span>;
 <span class="kw">mod</span> <span class="ident">fairings</span>;
 <span class="kw">mod</span> <span class="ident">hashing</span>;
@@ -272,8 +272,6 @@
 }
 
 <span class="kw">fn</span> <span class="ident">main</span>() {
-    <span class="ident">dotenv::dotenv</span>().<span class="ident">ok</span>();
-
     <span class="ident">ctrlc::set_handler</span>(<span class="op">|</span><span class="op">|</span> {
         <span class="macro">info!</span>(<span class="string">&quot;Shutting down&quot;</span>);
         <span class="ident">std::process::exit</span>(<span class="number">1</span>);
