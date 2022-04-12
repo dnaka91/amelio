@@ -38,7 +38,6 @@ sourcesIndex["diesel_migrations"] = {"name":"","files":["lib.rs"]};
 sourcesIndex["digest"] = {"name":"","files":["digest.rs","dyn_digest.rs","errors.rs","fixed.rs","lib.rs","variable.rs","xof.rs"]};
 sourcesIndex["directories"] = {"name":"","files":["lib.rs","lin.rs"]};
 sourcesIndex["dirs_sys"] = {"name":"","files":["lib.rs","xdg_user_dirs.rs"]};
-sourcesIndex["dotenv"] = {"name":"","files":["errors.rs","find.rs","iter.rs","lib.rs","parse.rs"]};
 sourcesIndex["fastrand"] = {"name":"","files":["lib.rs"]};
 sourcesIndex["fnv"] = {"name":"","files":["lib.rs"]};
 sourcesIndex["foreign_types"] = {"name":"","files":["lib.rs"]};
