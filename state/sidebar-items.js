@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Container","A container for global type-based state."],["Storage","A single storage location for global access to a value."]]});
+window.SIDEBAR_ITEMS = {"struct":[["Container","A container for global type-based state."],["Storage","A single storage location for global access to a value."]]};

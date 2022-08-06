@@ -1,1 +1,1 @@
-initSidebarItems({"derive":[["AsChangeset",""],["AsExpression",""],["Associations",""],["DieselNumericOps",""],["FromSqlRow",""],["Identifiable",""],["Insertable",""],["QueryId",""],["Queryable",""],["QueryableByName",""],["SqlType",""]]});
+window.SIDEBAR_ITEMS = {"derive":[["AsChangeset",""],["AsExpression",""],["Associations",""],["DieselNumericOps",""],["FromSqlRow",""],["Identifiable",""],["Insertable",""],["QueryId",""],["Queryable",""],["QueryableByName",""],["SqlType",""]]};

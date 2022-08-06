@@ -1,1 +1,1 @@
-initSidebarItems({"derive":[["RustEmbed",""]]});
+window.SIDEBAR_ITEMS = {"derive":[["RustEmbed",""]]};

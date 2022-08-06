@@ -1,1 +1,1 @@
-initSidebarItems({"constant":[["Longyearbyen",""]]});
+window.SIDEBAR_ITEMS = {"constant":[["Longyearbyen",""]]};

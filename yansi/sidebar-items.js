@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["Color","An enum representing an ANSI color code."]],"struct":[["Paint","A structure encapsulating an item and styling."],["Style","Represents a set of styling options."]]});
+window.SIDEBAR_ITEMS = {"enum":[["Color","An enum representing an ANSI color code."]],"struct":[["Paint","A structure encapsulating an item and styling."],["Style","Represents a set of styling options."]]};

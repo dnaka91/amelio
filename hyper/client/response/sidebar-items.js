@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Response","A response for a client request to a remote server."]]});
+window.SIDEBAR_ITEMS = {"struct":[["Response","A response for a client request to a remote server."]]};

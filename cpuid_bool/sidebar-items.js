@@ -1,1 +1,1 @@
-initSidebarItems({"macro":[["new","Create module with CPUID bool code."]]});
+window.SIDEBAR_ITEMS = {"macro":[["new","Create module with CPUID bool code."]]};

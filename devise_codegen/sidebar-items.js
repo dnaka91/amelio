@@ -1,1 +1,1 @@
-initSidebarItems({"derive":[["FromMeta",""]]});
+window.SIDEBAR_ITEMS = {"derive":[["FromMeta",""]]};

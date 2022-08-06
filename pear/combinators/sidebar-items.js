@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["many",""],["surrounded",""]]});
+window.SIDEBAR_ITEMS = {"fn":[["many",""],["surrounded",""]]};

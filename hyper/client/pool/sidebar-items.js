@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Config","Config options for the `Pool`."],["Pool","The `NetworkConnector` that behaves as a connection pool used by hyper’s `Client`."],["PooledStream","A Stream that will try to be returned to the Pool when dropped."]]});
+window.SIDEBAR_ITEMS = {"struct":[["Config","Config options for the `Pool`."],["Pool","The `NetworkConnector` that behaves as a connection pool used by hyper’s `Client`."],["PooledStream","A Stream that will try to be returned to the Pool when dropped."]]};

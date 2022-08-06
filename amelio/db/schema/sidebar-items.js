@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["comments",""],["courses",""],["medium_interactives",""],["medium_questionaires",""],["medium_recordings",""],["medium_texts",""],["samples",""],["tickets",""],["users",""]]});
+window.SIDEBAR_ITEMS = {"mod":[["comments",""],["courses",""],["medium_interactives",""],["medium_questionaires",""],["medium_recordings",""],["medium_texts",""],["samples",""],["tickets",""],["users",""]]};

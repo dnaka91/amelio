@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["new_hasher","Create a new hasher."]],"struct":[["HasherImpl","Main implementation of [`Hasher`]."]],"trait":[["Hasher","A hasher can hash and verify passwords with a one-way-hash."]]});
+window.SIDEBAR_ITEMS = {"fn":[["new_hasher","Create a new hasher."]],"struct":[["HasherImpl","Main implementation of [`Hasher`]."]],"trait":[["Hasher","A hasher can hash and verify passwords with a one-way-hash."]]};

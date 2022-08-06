@@ -1,1 +1,1 @@
-initSidebarItems({"type":[["BigInt",""],["Binary",""],["Bool",""],["Date",""],["Double",""],["Float",""],["Integer",""],["Interval",""],["Nullable",""],["Numeric",""],["SmallInt",""],["Text",""],["Time",""],["Timestamp",""],["TinyInt",""],["ToSqlOutput",""]]});
+window.SIDEBAR_ITEMS = {"type":[["BigInt",""],["Binary",""],["Bool",""],["Date",""],["Double",""],["Float",""],["Integer",""],["Interval",""],["Nullable",""],["Numeric",""],["SmallInt",""],["Text",""],["Time",""],["Timestamp",""],["TinyInt",""],["ToSqlOutput",""]]};

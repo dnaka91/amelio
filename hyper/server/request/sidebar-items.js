@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Request","A request bundles several parts of an incoming `NetworkStream`, given to a `Handler`."]]});
+window.SIDEBAR_ITEMS = {"struct":[["Request","A request bundles several parts of an incoming `NetworkStream`, given to a `Handler`."]]};

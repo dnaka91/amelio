@@ -1,1 +1,1 @@
-initSidebarItems({"attr":[["parser",""]],"macro":[["switch",""]]});
+window.SIDEBAR_ITEMS = {"attr":[["parser",""]],"macro":[["switch",""]]};

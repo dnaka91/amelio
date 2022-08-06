@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["header","Reexported Hyper header types."],["mime","Re-exporting the mime crate, for convenience."]]});
+window.SIDEBAR_ITEMS = {"mod":[["header","Reexported Hyper header types."],["mime","Re-exporting the mime crate, for convenience."]]};

@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["HttpVersion","Represents a version of the HTTP spec."]]});
+window.SIDEBAR_ITEMS = {"enum":[["HttpVersion","Represents a version of the HTTP spec."]]};

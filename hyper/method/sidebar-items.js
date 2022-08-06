@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["Method","The Request Method (VERB)"]]});
+window.SIDEBAR_ITEMS = {"enum":[["Method","The Request Method (VERB)"]]};

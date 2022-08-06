@@ -1,1 +1,1 @@
-initSidebarItems({"derive":[["EmbedMigrations",""]]});
+window.SIDEBAR_ITEMS = {"derive":[["EmbedMigrations",""]]};

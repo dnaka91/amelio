@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["file_name",""],["migration_from",""],["name",""]],"struct":[["MigrationFileName",""],["MigrationName",""]]});
+window.SIDEBAR_ITEMS = {"fn":[["file_name",""],["migration_from",""],["name",""]],"struct":[["MigrationFileName",""],["MigrationName",""]]};

@@ -1,1 +1,1 @@
-initSidebarItems({"constant":[["Beulah",""],["Center",""],["New_Salem",""]]});
+window.SIDEBAR_ITEMS = {"constant":[["Beulah",""],["Center",""],["New_Salem",""]]};

@@ -1,1 +1,1 @@
-initSidebarItems({"static":[["DIRS",""]],"struct":[["Dirs",""]]});
+window.SIDEBAR_ITEMS = {"static":[["DIRS",""]],"struct":[["Dirs",""]]};

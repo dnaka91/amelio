@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["LoopItem",""],["TemplateLoop",""]]});
+window.SIDEBAR_ITEMS = {"struct":[["LoopItem",""],["TemplateLoop",""]]};

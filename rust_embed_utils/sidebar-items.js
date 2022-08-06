@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["get_files",""],["is_path_included",""],["read_file_from_fs",""]],"struct":[["EmbeddedFile","A file embedded into the binary"],["FileEntry",""],["Metadata","Metadata about an embedded file"]]});
+window.SIDEBAR_ITEMS = {"fn":[["get_files",""],["is_path_included",""],["read_file_from_fs",""]],"struct":[["EmbeddedFile","A file embedded into the binary"],["FileEntry",""],["Metadata","Metadata about an embedded file"]]};

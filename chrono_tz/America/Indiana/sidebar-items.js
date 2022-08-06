@@ -1,1 +1,1 @@
-initSidebarItems({"constant":[["Indianapolis",""],["Knox",""],["Marengo",""],["Petersburg",""],["Tell_City",""],["Vevay",""],["Vincennes",""],["Winamac",""]]});
+window.SIDEBAR_ITEMS = {"constant":[["Indianapolis",""],["Knox",""],["Marengo",""],["Petersburg",""],["Tell_City",""],["Vevay",""],["Vincennes",""],["Winamac",""]]};

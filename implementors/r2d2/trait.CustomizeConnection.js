@@ -1,4 +1,5 @@
 (function() {var implementors = {};
 implementors["amelio"] = [{"text":"impl&lt;C&gt; <a class=\"trait\" href=\"r2d2/trait.CustomizeConnection.html\" title=\"trait r2d2::CustomizeConnection\">CustomizeConnection</a>&lt;C, <a class=\"enum\" href=\"diesel/r2d2/enum.Error.html\" title=\"enum diesel::r2d2::Error\">Error</a>&gt; for <a class=\"struct\" href=\"amelio/db/connection/struct.ConnectionCustomizer.html\" title=\"struct amelio::db::connection::ConnectionCustomizer\">ConnectionCustomizer</a> <span class=\"where fmt-newline\">where<br>&nbsp;&nbsp;&nbsp;&nbsp;C: <a class=\"trait\" href=\"diesel/connection/trait.Connection.html\" title=\"trait diesel::connection::Connection\">Connection</a>,&nbsp;</span>","synthetic":false,"types":["amelio::db::connection::ConnectionCustomizer"]}];
+implementors["diesel"] = [];
 implementors["r2d2"] = [];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

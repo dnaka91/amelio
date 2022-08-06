@@ -1,1 +1,1 @@
-initSidebarItems({"constant":[["Continental",""],["EasterIsland",""]]});
+window.SIDEBAR_ITEMS = {"constant":[["Continental",""],["EasterIsland",""]]};

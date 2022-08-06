@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":[["body","Email body encoding algorithms."],["headers","Email header encoding algorithms."]]};

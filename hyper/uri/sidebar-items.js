@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["RequestUri","The Request-URI of a Request’s StartLine."]]});
+window.SIDEBAR_ITEMS = {"enum":[["RequestUri","The Request-URI of a Request’s StartLine."]]};
