@@ -14,7 +14,7 @@ use crate::models::{Id, Status};
 /// A mail sender allows to send emails.
 pub trait MailSender {
     /// Send a single mail to one recipient with subject and a plain text message.
-    fn send(&self, mail: Mail) -> Result<()>;
+    fn send(&self, mail: Mail<'_>) -> Result<()>;
 }
 
 /// All information needed to send a single mail with the [`MailSender`].
@@ -31,7 +31,7 @@ struct SmtpSender<'a> {
 }
 
 impl<'a> MailSender for SmtpSender<'a> {
-    fn send(&self, mail: Mail) -> Result<()> {
+    fn send(&self, mail: Mail<'_>) -> Result<()> {
         let sender = SmtpTransport::starttls_relay(&self.config.domain)?
             .port(self.config.port)
             .credentials(Credentials::new(
@@ -74,9 +74,9 @@ pub trait MailRenderer {
     /// Create the invitation email for account activation.
     fn invitation(&self, name: &str, code: &str) -> (&str, String);
     /// Create the status change email for whenever a ticket status changes.
-    fn status_change(&self, name: &str, details: StatusDetails) -> (&str, String);
+    fn status_change(&self, name: &str, details: StatusDetails<'_>) -> (&str, String);
     /// Create the new comment email for whenever someone adds a new comment to a ticket.
-    fn new_comment(&self, name: &str, details: CommentDetails) -> (&str, String);
+    fn new_comment(&self, name: &str, details: CommentDetails<'_>) -> (&str, String);
 }
 
 /// Detail information to create the status change email.
@@ -119,7 +119,7 @@ impl<'a> MailRenderer for MailRendererImpl<'a> {
         )
     }
 
-    fn status_change(&self, name: &str, details: StatusDetails) -> (&str, String) {
+    fn status_change(&self, name: &str, details: StatusDetails<'_>) -> (&str, String) {
         (
             "Status\u{00e4}nderung Deines Tickets",
             format!(
@@ -143,7 +143,7 @@ impl<'a> MailRenderer for MailRendererImpl<'a> {
         )
     }
 
-    fn new_comment(&self, name: &str, details: CommentDetails) -> (&str, String) {
+    fn new_comment(&self, name: &str, details: CommentDetails<'_>) -> (&str, String) {
         (
             "Neuer Kommentar f\u{00fc}r Dein Ticket",
             format!(

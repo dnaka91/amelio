@@ -19,9 +19,9 @@ use crate::{email, hashing};
 /// User management page for administrators.
 #[get("/")]
 pub fn list(
-    user: AdminUser,
+    user: AdminUser<'_>,
     conn: DbConn,
-    config: State<Config>,
+    config: State<'_, Config>,
     flash: Option<FlashMessage<'_, '_>>,
 ) -> Result<templates::Users, ServerError> {
     let service = services::user_service(
@@ -47,7 +47,7 @@ pub fn list(
 
 /// User creation form for administrators.
 #[get("/new")]
-pub fn new(user: AdminUser, flash: Option<FlashMessage<'_, '_>>) -> templates::NewUser {
+pub fn new(user: AdminUser<'_>, flash: Option<FlashMessage<'_, '_>>) -> templates::NewUser {
     templates::NewUser {
         role: user.0.role,
         flash: flash.map(|f| f.msg().parse().unwrap_or(MessageCode::Unknown)),
@@ -65,10 +65,10 @@ pub struct NewUser {
 /// New user POST endpoint to handle user creation, only for administrators.
 #[post("/new", data = "<data>")]
 pub fn post_new(
-    _user: AdminUser,
+    _user: AdminUser<'_>,
     data: Form<NewUser>,
     conn: DbConn,
-    config: State<Config>,
+    config: State<'_, Config>,
 ) -> Flash<Redirect> {
     let service = services::user_service(
         repositories::user_repo(&conn),
@@ -115,7 +115,7 @@ pub fn post_activate(
     data: Form<Activate>,
     _user: NoUser,
     conn: DbConn,
-    config: State<Config>,
+    config: State<'_, Config>,
 ) -> Flash<Redirect> {
     let service = services::user_service(
         repositories::user_repo(&conn),
@@ -142,11 +142,11 @@ pub fn post_activate(
 /// Enable or disable users as administrator.
 #[get("/<id>/enable?<value>")]
 pub fn enable(
-    _user: AdminUser,
+    _user: AdminUser<'_>,
     id: PositiveId,
     value: bool,
     conn: DbConn,
-    config: State<Config>,
+    config: State<'_, Config>,
 ) -> Result<Redirect, ServerError> {
     let service = services::user_service(
         repositories::user_repo(&conn),
@@ -162,10 +162,10 @@ pub fn enable(
 /// User editing form for administrators.
 #[get("/<id>/edit")]
 pub fn edit(
-    user: AdminUser,
+    user: AdminUser<'_>,
     id: PositiveId,
     conn: DbConn,
-    config: State<Config>,
+    config: State<'_, Config>,
     flash: Option<FlashMessage<'_, '_>>,
 ) -> Result<templates::EditUser, ServerError> {
     let service = services::user_service(
@@ -193,11 +193,11 @@ pub struct EditUser {
 /// Edit user POST endpoint to handle user editing, only for administrators.
 #[post("/<id>/edit", data = "<data>")]
 pub fn post_edit(
-    _user: AdminUser,
+    _user: AdminUser<'_>,
     id: PositiveId,
     data: Form<EditUser>,
     conn: DbConn,
-    config: State<Config>,
+    config: State<'_, Config>,
 ) -> Flash<Redirect> {
     let service = services::user_service(
         repositories::user_repo(&conn),

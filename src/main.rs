@@ -9,9 +9,12 @@
 
 #![feature(proc_macro_hygiene, decl_macro)]
 #![forbid(unsafe_code)]
-#![deny(clippy::all, clippy::pedantic)]
-#![warn(clippy::nursery)]
-#![allow(clippy::module_name_repetitions, clippy::needless_pass_by_value)]
+#![deny(rust_2018_idioms, clippy::all, clippy::pedantic)]
+#![allow(
+    unused_extern_crates,
+    clippy::module_name_repetitions,
+    clippy::needless_pass_by_value
+)]
 
 #[macro_use]
 extern crate diesel;

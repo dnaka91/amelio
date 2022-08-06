@@ -40,7 +40,7 @@ include!(concat!(env!("OUT_DIR"), "/codegen.rs"));
 /// If an `ETag` is found in the request headers and it matches the requested asset, then
 /// [`Status::NotModified`] is returned instead of the actual file content.
 #[get("/<file..>", rank = 10)]
-pub fn get<'r>(file: PathBuf, inm: Option<IfNoneMatch>) -> rocket::response::Result<'r> {
+pub fn get<'r>(file: PathBuf, inm: Option<IfNoneMatch<'_>>) -> rocket::response::Result<'r> {
     let file_str = file.to_string_lossy();
 
     // If the file didn't change, we don't have to send it again.
@@ -68,7 +68,7 @@ pub fn get<'r>(file: PathBuf, inm: Option<IfNoneMatch>) -> rocket::response::Res
 }
 
 /// Check whether the `ETag` of a `if-none-match` HTTP header matches with the requested asset.
-fn etag_matches<F: AsRef<str>>(inm: Option<IfNoneMatch>, file: F) -> bool {
+fn etag_matches<F: AsRef<str>>(inm: Option<IfNoneMatch<'_>>, file: F) -> bool {
     inm.map(|v| {
         v.0 == *ETAGS
             .get(file.as_ref())

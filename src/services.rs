@@ -21,7 +21,7 @@ use crate::models::{
 /// framework.
 pub trait LoginService {
     /// Try to login a user and return its database ID if successful.
-    fn login(&self, cred: &Credentials) -> Result<Id>;
+    fn login(&self, cred: &Credentials<'_>) -> Result<Id>;
 }
 
 /// The credentials that a user needs to authenticate.
@@ -37,7 +37,7 @@ struct LoginServiceImpl<R: UserRepository, H: Hasher> {
 }
 
 impl<R: UserRepository, H: Hasher> LoginService for LoginServiceImpl<R, H> {
-    fn login(&self, cred: &Credentials) -> Result<Id> {
+    fn login(&self, cred: &Credentials<'_>) -> Result<Id> {
         self.user_repo
             .find_by_username(cred.username)
             .and_then(|user| {

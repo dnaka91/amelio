@@ -43,7 +43,7 @@ impl DbMigrations {
     pub fn fairing() -> impl Fairing {
         AdHoc::on_attach("Database Migrations", |rocket| {
             if let Some(conn) = DbConn::get_one(&rocket) {
-                if let Err(e) = init(&*conn) {
+                if let Err(e) = init(&conn) {
                     rocket::logger::error(&format!("Database initialization failed: {:?}", e));
                     Err(rocket)
                 } else {
@@ -139,7 +139,7 @@ fn create_admin_user(conn: &SqliteConnection) -> Result<()> {
             role: "admin".to_owned(),
             active: true,
         })
-        .execute(&*conn)?;
+        .execute(conn)?;
 
     Ok(())
 }
@@ -162,7 +162,7 @@ fn create_sample_users(conn: &SqliteConnection) -> Result<()> {
         user.password = hasher.hash(&user.password)?;
     }
 
-    diesel::insert_into(users).values(values).execute(&*conn)?;
+    diesel::insert_into(users).values(values).execute(conn)?;
 
     set_created(conn, Samples::Users)?;
     Ok(())
@@ -180,9 +180,7 @@ fn create_sample_courses(conn: &SqliteConnection) -> Result<()> {
 
     let values = serde_json::from_slice::<Vec<InitCourseEntity>>(COURSES_JSON)?;
 
-    diesel::insert_into(courses)
-        .values(values)
-        .execute(&*conn)?;
+    diesel::insert_into(courses).values(values).execute(conn)?;
 
     set_created(conn, Samples::Courses)?;
     Ok(())
@@ -237,23 +235,23 @@ fn create_sample_tickets(conn: &SqliteConnection) -> Result<()> {
 
     diesel::insert_into(tickets::table)
         .values(values.tickets)
-        .execute(&*conn)?;
+        .execute(conn)?;
 
     diesel::insert_into(medium_texts::table)
         .values(values.texts)
-        .execute(&*conn)?;
+        .execute(conn)?;
 
     diesel::insert_into(medium_recordings::table)
         .values(values.recordings)
-        .execute(&*conn)?;
+        .execute(conn)?;
 
     diesel::insert_into(medium_interactives::table)
         .values(values.interactives)
-        .execute(&*conn)?;
+        .execute(conn)?;
 
     diesel::insert_into(medium_questionaires::table)
         .values(values.questionaires)
-        .execute(&*conn)?;
+        .execute(conn)?;
 
     set_created(conn, Samples::Tickets)?;
     Ok(())

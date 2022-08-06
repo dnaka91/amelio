@@ -36,7 +36,7 @@ pub mod users;
 pub fn index_user(
     user: &AuthUser,
     conn: DbConn,
-    config: State<Config>,
+    config: State<'_, Config>,
 ) -> Result<templates::Index, ServerError> {
     let service = services::ticket_service(
         repositories::ticket_repo(&conn),
@@ -87,7 +87,7 @@ impl From<anyhow::Error> for ServerError {
 }
 
 impl<'r> Responder<'r> for ServerError {
-    fn respond_to(self, _: &Request) -> response::Result<'r> {
+    fn respond_to(self, _: &Request<'_>) -> response::Result<'r> {
         error!("{:?}", self.0);
         Err(Status::InternalServerError)
     }
@@ -130,13 +130,13 @@ macro_rules! enum_from_request {
         from_request!($t);
 
         impl UriDisplay<Path> for $t {
-            fn fmt(&self, f: &mut Formatter<Path>) -> std::fmt::Result {
+            fn fmt(&self, f: &mut Formatter<'_, Path>) -> std::fmt::Result {
                 f.write_value(self.as_ref())
             }
         }
 
         impl UriDisplay<Query> for $t {
-            fn fmt(&self, f: &mut Formatter<Query>) -> std::fmt::Result {
+            fn fmt(&self, f: &mut Formatter<'_, Query>) -> std::fmt::Result {
                 f.write_value(self.as_ref())
             }
         }

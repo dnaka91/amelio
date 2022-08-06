@@ -23,6 +23,7 @@ impl Dirs {
         })
     }
 
+    #[allow(dead_code)]
     pub fn config_file(&self) -> &Utf8Path {
         &self.config_file
     }

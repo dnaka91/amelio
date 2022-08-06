@@ -23,7 +23,7 @@ impl Fairing for Csp {
         }
     }
 
-    fn on_response(&self, _: &Request, response: &mut Response) {
+    fn on_response(&self, _: &Request<'_>, response: &mut Response<'_>) {
         if response.headers().contains(CSP_HEADER_NAME) {
             return;
         }
@@ -54,7 +54,7 @@ macro_rules! check_rules {
         ///
         /// If the user is logged in but not an [`$t`], he will get a forbidden status response. If
         /// the user is not logged in, he will instead be forwarded to the login page.
-        fn $name(request: &mut Request) -> bool {
+        fn $name(request: &mut Request<'_>) -> bool {
             let is_auth = request
                 .uri()
                 .segments()
@@ -90,8 +90,8 @@ macro_rules! check_rules {
 pub struct Auth;
 
 impl Auth {
-    check_rules!(check_admin_routes, AdminUser, ADMIN_AUTH_PATHS);
-    check_rules!(check_student_routes, StudentUser, STUDENT_AUTH_PATHS);
+    check_rules!(check_admin_routes, AdminUser<'_>, ADMIN_AUTH_PATHS);
+    check_rules!(check_student_routes, StudentUser<'_>, STUDENT_AUTH_PATHS);
 }
 
 impl Fairing for Auth {
@@ -102,7 +102,7 @@ impl Fairing for Auth {
         }
     }
 
-    fn on_request(&self, request: &mut Request, _: &Data) {
+    fn on_request(&self, request: &mut Request<'_>, _: &Data) {
         let _ = Self::check_admin_routes(request) || Self::check_student_routes(request);
     }
 }

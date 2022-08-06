@@ -33,7 +33,7 @@ pub struct Login {
 }
 
 impl Login {
-    fn as_credentials(&self) -> Credentials {
+    fn as_credentials(&self) -> Credentials<'_> {
         Credentials {
             username: &self.username.0,
             password: &self.password.0,

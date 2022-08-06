@@ -107,7 +107,7 @@ impl<'a, 'r> FromRequest<'a, 'r> for DbConn {
     type Error = ();
 
     fn from_request(request: &'a Request<'r>) -> request::Outcome<Self, Self::Error> {
-        let pool = request.guard::<State<DbConnPool>>()?;
+        let pool = request.guard::<State<'_, DbConnPool>>()?;
 
         match pool.0.get() {
             Ok(conn) => Outcome::Success(Self(conn)),

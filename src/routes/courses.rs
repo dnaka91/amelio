@@ -16,7 +16,7 @@ use crate::templates::{self, MessageCode};
 /// Course management page for administrators.
 #[get("/")]
 pub fn list(
-    user: AdminUser,
+    user: AdminUser<'_>,
     conn: DbConn,
     flash: Option<FlashMessage<'_, '_>>,
 ) -> Result<templates::Courses, ServerError> {
@@ -41,7 +41,7 @@ pub fn list(
 /// Course creation form for administrators.
 #[get("/new")]
 pub fn new(
-    user: AdminUser,
+    user: AdminUser<'_>,
     flash: Option<FlashMessage<'_, '_>>,
     conn: DbConn,
 ) -> Result<templates::NewCourse, ServerError> {
@@ -70,7 +70,7 @@ pub struct NewCourse {
 
 /// New course POST endpoint to handle course creation, only for administrators.
 #[post("/new", data = "<data>")]
-pub fn post_new(_user: AdminUser, data: Form<NewCourse>, conn: DbConn) -> Flash<Redirect> {
+pub fn post_new(_user: AdminUser<'_>, data: Form<NewCourse>, conn: DbConn) -> Flash<Redirect> {
     let service = services::course_service(
         repositories::user_repo(&conn),
         repositories::course_repo(&conn),
@@ -99,7 +99,7 @@ pub fn post_new(_user: AdminUser, data: Form<NewCourse>, conn: DbConn) -> Flash<
 /// Enable or disable courses as administrator.
 #[get("/<id>/enable?<value>")]
 pub fn enable(
-    _user: AdminUser,
+    _user: AdminUser<'_>,
     id: PositiveId,
     value: bool,
     conn: DbConn,
@@ -116,7 +116,7 @@ pub fn enable(
 /// Course editing form for administrators.
 #[get("/<id>/edit")]
 pub fn edit(
-    user: AdminUser,
+    user: AdminUser<'_>,
     id: PositiveId,
     conn: DbConn,
     flash: Option<FlashMessage<'_, '_>>,
@@ -148,7 +148,7 @@ pub struct EditCourse {
 /// Edit course POST endpoint to handle course editing, only for administrators.
 #[post("/<id>/edit", data = "<data>")]
 pub fn post_edit(
-    _user: AdminUser,
+    _user: AdminUser<'_>,
     id: PositiveId,
     data: Form<EditCourse>,
     conn: DbConn,

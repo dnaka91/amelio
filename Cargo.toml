@@ -12,44 +12,44 @@ build = "build.rs"
 publish = false
 
 [dependencies]
-anyhow = "1.0.55"
+anyhow = "1.0.59"
 askama = { version = "0.11.1", default-features = false, features = ["with-rocket"] }
 askama_rocket = "0.11.0"
-bcrypt = "0.12.0"
-chrono = "0.4.19"
-chrono-tz = "0.6.1"
-ctrlc = { version = "3.2.1", features = ["termination"] }
+bcrypt = "0.13.0"
+chrono = "0.4.20"
+chrono-tz = "0.6.3"
+ctrlc = { version = "3.2.2", features = ["termination"] }
 diesel = { version = "1.4.8", features = ["r2d2", "sqlite"] }
 diesel_migrations = "1.4.0"
 fnv = "1.0.7"
 libsqlite3-sys = { version = "0.22.2", features = ["bundled"] }
-log = { version = "0.4.14", features = ["release_max_level_info"] }
-native-tls = { version = "0.2.8", features = ["vendored"] }
-num-traits = "0.2.14"
-once_cell = "1.10.0"
-phf = "0.10.1"
+log = { version = "0.4.17", features = ["release_max_level_info"] }
+native-tls = { version = "0.2.10", features = ["vendored"] }
+num-traits = "0.2.15"
+once_cell = "1.13.0"
+phf = "0.11.0"
 rand = "0.8.5"
-rocket = "0.4.10"
-rust-embed = "6.3.0"
-serde = { version = "1.0.136", features = ["derive"] }
-serde_json = "1.0.79"
-strum = { version = "0.24.0", features = ["derive"] }
-toml = "0.5.8"
+rocket = "0.4.11"
+rust-embed = "6.4.0"
+serde = { version = "1.0.142", features = ["derive"] }
+serde_json = "1.0.83"
+strum = { version = "0.24.1", features = ["derive"] }
+toml = "0.5.9"
 unidirs = "0.1.0"
 url = "2.2.2"
 
 [dependencies.lettre]
-version = "0.10.0-rc.4"
+version = "0.10.1"
 default-features = false
 features = ["builder", "rustls-tls", "smtp-transport"]
 
 [dev-dependencies]
-pretty_assertions = "1.1.0"
+pretty_assertions = "1.2.1"
 
 [build-dependencies]
 hex = "0.4.3"
 ignore = "0.4.18"
-phf_codegen = "0.10.0"
+phf_codegen = "0.11.0"
 sha-1 = "0.10.0"
 
 [profile.release]

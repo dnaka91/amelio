@@ -21,10 +21,10 @@ use crate::templates::{self, MessageCode};
 /// Ticket creation form for students or higher ranked users.
 #[get("/new/<ty>")]
 pub fn new(
-    user: StudentUser,
+    user: StudentUser<'_>,
     ty: TicketType,
     conn: DbConn,
-    config: State<Config>,
+    config: State<'_, Config>,
 ) -> Result<templates::NewTicket, ServerError> {
     let service = services::ticket_service(
         repositories::ticket_repo(&conn),
@@ -125,10 +125,10 @@ impl<'f> FromForm<'f> for NewTicket {
 /// New ticket POST endpoint to handle ticket creation, for students or higher ranked users.
 #[post("/new", data = "<data>")]
 pub fn post_new(
-    user: StudentUser,
+    user: StudentUser<'_>,
     data: Form<NewTicket>,
     conn: DbConn,
-    config: State<Config>,
+    config: State<'_, Config>,
 ) -> Flash<Redirect> {
     let service = services::ticket_service(
         repositories::ticket_repo(&conn),
@@ -187,10 +187,10 @@ pub enum EditResponse {
 /// Show the details of a ticket from student perspective.
 #[get("/<id>")]
 pub fn edit(
-    user: StudentUser,
+    user: StudentUser<'_>,
     id: PositiveId,
     conn: DbConn,
-    config: State<Config>,
+    config: State<'_, Config>,
     flash: Option<FlashMessage<'_, '_>>,
 ) -> Result<EditResponse, ServerError> {
     let service = services::ticket_service(
@@ -228,11 +228,11 @@ pub struct EditTicket {
 /// Endpoint to update ticket details.
 #[post("/<id>/edit", data = "<data>")]
 pub fn post_edit(
-    _user: TutorUser,
+    _user: TutorUser<'_>,
     id: PositiveId,
     data: Form<EditTicket>,
     conn: DbConn,
-    config: State<Config>,
+    config: State<'_, Config>,
 ) -> Flash<Redirect> {
     let service = services::ticket_service(
         repositories::ticket_repo(&conn),
@@ -266,11 +266,11 @@ pub struct NewComment {
 /// Endpoint to create new ticket comments.
 #[post("/<id>/comment", data = "<data>")]
 pub fn post_add_comment(
-    user: StudentUser,
+    user: StudentUser<'_>,
     id: PositiveId,
     data: Form<NewComment>,
     conn: DbConn,
-    config: State<Config>,
+    config: State<'_, Config>,
 ) -> Flash<Redirect> {
     let service = services::ticket_service(
         repositories::ticket_repo(&conn),
@@ -298,10 +298,10 @@ pub fn post_add_comment(
 /// Endpoint to forward a ticket to its course's author.
 #[get("/<id>/forward", rank = 2)]
 pub fn forward(
-    _user: TutorUser,
+    _user: TutorUser<'_>,
     id: PositiveId,
     conn: DbConn,
-    config: State<Config>,
+    config: State<'_, Config>,
 ) -> Flash<Redirect> {
     let service = services::ticket_service(
         repositories::ticket_repo(&conn),
@@ -329,11 +329,11 @@ pub fn forward(
 /// Endpoint to change a ticket's status.
 #[get("/<id>/status/<status>")]
 pub fn change_status(
-    _user: TutorUser,
+    _user: TutorUser<'_>,
     id: PositiveId,
     status: Status,
     conn: DbConn,
-    config: State<Config>,
+    config: State<'_, Config>,
 ) -> Flash<Redirect> {
     let service = services::ticket_service(
         repositories::ticket_repo(&conn),
@@ -371,10 +371,10 @@ pub struct SearchOptions {
 /// Ticket search page for all registered users.
 #[get("/search?<data..>")]
 pub fn search(
-    user: StudentUser,
+    user: StudentUser<'_>,
     data: Form<SearchOptions>,
     conn: DbConn,
-    config: State<Config>,
+    config: State<'_, Config>,
 ) -> Result<templates::SearchTickets, ServerError> {
     let service = services::ticket_service(
         repositories::ticket_repo(&conn),
