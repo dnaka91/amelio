@@ -12,8 +12,8 @@ pub struct Dirs {
 
 impl Dirs {
     fn new() -> Result<Self> {
-        let dirs = UnifiedDirs::simple("rocks", "dnaka91", "amelio")
-            .build()
+        let dirs = UnifiedDirs::simple("rocks", "dnaka91", env!("CARGO_PKG_NAME"))
+            .default()
             .context("failed finding project dirs")?;
 
         Ok(Self {
@@ -23,7 +23,7 @@ impl Dirs {
         })
     }
 
-    #[allow(dead_code)]
+    #[cfg_attr(debug_assertions, allow(dead_code))]
     pub fn config_file(&self) -> &Utf8Path {
         &self.config_file
     }
