@@ -12,38 +12,31 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Setup Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
+        uses: dtolnay/rust-toolchain@stable
       - name: Configure cache
-        uses: Swatinem/rust-cache@v1
+        uses: Swatinem/rust-cache@v2
       - name: Test
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
+        run: cargo test
   lint:
     name: Lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Setup Rust
-        uses: actions-rs/toolchain@v1
+      - name: Setup Rust (nightly)
+        uses: dtolnay/rust-toolchain@nightly
         with:
-          profile: minimal
-          components: rustfmt, clippy
-      - name: Configure cache
-        uses: Swatinem/rust-cache@v1
+          components: rustfmt
       - name: Run rustfmt
-        uses: actions-rs/cargo@v1
+        run: cargo fmt -- --check
+      - name: Setup Rust (stable)
+        uses: dtolnay/rust-toolchain@stable
         with:
-          command: fmt
-          args: -- --check
+          components: clippy
+      - name: Configure cache
+        uses: Swatinem/rust-cache@v2
       - name: Run clippy
-        uses: actions-rs/cargo@v1
-        with:
-          command: clippy
-          args: -- -D warnings
+        run: cargo clippy -- -D warnings
   publish:
     name: Publish
     runs-on: ubuntu-latest
